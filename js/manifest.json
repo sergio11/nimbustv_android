@@ -1,0 +1,5 @@
+{  
+  "name": "Web Push Notifications",
+  "short_name": "Push Notifications",
+  "gcm_sender_id": "778703217585" 
+}
