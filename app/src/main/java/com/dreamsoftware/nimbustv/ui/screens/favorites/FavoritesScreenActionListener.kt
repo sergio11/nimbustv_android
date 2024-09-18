@@ -1,0 +1,5 @@
+package com.dreamsoftware.nimbustv.ui.screens.favorites
+
+import com.dreamsoftware.fudge.core.IFudgeTvScreenActionListener
+
+interface FavoritesScreenActionListener: IFudgeTvScreenActionListener
