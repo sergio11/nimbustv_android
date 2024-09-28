@@ -32,7 +32,7 @@ class ChangeSecurePinViewModel @Inject constructor(): FudgeTvViewModel<ChangeSec
 
     override fun onDeleteProfilePressed() {
         uiState.value.profile?.let {
-            launchSideEffect(ChangeSecurePinSideEffects.RequestDeleteProfile(it.uuid))
+            launchSideEffect(ChangeSecurePinSideEffects.RequestDeleteProfile(it.id))
         }
     }
 

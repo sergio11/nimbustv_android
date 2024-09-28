@@ -18,14 +18,17 @@ interface ISupportDAO<T> {
     suspend fun update(entity: T)
 
     @Delete
-    suspend fun delete(entity: T)
+    suspend fun delete(entity: T): Int
 
     @RawQuery
-    suspend fun deleteAll(query: SupportSQLiteQuery): Long
+    suspend fun _deleteAll(query: SupportSQLiteQuery): Long
 
     @RawQuery
-    suspend fun getAll(query: SupportSQLiteQuery): List<T>
+    suspend fun _count(query: SupportSQLiteQuery): Long
 
     @RawQuery
-    suspend fun getById(query: SupportSQLiteQuery): T?
+    suspend fun _getAll(query: SupportSQLiteQuery): List<T>
+
+    @RawQuery
+    suspend fun _getById(query: SupportSQLiteQuery): T?
 }

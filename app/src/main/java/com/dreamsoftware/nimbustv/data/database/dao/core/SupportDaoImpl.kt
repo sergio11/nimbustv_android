@@ -7,15 +7,15 @@ import kotlin.reflect.KClass
 
 abstract class SupportDaoImpl<T: IEntity>(private val entityClass: KClass<*>) : ISupportDAO<T> {
 
-    suspend fun deleteAll() {
-        deleteAll(SimpleSQLiteQuery("DELETE FROM ${getTableName(entityClass)}"))
-    }
+    suspend fun count(): Long = _count(SimpleSQLiteQuery("SELECT COUNT(*) FROM ${getTableName(entityClass)}"))
+
+    suspend fun deleteAll(): Long = _deleteAll(SimpleSQLiteQuery("DELETE FROM ${getTableName(entityClass)}"))
 
     suspend fun getAll(): List<T> =
-        getAll(SimpleSQLiteQuery("SELECT * FROM ${getTableName(entityClass)} ORDER BY id ASC"))
+        _getAll(SimpleSQLiteQuery("SELECT * FROM ${getTableName(entityClass)} ORDER BY id ASC"))
 
     suspend fun getById(id: Long): T? =
-        getById(
+        _getById(
             SimpleSQLiteQuery(
                 "SELECT * FROM ${getTableName(entityClass)} WHERE id = ?",
                 arrayOf(id)

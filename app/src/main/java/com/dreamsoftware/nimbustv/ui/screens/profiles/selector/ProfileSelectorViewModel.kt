@@ -21,16 +21,11 @@ class ProfileSelectorViewModel @Inject constructor(): FudgeTvViewModel<ProfileSe
     }
 
     override fun onProfileSelected(profileId: String) {
-        userProfiles.find { it.uuid == profileId }?.let { profile ->
-            val isProfileLocked = profile.isSecured
+        userProfiles.find { it.id == profileId }?.let { profile ->
             updateState {
                 it.copy(profileSelected = profile)
             }
-            if(isProfileLocked) {
-                onProfileLocked(profile.uuid)
-            } else {
-                selectProfile(profile)
-            }
+            onProfileLocked(profile.id)
         }
     }
 
@@ -47,7 +42,7 @@ class ProfileSelectorViewModel @Inject constructor(): FudgeTvViewModel<ProfileSe
         updateState {
             it.copy(profiles = profiles.map { profile ->
                 ProfileSelectorVO(
-                    uuid = profile.uuid,
+                    uuid = profile.id.toString(),
                     alias = profile.alias,
                     avatarIconRes = profile.avatarType.toDrawableResource()
                 )
@@ -61,10 +56,6 @@ class ProfileSelectorViewModel @Inject constructor(): FudgeTvViewModel<ProfileSe
 
     private fun onProfileSelected() {
         launchSideEffect(ProfileSelectorSideEffects.ProfileSelected)
-    }
-
-    private fun selectProfile(profileBO: ProfileBO) {
-
     }
 }
 

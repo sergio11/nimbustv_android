@@ -24,13 +24,17 @@ abstract class SupportLocalDataSourceImpl<D : SupportDaoImpl<E>, E : IEntity>(
 
     @Throws(RecordNotFoundException::class, AccessDatabaseException::class)
     override suspend fun update(entity: E) = safeExecute {
-        dao.update(entity)
+        with(dao) {
+            update(entity).let {
+                getById(entity.id) ?: throw RecordNotFoundException("record not found")
+            }
+        }
     }
 
     @Throws(RecordNotFoundException::class, AccessDatabaseException::class)
-    override suspend fun delete(id: Long): Unit = safeExecute {
+    override suspend fun delete(id: Long): Int = safeExecute {
         with(dao) {
-            getById(id)?.also { delete(it) } ?: throw RecordNotFoundException("record not found")
+            getById(id)?.let { delete(it) } ?: throw RecordNotFoundException("record not found")
         }
     }
 
@@ -38,6 +42,11 @@ abstract class SupportLocalDataSourceImpl<D : SupportDaoImpl<E>, E : IEntity>(
     override suspend fun findAll(): List<E> = safeExecute {
         dao.getAll().takeIf { it.isNotEmpty() }
             ?: throw RecordNotFoundException("No records were found")
+    }
+
+    @Throws(AccessDatabaseException::class)
+    override suspend fun count(): Long = safeExecute {
+        dao.count()
     }
 
     @Throws(RecordNotFoundException::class, AccessDatabaseException::class)

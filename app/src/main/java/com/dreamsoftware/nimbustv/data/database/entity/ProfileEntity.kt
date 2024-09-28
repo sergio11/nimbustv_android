@@ -8,6 +8,6 @@ data class ProfileEntity(
     @PrimaryKey(autoGenerate = true)
     override val id: Long = 0L,
     val alias: String,
-    val isSecured: Boolean,
-    val avatarType: String
+    val avatarType: String,
+    val securedPin: String
 ): IEntity
