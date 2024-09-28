@@ -36,6 +36,7 @@ materialIconsExtended = "1.7.1"
 datastore-preferences = "1.1.1"
 moshiKotlin = "1.14.0"
 fudge-tv-compose = "0.0.36"
+room-version = "2.6.1"
 
 [libraries]
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
@@ -74,6 +75,9 @@ androidx-material3-android = { group = "androidx.compose.material3", name = "mat
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore-preferences" }
 moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshiKotlin" }
 fudge-tv-compose = { module = "com.dreamsoftware.libraries:fudge-tv-compose", version.ref = "fudge-tv-compose" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room-version" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room-version" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room-version" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
