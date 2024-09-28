@@ -2,9 +2,10 @@ package com.dreamsoftware.nimbustv.data.database.dao.core
 
 import androidx.room.Entity
 import androidx.sqlite.db.SimpleSQLiteQuery
+import com.dreamsoftware.nimbustv.data.database.entity.IEntity
 import kotlin.reflect.KClass
 
-abstract class SupportDaoImpl<T>(private val entityClass: KClass<*>) : ISupportDAO<T> {
+abstract class SupportDaoImpl<T: IEntity>(private val entityClass: KClass<*>) : ISupportDAO<T> {
 
     suspend fun deleteAll() {
         deleteAll(SimpleSQLiteQuery("DELETE FROM ${getTableName(entityClass)}"))

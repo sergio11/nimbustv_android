@@ -4,8 +4,14 @@ import android.content.Context
 import androidx.room.Room
 import com.dreamsoftware.nimbustv.data.database.NimbusTvDatabase
 import com.dreamsoftware.nimbustv.data.database.dao.ChannelDao
+import com.dreamsoftware.nimbustv.data.database.dao.PlayListDao
+import com.dreamsoftware.nimbustv.data.database.dao.ProfileDao
 import com.dreamsoftware.nimbustv.data.database.datasource.IChannelLocalDataSource
+import com.dreamsoftware.nimbustv.data.database.datasource.IPlayListLocalDataSource
+import com.dreamsoftware.nimbustv.data.database.datasource.IProfileLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.impl.ChannelLocalDataSourceImpl
+import com.dreamsoftware.nimbustv.data.database.datasource.impl.PlaylistLocalDataSourceImpl
+import com.dreamsoftware.nimbustv.data.database.datasource.impl.ProfileLocalDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,4 +42,18 @@ object DatabaseModule {
         channelDao: ChannelDao,
         @IoDispatcher dispatcher: CoroutineDispatcher
     ): IChannelLocalDataSource = ChannelLocalDataSourceImpl(channelDao, dispatcher)
+
+    @Singleton
+    @Provides
+    fun provideProfilesDataSource(
+        profileDao: ProfileDao,
+        @IoDispatcher dispatcher: CoroutineDispatcher
+    ): IProfileLocalDataSource = ProfileLocalDataSourceImpl(profileDao, dispatcher)
+
+    @Singleton
+    @Provides
+    fun providePlayListDataSource(
+        playListDao: PlayListDao,
+        @IoDispatcher dispatcher: CoroutineDispatcher
+    ): IPlayListLocalDataSource = PlaylistLocalDataSourceImpl(playListDao, dispatcher)
 }

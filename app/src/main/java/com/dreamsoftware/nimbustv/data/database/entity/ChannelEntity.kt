@@ -17,10 +17,10 @@ import androidx.room.PrimaryKey
 )
 data class ChannelEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L,
+    override val id: Long = 0L,
     val title: String?,
     val url: String,
     val icon: String?,
     val category: String?,
     val playlistId: Long
-)
+): IEntity

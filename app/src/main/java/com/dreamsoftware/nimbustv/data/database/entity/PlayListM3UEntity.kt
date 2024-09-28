@@ -10,7 +10,7 @@ import java.util.Date
     tableName = "playlists",
     foreignKeys = [ForeignKey(
         entity = ProfileEntity::class,
-        parentColumns = ["uuid"],
+        parentColumns = ["id"],
         childColumns = ["profileId"],
         onDelete = ForeignKey.CASCADE
     )],
@@ -18,9 +18,9 @@ import java.util.Date
 )
 data class PlayListM3UEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L,
+    override val id: Long = 0L,
     val alias: String,
     val creationDate: Date = Date(),
     val m3uUrl: String,
-    val profileId: String
-)
+    val profileId: Long
+): IEntity
