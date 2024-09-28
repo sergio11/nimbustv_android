@@ -51,10 +51,10 @@ fun AppNavHost(
             composable(route = Screen.Onboarding.route) {
                 with(navController) {
                     OnboardingScreen(
-                        onGoToSignIn = {
-
+                        onGoToHome = {
+                            navController.navigateSingleTopTo(Screen.Dashboard.route)
                         },
-                        onGoToSignUp = {
+                        onGoToMoreInfo = {
 
                         }
                     )

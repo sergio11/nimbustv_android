@@ -3,6 +3,7 @@ package com.dreamsoftware.nimbustv.ui.screens.home
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
+import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -18,7 +19,8 @@ class HomeViewModel @Inject constructor() : FudgeTvViewModel<HomeUiState, HomeSi
 
 data class HomeUiState(
     override val isLoading: Boolean = false,
-    override val errorMessage: String? = null
+    override val errorMessage: String? = null,
+    val channels: List<ChannelBO> = emptyList()
 ): UiState<HomeUiState>(isLoading, errorMessage) {
     override fun copyState(isLoading: Boolean, errorMessage: String?): HomeUiState =
         copy(isLoading = isLoading, errorMessage = errorMessage)
