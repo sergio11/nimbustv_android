@@ -22,7 +22,7 @@ class ProfilesManagementViewModel @Inject constructor(): FudgeTvViewModel<Profil
         updateState {
             it.copy(profiles = profiles.map { profile ->
                 ProfileSelectorVO(
-                    uuid = profile.uuid,
+                    uuid = profile.id.toString(),
                     alias = profile.alias,
                     avatarIconRes = profile.avatarType.toDrawableResource()
                 )
