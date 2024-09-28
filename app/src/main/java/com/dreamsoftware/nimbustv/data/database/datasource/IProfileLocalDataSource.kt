@@ -1,6 +1,6 @@
 package com.dreamsoftware.nimbustv.data.database.datasource
 
 import com.dreamsoftware.nimbustv.data.database.datasource.impl.core.ISupportLocalDataSource
-import com.dreamsoftware.nimbustv.data.database.entity.ChannelEntity
+import com.dreamsoftware.nimbustv.data.database.entity.ProfileEntity
 
-interface IChannelLocalDataSource: ISupportLocalDataSource<ChannelEntity>
+interface IProfileLocalDataSource: ISupportLocalDataSource<ProfileEntity>
