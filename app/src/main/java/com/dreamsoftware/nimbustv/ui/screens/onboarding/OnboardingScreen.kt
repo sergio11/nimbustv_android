@@ -6,12 +6,12 @@ import androidx.compose.ui.Modifier
 @Composable
 fun OnboardingScreen(
     modifier: Modifier = Modifier,
-    onGoToSignIn: () -> Unit,
-    onGoToSignUp: () -> Unit,
+    onGoToHome: () -> Unit,
+    onGoToMoreInfo: () -> Unit,
 ) {
     OnboardingScreenContent(
         modifier = modifier,
-        onGoToSignIn = onGoToSignIn,
-        onGoToSignUp = onGoToSignUp
+        onGoToHome = onGoToHome,
+        onGoToMoreInfo = onGoToMoreInfo
     )
 }

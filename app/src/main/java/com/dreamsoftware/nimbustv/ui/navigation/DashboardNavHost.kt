@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.dreamsoftware.nimbustv.ui.screens.favorites.FavoritesScreen
 import com.dreamsoftware.nimbustv.ui.screens.home.HomeScreen
 import com.dreamsoftware.nimbustv.ui.screens.settings.SettingsScreen
 
@@ -18,6 +19,16 @@ fun DashboardNavHost(
         composable(Screen.Home.route) {
             with(navController) {
                 HomeScreen()
+            }
+        }
+
+        composable(Screen.Favorite.route) {
+            with(navController) {
+                FavoritesScreen(
+                    onBackPressed = {
+                        popBackStack()
+                    }
+                )
             }
         }
 

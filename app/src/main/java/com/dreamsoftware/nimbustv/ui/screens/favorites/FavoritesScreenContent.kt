@@ -28,7 +28,7 @@ internal fun FavoritesScreenContent(
         FudgeTvScreenContent(onErrorAccepted = actionListener::onErrorMessageCleared) {
             if (isLoading) {
                 FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
-            } else if(false) {
+            } else if(true) {
                 FudgeTvNoContentState(
                     modifier = Modifier.fillMaxSize(),
                     messageRes = R.string.favorites_not_workout_available
