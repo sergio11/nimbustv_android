@@ -24,4 +24,4 @@ data class PlayListM3UEntity(
     val creationDate: Date = Date(),
     val m3uUrl: String,
     val profileId: Long
-): IEntity
+): IEntity<Long>

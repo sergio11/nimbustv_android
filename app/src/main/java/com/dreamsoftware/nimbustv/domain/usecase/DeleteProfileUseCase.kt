@@ -11,6 +11,6 @@ class DeleteProfileUseCase(
         profilesRepository.deleteProfile(params.profileId)
 
     data class Params(
-        val profileId: Long
+        val profileId: String
     )
 }

@@ -5,16 +5,16 @@ import com.dreamsoftware.nimbustv.data.database.entity.IEntity
 import com.dreamsoftware.nimbustv.data.database.entity.TableName
 import kotlin.reflect.KClass
 
-abstract class SupportDaoImpl<T: IEntity>(private val entityClass: KClass<*>) : ISupportDAO<T> {
+abstract class SupportDaoImpl<E: IEntity<K>, K: Any>(private val entityClass: KClass<*>) : ISupportDAO<E> {
 
     suspend fun count(): Long = _count(SimpleSQLiteQuery("SELECT COUNT(*) FROM ${getTableName(entityClass)}"))
 
     suspend fun deleteAll(): Long = _deleteAll(SimpleSQLiteQuery("DELETE FROM ${getTableName(entityClass)}"))
 
-    suspend fun getAll(): List<T> =
+    suspend fun getAll(): List<E> =
         _getAll(SimpleSQLiteQuery("SELECT * FROM ${getTableName(entityClass)} ORDER BY id ASC"))
 
-    suspend fun getById(id: Long): T? =
+    suspend fun getById(id: Any): E? =
         _getById(
             SimpleSQLiteQuery(
                 "SELECT * FROM ${getTableName(entityClass)} WHERE id = ?",

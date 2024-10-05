@@ -8,10 +8,10 @@ import com.dreamsoftware.nimbustv.data.database.exception.RecordNotFoundExceptio
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
-abstract class SupportLocalDataSourceImpl<D : SupportDaoImpl<E>, E : IEntity>(
+abstract class SupportLocalDataSourceImpl<D : SupportDaoImpl<E, K>, E : IEntity<K>, K: Any>(
     private val dao: D,
     private val dispatcher: CoroutineDispatcher
-): ISupportLocalDataSource<E> {
+): ISupportLocalDataSource<E, K> {
 
     @Throws(RecordNotFoundException::class, AccessDatabaseException::class)
     override suspend fun insert(entity: E): E = safeExecute {
@@ -32,7 +32,7 @@ abstract class SupportLocalDataSourceImpl<D : SupportDaoImpl<E>, E : IEntity>(
     }
 
     @Throws(RecordNotFoundException::class, AccessDatabaseException::class)
-    override suspend fun delete(id: Long): Int = safeExecute {
+    override suspend fun delete(id: K): Int = safeExecute {
         with(dao) {
             getById(id)?.let { delete(it) } ?: throw RecordNotFoundException("record not found")
         }
@@ -50,7 +50,7 @@ abstract class SupportLocalDataSourceImpl<D : SupportDaoImpl<E>, E : IEntity>(
     }
 
     @Throws(RecordNotFoundException::class, AccessDatabaseException::class)
-    override suspend fun findById(id: Long): E = safeExecute {
+    override suspend fun findById(id: K): E = safeExecute {
         dao.getById(id) ?: throw RecordNotFoundException("record not found")
     }
 

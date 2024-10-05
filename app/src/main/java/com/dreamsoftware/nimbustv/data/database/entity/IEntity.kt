@@ -1,7 +1,7 @@
 package com.dreamsoftware.nimbustv.data.database.entity
 
-interface IEntity {
-    val id: Long
+interface IEntity<KEY> {
+    val id: KEY
 }
 
 @Target(AnnotationTarget.CLASS)

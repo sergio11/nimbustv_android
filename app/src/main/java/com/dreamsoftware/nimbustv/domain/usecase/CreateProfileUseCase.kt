@@ -8,6 +8,7 @@ import com.dreamsoftware.nimbustv.domain.model.CreateProfileRequestBO
 import com.dreamsoftware.nimbustv.domain.model.ProfileBO
 import com.dreamsoftware.nimbustv.domain.repository.IProfilesRepository
 import com.dreamsoftware.nimbustv.domain.validation.IBusinessEntityValidator
+import java.util.UUID
 
 class CreateProfileUseCase(
     private val profilesRepository: IProfilesRepository,
@@ -38,6 +39,7 @@ class CreateProfileUseCase(
     }
 
     private fun Params.toCreateProfileRequestBO() = CreateProfileRequestBO(
+        id = UUID.randomUUID().toString(),
         pin = pin,
         alias = alias,
         avatarType = avatarType ?: AvatarTypeEnum.BOY,

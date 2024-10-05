@@ -20,7 +20,7 @@ class DeleteProfileViewModel @Inject constructor(
     fun load(profileId: String) {
         executeUseCaseWithParams(
             useCase = getProfileByIdUseCase,
-            params = GetProfileByIdUseCase.Params(profileId.toLong()),
+            params = GetProfileByIdUseCase.Params(profileId),
             onSuccess = ::onLoadProfileCompleted
         )
     }
@@ -37,7 +37,7 @@ class DeleteProfileViewModel @Inject constructor(
 
     override fun onDeletePressed() {
         with(uiState.value) {
-            profile?.id?.toLongOrNull()?.let { profileId ->
+            profile?.id?.let { profileId ->
                 executeUseCaseWithParams(
                     useCase = deleteProfileUseCase,
                     params = DeleteProfileUseCase.Params(profileId = profileId),

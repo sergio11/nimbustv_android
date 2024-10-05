@@ -55,7 +55,7 @@ internal class ProfilesRepositoryImpl(
 
     @Throws(UpdateProfileException::class)
     override suspend fun updateProfile(
-        profileId: Long,
+        profileId: String,
         data: UpdatedProfileRequestBO
     ): ProfileBO = safeExecute {
         try {
@@ -68,7 +68,7 @@ internal class ProfilesRepositoryImpl(
     }
 
     @Throws(DeleteProfileException::class)
-    override suspend fun deleteProfile(profileId: Long): Boolean = safeExecute {
+    override suspend fun deleteProfile(profileId: String): Boolean = safeExecute {
         try {
             with(profileLocalDataSource) {
                 delete(profileId) > 0
@@ -95,7 +95,7 @@ internal class ProfilesRepositoryImpl(
     }
 
     @Throws(VerifyPinException::class)
-    override suspend fun verifyPin(profileId: Long, pin: Int): Unit = safeExecute {
+    override suspend fun verifyPin(profileId: String, pin: Int): Unit = safeExecute {
         try {
             profileLocalDataSource
                 .verifyPin(profileId, pin).let { isSuccess ->
@@ -109,7 +109,7 @@ internal class ProfilesRepositoryImpl(
     }
 
     @Throws(GetProfileByIdException::class)
-    override suspend fun getProfileById(profileId: Long): ProfileBO = safeExecute {
+    override suspend fun getProfileById(profileId: String): ProfileBO = safeExecute {
         try {
             profileLocalDataSource
                 .findById(profileId)
