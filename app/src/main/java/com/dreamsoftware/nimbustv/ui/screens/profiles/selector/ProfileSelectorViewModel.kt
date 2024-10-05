@@ -7,12 +7,14 @@ import com.dreamsoftware.fudge.core.FudgeTvViewModel
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfilesUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.HasProfilesCountUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SelectProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileSelectorViewModel @Inject constructor(
+    private val hasProfilesCountUseCase: HasProfilesCountUseCase,
     private val getProfilesUseCase: GetProfilesUseCase,
     private val selectProfileUseCase: SelectProfileUseCase,
 ): FudgeTvViewModel<ProfileSelectorUiState, ProfileSelectorSideEffects>(), ProfileSelectorScreenActionListener {
@@ -21,11 +23,8 @@ class ProfileSelectorViewModel @Inject constructor(
 
     override fun onGetDefaultState(): ProfileSelectorUiState = ProfileSelectorUiState()
 
-    fun loadProfiles() {
-        executeUseCase(
-            useCase = getProfilesUseCase,
-            onSuccess = ::onLoadProfileSuccessfully
-        )
+    fun load() {
+        checkProfiles()
     }
 
     override fun onProfileSelected(profileId: String) {
@@ -38,11 +37,39 @@ class ProfileSelectorViewModel @Inject constructor(
     }
 
     override fun onAddProfilePressed() {
+        updateState { it.copy(showNoProfilesDialog = false) }
         launchSideEffect(ProfileSelectorSideEffects.AddNewProfile)
     }
 
     override fun onProfileManagementPressed() {
         launchSideEffect(ProfileSelectorSideEffects.ConfigureProfiles)
+    }
+
+    override fun onCancel() {
+        updateState { it.copy(showNoProfilesDialog = false) }
+        launchSideEffect(ProfileSelectorSideEffects.CancelProfileSelection)
+    }
+
+    private fun loadProfiles() {
+        executeUseCase(
+            useCase = getProfilesUseCase,
+            onSuccess = ::onLoadProfileSuccessfully
+        )
+    }
+
+    private fun checkProfiles() {
+        executeUseCase(
+            useCase = hasProfilesCountUseCase,
+            onSuccess = ::onVerifyProfilesSuccessfully
+        )
+    }
+
+    private fun onVerifyProfilesSuccessfully(hasProfiles: Boolean) {
+        if(hasProfiles) {
+            loadProfiles()
+        } else {
+            updateState { it.copy(showNoProfilesDialog = true) }
+        }
     }
 
     private fun onLoadProfileSuccessfully(profiles: List<ProfileBO>) {
@@ -82,6 +109,7 @@ class ProfileSelectorViewModel @Inject constructor(
 data class ProfileSelectorUiState(
     override var isLoading: Boolean = false,
     override var errorMessage: String? = null,
+    val showNoProfilesDialog: Boolean = false,
     val profiles: List<ProfileSelectorVO> = emptyList(),
     val profileSelected: ProfileBO? = null
 ): UiState<ProfileSelectorUiState>(isLoading, errorMessage) {
@@ -94,4 +122,5 @@ sealed interface ProfileSelectorSideEffects: SideEffect {
     data class ProfileLocked(val profileId: String): ProfileSelectorSideEffects
     data object AddNewProfile: ProfileSelectorSideEffects
     data object ConfigureProfiles: ProfileSelectorSideEffects
+    data object CancelProfileSelection: ProfileSelectorSideEffects
 }

@@ -6,8 +6,13 @@ import com.dreamsoftware.nimbustv.ui.navigation.ProfilesNavigation
 
 @Composable
 fun ProfilesScreen(
-    onGoToHome: () -> Unit
+    onGoToHome: () -> Unit,
+    onGoToOnboarding: () -> Unit
 ) {
     val navController = rememberNavController()
-    ProfilesNavigation(navController = navController, onGoToHome = onGoToHome)
+    ProfilesNavigation(
+        navController = navController,
+        onGoToHome = onGoToHome,
+        onGoToOnboarding = onGoToOnboarding
+    )
 }

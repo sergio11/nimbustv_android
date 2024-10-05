@@ -7,4 +7,5 @@ interface ProfileSelectorScreenActionListener: IFudgeTvScreenActionListener {
     fun onProfileSelected(profileId: String)
     fun onAddProfilePressed()
     fun onProfileManagementPressed()
+    fun onCancel()
 }
