@@ -1,6 +1,5 @@
 package com.dreamsoftware.nimbustv.data.preferences.datasource
 
-import com.dreamsoftware.nimbustv.data.preferences.dto.ProfileSelectedPreferenceDTO
 import com.dreamsoftware.nimbustv.data.preferences.exception.FetchProfileSelectedPreferenceLocalException
 import com.dreamsoftware.nimbustv.data.preferences.exception.SaveProfileSelectedPreferenceLocalException
 import kotlin.jvm.Throws
@@ -10,17 +9,12 @@ import kotlin.jvm.Throws
  */
 interface IProfileSessionDataSource {
 
-    /**
-     * Saves the selected profile preference.
-     * @param profile The profile selected preference DTO to be saved.
-     */
     @Throws(SaveProfileSelectedPreferenceLocalException::class)
-    suspend fun save(profile: ProfileSelectedPreferenceDTO)
+    suspend fun saveProfileSelectedId(id: String)
 
-    /**
-     * Retrieves the selected profile preference.
-     * @return The retrieved profile selected preference DTO.
-     */
+    @Throws(SaveProfileSelectedPreferenceLocalException::class)
+    suspend fun clearProfileSelectedId()
+
     @Throws(FetchProfileSelectedPreferenceLocalException::class)
-    suspend fun get(): ProfileSelectedPreferenceDTO
+    suspend fun getProfileSelectedId(): String
 }

@@ -14,4 +14,5 @@ class VerifyPinException(message: String? = null, cause: Throwable? = null): Dom
 class SelectProfileException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class GetProfileByIdException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class GetProfileSelectedException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
+class ClearProfileSelectedException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class UserProfilesLimitReachedException(val maxProfilesLimit: Int, message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)

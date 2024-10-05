@@ -60,11 +60,10 @@ class DatastoreModule {
     /**
      * Provides an implementation of [IProfileSessionDataSource] for managing profile session-related data.
      * @param dataStore The DataStore instance used for storing preferences.
-     * @param moshi The Moshi instance used for JSON serialization/deserialization.
      * @return An instance of [IProfileSessionDataSource] for profile session data management.
      */
     @Provides
     @Singleton
-    fun provideProfileSessionDataSource(dataStore: DataStore<Preferences>, moshi: Moshi): IProfileSessionDataSource =
-        ProfileSessionDataSourceImpl(dataStore, moshi)
+    fun provideProfileSessionDataSource(dataStore: DataStore<Preferences>): IProfileSessionDataSource =
+        ProfileSessionDataSourceImpl(dataStore)
 }

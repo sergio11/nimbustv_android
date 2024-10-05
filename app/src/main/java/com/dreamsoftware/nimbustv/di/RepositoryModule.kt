@@ -3,17 +3,14 @@ package com.dreamsoftware.nimbustv.di
 import com.dreamsoftware.nimbustv.data.database.datasource.IProfileLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.entity.ProfileEntity
 import com.dreamsoftware.nimbustv.data.preferences.datasource.IProfileSessionDataSource
-import com.dreamsoftware.nimbustv.data.preferences.dto.ProfileSelectedPreferenceDTO
 import com.dreamsoftware.nimbustv.data.repository.impl.ProfilesRepositoryImpl
 import com.dreamsoftware.nimbustv.data.repository.mapper.CreateProfileMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.ProfileMapper
-import com.dreamsoftware.nimbustv.data.repository.mapper.ProfileSessionMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.UpdateProfileMapper
 import com.dreamsoftware.nimbustv.domain.model.CreateProfileRequestBO
 import com.dreamsoftware.nimbustv.domain.model.ProfileBO
 import com.dreamsoftware.nimbustv.domain.model.UpdatedProfileRequestBO
 import com.dreamsoftware.nimbustv.domain.repository.IProfilesRepository
-import com.dreamsoftware.nimbustv.utils.IMapper
 import com.dreamsoftware.nimbustv.utils.IOneSideMapper
 import dagger.Module
 import dagger.Provides
@@ -42,17 +39,11 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideProfileSessionMapper(): IMapper<ProfileBO, ProfileSelectedPreferenceDTO> =
-        ProfileSessionMapper()
-
-    @Provides
-    @Singleton
     fun provideProfilesRepository(
         profileLocalDataSource: IProfileLocalDataSource,
         profilesMapper: IOneSideMapper<ProfileEntity, ProfileBO>,
         createProfileMapper: IOneSideMapper<CreateProfileRequestBO, ProfileEntity>,
         updateProfileMapper: IOneSideMapper<UpdatedProfileRequestBO, ProfileEntity>,
-        profileSessionMapper: IMapper<ProfileBO, ProfileSelectedPreferenceDTO>,
         profileSessionDataSource: IProfileSessionDataSource,
         @IoDispatcher dispatcher: CoroutineDispatcher
     ): IProfilesRepository =
@@ -61,7 +52,6 @@ class RepositoryModule {
             profilesMapper,
             createProfileMapper,
             updateProfileMapper,
-            profileSessionMapper,
             profileSessionDataSource,
             dispatcher
         )
