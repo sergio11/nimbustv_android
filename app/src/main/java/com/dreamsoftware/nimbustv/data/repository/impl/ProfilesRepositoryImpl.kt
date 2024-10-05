@@ -71,7 +71,6 @@ internal class ProfilesRepositoryImpl(
     override suspend fun deleteProfile(profileId: Long): Boolean = safeExecute {
         try {
             with(profileLocalDataSource) {
-                val profile = getProfileById(profileId)
                 delete(profileId) > 0
             }
         } catch (ex: DatabaseException) {
