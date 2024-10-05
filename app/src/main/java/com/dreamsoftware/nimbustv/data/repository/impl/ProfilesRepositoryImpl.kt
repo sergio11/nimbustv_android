@@ -4,8 +4,8 @@ import com.dreamsoftware.nimbustv.data.database.datasource.IProfileLocalDataSour
 import com.dreamsoftware.nimbustv.data.database.entity.ProfileEntity
 import com.dreamsoftware.nimbustv.data.database.exception.DatabaseException
 import com.dreamsoftware.nimbustv.data.preferences.datasource.IProfileSessionDataSource
-import com.dreamsoftware.nimbustv.data.preferences.dto.ProfileSelectedPreferenceDTO
 import com.dreamsoftware.nimbustv.data.repository.impl.core.SupportRepositoryImpl
+import com.dreamsoftware.nimbustv.domain.exception.ClearProfileSelectedException
 import com.dreamsoftware.nimbustv.domain.exception.CreateProfileException
 import com.dreamsoftware.nimbustv.domain.exception.DeleteProfileException
 import com.dreamsoftware.nimbustv.domain.exception.FetchProfilesException
@@ -18,7 +18,6 @@ import com.dreamsoftware.nimbustv.domain.model.CreateProfileRequestBO
 import com.dreamsoftware.nimbustv.domain.model.ProfileBO
 import com.dreamsoftware.nimbustv.domain.model.UpdatedProfileRequestBO
 import com.dreamsoftware.nimbustv.domain.repository.IProfilesRepository
-import com.dreamsoftware.nimbustv.utils.IMapper
 import com.dreamsoftware.nimbustv.utils.IOneSideMapper
 import kotlinx.coroutines.CoroutineDispatcher
 
@@ -27,7 +26,6 @@ internal class ProfilesRepositoryImpl(
     private val profilesMapper: IOneSideMapper<ProfileEntity, ProfileBO>,
     private val createProfileMapper: IOneSideMapper<CreateProfileRequestBO, ProfileEntity>,
     private val updateProfileMapper: IOneSideMapper<UpdatedProfileRequestBO, ProfileEntity>,
-    private val profileSessionMapper: IMapper<ProfileBO, ProfileSelectedPreferenceDTO>,
     private val profileSessionDataSource: IProfileSessionDataSource,
     dispatcher: CoroutineDispatcher
 ): SupportRepositoryImpl(dispatcher), IProfilesRepository {
@@ -91,7 +89,7 @@ internal class ProfilesRepositoryImpl(
 
     @Throws(SelectProfileException::class)
     override suspend fun selectProfile(profile: ProfileBO) : Unit = safeExecute {
-        profileSessionDataSource.save(profileSessionMapper.mapInToOut(profile))
+        profileSessionDataSource.saveProfileSelectedId(profile.id)
     }
 
     @Throws(VerifyPinException::class)
@@ -121,6 +119,17 @@ internal class ProfilesRepositoryImpl(
 
     @Throws(GetProfileSelectedException::class)
     override suspend fun getProfileSelected(): ProfileBO = safeExecute {
-        profileSessionMapper.mapOutToIn(profileSessionDataSource.get())
+        try {
+            profileLocalDataSource
+                .findById(profileSessionDataSource.getProfileSelectedId())
+                .let(profilesMapper::mapInToOut)
+        } catch (ex: DatabaseException) {
+            throw GetProfileByIdException("An error occurred when getting profile by id", ex)
+        }
+    }
+
+    @Throws(ClearProfileSelectedException::class)
+    override suspend fun clearProfileSelected() = safeExecute {
+        profileSessionDataSource.clearProfileSelectedId()
     }
 }

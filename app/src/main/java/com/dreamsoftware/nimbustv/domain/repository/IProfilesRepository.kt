@@ -1,5 +1,6 @@
 package com.dreamsoftware.nimbustv.domain.repository
 
+import com.dreamsoftware.nimbustv.domain.exception.ClearProfileSelectedException
 import com.dreamsoftware.nimbustv.domain.exception.DeleteProfileException
 import com.dreamsoftware.nimbustv.domain.exception.FetchProfilesException
 import com.dreamsoftware.nimbustv.domain.exception.GetProfileByIdException
@@ -40,4 +41,7 @@ interface IProfilesRepository {
 
     @Throws(GetProfileSelectedException::class)
     suspend fun getProfileSelected(): ProfileBO
+
+    @Throws(ClearProfileSelectedException::class)
+    suspend fun clearProfileSelected()
 }

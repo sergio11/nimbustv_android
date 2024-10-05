@@ -6,19 +6,23 @@ import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
 import com.dreamsoftware.fudge.utils.FudgeTvEventBus
 import com.dreamsoftware.nimbustv.AppEvent
+import com.dreamsoftware.nimbustv.R
+import com.dreamsoftware.nimbustv.domain.usecase.SignOffUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val appEventBus: FudgeTvEventBus,
+    private val signOffUseCase: SignOffUseCase,
+    private val appEventBus: FudgeTvEventBus
 ) : FudgeTvViewModel<SettingsUiState, SettingsSideEffects>(), SettingsScreenActionListener {
 
     fun fetchData() {
+
     }
 
     override fun onGetDefaultState(): SettingsUiState = SettingsUiState(
-        settingList = emptyList()
+        settingList = onBuildSettingsList()
     )
 
     override fun onSettingValueChanged(value: String) {
@@ -61,7 +65,10 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun onSignOff() {
-
+        executeUseCase(
+            useCase = signOffUseCase,
+            onSuccess = { onSignOffCompleted() }
+        )
     }
 
     private fun onSignOffCompleted() {
@@ -79,6 +86,23 @@ class SettingsViewModel @Inject constructor(
 
             }
     }
+
+    private fun onBuildSettingsList() = listOf(
+        ISettingItemVO.SettingHeaderVO(titleRes = R.string.app_settings),
+        ISettingItemVO.SettingHeaderVO(titleRes = R.string.about_settings),
+        ISettingItemVO.ISettingValueItemVO.SettingSingleValueVO(
+            titleRes = R.string.settings_about_app_title,
+            valueRes = R.string.settings_about_app_content
+        ),
+        ISettingItemVO.ISettingValueItemVO.SettingSingleValueVO(
+            titleRes = R.string.settings_about_me_title,
+            valueRes = R.string.settings_about_me_content
+        ),
+        ISettingItemVO.SettingActionVO(
+            titleRes = R.string.settings_close_session_title,
+            type = SettingActionTypeEnum.SIGN_OFF
+        )
+    )
 }
 
 data class SettingsUiState(

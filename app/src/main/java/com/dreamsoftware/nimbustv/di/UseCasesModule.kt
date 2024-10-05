@@ -12,6 +12,7 @@ import com.dreamsoftware.nimbustv.domain.usecase.GetProfilesUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfilesCountUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.HasProfilesCountUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SelectProfileUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.SignOffUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.UpdateProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.VerifyPinUseCase
 import com.dreamsoftware.nimbustv.domain.validation.IBusinessEntityValidator
@@ -128,6 +129,15 @@ class UseCasesModule {
         profilesRepository: IProfilesRepository
     ): HasProfilesCountUseCase =
         HasProfilesCountUseCase(
+            profilesRepository = profilesRepository
+        )
+
+    @Provides
+    @ViewModelScoped
+    fun provideSignOffUseCase(
+        profilesRepository: IProfilesRepository
+    ): SignOffUseCase =
+        SignOffUseCase(
             profilesRepository = profilesRepository
         )
 }
