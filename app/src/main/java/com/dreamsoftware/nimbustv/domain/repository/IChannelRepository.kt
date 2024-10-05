@@ -6,5 +6,5 @@ import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 interface IChannelRepository {
 
     @Throws(RepositoryOperationException::class)
-    suspend fun save(account: List<ChannelBO>): List<ChannelBO>
+    suspend fun save(channels: List<ChannelBO>): List<ChannelBO>
 }
