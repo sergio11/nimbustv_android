@@ -6,9 +6,9 @@ import androidx.room.PrimaryKey
 @TableName("profiles")
 @Entity(tableName = "profiles")
 data class ProfileEntity(
-    @PrimaryKey(autoGenerate = true)
-    override val id: Long = 0L,
+    @PrimaryKey
+    override val id: String,
     val alias: String,
     val avatarType: String,
     val securedPin: String
-): IEntity
+): IEntity<String>

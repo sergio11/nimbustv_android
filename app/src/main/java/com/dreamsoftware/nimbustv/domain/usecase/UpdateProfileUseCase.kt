@@ -29,7 +29,7 @@ class UpdateProfileUseCase(
     )
 
     data class Params(
-        val profileId: Long,
+        val profileId: String,
         val alias: String?,
         val avatarType: AvatarTypeEnum?
     )

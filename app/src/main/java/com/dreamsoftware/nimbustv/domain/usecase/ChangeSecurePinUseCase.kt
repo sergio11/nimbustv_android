@@ -28,7 +28,7 @@ class ChangeSecurePinUseCase(
     private fun Params.toUpdatedProfileRequestBO() = UpdatedProfileRequestBO(pin = newSecurePin)
 
     data class Params(
-        val profileId: Long,
+        val profileId: String,
         val currentSecurePin: Int,
         val newSecurePin: Int
     )

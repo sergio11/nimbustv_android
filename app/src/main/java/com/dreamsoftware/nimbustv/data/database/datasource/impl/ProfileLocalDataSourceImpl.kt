@@ -10,9 +10,9 @@ import kotlinx.coroutines.CoroutineDispatcher
 internal class ProfileLocalDataSourceImpl(
     private val profileDao: ProfileDao,
     dispatcher: CoroutineDispatcher
-): SupportLocalDataSourceImpl<ProfileDao, ProfileEntity>(profileDao, dispatcher), IProfileLocalDataSource {
+): SupportLocalDataSourceImpl<ProfileDao, ProfileEntity, String>(profileDao, dispatcher), IProfileLocalDataSource {
 
-    override suspend fun verifyPin(profileId: Long, securedPin: Int): Boolean = safeExecute {
+    override suspend fun verifyPin(profileId: String, securedPin: Int): Boolean = safeExecute {
         with(profileDao) {
             val profile = getById(profileId) ?: throw RecordNotFoundException("record not found")
             profile.securedPin == securedPin.toString()

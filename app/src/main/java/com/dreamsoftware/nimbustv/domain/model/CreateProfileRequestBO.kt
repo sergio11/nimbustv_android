@@ -1,6 +1,7 @@
 package com.dreamsoftware.nimbustv.domain.model
 
 data class CreateProfileRequestBO(
+    val id: String,
     val alias: String,
     val pin: String,
     val avatarType: AvatarTypeEnum

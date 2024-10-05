@@ -12,6 +12,6 @@ class GetProfileByIdUseCase(
         profilesRepository.getProfileById(params.profileId)
 
     data class Params(
-        val profileId: Long
+        val profileId: String
     )
 }

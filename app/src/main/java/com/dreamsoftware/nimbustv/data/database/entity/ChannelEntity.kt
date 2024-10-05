@@ -24,4 +24,4 @@ data class ChannelEntity(
     val icon: String?,
     val category: String?,
     val playlistId: Long
-): IEntity
+): IEntity<Long>

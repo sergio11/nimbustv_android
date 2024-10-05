@@ -12,7 +12,7 @@ class VerifyPinUseCase(
     }
 
     data class Params(
-        val profileId: Long,
+        val profileId: String,
         val pin: Int
     )
 }

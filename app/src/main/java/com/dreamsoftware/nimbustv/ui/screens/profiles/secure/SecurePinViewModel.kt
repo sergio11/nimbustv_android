@@ -24,7 +24,7 @@ class SecurePinViewModel @Inject constructor(
     fun load(profileId: String) {
         executeUseCaseWithParams(
             useCase = getProfileByIdUseCase,
-            params = GetProfileByIdUseCase.Params(profileId.toLong()),
+            params = GetProfileByIdUseCase.Params(profileId),
             onSuccess = ::onLoadProfileCompleted
         )
     }
@@ -40,7 +40,7 @@ class SecurePinViewModel @Inject constructor(
             combinedLet(profileLocked, unlockPin.toIntOrNull()) { profile, pin ->
                 executeUseCaseWithParams(
                     useCase = verifyPinUseCase,
-                    params = VerifyPinUseCase.Params(profileId = profile.id.toLong(), pin = pin),
+                    params = VerifyPinUseCase.Params(profileId = profile.id, pin = pin),
                     onSuccess = {
                         onVerifyPinSuccessfully(profile)
                     }

@@ -22,7 +22,7 @@ class ChangeSecurePinViewModel @Inject constructor(
     fun load(profileId: String) {
         executeUseCaseWithParams(
             useCase = getProfileByIdUseCase,
-            params = GetProfileByIdUseCase.Params(profileId.toLong()),
+            params = GetProfileByIdUseCase.Params(profileId),
             onSuccess = ::onLoadProfileCompleted
         )
     }
@@ -37,7 +37,7 @@ class ChangeSecurePinViewModel @Inject constructor(
                 executeUseCaseWithParams(
                     useCase = changeSecurePinUseCase,
                     params = ChangeSecurePinUseCase.Params(
-                        profileId = it.profile?.id?.toLongOrNull() ?: 0L,
+                        profileId = it.profile?.id.orEmpty(),
                         currentSecurePin = currentSecurePin,
                         newSecurePin = newSecurePin
                     ),

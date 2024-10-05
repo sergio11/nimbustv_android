@@ -8,9 +8,10 @@ internal class CreateProfileMapper: IOneSideMapper<CreateProfileRequestBO, Profi
 
     override fun mapInToOut(input: CreateProfileRequestBO): ProfileEntity = with(input) {
         ProfileEntity(
+            id = id,
             alias = alias,
             avatarType = avatarType.name,
-            securedPin = pin.toString()
+            securedPin = pin
         )
     }
 

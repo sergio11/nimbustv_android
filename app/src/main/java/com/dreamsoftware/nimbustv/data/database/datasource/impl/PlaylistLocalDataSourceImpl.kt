@@ -9,4 +9,4 @@ import kotlinx.coroutines.CoroutineDispatcher
 internal class PlaylistLocalDataSourceImpl(
     playlistDao: PlayListDao,
     dispatcher: CoroutineDispatcher
-): SupportLocalDataSourceImpl<PlayListDao, PlayListM3UEntity>(playlistDao, dispatcher), IPlayListLocalDataSource
+): SupportLocalDataSourceImpl<PlayListDao, PlayListM3UEntity, Long>(playlistDao, dispatcher), IPlayListLocalDataSource

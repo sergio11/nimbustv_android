@@ -30,7 +30,7 @@ class SaveProfileViewModel @Inject constructor(
         this.profileId = profileId
         executeUseCaseWithParams(
             useCase = getProfileByIdUseCase,
-            params = GetProfileByIdUseCase.Params(profileId.toLong()),
+            params = GetProfileByIdUseCase.Params(profileId),
             onSuccess = ::onLoadProfileCompleted
         )
     }
@@ -76,7 +76,7 @@ class SaveProfileViewModel @Inject constructor(
             executeUseCaseWithParams(
                 useCase = updateProfileUseCase,
                 params = UpdateProfileUseCase.Params(
-                    profileId = profileId.toLong(),
+                    profileId = profileId,
                     alias = alias,
                     avatarType  = avatarType
                 ),

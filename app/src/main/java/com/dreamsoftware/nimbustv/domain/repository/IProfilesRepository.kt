@@ -21,10 +21,10 @@ interface IProfilesRepository {
     suspend fun countProfiles(): Long
 
     @Throws(UpdateProfileException::class)
-    suspend fun updateProfile(profileId: Long, data: UpdatedProfileRequestBO): ProfileBO
+    suspend fun updateProfile(profileId: String, data: UpdatedProfileRequestBO): ProfileBO
 
     @Throws(DeleteProfileException::class)
-    suspend fun deleteProfile(profileId: Long): Boolean
+    suspend fun deleteProfile(profileId: String): Boolean
 
     @Throws(CreateProfileException::class)
     suspend fun createProfile(data: CreateProfileRequestBO): ProfileBO
@@ -33,10 +33,10 @@ interface IProfilesRepository {
     suspend fun selectProfile(profile: ProfileBO)
 
     @Throws(VerifyPinException::class)
-    suspend fun verifyPin(profileId: Long, pin: Int)
+    suspend fun verifyPin(profileId: String, pin: Int)
 
     @Throws(GetProfileByIdException::class)
-    suspend fun getProfileById(profileId: Long): ProfileBO
+    suspend fun getProfileById(profileId: String): ProfileBO
 
     @Throws(GetProfileSelectedException::class)
     suspend fun getProfileSelected(): ProfileBO

@@ -5,4 +5,4 @@ import com.dreamsoftware.nimbustv.data.database.dao.core.SupportDaoImpl
 import com.dreamsoftware.nimbustv.data.database.entity.ProfileEntity
 
 @Dao
-abstract class ProfileDao: SupportDaoImpl<ProfileEntity>(ProfileEntity::class)
+abstract class ProfileDao: SupportDaoImpl<ProfileEntity, String>(ProfileEntity::class)

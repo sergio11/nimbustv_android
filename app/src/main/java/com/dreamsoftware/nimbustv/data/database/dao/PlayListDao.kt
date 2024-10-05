@@ -5,4 +5,4 @@ import com.dreamsoftware.nimbustv.data.database.dao.core.SupportDaoImpl
 import com.dreamsoftware.nimbustv.data.database.entity.PlayListM3UEntity
 
 @Dao
-abstract class PlayListDao: SupportDaoImpl<PlayListM3UEntity>(PlayListM3UEntity::class)
+abstract class PlayListDao: SupportDaoImpl<PlayListM3UEntity, Long>(PlayListM3UEntity::class)
