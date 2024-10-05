@@ -16,6 +16,7 @@ import com.dreamsoftware.nimbustv.ui.utils.navigateSingleTopTo
 @Composable
 fun ProfilesNavigation(
     navController: NavHostController,
+    onGoToOnboarding: () -> Unit,
     onGoToHome: () -> Unit
 ) {
     NavHost(
@@ -31,6 +32,9 @@ fun ProfilesNavigation(
                     },
                     onGoToAddProfile = {
                         navigate(Screen.AddProfile.route)
+                    },
+                    onCancelProfileSelection = {
+                        onGoToOnboarding()
                     },
                     onGoToProfileManagement = {
                         navigate(Screen.ProfilesManagement.route)

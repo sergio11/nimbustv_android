@@ -10,6 +10,7 @@ import com.dreamsoftware.nimbustv.domain.usecase.GetProfileByIdUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfileSelectedUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfilesUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfilesCountUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.HasProfilesCountUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SelectProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.UpdateProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.VerifyPinUseCase
@@ -119,5 +120,14 @@ class UseCasesModule {
         ChangeSecurePinUseCase(
             profilesRepository = profilesRepository,
             validator = updateProfileRequestValidator
+        )
+
+    @Provides
+    @ViewModelScoped
+    fun provideHasProfilesCountUseCase(
+        profilesRepository: IProfilesRepository
+    ): HasProfilesCountUseCase =
+        HasProfilesCountUseCase(
+            profilesRepository = profilesRepository
         )
 }

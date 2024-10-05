@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 // Primary Color
 val primary = Color(0xFFC81010) // Passion Red
 val onPrimary = Color(0xFFFFFFFF) // White for good contrast on Passion Red
-val primaryContainer = Color(0xFFB71C1C) // Darker Red for containers
+val primaryContainer = Color(0xFF4A0101) // Dark Burgundy, near black
 val onPrimaryContainer = Color(0xFFFFFFFF) // White for contrast on Darker Red
 
 // Secondary Colors

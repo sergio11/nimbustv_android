@@ -10,11 +10,12 @@ fun ProfileSelectorScreen(
     onProfileSelected: () -> Unit,
     onProfileLocked: (String) -> Unit,
     onGoToAddProfile: () -> Unit,
-    onGoToProfileManagement: () -> Unit
+    onGoToProfileManagement: () -> Unit,
+    onCancelProfileSelection: () -> Unit
 ) {
     FudgeTvScreen(
         viewModel = viewModel,
-        onInit = {  loadProfiles() },
+        onInit = {  load() },
         onInitialUiState = { ProfileSelectorUiState() },
         onSideEffect = {
             when(it) {
@@ -22,6 +23,7 @@ fun ProfileSelectorScreen(
                 ProfileSelectorSideEffects.ProfileSelected -> onProfileSelected()
                 ProfileSelectorSideEffects.AddNewProfile -> onGoToAddProfile()
                 ProfileSelectorSideEffects.ConfigureProfiles -> onGoToProfileManagement()
+                ProfileSelectorSideEffects.CancelProfileSelection -> onCancelProfileSelection()
             }
         }
     ) { uiState ->

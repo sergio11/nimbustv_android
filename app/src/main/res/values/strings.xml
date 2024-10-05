@@ -46,55 +46,61 @@
     <string name="favorites_not_workout_available">No favorite trainings available yet. Explore and add your favorites to get started on your fitness journey!</string>
 
     <!-- Save Profile -->
-    <string name="create_profile_main_title">Create Your New Profile!</string>
-    <string name="create_profile_secondary_title">Give a unique touch to your FitFlexTV experience.</string>
-    <string name="edit_profile_main_title">Edit Your Profile!</string>
-    <string name="edit_profile_secondary_title">Update your details and stay current.</string>
-    <string name="save_profile_form_avatar_label_text">Select Your Avatar</string>
-    <string name="save_profile_form_alias_label_text">Profile Alias</string>
-    <string name="save_profile_form_pin_label_text">Security PIN</string>
-    <string name="save_profile_confirm_button_text">Save Changes</string>
+    <string name="create_profile_main_title">🚀 Create Your NimbusTV Profile</string>
+    <string name="create_profile_secondary_title">Make it yours! Personalize your profile and dive into the fun.</string>
+    <string name="edit_profile_main_title">🛠️ Edit Your NimbusTV Profile</string>
+    <string name="edit_profile_secondary_title">Refresh and enjoy your favorite content.</string>
+    <string name="save_profile_form_avatar_label_text">Pick Your Avatar</string>
+    <string name="save_profile_form_alias_label_text">Choose a Cool Alias</string>
+    <string name="save_profile_form_pin_label_text">Set Up a Secure PIN</string>
+    <string name="save_profile_confirm_button_text">Save</string>
     <string name="save_profile_cancel_button_text">Cancel</string>
-    <string name="save_profile_change_secure_pin_button_text">Change Secure Pin</string>
-    <string name="save_profile_form_invalid_data_provided">Invalid data provided. Please check your information.</string>
+    <string name="save_profile_change_secure_pin_button_text">Update Secure PIN</string>
+    <string name="save_profile_form_invalid_data_provided">Invalid data provided. Please check and try again.</string>
     <string name="save_profile_limit_reached_error" formatted="false">You have reached the maximum allowed profiles. The limit is %d profiles. Please delete an existing profile to add a new one.</string>
+
     <!-- Profile Selector -->
-    <string name="profile_selector_main_title">Select Your Profile</string>
-    <string name="profile_selector_secondary_title">Choose who you are today on FitFlexTV.</string>
-    <string name="profile_selector_add_profile_button_text">Add New Profile</string>
+    <string name="profile_selector_main_title">👥 Choose Your NimbusTV Profile</string>
+    <string name="profile_selector_secondary_title">Pick a profile and start streaming!</string>
+    <string name="profile_selector_add_profile_button_text">Add a New Profile</string>
     <string name="profile_selector_profile_management_button_text">Manage Profiles</string>
+    <string name="profile_selector_no_profiles_found_dialog_title">🔍 No Profiles Found</string>
+    <string name="profile_selector_no_profiles_found_dialog_description">It looks like you haven\'t created any profiles yet. Would you like to add one now?</string>
+    <string name="profile_selector_no_profiles_found_dialog_accept_button">Create Profile</string>
+    <string name="profile_selector_no_profiles_found_dialog_cancel_button">Not Now</string>
 
     <!-- Profile Management -->
-    <string name="profiles_management_main_title">Profile Management</string>
-    <string name="profiles_management_main_description">Manage all your profiles from here.</string>
-    <string name="profiles_management_form_confirm_button_text">Confirm</string>
+    <string name="profiles_management_main_title">🧑‍💻 Manage Your Profiles</string>
+    <string name="profiles_management_main_description">Customize avatars, aliases, and security settings.</string>
+    <string name="profiles_management_form_confirm_button_text">Confirm Changes</string>
 
     <!-- Secure Pin -->
-    <string name="secure_pin_main_title">Security PIN</string>
-    <string name="secure_pin_main_description">Protect your profile with a secure PIN.</string>
-    <string name="secure_pin_form_label_text">Enter Your PIN</string>
-    <string name="secure_pin_info_profile_locked" formatted="false">You must enter the 6-digit PIN to unlock the %s profile.</string>
-    <string name="secure_pin_form_accept_button_text">Accept</string>
+    <string name="secure_pin_main_title">🔒 Enter Your PIN</string>
+    <string name="secure_pin_main_description">Unlock your profile with your secure PIN.</string>
+    <string name="secure_pin_form_label_text">Enter 6-Digit PIN</string>
+    <string name="secure_pin_info_profile_locked" formatted="false">Enter the PIN to unlock the %s profile.</string>
+    <string name="secure_pin_form_accept_button_text">Unlock</string>
     <string name="secure_pin_form_cancel_button_text">Cancel</string>
 
     <!-- Change Secure Pin -->
-    <string name="profiles_change_secure_pin_main_title">Ready for a PIN Refresh? 🔒</string>
-    <string name="profiles_change_secure_pin_main_description">Keep your profile secure and up-to-date by setting a new PIN.\n Your preferences are in good hands! 👌</string>
-    <string name="profiles_change_secure_pin_form_confirm_button_text">Confirm</string>
-    <string name="profiles_change_secure_pin_delete_button_text">Delete Profile?</string>
-    <string name="profiles_change_secure_pin_form_current_pin_label_text">Current Security PIN</string>
-    <string name="profiles_change_secure_pin_form_new_pin_label_text">New Security PIN</string>
-    <string name="profiles_change_secure_updated_dialog_title">PIN Updated Successfully! 🔐</string>
-    <string name="profiles_change_secure_updated_dialog_description">Your secure PIN has been updated. You’re all set to keep your profile safe!</string>
+    <string name="profiles_change_secure_pin_main_title">🔄 Change Your Secure PIN</string>
+    <string name="profiles_change_secure_pin_main_description">Update your PIN to keep your profile safe.</string>
+    <string name="profiles_change_secure_pin_form_confirm_button_text">Update PIN</string>
+    <string name="profiles_change_secure_pin_delete_button_text">Remove PIN</string>
+    <string name="profiles_change_secure_pin_form_current_pin_label_text">Current PIN</string>
+    <string name="profiles_change_secure_pin_form_new_pin_label_text">New PIN</string>
+    <string name="profiles_change_secure_updated_dialog_title">🎉 PIN Updated</string>
+    <string name="profiles_change_secure_updated_dialog_description">Your PIN has been successfully updated.</string>
 
     <!-- Delete Profile -->
-    <string name="delete_profile_main_title">Delete Profile</string>
-    <string name="delete_profile_main_description">Are you sure you want to delete this profile? This action cannot be undone.</string>
-    <string name="delete_profile_form_accept_button_text">Delete</string>
+    <string name="delete_profile_main_title">⚠️ Delete Profile</string>
+    <string name="delete_profile_main_description">Are you sure you want to permanently delete this profile?</string>
+    <string name="delete_profile_form_accept_button_text">Yes, Delete</string>
     <string name="delete_profile_form_cancel_button_text">Cancel</string>
-    <string name="delete_profile_explanation_text">Deleting a profile will remove all associated data permanently. Please proceed with caution.</string>
-    <string name="delete_profile_dialog_title">Profile Gone! 🎉</string>
-    <string name="delete_profile_dialog_description">The profile has been successfully removed. Say goodbye! 👋</string>
+    <string name="delete_profile_explanation_text">This action cannot be undone.</string>
+    <string name="delete_profile_dialog_title">🗑️ Confirm Profile Deletion</string>
+    <string name="delete_profile_dialog_description">Once deleted, this profile cannot be restored. Proceed with caution.</string>
+
     <!-- Generic Actions -->
     <string name="add_to_favorites">Add to favorites</string>
     <string name="remove_from_favorites">Remove from favorites</string>

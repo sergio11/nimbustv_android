@@ -1,6 +1,7 @@
 package com.dreamsoftware.nimbustv.ui.screens.profiles.selector
 
 import androidx.compose.runtime.Composable
+import com.dreamsoftware.fudge.component.FudgeTvDialog
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.fudge.component.profiles.FudgeTvProfileScreenContent
 import com.dreamsoftware.fudge.component.profiles.FudgeTvProfileSelector
@@ -11,6 +12,16 @@ internal fun ProfileSelectorContent(
     actionListener: ProfileSelectorScreenActionListener
 ) {
     with(uiState) {
+        FudgeTvDialog(
+            isVisible = showNoProfilesDialog,
+            mainLogoRes = R.drawable.main_logo,
+            titleRes = R.string.profile_selector_no_profiles_found_dialog_title,
+            descriptionRes = R.string.profile_selector_no_profiles_found_dialog_description,
+            successRes = R.string.profile_selector_no_profiles_found_dialog_accept_button,
+            cancelRes = R.string.profile_selector_no_profiles_found_dialog_cancel_button,
+            onAcceptClicked = actionListener::onAddProfilePressed,
+            onCancelClicked = actionListener::onCancel
+        )
         FudgeTvProfileScreenContent(
             isLoading = uiState.isLoading,
             error = errorMessage,

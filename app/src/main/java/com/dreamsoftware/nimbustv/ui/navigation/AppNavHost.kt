@@ -52,7 +52,7 @@ fun AppNavHost(
                 with(navController) {
                     OnboardingScreen(
                         onGoToHome = {
-                            navController.navigateSingleTopTo(Screen.Profiles.route)
+                            navigateSingleTopTo(Screen.Profiles.route)
                         },
                         onGoToMoreInfo = {
 
@@ -62,11 +62,16 @@ fun AppNavHost(
             }
 
             composable(route = Screen.Profiles.route) {
-                ProfilesScreen(
-                    onGoToHome = {
-                        navController.navigateSingleTopTo(Screen.Dashboard.route)
-                    }
-                )
+                with(navController) {
+                    ProfilesScreen(
+                        onGoToHome = {
+                            navigateSingleTopTo(Screen.Dashboard.route)
+                        },
+                        onGoToOnboarding = {
+                            navigateSingleTopTo(Screen.Onboarding.route)
+                        }
+                    )
+                }
             }
         }
     )

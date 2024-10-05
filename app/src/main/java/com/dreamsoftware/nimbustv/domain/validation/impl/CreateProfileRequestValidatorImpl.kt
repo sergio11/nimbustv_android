@@ -12,7 +12,7 @@ internal class CreateProfileRequestValidatorImpl(
 
     override fun validate(entity: CreateProfileRequestBO): Map<String, String> = buildMap {
         with(entity) {
-            if (pin.toIntOrNull()?.isSecurePinNotValid() == false) {
+            if (pin.toIntOrNull()?.isSecurePinNotValid() == true) {
                 put(CreateProfileRequestBO.FIELD_PIN, messagesResolver.getInvalidPinMessage())
             }
             if (alias.isProfileAliasNotValid()) {
