@@ -6,17 +6,27 @@ import com.dreamsoftware.nimbustv.utils.combinedLet
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
+import com.dreamsoftware.nimbustv.domain.usecase.GetProfileByIdUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.SelectProfileUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.VerifyPinUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SecurePinViewModel @Inject constructor(
+    private val verifyPinUseCase: VerifyPinUseCase,
+    private val selectProfileUseCase: SelectProfileUseCase,
+    private val getProfileByIdUseCase: GetProfileByIdUseCase
 ): FudgeTvViewModel<SecurePinUiState, SecurePinSideEffects>(), SecurePinScreenActionListener {
 
     override fun onGetDefaultState(): SecurePinUiState = SecurePinUiState()
 
     fun load(profileId: String) {
-
+        executeUseCaseWithParams(
+            useCase = getProfileByIdUseCase,
+            params = GetProfileByIdUseCase.Params(profileId.toLong()),
+            onSuccess = ::onLoadProfileCompleted
+        )
     }
 
     override fun onUnlockPinChanged(unlockPin: String) {
@@ -28,7 +38,13 @@ class SecurePinViewModel @Inject constructor(
     override fun onVerifyPressed() {
         with(uiState.value) {
             combinedLet(profileLocked, unlockPin.toIntOrNull()) { profile, pin ->
-
+                executeUseCaseWithParams(
+                    useCase = verifyPinUseCase,
+                    params = VerifyPinUseCase.Params(profileId = profile.id.toLong(), pin = pin),
+                    onSuccess = {
+                        onVerifyPinSuccessfully(profile)
+                    }
+                )
             }
         }
     }
@@ -44,7 +60,13 @@ class SecurePinViewModel @Inject constructor(
     }
 
     private fun onVerifyPinSuccessfully(profile: ProfileBO) {
-
+        executeUseCaseWithParams(
+            useCase = selectProfileUseCase,
+            params = SelectProfileUseCase.Params(profile),
+            onSuccess = {
+                onProfileSelected()
+            }
+        )
     }
 
     private fun onProfileSelected() {

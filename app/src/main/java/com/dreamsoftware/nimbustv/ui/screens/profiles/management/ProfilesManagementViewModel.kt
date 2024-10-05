@@ -6,26 +6,34 @@ import com.dreamsoftware.fudge.component.profiles.ProfileSelectorVO
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
+import com.dreamsoftware.nimbustv.domain.usecase.GetProfilesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfilesManagementViewModel @Inject constructor(): FudgeTvViewModel<ProfilesManagementUiState, ProfilesManagementSideEffects>() {
+class ProfilesManagementViewModel @Inject constructor(
+    private val getProfilesUseCase: GetProfilesUseCase,
+): FudgeTvViewModel<ProfilesManagementUiState, ProfilesManagementSideEffects>() {
 
     override fun onGetDefaultState(): ProfilesManagementUiState = ProfilesManagementUiState()
 
     fun loadProfiles() {
-
+        executeUseCase(
+            useCase = getProfilesUseCase,
+            onSuccess = ::onLoadProfileSuccessfully
+        )
     }
 
     private fun onLoadProfileSuccessfully(profiles: List<ProfileBO>) {
         updateState {
             it.copy(profiles = profiles.map { profile ->
-                ProfileSelectorVO(
-                    uuid = profile.id.toString(),
-                    alias = profile.alias,
-                    avatarIconRes = profile.avatarType.toDrawableResource()
-                )
+                with(profile) {
+                    ProfileSelectorVO(
+                        uuid = id,
+                        alias = alias,
+                        avatarIconRes = avatarType.toDrawableResource()
+                    )
+                }
             })
         }
     }

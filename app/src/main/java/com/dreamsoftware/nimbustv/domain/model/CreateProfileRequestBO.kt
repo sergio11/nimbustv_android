@@ -2,7 +2,7 @@ package com.dreamsoftware.nimbustv.domain.model
 
 data class CreateProfileRequestBO(
     val alias: String,
-    val pin: Int,
+    val pin: String,
     val avatarType: AvatarTypeEnum
 ) {
     companion object {

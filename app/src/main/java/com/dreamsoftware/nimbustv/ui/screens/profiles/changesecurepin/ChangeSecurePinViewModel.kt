@@ -6,16 +6,25 @@ import com.dreamsoftware.nimbustv.utils.combinedLet
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
+import com.dreamsoftware.nimbustv.domain.usecase.ChangeSecurePinUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.GetProfileByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ChangeSecurePinViewModel @Inject constructor(): FudgeTvViewModel<ChangeSecurePinUiState, ChangeSecurePinSideEffects>(), ChangeSecurePinActionListener {
+class ChangeSecurePinViewModel @Inject constructor(
+    private val getProfileByIdUseCase: GetProfileByIdUseCase,
+    private val changeSecurePinUseCase: ChangeSecurePinUseCase
+): FudgeTvViewModel<ChangeSecurePinUiState, ChangeSecurePinSideEffects>(), ChangeSecurePinActionListener {
 
     override fun onGetDefaultState(): ChangeSecurePinUiState = ChangeSecurePinUiState()
 
     fun load(profileId: String) {
-
+        executeUseCaseWithParams(
+            useCase = getProfileByIdUseCase,
+            params = GetProfileByIdUseCase.Params(profileId.toLong()),
+            onSuccess = ::onLoadProfileCompleted
+        )
     }
 
     private fun onLoadProfileCompleted(profileBO: ProfileBO) {
@@ -25,7 +34,15 @@ class ChangeSecurePinViewModel @Inject constructor(): FudgeTvViewModel<ChangeSec
     override fun onConfirmPressed() {
         uiState.value.let {
             combinedLet(it.currentSecurePin.toIntOrNull(), it.newSecurePin.toIntOrNull()) { currentSecurePin, newSecurePin ->
-
+                executeUseCaseWithParams(
+                    useCase = changeSecurePinUseCase,
+                    params = ChangeSecurePinUseCase.Params(
+                        profileId = it.profile?.id?.toLongOrNull() ?: 0L,
+                        currentSecurePin = currentSecurePin,
+                        newSecurePin = newSecurePin
+                    ),
+                    onSuccess = { onSecurePinChanged() }
+                )
             }
         }
     }

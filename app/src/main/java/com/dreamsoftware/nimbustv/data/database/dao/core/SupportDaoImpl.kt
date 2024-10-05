@@ -1,8 +1,8 @@
 package com.dreamsoftware.nimbustv.data.database.dao.core
 
-import androidx.room.Entity
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.dreamsoftware.nimbustv.data.database.entity.IEntity
+import com.dreamsoftware.nimbustv.data.database.entity.TableName
 import kotlin.reflect.KClass
 
 abstract class SupportDaoImpl<T: IEntity>(private val entityClass: KClass<*>) : ISupportDAO<T> {
@@ -24,8 +24,8 @@ abstract class SupportDaoImpl<T: IEntity>(private val entityClass: KClass<*>) : 
 
     private fun getTableName(entityClass: KClass<*>): String {
         return entityClass.annotations
-            .filterIsInstance<Entity>()
-            .firstOrNull()?.tableName
+            .filterIsInstance<TableName>()
+            .firstOrNull()?.value
             ?: throw IllegalArgumentException("Entity annotation is missing for ${entityClass.simpleName}")
     }
 }

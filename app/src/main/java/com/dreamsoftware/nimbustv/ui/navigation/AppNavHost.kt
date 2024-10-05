@@ -39,10 +39,10 @@ fun AppNavHost(
             composable(route = Screen.Splash.route) {
                 with(navController) {
                     SplashScreen(
-                        onGoToOnboarding = {
+                        onNoProfilesCreated = {
                             navigateSingleTopTo(Screen.Onboarding.route)
                         },
-                        onGoToProfileSelector = {
+                        onProfileSelectionRequired = {
                             navigateSingleTopTo(Screen.Profiles.route)
                         }
                     )
@@ -52,7 +52,7 @@ fun AppNavHost(
                 with(navController) {
                     OnboardingScreen(
                         onGoToHome = {
-                            navController.navigateSingleTopTo(Screen.Dashboard.route)
+                            navController.navigateSingleTopTo(Screen.Profiles.route)
                         },
                         onGoToMoreInfo = {
 

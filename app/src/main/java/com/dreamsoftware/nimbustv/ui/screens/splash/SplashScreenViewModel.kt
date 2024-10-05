@@ -4,41 +4,51 @@ import androidx.lifecycle.viewModelScope
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
+import com.dreamsoftware.nimbustv.domain.usecase.GetProfilesCountUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashScreenViewModel @Inject constructor(): FudgeTvViewModel<SplashUiState, SplashSideEffects>() {
+class SplashScreenViewModel @Inject constructor(
+    private val getProfilesCountUseCase: GetProfilesCountUseCase
+): FudgeTvViewModel<SplashUiState, SplashSideEffects>() {
+
+    private companion object {
+        const val NO_PROFILES_CREATED = 0L
+    }
 
     override fun onGetDefaultState(): SplashUiState = SplashUiState()
 
     fun verifySession() {
         viewModelScope.launch {
             delay(4000)
-            onCheckProfilesCompleted(false)
+            checkProfiles()
         }
     }
 
     private fun checkProfiles() {
-
+        executeUseCase(
+            useCase = getProfilesCountUseCase,
+            onSuccess = ::onCheckProfilesCompleted,
+            onFailed = ::onCheckProfilesFailed
+        )
     }
 
-    private fun onCheckProfilesCompleted(hasMultipleProfiles: Boolean) {
+    private fun onCheckProfilesCompleted(profilesCount: Long) {
         launchSideEffect(
-            if(hasMultipleProfiles) {
-                SplashSideEffects.ProfileSelectionRequired
+            if(NO_PROFILES_CREATED == profilesCount) {
+                SplashSideEffects.NoProfilesCreated
             } else {
-                SplashSideEffects.UserProfileSelected
+                SplashSideEffects.ProfileSelectionRequired
             }
         )
     }
 
     private fun onCheckProfilesFailed() {
-        launchSideEffect(SplashSideEffects.ProfileSelectionRequired)
+        launchSideEffect(SplashSideEffects.NoProfilesCreated)
     }
-
 }
 
 data class SplashUiState(
@@ -51,6 +61,6 @@ data class SplashUiState(
 }
 
 sealed interface SplashSideEffects: SideEffect {
-    data object UserProfileSelected: SplashSideEffects
+    data object NoProfilesCreated: SplashSideEffects
     data object ProfileSelectionRequired: SplashSideEffects
 }

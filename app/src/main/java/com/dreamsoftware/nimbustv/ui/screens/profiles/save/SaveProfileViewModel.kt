@@ -8,11 +8,17 @@ import com.dreamsoftware.fudge.core.FudgeTvViewModel
 import com.dreamsoftware.fudge.core.IFudgeTvErrorMapper
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
+import com.dreamsoftware.nimbustv.domain.usecase.CreateProfileUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.GetProfileByIdUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.UpdateProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SaveProfileViewModel @Inject constructor(
+    private val getProfileByIdUseCase: GetProfileByIdUseCase,
+    private val createProfileUseCase: CreateProfileUseCase,
+    private val updateProfileUseCase: UpdateProfileUseCase,
     @SaveProfileScreenErrorMapper private val errorMapper: IFudgeTvErrorMapper
 ): FudgeTvViewModel<SaveProfileUiState, SaveProfileSideEffects>(), SaveProfileScreenActionListener {
 
@@ -22,6 +28,11 @@ class SaveProfileViewModel @Inject constructor(
 
     fun load(profileId: String) {
         this.profileId = profileId
+        executeUseCaseWithParams(
+            useCase = getProfileByIdUseCase,
+            params = GetProfileByIdUseCase.Params(profileId.toLong()),
+            onSuccess = ::onLoadProfileCompleted
+        )
     }
 
     override fun onAvatarTypeChanged(avatarType: AvatarTypeEnum) {
@@ -62,13 +73,35 @@ class SaveProfileViewModel @Inject constructor(
 
     private fun onUpdateProfile() {
         with(uiState.value) {
-
+            executeUseCaseWithParams(
+                useCase = updateProfileUseCase,
+                params = UpdateProfileUseCase.Params(
+                    profileId = profileId.toLong(),
+                    alias = alias,
+                    avatarType  = avatarType
+                ),
+                onSuccess = {
+                    onSaveProfileSuccessfully()
+                },
+                onMapExceptionToState = ::onMapExceptionToState
+            )
         }
     }
 
     private fun onCreateProfile() {
         with(uiState.value) {
-
+            executeUseCaseWithParams(
+                useCase = createProfileUseCase,
+                params = CreateProfileUseCase.Params(
+                    alias = alias,
+                    pin = securePin,
+                    avatarType = avatarType
+                ),
+                onSuccess = {
+                    onSaveProfileSuccessfully()
+                },
+                onMapExceptionToState = ::onMapExceptionToState
+            )
         }
     }
 

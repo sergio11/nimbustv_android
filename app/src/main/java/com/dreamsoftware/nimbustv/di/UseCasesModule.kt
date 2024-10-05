@@ -3,12 +3,13 @@ package com.dreamsoftware.nimbustv.di
 import com.dreamsoftware.nimbustv.domain.model.CreateProfileRequestBO
 import com.dreamsoftware.nimbustv.domain.model.UpdatedProfileRequestBO
 import com.dreamsoftware.nimbustv.domain.repository.IProfilesRepository
+import com.dreamsoftware.nimbustv.domain.usecase.ChangeSecurePinUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.CreateProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.DeleteProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfileByIdUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfileSelectedUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfilesUseCase
-import com.dreamsoftware.nimbustv.domain.usecase.HasMultiplesProfilesUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.GetProfilesCountUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SelectProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.UpdateProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.VerifyPinUseCase
@@ -75,8 +76,8 @@ class UseCasesModule {
     @ViewModelScoped
     fun provideHasMultiplesProfilesUseCase(
         profilesRepository: IProfilesRepository
-    ): HasMultiplesProfilesUseCase =
-        HasMultiplesProfilesUseCase(
+    ): GetProfilesCountUseCase =
+        GetProfilesCountUseCase(
             profilesRepository = profilesRepository
         )
 
@@ -107,5 +108,16 @@ class UseCasesModule {
     ): VerifyPinUseCase =
         VerifyPinUseCase(
             profilesRepository = profilesRepository
+        )
+
+    @Provides
+    @ViewModelScoped
+    fun provideChangeSecurePinUseCase(
+        profilesRepository: IProfilesRepository,
+        updateProfileRequestValidator: IBusinessEntityValidator<UpdatedProfileRequestBO>
+    ): ChangeSecurePinUseCase =
+        ChangeSecurePinUseCase(
+            profilesRepository = profilesRepository,
+            validator = updateProfileRequestValidator
         )
 }

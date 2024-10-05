@@ -45,7 +45,7 @@ class CreateProfileUseCase(
 
     data class Params(
         val alias: String,
-        val pin: Int,
+        val pin: String,
         val avatarType: AvatarTypeEnum?
     )
 }
