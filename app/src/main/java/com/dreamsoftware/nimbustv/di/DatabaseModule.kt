@@ -38,6 +38,14 @@ object DatabaseModule {
 
     @Singleton
     @Provides
+    fun provideProfilesDao(db: NimbusTvDatabase) = db.profileDao()
+
+    @Singleton
+    @Provides
+    fun providePlayListDao(db: NimbusTvDatabase) = db.playListM3UDao()
+
+    @Singleton
+    @Provides
     fun provideChannelsDataSource(
         channelDao: ChannelDao,
         @IoDispatcher dispatcher: CoroutineDispatcher

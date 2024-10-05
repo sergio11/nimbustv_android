@@ -6,6 +6,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.util.Date
 
+@TableName("profiles")
 @Entity(
     tableName = "playlists",
     foreignKeys = [ForeignKey(

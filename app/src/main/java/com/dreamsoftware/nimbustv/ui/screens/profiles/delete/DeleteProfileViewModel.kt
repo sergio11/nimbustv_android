@@ -4,15 +4,25 @@ import com.dreamsoftware.nimbustv.domain.model.ProfileBO
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
+import com.dreamsoftware.nimbustv.domain.usecase.DeleteProfileUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.GetProfileByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class DeleteProfileViewModel @Inject constructor(): FudgeTvViewModel<DeleteProfileUiState, DeleteProfileSideEffects>(), DeleteProfileScreenActionListener {
+class DeleteProfileViewModel @Inject constructor(
+    private val getProfileByIdUseCase: GetProfileByIdUseCase,
+    private val deleteProfileUseCase: DeleteProfileUseCase
+): FudgeTvViewModel<DeleteProfileUiState, DeleteProfileSideEffects>(), DeleteProfileScreenActionListener {
 
     override fun onGetDefaultState(): DeleteProfileUiState = DeleteProfileUiState()
 
     fun load(profileId: String) {
+        executeUseCaseWithParams(
+            useCase = getProfileByIdUseCase,
+            params = GetProfileByIdUseCase.Params(profileId.toLong()),
+            onSuccess = ::onLoadProfileCompleted
+        )
     }
 
     private fun onLoadProfileCompleted(profileBO: ProfileBO) {
@@ -27,7 +37,15 @@ class DeleteProfileViewModel @Inject constructor(): FudgeTvViewModel<DeleteProfi
 
     override fun onDeletePressed() {
         with(uiState.value) {
-            profile?.let {}
+            profile?.id?.toLongOrNull()?.let { profileId ->
+                executeUseCaseWithParams(
+                    useCase = deleteProfileUseCase,
+                    params = DeleteProfileUseCase.Params(profileId = profileId),
+                    onSuccess = {
+                        onProfileDeleted()
+                    }
+                )
+            }
         }
     }
 

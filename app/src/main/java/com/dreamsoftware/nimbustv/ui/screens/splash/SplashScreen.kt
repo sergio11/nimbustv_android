@@ -9,16 +9,16 @@ import com.dreamsoftware.fudge.component.FudgeTvScreen
 fun SplashScreen(
     modifier: Modifier = Modifier,
     viewModel: SplashScreenViewModel = hiltViewModel(),
-    onGoToOnboarding: () -> Unit,
-    onGoToProfileSelector: () -> Unit
+    onNoProfilesCreated: () -> Unit,
+    onProfileSelectionRequired: () -> Unit
 ) {
     FudgeTvScreen(
         viewModel = viewModel,
         onInitialUiState = { SplashUiState() },
         onSideEffect = {
             when(it) {
-                SplashSideEffects.UserProfileSelected -> onGoToOnboarding()
-                SplashSideEffects.ProfileSelectionRequired -> onGoToProfileSelector()
+                SplashSideEffects.ProfileSelectionRequired -> onProfileSelectionRequired()
+                SplashSideEffects.NoProfilesCreated -> onNoProfilesCreated()
             }
         },
         onInit = {

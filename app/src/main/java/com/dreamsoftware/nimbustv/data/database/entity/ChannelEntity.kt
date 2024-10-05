@@ -5,6 +5,7 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
+@TableName("profiles")
 @Entity(
     tableName = "channels",
     foreignKeys = [ForeignKey(

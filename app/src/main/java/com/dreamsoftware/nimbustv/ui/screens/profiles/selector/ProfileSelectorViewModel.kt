@@ -6,18 +6,26 @@ import com.dreamsoftware.fudge.component.profiles.ProfileSelectorVO
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
+import com.dreamsoftware.nimbustv.domain.usecase.GetProfilesUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.SelectProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileSelectorViewModel @Inject constructor(): FudgeTvViewModel<ProfileSelectorUiState, ProfileSelectorSideEffects>(), ProfileSelectorScreenActionListener {
+class ProfileSelectorViewModel @Inject constructor(
+    private val getProfilesUseCase: GetProfilesUseCase,
+    private val selectProfileUseCase: SelectProfileUseCase,
+): FudgeTvViewModel<ProfileSelectorUiState, ProfileSelectorSideEffects>(), ProfileSelectorScreenActionListener {
 
     private var userProfiles: List<ProfileBO> = emptyList()
 
     override fun onGetDefaultState(): ProfileSelectorUiState = ProfileSelectorUiState()
 
     fun loadProfiles() {
-
+        executeUseCase(
+            useCase = getProfilesUseCase,
+            onSuccess = ::onLoadProfileSuccessfully
+        )
     }
 
     override fun onProfileSelected(profileId: String) {
@@ -41,11 +49,13 @@ class ProfileSelectorViewModel @Inject constructor(): FudgeTvViewModel<ProfileSe
         userProfiles = profiles
         updateState {
             it.copy(profiles = profiles.map { profile ->
-                ProfileSelectorVO(
-                    uuid = profile.id.toString(),
-                    alias = profile.alias,
-                    avatarIconRes = profile.avatarType.toDrawableResource()
-                )
+                with(profile) {
+                    ProfileSelectorVO(
+                        uuid = id,
+                        alias = alias,
+                        avatarIconRes = avatarType.toDrawableResource()
+                    )
+                }
             })
         }
     }
@@ -56,6 +66,16 @@ class ProfileSelectorViewModel @Inject constructor(): FudgeTvViewModel<ProfileSe
 
     private fun onProfileSelected() {
         launchSideEffect(ProfileSelectorSideEffects.ProfileSelected)
+    }
+
+    private fun selectProfile(profileBO: ProfileBO) {
+        executeUseCaseWithParams(
+            useCase = selectProfileUseCase,
+            params = SelectProfileUseCase.Params(profileBO),
+            onSuccess = {
+                onProfileSelected()
+            }
+        )
     }
 }
 
