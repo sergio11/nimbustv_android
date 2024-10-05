@@ -4,10 +4,14 @@ import com.dreamsoftware.nimbustv.data.database.datasource.IProfileLocalDataSour
 import com.dreamsoftware.nimbustv.data.database.entity.ProfileEntity
 import com.dreamsoftware.nimbustv.data.database.exception.DatabaseException
 import com.dreamsoftware.nimbustv.data.preferences.datasource.IProfileSessionDataSource
+import com.dreamsoftware.nimbustv.data.preferences.exception.ClearProfileSelectedPreferenceLocalException
+import com.dreamsoftware.nimbustv.data.preferences.exception.FetchProfileSelectedPreferenceLocalException
+import com.dreamsoftware.nimbustv.data.preferences.exception.SaveProfileSelectedPreferenceLocalException
 import com.dreamsoftware.nimbustv.data.repository.impl.core.SupportRepositoryImpl
 import com.dreamsoftware.nimbustv.domain.exception.ClearProfileSelectedException
 import com.dreamsoftware.nimbustv.domain.exception.CreateProfileException
 import com.dreamsoftware.nimbustv.domain.exception.DeleteProfileException
+import com.dreamsoftware.nimbustv.domain.exception.DomainRepositoryException
 import com.dreamsoftware.nimbustv.domain.exception.FetchProfilesException
 import com.dreamsoftware.nimbustv.domain.exception.GetProfileByIdException
 import com.dreamsoftware.nimbustv.domain.exception.GetProfileSelectedException
@@ -89,7 +93,11 @@ internal class ProfilesRepositoryImpl(
 
     @Throws(SelectProfileException::class)
     override suspend fun selectProfile(profile: ProfileBO) : Unit = safeExecute {
-        profileSessionDataSource.saveProfileSelectedId(profile.id)
+        try {
+            profileSessionDataSource.saveProfileSelectedId(profile.id)
+        } catch (ex: SaveProfileSelectedPreferenceLocalException) {
+            throw SelectProfileException("An error occurred when saving the current profile selected", ex)
+        }
     }
 
     @Throws(VerifyPinException::class)
@@ -117,6 +125,14 @@ internal class ProfilesRepositoryImpl(
         }
     }
 
+    @Throws(DomainRepositoryException::class)
+    override suspend fun hasProfileSelected(): Boolean =
+        try {
+            profileSessionDataSource.getProfileSelectedId().isNotBlank()
+        } catch (ex: FetchProfileSelectedPreferenceLocalException) {
+            false
+        }
+
     @Throws(GetProfileSelectedException::class)
     override suspend fun getProfileSelected(): ProfileBO = safeExecute {
         try {
@@ -125,11 +141,17 @@ internal class ProfilesRepositoryImpl(
                 .let(profilesMapper::mapInToOut)
         } catch (ex: DatabaseException) {
             throw GetProfileByIdException("An error occurred when getting profile by id", ex)
+        } catch (ex: FetchProfileSelectedPreferenceLocalException) {
+            throw GetProfileByIdException("An error occurred when getting profile by id", ex)
         }
     }
 
     @Throws(ClearProfileSelectedException::class)
     override suspend fun clearProfileSelected() = safeExecute {
-        profileSessionDataSource.clearProfileSelectedId()
+        try {
+            profileSessionDataSource.clearProfileSelectedId()
+        } catch (ex: ClearProfileSelectedPreferenceLocalException) {
+            throw ClearProfileSelectedException("An error occurred when trying to clear the profile selected", ex)
+        }
     }
 }

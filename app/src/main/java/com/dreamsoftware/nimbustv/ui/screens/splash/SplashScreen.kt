@@ -17,8 +17,8 @@ fun SplashScreen(
         onInitialUiState = { SplashUiState() },
         onSideEffect = {
             when(it) {
-                SplashSideEffects.ProfileSelectionRequired -> onProfileSelectionRequired()
-                SplashSideEffects.NoProfilesCreated -> onNoProfilesCreated()
+                SplashSideEffects.ConfirmProfileRequired -> onProfileSelectionRequired()
+                SplashSideEffects.NoProfilesAvailable -> onNoProfilesCreated()
             }
         },
         onInit = {

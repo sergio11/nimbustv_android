@@ -4,4 +4,5 @@ open class PreferencesDataSourceException(message: String? = null, cause: Throwa
 
 // Profiles
 class SaveProfileSelectedPreferenceLocalException(message: String? = null, cause: Throwable? = null): PreferencesDataSourceException(message, cause)
+class ClearProfileSelectedPreferenceLocalException(message: String? = null, cause: Throwable? = null): PreferencesDataSourceException(message, cause)
 class FetchProfileSelectedPreferenceLocalException(message: String? = null, cause: Throwable? = null): PreferencesDataSourceException(message, cause)

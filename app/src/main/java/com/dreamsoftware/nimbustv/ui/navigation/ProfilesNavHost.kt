@@ -26,7 +26,6 @@ fun ProfilesNavigation(
         composable(Screen.ProfileSelector.route) {
             with(navController) {
                 ProfileSelectorScreen(
-                    onProfileSelected = onGoToHome,
                     onProfileLocked = {
                         navigate(Screen.UnlockProfile.buildRoute(it))
                     },
