@@ -87,15 +87,12 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
 
-    // Firebase
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.auth.ktx)
-    implementation(libs.firebase.auth)
-    implementation(libs.firebase.firestore.ktx)
-
     // Media3 for Media Playback
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.ui)
+
+    // A parser for simple and extended M3U playlist files written in Kotlin.
+    implementation(libs.m3u.parser)
 
     // Room
     implementation(libs.room.runtime)
