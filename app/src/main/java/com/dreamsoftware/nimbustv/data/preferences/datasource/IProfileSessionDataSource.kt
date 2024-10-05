@@ -1,5 +1,6 @@
 package com.dreamsoftware.nimbustv.data.preferences.datasource
 
+import com.dreamsoftware.nimbustv.data.preferences.exception.ClearProfileSelectedPreferenceLocalException
 import com.dreamsoftware.nimbustv.data.preferences.exception.FetchProfileSelectedPreferenceLocalException
 import com.dreamsoftware.nimbustv.data.preferences.exception.SaveProfileSelectedPreferenceLocalException
 import kotlin.jvm.Throws
@@ -12,7 +13,7 @@ interface IProfileSessionDataSource {
     @Throws(SaveProfileSelectedPreferenceLocalException::class)
     suspend fun saveProfileSelectedId(id: String)
 
-    @Throws(SaveProfileSelectedPreferenceLocalException::class)
+    @Throws(ClearProfileSelectedPreferenceLocalException::class)
     suspend fun clearProfileSelectedId()
 
     @Throws(FetchProfileSelectedPreferenceLocalException::class)

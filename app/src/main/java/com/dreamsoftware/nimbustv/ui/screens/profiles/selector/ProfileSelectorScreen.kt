@@ -7,7 +7,6 @@ import com.dreamsoftware.fudge.component.FudgeTvScreen
 @Composable
 fun ProfileSelectorScreen(
     viewModel: ProfileSelectorViewModel = hiltViewModel(),
-    onProfileSelected: () -> Unit,
     onProfileLocked: (String) -> Unit,
     onGoToAddProfile: () -> Unit,
     onGoToProfileManagement: () -> Unit,
@@ -20,7 +19,6 @@ fun ProfileSelectorScreen(
         onSideEffect = {
             when(it) {
                 is ProfileSelectorSideEffects.ProfileLocked -> onProfileLocked(it.profileId)
-                ProfileSelectorSideEffects.ProfileSelected -> onProfileSelected()
                 ProfileSelectorSideEffects.AddNewProfile -> onGoToAddProfile()
                 ProfileSelectorSideEffects.ConfigureProfiles -> onGoToProfileManagement()
                 ProfileSelectorSideEffects.CancelProfileSelection -> onCancelProfileSelection()

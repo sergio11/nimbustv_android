@@ -5,6 +5,7 @@ import com.dreamsoftware.fudge.core.FudgeTvViewModel
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfilesCountUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.HasProfileSelectedUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -12,6 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashScreenViewModel @Inject constructor(
+    private val hasProfileSelectedUseCase: HasProfileSelectedUseCase,
     private val getProfilesCountUseCase: GetProfilesCountUseCase
 ): FudgeTvViewModel<SplashUiState, SplashSideEffects>() {
 
@@ -24,8 +26,16 @@ class SplashScreenViewModel @Inject constructor(
     fun verifySession() {
         viewModelScope.launch {
             delay(4000)
-            checkProfiles()
+            checkCurrentProfileSelected()
         }
+    }
+
+    private fun checkCurrentProfileSelected() {
+        executeUseCase(
+            useCase = hasProfileSelectedUseCase,
+            onSuccess = ::onCheckCurrentProfileSelected,
+            onFailed = ::onCheckProfilesFailed
+        )
     }
 
     private fun checkProfiles() {
@@ -36,18 +46,26 @@ class SplashScreenViewModel @Inject constructor(
         )
     }
 
+    private fun onCheckCurrentProfileSelected(hasProfileSelected: Boolean) {
+        if(hasProfileSelected) {
+            launchSideEffect(SplashSideEffects.ConfirmProfileRequired)
+        } else {
+            checkProfiles()
+        }
+    }
+
     private fun onCheckProfilesCompleted(profilesCount: Long) {
         launchSideEffect(
             if(NO_PROFILES_CREATED == profilesCount) {
-                SplashSideEffects.NoProfilesCreated
+                SplashSideEffects.NoProfilesAvailable
             } else {
-                SplashSideEffects.ProfileSelectionRequired
+                SplashSideEffects.ConfirmProfileRequired
             }
         )
     }
 
     private fun onCheckProfilesFailed() {
-        launchSideEffect(SplashSideEffects.NoProfilesCreated)
+        launchSideEffect(SplashSideEffects.NoProfilesAvailable)
     }
 }
 
@@ -61,6 +79,6 @@ data class SplashUiState(
 }
 
 sealed interface SplashSideEffects: SideEffect {
-    data object NoProfilesCreated: SplashSideEffects
-    data object ProfileSelectionRequired: SplashSideEffects
+    data object NoProfilesAvailable: SplashSideEffects
+    data object ConfirmProfileRequired: SplashSideEffects
 }

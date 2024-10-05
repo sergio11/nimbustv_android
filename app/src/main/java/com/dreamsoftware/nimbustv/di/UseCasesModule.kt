@@ -10,6 +10,7 @@ import com.dreamsoftware.nimbustv.domain.usecase.GetProfileByIdUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfileSelectedUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfilesUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfilesCountUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.HasProfileSelectedUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.HasProfilesCountUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SelectProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SignOffUseCase
@@ -138,6 +139,15 @@ class UseCasesModule {
         profilesRepository: IProfilesRepository
     ): SignOffUseCase =
         SignOffUseCase(
+            profilesRepository = profilesRepository
+        )
+
+    @Provides
+    @ViewModelScoped
+    fun provideHasProfileSelectedUseCase(
+        profilesRepository: IProfilesRepository
+    ): HasProfileSelectedUseCase =
+        HasProfileSelectedUseCase(
             profilesRepository = profilesRepository
         )
 }

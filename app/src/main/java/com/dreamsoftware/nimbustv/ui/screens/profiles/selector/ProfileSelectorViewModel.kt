@@ -1,22 +1,20 @@
 package com.dreamsoftware.nimbustv.ui.screens.profiles.selector
 
-import com.dreamsoftware.nimbustv.domain.model.ProfileBO
-import com.dreamsoftware.nimbustv.ui.utils.toDrawableResource
 import com.dreamsoftware.fudge.component.profiles.ProfileSelectorVO
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
+import com.dreamsoftware.nimbustv.domain.model.ProfileBO
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfilesUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.HasProfilesCountUseCase
-import com.dreamsoftware.nimbustv.domain.usecase.SelectProfileUseCase
+import com.dreamsoftware.nimbustv.ui.utils.toDrawableResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileSelectorViewModel @Inject constructor(
     private val hasProfilesCountUseCase: HasProfilesCountUseCase,
-    private val getProfilesUseCase: GetProfilesUseCase,
-    private val selectProfileUseCase: SelectProfileUseCase,
+    private val getProfilesUseCase: GetProfilesUseCase
 ): FudgeTvViewModel<ProfileSelectorUiState, ProfileSelectorSideEffects>(), ProfileSelectorScreenActionListener {
 
     private var userProfiles: List<ProfileBO> = emptyList()
@@ -90,20 +88,6 @@ class ProfileSelectorViewModel @Inject constructor(
     private fun onProfileLocked(profileId: String) {
         launchSideEffect(ProfileSelectorSideEffects.ProfileLocked(profileId))
     }
-
-    private fun onProfileSelected() {
-        launchSideEffect(ProfileSelectorSideEffects.ProfileSelected)
-    }
-
-    private fun selectProfile(profileBO: ProfileBO) {
-        executeUseCaseWithParams(
-            useCase = selectProfileUseCase,
-            params = SelectProfileUseCase.Params(profileBO),
-            onSuccess = {
-                onProfileSelected()
-            }
-        )
-    }
 }
 
 data class ProfileSelectorUiState(
@@ -118,7 +102,6 @@ data class ProfileSelectorUiState(
 }
 
 sealed interface ProfileSelectorSideEffects: SideEffect {
-    data object ProfileSelected: ProfileSelectorSideEffects
     data class ProfileLocked(val profileId: String): ProfileSelectorSideEffects
     data object AddNewProfile: ProfileSelectorSideEffects
     data object ConfigureProfiles: ProfileSelectorSideEffects
