@@ -10,6 +10,9 @@ interface ISupportLocalDataSource<E: IEntity<K>, K> {
     suspend fun insert(entity: E): E
 
     @Throws(RecordNotFoundException::class, AccessDatabaseException::class)
+    suspend fun insert(entityList: List<E>): List<E>
+
+    @Throws(RecordNotFoundException::class, AccessDatabaseException::class)
     suspend fun update(entity: E): E
 
     @Throws(RecordNotFoundException::class, AccessDatabaseException::class)

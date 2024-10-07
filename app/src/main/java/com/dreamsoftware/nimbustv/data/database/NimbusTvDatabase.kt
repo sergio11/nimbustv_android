@@ -8,11 +8,11 @@ import com.dreamsoftware.nimbustv.data.database.dao.ChannelDao
 import com.dreamsoftware.nimbustv.data.database.dao.PlayListDao
 import com.dreamsoftware.nimbustv.data.database.dao.ProfileDao
 import com.dreamsoftware.nimbustv.data.database.entity.ChannelEntity
-import com.dreamsoftware.nimbustv.data.database.entity.PlayListM3UEntity
+import com.dreamsoftware.nimbustv.data.database.entity.PlayListEntity
 import com.dreamsoftware.nimbustv.data.database.entity.ProfileEntity
 
 @Database(
-    entities = [ChannelEntity::class, PlayListM3UEntity::class, ProfileEntity::class],
+    entities = [ChannelEntity::class, PlayListEntity::class, ProfileEntity::class],
     version = 1
 )
 @TypeConverters(Adapters::class)

@@ -9,4 +9,4 @@ import kotlinx.coroutines.CoroutineDispatcher
 internal class ChannelLocalDataSourceImpl(
     channelDao: ChannelDao,
     dispatcher: CoroutineDispatcher
-): SupportLocalDataSourceImpl<ChannelDao, ChannelEntity, Long>(channelDao, dispatcher), IChannelLocalDataSource
+): SupportLocalDataSourceImpl<ChannelDao, ChannelEntity, String>(channelDao, dispatcher), IChannelLocalDataSource
