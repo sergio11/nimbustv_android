@@ -14,6 +14,9 @@ interface ISupportDAO<T> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(entity: T)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(entityList: List<T>)
+
     @Update
     suspend fun update(entity: T)
 

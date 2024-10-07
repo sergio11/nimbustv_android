@@ -2,7 +2,7 @@ package com.dreamsoftware.nimbustv.framework.m3u
 
 import com.dreamsoftware.nimbustv.domain.exception.ParsePlayListFailedException
 import com.dreamsoftware.nimbustv.domain.model.M3uEntryBO
-import com.dreamsoftware.nimbustv.domain.service.IM3UService
+import com.dreamsoftware.nimbustv.domain.service.IPlaylistParserService
 import com.dreamsoftware.nimbustv.utils.IOneSideMapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -13,7 +13,7 @@ import java.net.URL
 internal class M3UServiceImpl(
     private val m3uEntryMapper: IOneSideMapper<M3uEntry, M3uEntryBO>,
     private val dispatcher: CoroutineDispatcher
-): IM3UService {
+): IPlaylistParserService {
 
     @Throws(ParsePlayListFailedException::class)
     override suspend fun parsePlaylist(playlistUrl: String): List<M3uEntryBO> = withContext(dispatcher) {

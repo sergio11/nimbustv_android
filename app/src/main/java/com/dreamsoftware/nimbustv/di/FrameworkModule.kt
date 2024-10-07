@@ -1,7 +1,7 @@
 package com.dreamsoftware.nimbustv.di
 
 import com.dreamsoftware.nimbustv.domain.model.M3uEntryBO
-import com.dreamsoftware.nimbustv.domain.service.IM3UService
+import com.dreamsoftware.nimbustv.domain.service.IPlaylistParserService
 import com.dreamsoftware.nimbustv.framework.m3u.M3UServiceImpl
 import com.dreamsoftware.nimbustv.framework.mapper.M3UEntryMapper
 import com.dreamsoftware.nimbustv.utils.IOneSideMapper
@@ -26,5 +26,5 @@ class FrameworkModule {
     fun provideM3UService(
         mapper: IOneSideMapper<M3uEntry, M3uEntryBO>,
         @IoDispatcher dispatcher: CoroutineDispatcher
-    ): IM3UService = M3UServiceImpl(mapper, dispatcher)
+    ): IPlaylistParserService = M3UServiceImpl(mapper, dispatcher)
 }

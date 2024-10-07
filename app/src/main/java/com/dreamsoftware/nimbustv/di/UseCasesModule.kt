@@ -2,7 +2,10 @@ package com.dreamsoftware.nimbustv.di
 
 import com.dreamsoftware.nimbustv.domain.model.CreateProfileRequestBO
 import com.dreamsoftware.nimbustv.domain.model.UpdatedProfileRequestBO
+import com.dreamsoftware.nimbustv.domain.repository.IChannelRepository
+import com.dreamsoftware.nimbustv.domain.repository.IPlaylistRepository
 import com.dreamsoftware.nimbustv.domain.repository.IProfilesRepository
+import com.dreamsoftware.nimbustv.domain.service.IPlaylistParserService
 import com.dreamsoftware.nimbustv.domain.usecase.ChangeSecurePinUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.CreateProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.DeleteProfileUseCase
@@ -12,6 +15,7 @@ import com.dreamsoftware.nimbustv.domain.usecase.GetProfilesUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfilesCountUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.HasProfileSelectedUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.HasProfilesCountUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.CreatePlaylistUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SelectProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SignOffUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.UpdateProfileUseCase
@@ -149,5 +153,20 @@ class UseCasesModule {
     ): HasProfileSelectedUseCase =
         HasProfileSelectedUseCase(
             profilesRepository = profilesRepository
+        )
+
+    @Provides
+    @ViewModelScoped
+    fun provideCreatePlaylistUseCase(
+        profilesRepository: IProfilesRepository,
+        playlistParserService: IPlaylistParserService,
+        playlistRepository: IPlaylistRepository,
+        channelRepository: IChannelRepository
+    ): CreatePlaylistUseCase =
+        CreatePlaylistUseCase(
+            profilesRepository = profilesRepository,
+            playlistParserService = playlistParserService,
+            playlistRepository = playlistRepository,
+            channelRepository = channelRepository
         )
 }

@@ -1,10 +1,11 @@
 package com.dreamsoftware.nimbustv.domain.repository
 
-import com.dreamsoftware.nimbustv.domain.exception.RepositoryOperationException
+import com.dreamsoftware.nimbustv.domain.exception.SaveChannelsException
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
+import com.dreamsoftware.nimbustv.domain.model.SaveChannelBO
 
 interface IChannelRepository {
 
-    @Throws(RepositoryOperationException::class)
-    suspend fun save(channels: List<ChannelBO>): List<ChannelBO>
+    @Throws(SaveChannelsException::class)
+    suspend fun save(channels: List<SaveChannelBO>): List<ChannelBO>
 }

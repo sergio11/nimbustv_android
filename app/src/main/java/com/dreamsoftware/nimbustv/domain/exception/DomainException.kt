@@ -8,6 +8,12 @@ class InvalidDataException(errors: Map<String, String>, message: String? = null,
 // M3U
 class ParsePlayListFailedException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 
+// Playlist
+class InsertPlaylistException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
+class UpdatePlaylistException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
+
+// Channels
+class SaveChannelsException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 
 //Profiles
 class FetchProfilesException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
