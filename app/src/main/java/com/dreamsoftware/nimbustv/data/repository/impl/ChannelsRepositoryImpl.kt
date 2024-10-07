@@ -4,6 +4,7 @@ import com.dreamsoftware.nimbustv.data.database.datasource.IChannelLocalDataSour
 import com.dreamsoftware.nimbustv.data.database.entity.ChannelEntity
 import com.dreamsoftware.nimbustv.data.database.exception.DatabaseException
 import com.dreamsoftware.nimbustv.data.repository.impl.core.SupportRepositoryImpl
+import com.dreamsoftware.nimbustv.domain.exception.GetChannelsByPlaylistException
 import com.dreamsoftware.nimbustv.domain.exception.SaveChannelsException
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.domain.model.SaveChannelBO
@@ -28,6 +29,21 @@ internal class ChannelsRepositoryImpl(
         } catch (ex: DatabaseException) {
             throw SaveChannelsException(
                 "An error occurred when trying to save channels",
+                ex
+            )
+        }
+    }
+
+    @Throws(GetChannelsByPlaylistException::class)
+    override suspend fun findAllByPlaylistId(playlistId: String): List<ChannelBO> = safeExecute {
+        try {
+            channelLocalDataSource
+                .findAllByPlaylistId(playlistId)
+                .let(channelsMapper::mapInListToOutList)
+                .toList()
+        } catch (ex: DatabaseException) {
+            throw GetChannelsByPlaylistException(
+                "An error occurred when trying to find all channels by playlist id",
                 ex
             )
         }
