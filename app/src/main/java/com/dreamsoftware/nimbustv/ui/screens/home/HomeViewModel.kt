@@ -5,12 +5,14 @@ import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.domain.usecase.CreatePlaylistUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.GetPlaylistsByProfileUseCase
 import com.dreamsoftware.nimbustv.ui.utils.EMPTY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val getPlaylistsByProfileUseCase: GetPlaylistsByProfileUseCase,
     private val createPlaylistUseCase: CreatePlaylistUseCase
 ) : FudgeTvViewModel<HomeUiState, HomeSideEffects>(), HomeScreenActionListener {
 
