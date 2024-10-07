@@ -1,5 +1,6 @@
 package com.dreamsoftware.nimbustv.domain.repository
 
+import com.dreamsoftware.nimbustv.domain.exception.GetPlaylistsByProfileException
 import com.dreamsoftware.nimbustv.domain.exception.InsertPlaylistException
 import com.dreamsoftware.nimbustv.domain.exception.UpdatePlaylistException
 import com.dreamsoftware.nimbustv.domain.model.CreatePlayListBO
@@ -13,4 +14,7 @@ interface IPlaylistRepository {
 
     @Throws(UpdatePlaylistException::class)
     suspend fun update(data: UpdatePlayListBO): PlayListBO
+
+    @Throws(GetPlaylistsByProfileException::class)
+    suspend fun findAllByProfileId(profileId: String): List<PlayListBO>
 }

@@ -5,6 +5,7 @@ import com.dreamsoftware.nimbustv.data.database.entity.PlayListEntity
 import com.dreamsoftware.nimbustv.data.database.exception.DatabaseException
 import com.dreamsoftware.nimbustv.data.repository.impl.core.SupportRepositoryImpl
 import com.dreamsoftware.nimbustv.data.repository.mapper.UpdatePlaylistData
+import com.dreamsoftware.nimbustv.domain.exception.GetPlaylistsByProfileException
 import com.dreamsoftware.nimbustv.domain.exception.InsertPlaylistException
 import com.dreamsoftware.nimbustv.domain.exception.UpdatePlaylistException
 import com.dreamsoftware.nimbustv.domain.model.CreatePlayListBO
@@ -54,6 +55,20 @@ internal class PlaylistRepositoryImpl(
         } catch (ex: DatabaseException) {
             throw InsertPlaylistException(
                 "An error occurred when trying to update the playlist",
+                ex
+            )
+        }
+    }
+
+    @Throws(GetPlaylistsByProfileException::class)
+    override suspend fun findAllByProfileId(profileId: String): List<PlayListBO> = safeExecute {
+        try {
+            playListLocalDataSource.findAllByProfileId(profileId)
+                .let(playlistMapper::mapInListToOutList)
+                .toList()
+        } catch (ex: DatabaseException) {
+            throw GetPlaylistsByProfileException(
+                "An error occurred when trying to fetch playlists by profile id",
                 ex
             )
         }
