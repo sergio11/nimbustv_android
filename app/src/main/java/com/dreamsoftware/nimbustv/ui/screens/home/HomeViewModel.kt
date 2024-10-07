@@ -51,6 +51,7 @@ class HomeViewModel @Inject constructor(
 
     override fun onNewPlaylistSelected(newValue: PlayListBO) {
         updateState { it.copy(playlistSelected = newValue) }
+        fetchChannelsByPlaylist(playlistId = newValue.id)
     }
 
     override fun onChannelFocused(value: ChannelBO) {
