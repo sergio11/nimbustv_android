@@ -16,6 +16,7 @@ import com.dreamsoftware.nimbustv.domain.usecase.GetProfilesCountUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.HasProfileSelectedUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.HasProfilesCountUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.CreatePlaylistUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.GetChannelsByPlaylistUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetPlaylistsByProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SelectProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SignOffUseCase
@@ -180,5 +181,15 @@ class UseCasesModule {
         GetPlaylistsByProfileUseCase(
             profilesRepository = profilesRepository,
             playlistRepository = playlistRepository,
+        )
+
+
+    @Provides
+    @ViewModelScoped
+    fun provideGetChannelsByPlaylistUseCase(
+        channelRepository: IChannelRepository
+    ): GetChannelsByPlaylistUseCase =
+        GetChannelsByPlaylistUseCase(
+            channelRepository = channelRepository
         )
 }
