@@ -4,6 +4,7 @@ import com.dreamsoftware.fudge.core.FudgeTvViewModel
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
+import com.dreamsoftware.nimbustv.domain.model.PlayListBO
 import com.dreamsoftware.nimbustv.domain.usecase.CreatePlaylistUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetChannelsByPlaylistUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetPlaylistsByProfileUseCase
@@ -21,7 +22,10 @@ class HomeViewModel @Inject constructor(
     override fun onGetDefaultState(): HomeUiState = HomeUiState()
 
     fun fetchData() {
-
+        executeUseCase(
+            useCase = getPlaylistsByProfileUseCase,
+            onSuccess = ::onGetPlaylistByProfileCompleted
+        )
     }
 
     private fun onImportPlaylistCompleted() {
@@ -44,6 +48,47 @@ class HomeViewModel @Inject constructor(
     override fun onNewPlayListUrlUpdated(newValue: String) {
         updateState { it.copy(newPlayListUrl = newValue) }
     }
+
+    override fun onNewPlaylistSelected(newValue: PlayListBO) {
+        updateState { it.copy(playlistSelected = newValue) }
+    }
+
+    override fun onChannelFocused(value: ChannelBO) {
+        updateState { it.copy(channelFocused = value) }
+    }
+
+    override fun onChannelPressed(value: ChannelBO) {}
+
+    override fun onNewCategorySelected(newValue: String) {}
+
+    private fun onGetPlaylistByProfileCompleted(playlists: List<PlayListBO>) {
+        val playlistSelected = playlists.firstOrNull()
+        updateState {
+            it.copy(
+                playlists = playlists,
+                playlistSelected = playlistSelected
+            )
+        }
+        playlistSelected?.id?.let(::fetchChannelsByPlaylist)
+    }
+
+    private fun fetchChannelsByPlaylist(playlistId: String) {
+        executeUseCaseWithParams(
+            useCase = getChannelsByPlaylistUseCase,
+            params = GetChannelsByPlaylistUseCase.Params(playlistId = playlistId),
+            onSuccess = ::onFetchChannelsByPlaylistCompleted
+        )
+    }
+
+    private fun onFetchChannelsByPlaylistCompleted(channels: List<ChannelBO>) {
+        updateState {
+            it.copy(
+                categories = channels.mapNotNull(ChannelBO::category).distinct(),
+                channels = channels,
+                channelFocused = channels.firstOrNull()
+            )
+        }
+    }
 }
 
 data class HomeUiState(
@@ -53,6 +98,11 @@ data class HomeUiState(
     val isImportPlaylistDialogVisible: Boolean = false,
     val isImporting: Boolean = false,
     val newPlayListUrl: String = String.EMPTY,
+    val playlists: List<PlayListBO> = emptyList(),
+    val playlistSelected: PlayListBO? = null,
+    val categories: List<String> = emptyList(),
+    val categorySelected: String? = null,
+    val channelFocused: ChannelBO? = null
 ): UiState<HomeUiState>(isLoading, errorMessage) {
     override fun copyState(isLoading: Boolean, errorMessage: String?): HomeUiState =
         copy(isLoading = isLoading, errorMessage = errorMessage)
