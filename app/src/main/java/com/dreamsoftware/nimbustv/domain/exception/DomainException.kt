@@ -16,6 +16,7 @@ class GetPlaylistsByProfileException(message: String? = null, cause: Throwable? 
 // Channels
 class SaveChannelsException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class GetChannelsByPlaylistException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
+class GetChannelByIdException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 
 //Profiles
 class FetchProfilesException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)

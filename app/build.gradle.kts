@@ -89,6 +89,8 @@ dependencies {
 
     // Media3 for Media Playback
     implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.exoplayer.hls)
+    implementation(libs.androidx.media3.exoplayer.dash)
     implementation(libs.androidx.media3.ui)
 
     // A parser for simple and extended M3U playlist files written in Kotlin.
