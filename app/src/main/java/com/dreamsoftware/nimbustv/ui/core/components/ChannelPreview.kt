@@ -1,6 +1,6 @@
 package com.dreamsoftware.nimbustv.ui.core.components
 
-import android.util.Log
+import androidx.annotation.OptIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,9 +13,11 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.util.UnstableApi
 import androidx.tv.material3.MaterialTheme
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 
+@OptIn(UnstableApi::class)
 @Composable
 fun ChannelPreview(
     modifier: Modifier = Modifier,
@@ -34,6 +36,7 @@ fun ChannelPreview(
         ) {
             with(channel) {
                 Box {
+                    CommonVideoBackground(videResource = url)
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
@@ -41,7 +44,11 @@ fun ChannelPreview(
                             .padding(vertical = 20.dp, horizontal = 15.dp),
                         verticalArrangement = Arrangement.Bottom
                     ) {
-
+                        CommonChannelHeaderInfo(
+                            title = title,
+                            logo = icon,
+                            subtitle = category
+                        )
                     }
                 }
             }
