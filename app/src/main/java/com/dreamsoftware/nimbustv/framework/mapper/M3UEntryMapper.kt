@@ -11,7 +11,7 @@ internal class M3UEntryMapper: IOneSideMapper<M3uEntry, M3uEntryBO> {
             title = title,
             url = location.url.toExternalForm(),
             icon = metadata.logo,
-            category = metadata["group-title"]
+            category = metadata["group-title"]?.replace(";", " ")
         )
     }
 
