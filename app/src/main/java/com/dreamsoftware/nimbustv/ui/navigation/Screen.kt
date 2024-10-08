@@ -1,9 +1,11 @@
 package com.dreamsoftware.nimbustv.ui.navigation
 
 import android.os.Bundle
+import android.telecom.InCallService.VideoCall
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.dreamsoftware.nimbustv.ui.player.video.VideoPlayerScreenArgs
 import com.dreamsoftware.nimbustv.ui.screens.profiles.changesecurepin.ChangeSecurePinScreenArgs
 import com.dreamsoftware.nimbustv.ui.screens.profiles.delete.DeleteProfileScreenArgs
 import com.dreamsoftware.nimbustv.ui.screens.profiles.save.SaveProfileScreenArgs
@@ -97,9 +99,27 @@ sealed class Screen(
             }
         }
     }
+    data object VideoPlayer: Screen(route = "video_player/{id}", name = "VideoPlayer", arguments = listOf(
+        navArgument("id") {
+            type = NavType.StringType
+        }
+    )) {
+        fun buildRoute(id: String): String =
+            route.replace(
+                oldValue = "{id}",
+                newValue = id
+            )
+
+        fun parseArgs(args: Bundle): VideoPlayerScreenArgs? = with(args) {
+            getString("id")?.let { id ->
+                VideoPlayerScreenArgs(
+                    id = id
+                )
+            }
+        }
+    }
 
     data object Home: Screen(route = "home", name = "Home")
-    data object Training: Screen(route = "training", name = "Training")
     data object Favorite: Screen(route = "favorite", name = "Favorite")
     data object Settings: Screen(route = "settings", name = "Settings")
 }

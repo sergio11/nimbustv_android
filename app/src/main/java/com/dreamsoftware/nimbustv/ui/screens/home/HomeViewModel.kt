@@ -58,7 +58,9 @@ class HomeViewModel @Inject constructor(
         updateState { it.copy(channelFocused = value) }
     }
 
-    override fun onChannelPressed(value: ChannelBO) {}
+    override fun onChannelPressed(value: ChannelBO) {
+        launchSideEffect(HomeSideEffects.PlayChannelSideEffect(value.id))
+    }
 
     override fun onNewCategorySelected(newValue: String) {}
 
@@ -104,9 +106,11 @@ data class HomeUiState(
     val categories: List<String> = emptyList(),
     val categorySelected: String? = null,
     val channelFocused: ChannelBO? = null
-): UiState<HomeUiState>(isLoading, errorMessage) {
+) : UiState<HomeUiState>(isLoading, errorMessage) {
     override fun copyState(isLoading: Boolean, errorMessage: String?): HomeUiState =
         copy(isLoading = isLoading, errorMessage = errorMessage)
 }
 
-sealed interface HomeSideEffects: SideEffect
+sealed interface HomeSideEffects : SideEffect {
+    data class PlayChannelSideEffect(val id: String) : HomeSideEffects
+}

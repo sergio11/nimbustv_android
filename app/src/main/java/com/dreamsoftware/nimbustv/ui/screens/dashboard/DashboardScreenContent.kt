@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.ui.navigation.DashboardNavHost
 import com.dreamsoftware.fudge.component.FudgeTvNavigationDrawer
+import com.dreamsoftware.nimbustv.ui.navigation.Screen
 
 @Composable
 internal fun DashboardScreenContent(
@@ -19,7 +20,7 @@ internal fun DashboardScreenContent(
         FudgeTvNavigationDrawer(
             modifier = Modifier,
             mainLogoInverseRes = R.drawable.main_logo_inverse,
-            hiddenDrawerRoutes = listOf(),
+            hiddenDrawerRoutes = listOf(Screen.VideoPlayer.route),
             onItemClicked = actionListener::onMenuItemSelected,
             items = items,
             currentDestination = currentDestination,

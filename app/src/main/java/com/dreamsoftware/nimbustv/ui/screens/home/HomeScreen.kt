@@ -6,12 +6,17 @@ import com.dreamsoftware.fudge.component.FudgeTvScreen
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    onPlayChannel: (channelId: String) -> Unit
 ) {
     FudgeTvScreen(
         viewModel = viewModel,
         onInitialUiState = { HomeUiState() },
-        onSideEffect = {},
+        onSideEffect = {
+            when (it) {
+                is HomeSideEffects.PlayChannelSideEffect -> onPlayChannel(it.id)
+            }
+        },
         onInit = {
             fetchData()
         }

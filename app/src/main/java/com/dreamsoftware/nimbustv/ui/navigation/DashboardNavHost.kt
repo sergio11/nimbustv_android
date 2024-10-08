@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.dreamsoftware.nimbustv.ui.player.video.VideoPlayerScreen
 import com.dreamsoftware.nimbustv.ui.screens.favorites.FavoritesScreen
 import com.dreamsoftware.nimbustv.ui.screens.home.HomeScreen
 import com.dreamsoftware.nimbustv.ui.screens.settings.SettingsScreen
@@ -18,7 +19,11 @@ fun DashboardNavHost(
     ) {
         composable(Screen.Home.route) {
             with(navController) {
-                HomeScreen()
+                HomeScreen(
+                    onPlayChannel = { channelId ->
+                        navigate(Screen.VideoPlayer.buildRoute(channelId))
+                    }
+                )
             }
         }
 
@@ -29,6 +34,16 @@ fun DashboardNavHost(
                         popBackStack()
                     }
                 )
+            }
+        }
+
+        composable(Screen.VideoPlayer.route) { navBackStackEntry ->
+            navBackStackEntry.arguments?.let(Screen.VideoPlayer::parseArgs)?.let { args ->
+                with(navController) {
+                    VideoPlayerScreen(args = args) {
+                        popBackStack()
+                    }
+                }
             }
         }
 
