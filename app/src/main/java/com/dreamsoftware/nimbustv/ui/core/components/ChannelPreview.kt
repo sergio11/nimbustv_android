@@ -36,7 +36,7 @@ fun ChannelPreview(
         ) {
             with(channel) {
                 Box {
-                    CommonVideoBackground(
+                    CommonPlayerBackground(
                         videResource = url,
                         videoResourceLicenseKey = licenseKey
                     )

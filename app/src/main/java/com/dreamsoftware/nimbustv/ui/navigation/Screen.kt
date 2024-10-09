@@ -5,6 +5,7 @@ import android.telecom.InCallService.VideoCall
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.dreamsoftware.nimbustv.ui.player.audio.AudioPlayerScreenArgs
 import com.dreamsoftware.nimbustv.ui.player.video.VideoPlayerScreenArgs
 import com.dreamsoftware.nimbustv.ui.screens.profiles.changesecurepin.ChangeSecurePinScreenArgs
 import com.dreamsoftware.nimbustv.ui.screens.profiles.delete.DeleteProfileScreenArgs
@@ -113,6 +114,25 @@ sealed class Screen(
         fun parseArgs(args: Bundle): VideoPlayerScreenArgs? = with(args) {
             getString("id")?.let { id ->
                 VideoPlayerScreenArgs(
+                    id = id
+                )
+            }
+        }
+    }
+    data object AudioPlayer: Screen(route = "audio_player/{id}", name = "AudioPlayer", arguments = listOf(
+        navArgument("id") {
+            type = NavType.StringType
+        }
+    )) {
+        fun buildRoute(id: String): String =
+            route.replace(
+                oldValue = "{id}",
+                newValue = id
+            )
+
+        fun parseArgs(args: Bundle): AudioPlayerScreenArgs? = with(args) {
+            getString("id")?.let { id ->
+                AudioPlayerScreenArgs(
                     id = id
                 )
             }

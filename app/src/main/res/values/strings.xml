@@ -173,4 +173,5 @@
 
     <!-- Miscellaneous -->
     <string name="no_text_value">--</string>
+    <string name="image_cannot_be_loaded">Image cannot be loaded</string>
 </resources>

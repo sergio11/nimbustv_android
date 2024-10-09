@@ -4,6 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.dreamsoftware.nimbustv.domain.model.StreamTypeEnum
+import com.dreamsoftware.nimbustv.ui.player.audio.AudioPlayerScreen
 import com.dreamsoftware.nimbustv.ui.player.video.VideoPlayerScreen
 import com.dreamsoftware.nimbustv.ui.screens.favorites.FavoritesScreen
 import com.dreamsoftware.nimbustv.ui.screens.home.HomeScreen
@@ -20,8 +22,12 @@ fun DashboardNavHost(
         composable(Screen.Home.route) {
             with(navController) {
                 HomeScreen(
-                    onPlayChannel = { channelId ->
-                        navigate(Screen.VideoPlayer.buildRoute(channelId))
+                    onPlayChannel = { channelId, type ->
+                        navigate(if(type == StreamTypeEnum.ONLY_AUDIO) {
+                            Screen.AudioPlayer.buildRoute(channelId)
+                        } else {
+                            Screen.VideoPlayer.buildRoute(channelId)
+                        })
                     }
                 )
             }
@@ -34,6 +40,16 @@ fun DashboardNavHost(
                         popBackStack()
                     }
                 )
+            }
+        }
+
+        composable(Screen.AudioPlayer.route) { navBackStackEntry ->
+            navBackStackEntry.arguments?.let(Screen.AudioPlayer::parseArgs)?.let { args ->
+                with(navController) {
+                    AudioPlayerScreen(args = args) {
+                        popBackStack()
+                    }
+                }
             }
         }
 
