@@ -36,7 +36,10 @@ fun ChannelPreview(
         ) {
             with(channel) {
                 Box {
-                    CommonVideoBackground(videResource = url)
+                    CommonVideoBackground(
+                        videResource = url,
+                        videoResourceLicenseKey = licenseKey
+                    )
                     Column(
                         modifier = Modifier
                             .fillMaxSize()

@@ -41,13 +41,9 @@ interface SupportPlayer {
      */
     fun seekBack()
 
-    /**
-     * Prepares the media player with the appropriate media source based on the video resource's extension.
-     *
-     * @param videoResource The URI of the video resource to be played. The method checks the extension
-     *                      to determine whether the resource is HLS or DASH format.
-     */
-    fun prepare(videoResource: String)
+    fun prepareHls(videoResource: String)
+
+    fun prepareDash(videoResource: String, licenseKey: String)
 
     /**
      * Prepares the player for playback using a raw resource ID.

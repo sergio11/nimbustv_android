@@ -1,6 +1,7 @@
 package com.dreamsoftware.nimbustv.ui.core.player.impl
 
 import android.util.Log
+import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.common.Player.STATE_BUFFERING
 import androidx.media3.common.Player.STATE_ENDED
@@ -17,6 +18,16 @@ internal class ExoPlayerStateListener(
     override fun onIsPlayingChanged(isPlaying: Boolean) {
         super.onIsPlayingChanged(isPlaying)
         stateListener.on(getStateWhen(isPlaying))
+    }
+
+    override fun onPlayerError(error: PlaybackException) {
+        super.onPlayerError(error)
+        Log.d("Exoplayer", "onPlayerError $error")
+    }
+
+    override fun onPlayerErrorChanged(error: PlaybackException?) {
+        super.onPlayerErrorChanged(error)
+        Log.d("Exoplayer", "onPlayerErrorChanged $error")
     }
 
     override fun onPlaybackStateChanged(playbackState: Int) {

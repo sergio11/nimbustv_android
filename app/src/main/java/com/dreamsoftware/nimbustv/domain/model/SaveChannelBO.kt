@@ -5,5 +5,9 @@ data class SaveChannelBO(
     val url: String,
     val icon: String?,
     val category: String?,
-    val playlistId: String
+    val playlistId: String,
+    val manifestType: String?,
+    val licenseType: String?,
+    val licenseKey: String?,
+    val streamTypeEnum: StreamTypeEnum
 )

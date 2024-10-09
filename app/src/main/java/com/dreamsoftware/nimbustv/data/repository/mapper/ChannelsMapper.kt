@@ -12,7 +12,11 @@ internal class ChannelsMapper: IOneSideMapper<ChannelEntity, ChannelBO> {
             title = title,
             url = url,
             icon = icon,
-            category = category
+            category = category,
+            manifestType = manifestType,
+            licenseKey = licenseKey,
+            licenseType = licenseType,
+            streamTypeEnum = streamType
         )
     }
 

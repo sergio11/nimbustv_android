@@ -3,11 +3,10 @@ package com.dreamsoftware.nimbustv.framework.m3u
 import com.dreamsoftware.nimbustv.domain.exception.ParsePlayListFailedException
 import com.dreamsoftware.nimbustv.domain.model.M3uEntryBO
 import com.dreamsoftware.nimbustv.domain.service.IPlaylistParserService
+import com.dreamsoftware.nimbustv.framework.m3u.model.M3uEntry
 import com.dreamsoftware.nimbustv.utils.IOneSideMapper
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import net.bjoernpetersen.m3u.M3uParser
-import net.bjoernpetersen.m3u.model.M3uEntry
 import java.net.URL
 
 internal class M3UServiceImpl(

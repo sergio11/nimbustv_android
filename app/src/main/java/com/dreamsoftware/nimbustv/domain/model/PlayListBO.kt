@@ -7,5 +7,6 @@ data class PlayListBO(
     val alias: String,
     val creationDate: Date,
     val originalUrl: String,
-    val profileId: String
+    val profileId: String,
+    val channelsCount: Long
 )
