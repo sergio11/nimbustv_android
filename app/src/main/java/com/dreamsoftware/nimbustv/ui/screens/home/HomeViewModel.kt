@@ -5,6 +5,7 @@ import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.domain.model.PlayListBO
+import com.dreamsoftware.nimbustv.domain.model.StreamTypeEnum
 import com.dreamsoftware.nimbustv.domain.usecase.CreatePlaylistUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetChannelsByPlaylistUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetPlaylistsByProfileUseCase
@@ -25,13 +26,6 @@ class HomeViewModel @Inject constructor(
         executeUseCase(
             useCase = getPlaylistsByProfileUseCase,
             onSuccess = ::onGetPlaylistByProfileCompleted
-        )
-        executeUseCaseWithParams(
-            useCase = createPlaylistUseCase,
-            params = CreatePlaylistUseCase.Params(
-                alias = "Playlist Test",
-                url = "https://www.dropbox.com/scl/fi/xzouopvg1s6elhw3sy7rd/demo.m3u?rlkey=rvddmjuvqgxb1x9v9ocz1mn0a&st=anj655e2&raw=1"
-            )
         )
     }
 
@@ -66,7 +60,7 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun onChannelPressed(value: ChannelBO) {
-        launchSideEffect(HomeSideEffects.PlayChannelSideEffect(value.id))
+        launchSideEffect(HomeSideEffects.PlayChannelSideEffect(id = value.id, type = value.streamTypeEnum))
     }
 
     override fun onNewCategorySelected(newValue: String) {}
@@ -119,5 +113,5 @@ data class HomeUiState(
 }
 
 sealed interface HomeSideEffects : SideEffect {
-    data class PlayChannelSideEffect(val id: String) : HomeSideEffects
+    data class PlayChannelSideEffect(val id: String, val type: StreamTypeEnum) : HomeSideEffects
 }

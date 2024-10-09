@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
 import com.dreamsoftware.nimbustv.ui.core.components.CommonChannelHeaderInfo
 import com.dreamsoftware.nimbustv.ui.core.components.CommonFavoriteButton
-import com.dreamsoftware.nimbustv.ui.core.components.CommonVideoBackground
+import com.dreamsoftware.nimbustv.ui.core.components.CommonPlayerBackground
 import com.dreamsoftware.nimbustv.ui.core.player.PlayerControlsState
 import com.dreamsoftware.nimbustv.ui.core.player.rememberVideoPlayerState
 import com.dreamsoftware.nimbustv.ui.core.player.state.PlayerState
@@ -50,7 +50,7 @@ fun VideoPlayerScreenContent(
             }
         }
     }
-    CommonVideoBackground(
+    CommonPlayerBackground(
         videResource = state.videoUrl,
         videoResourceLicenseKey = state.licenseKey,
         playerStateListener = stateListener,

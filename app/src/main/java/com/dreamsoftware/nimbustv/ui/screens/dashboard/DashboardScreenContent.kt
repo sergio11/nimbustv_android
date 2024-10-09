@@ -20,7 +20,7 @@ internal fun DashboardScreenContent(
         FudgeTvNavigationDrawer(
             modifier = Modifier,
             mainLogoInverseRes = R.drawable.main_logo_inverse,
-            hiddenDrawerRoutes = listOf(Screen.VideoPlayer.route),
+            hiddenDrawerRoutes = listOf(Screen.VideoPlayer.route, Screen.AudioPlayer.route),
             onItemClicked = actionListener::onMenuItemSelected,
             items = items,
             currentDestination = currentDestination,
