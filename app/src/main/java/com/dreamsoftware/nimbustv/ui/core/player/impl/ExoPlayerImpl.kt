@@ -1,25 +1,31 @@
 package com.dreamsoftware.nimbustv.ui.core.player.impl
 
+import android.util.Log
 import android.view.View
+import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.dash.DashMediaSource
+import androidx.media3.exoplayer.drm.DefaultDrmSessionManager
+import androidx.media3.exoplayer.drm.FrameworkMediaDrm
+import androidx.media3.exoplayer.drm.LocalMediaDrmCallback
 import androidx.media3.exoplayer.hls.HlsMediaSource
 import com.dreamsoftware.nimbustv.ui.core.player.SupportPlayer
 import com.dreamsoftware.nimbustv.ui.core.player.state.PlayerStateListener
 
-@UnstableApi internal class ExoPlayerImpl(
+
+@UnstableApi
+internal class ExoPlayerImpl(
     private val player: ExoPlayer,
     private val providePlayerView: () -> View
 ) : SupportPlayer {
 
     private companion object {
+        private const val TAG = "EXOPLAYER"
         private const val RAW_RESOURCE_SCHEME = "rawresource"
-        private const val HLS_EXTENSION = ".m3u8"
-        private const val DASH_EXTENSION = ".mpd"
     }
 
     private var listener: Player.Listener? = null
@@ -48,26 +54,67 @@ import com.dreamsoftware.nimbustv.ui.core.player.state.PlayerStateListener
         player.seekBack()
     }
 
-    /**
-     * Prepares the media player with the appropriate media source based on the video resource's extension.
-     *
-     * @param videoResource The URI of the video resource to be played. The method checks the extension
-     *                      to determine whether the resource is HLS or DASH format.
-     */
-    override fun prepare(videoResource: String) {
-        val factory = DefaultHttpDataSource.Factory()
-        when {
-            videoResource.endsWith(HLS_EXTENSION) -> {
-                HlsMediaSource.Factory(factory)
-            }
-            videoResource.endsWith(DASH_EXTENSION) -> {
-                DashMediaSource.Factory(factory)
-            }
-            else -> null
-        }?.let { mediaSource ->
-            player.apply {
-                setMediaSource(mediaSource.createMediaSource(MediaItem.fromUri(videoResource)))
-                prepare()
+    override fun prepareHls(videoResource: String) {
+        player.apply {
+            setMediaSource(
+                HlsMediaSource.Factory(DefaultHttpDataSource.Factory())
+                    .createMediaSource(MediaItem.fromUri(videoResource))
+            )
+            prepare()
+        }
+    }
+
+    override fun prepareDash(videoResource: String, licenseKey: String) {
+        player.apply {
+            // Split the licenseKey into kid and k
+            val licenseParts = licenseKey.split(":") // Use the parameter instead of hardcoded value
+            if (licenseParts.size == 2) {
+                val kid = licenseParts[0] // First part is kid
+                val k = licenseParts[1] // Second part is k
+
+                // Log the extracted keys (for debugging purposes)
+                Log.d(TAG, "Extracted key ID (kid): $kid")
+                Log.d(TAG, "Extracted key (k): $k")
+
+                // Create the keyString for DRM callback
+                val keyString = """
+                {
+                    "keys": [
+                        {
+                            "kty": "oct",
+                            "k": "$k",
+                            "kid": "$kid"
+                        }
+                    ],
+                    "type": "temporary"
+                }
+            """.trimIndent()
+
+                try {
+                    // Set the DRM callback with the generated keyString
+                    val drmCallback = LocalMediaDrmCallback(keyString.encodeToByteArray())
+                    setMediaSource(
+                        DashMediaSource.Factory(DefaultHttpDataSource.Factory())
+                            .setDrmSessionManagerProvider {
+                                DefaultDrmSessionManager.Builder()
+                                    .setPlayClearSamplesWithoutKeys(true)
+                                    .setMultiSession(false)
+                                    .setKeyRequestParameters(emptyMap())
+                                    .setUuidAndExoMediaDrmProvider(
+                                        C.CLEARKEY_UUID,
+                                        FrameworkMediaDrm.DEFAULT_PROVIDER
+                                    )
+                                    .build(drmCallback)
+                            }
+                            .createMediaSource(MediaItem.fromUri(licenseKey))
+                    )
+                    prepare()
+                    Log.d(TAG, "Preparation complete for video resource: $videoResource")
+                } catch (e: Exception) {
+                    Log.d(TAG, "Error during DRM setup: ${e.message}", e)
+                }
+            } else {
+                Log.d(TAG, "Invalid licenseKey format: $licenseKey")
             }
         }
     }
@@ -83,7 +130,7 @@ import com.dreamsoftware.nimbustv.ui.core.player.state.PlayerStateListener
         player.release()
     }
 
-    override fun getView(): View  = providePlayerView()
+    override fun getView(): View = providePlayerView()
 
     override val currentPosition: Long
         get() = player.currentPosition

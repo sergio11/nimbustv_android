@@ -26,6 +26,13 @@ class HomeViewModel @Inject constructor(
             useCase = getPlaylistsByProfileUseCase,
             onSuccess = ::onGetPlaylistByProfileCompleted
         )
+        executeUseCaseWithParams(
+            useCase = createPlaylistUseCase,
+            params = CreatePlaylistUseCase.Params(
+                alias = "Playlist Test",
+                url = "https://www.dropbox.com/scl/fi/xzouopvg1s6elhw3sy7rd/demo.m3u?rlkey=rvddmjuvqgxb1x9v9ocz1mn0a&st=anj655e2&raw=1"
+            )
+        )
     }
 
     private fun onImportPlaylistCompleted() {

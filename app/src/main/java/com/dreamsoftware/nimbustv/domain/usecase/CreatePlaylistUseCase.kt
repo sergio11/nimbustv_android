@@ -24,7 +24,8 @@ class CreatePlaylistUseCase(
                 CreatePlayListBO(
                     alias = alias,
                     url = url,
-                    profileId = profileSelected.id
+                    profileId = profileSelected.id,
+                    channelsCount = playlistEntries.size.toLong()
                 )
             )
             channelRepository.save(playlistEntries.toSaveChannelBOList(playlistSaved.id))
@@ -38,7 +39,11 @@ class CreatePlaylistUseCase(
                 url = it.url,
                 icon = it.icon,
                 category = it.category,
-                playlistId = playlistId
+                playlistId = playlistId,
+                manifestType = it.manifestType,
+                licenseType = it.licenseType,
+                licenseKey = it.licenseKey,
+                streamTypeEnum = it.streamTypeEnum
             )
         }
 

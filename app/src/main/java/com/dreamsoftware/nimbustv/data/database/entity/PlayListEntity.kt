@@ -25,6 +25,8 @@ data class PlayListEntity(
     @ColumnInfo(name = "created_at")
     val createdAt: Date = Date(),
     val url: String,
+    @ColumnInfo(name = "channels_count")
+    val channelsCount: Long,
     @ColumnInfo(name = "profile_id")
     val profileId: String
 ): IEntity<String>

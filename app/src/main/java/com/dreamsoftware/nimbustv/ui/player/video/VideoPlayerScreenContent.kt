@@ -52,6 +52,7 @@ fun VideoPlayerScreenContent(
     }
     CommonVideoBackground(
         videResource = state.videoUrl,
+        videoResourceLicenseKey = state.licenseKey,
         playerStateListener = stateListener,
         onEnter = {
             if (!videoPlayerState.isDisplayed) {

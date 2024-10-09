@@ -45,6 +45,7 @@ fun CommonVideoBackground(
     modifier: Modifier = Modifier,
     videResource: String? = null,
     @RawRes videoResourceId: Int? = null,
+    videoResourceLicenseKey: String? = null,
     disableCertValidation: Boolean = true,
     playerStateListener: PlayerStateListener? = null,
     onLeft: (() -> Unit)? = null,
@@ -66,6 +67,7 @@ fun CommonVideoBackground(
             player = player,
             videResource = videResource,
             videoResourceId = videoResourceId,
+            videoResourceLicenseKey = videoResourceLicenseKey,
             playerStateListener = playerStateListener
         )
 
@@ -96,13 +98,16 @@ private fun InitializeAndPlayVideo(
     lifecycleOwner: State<LifecycleOwner>,
     player: SupportPlayer,
     videResource: String? = null,
+    videoResourceLicenseKey: String? = null,
     @RawRes videoResourceId: Int? = null,
     playerStateListener: PlayerStateListener? = null
 ) {
     val playContent = {
         with(player) {
             videResource?.let {
-                prepare(videResource)
+                videoResourceLicenseKey?.takeIf { it.isNotBlank() }?.let { licenseKey ->
+                    prepareDash(videResource, licenseKey)
+                } ?: prepareHls(videResource)
             } ?: run {
                 videoResourceId?.let {
                     prepare(it)

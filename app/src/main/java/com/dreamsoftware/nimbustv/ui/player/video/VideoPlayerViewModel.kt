@@ -33,6 +33,7 @@ class VideoPlayerViewModel @Inject constructor(
                     title = title.orEmpty(),
                     subtitle = category.orEmpty(),
                     videoUrl = url,
+                    licenseKey = licenseKey.orEmpty(),
                     channelLogo = icon.orEmpty(),
                     id = id
                 )
@@ -46,6 +47,7 @@ data class VideoPlayerUiState(
     override val errorMessage: String? = null,
     val id: String = String.EMPTY,
     val videoUrl: String = String.EMPTY,
+    val licenseKey: String = String.EMPTY,
     val channelLogo: String = String.EMPTY,
     val title: String = String.EMPTY,
     val subtitle: String = String.EMPTY

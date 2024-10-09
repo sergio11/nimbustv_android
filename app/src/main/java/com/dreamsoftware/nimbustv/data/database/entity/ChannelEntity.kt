@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.dreamsoftware.nimbustv.domain.model.StreamTypeEnum
 
 @TableName("channels")
 @Entity(
@@ -24,6 +25,14 @@ data class ChannelEntity(
     val url: String,
     val icon: String?,
     val category: String?,
+    @ColumnInfo(name = "manifest_type")
+    val manifestType: String?,
+    @ColumnInfo(name = "license_type")
+    val licenseType: String?,
+    @ColumnInfo(name = "license_key")
+    val licenseKey: String?,
+    @ColumnInfo(name = "stream_type")
+    val streamType: StreamTypeEnum,
     @ColumnInfo(name = "playlist_id")
     val playlistId: String
 ): IEntity<String>

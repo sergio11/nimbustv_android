@@ -3,7 +3,7 @@ agp = "8.2.2"
 kotlin = "1.9.10"
 compileSdk = "34"
 targetSdk = "34"
-minSdk = "25"
+minSdk = "26"
 androidComposeCompiler = "1.5.3"
 core-ktx = "1.13.1"
 appcompat = "1.7.0"
@@ -30,7 +30,6 @@ datastore-preferences = "1.1.1"
 moshiKotlin = "1.15.1"
 fudge-tv-compose = "0.0.39"
 room-version = "2.6.1"
-m3u-parser-version = "1.4.0"
 
 [libraries]
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
@@ -42,7 +41,6 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil-compose" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt-android" }
-m3u-parser = { module = "com.github.bjoernpetersen:m3u-parser", version.ref = "m3u-parser-version" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }

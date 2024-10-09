@@ -12,7 +12,8 @@ internal class PlaylistMapper: IOneSideMapper<PlayListEntity, PlayListBO> {
             alias = alias,
             creationDate = createdAt,
             originalUrl = url,
-            profileId = profileId
+            profileId = profileId,
+            channelsCount = channelsCount
         )
     }
 

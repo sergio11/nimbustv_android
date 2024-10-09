@@ -14,7 +14,11 @@ internal class SaveChannelsMapper: IOneSideMapper<SaveChannelBO, ChannelEntity> 
             url = url,
             icon = icon,
             category = category,
-            playlistId = playlistId
+            playlistId = playlistId,
+            manifestType = manifestType,
+            licenseType = licenseType,
+            licenseKey = licenseKey,
+            streamType = streamTypeEnum
         )
     }
 

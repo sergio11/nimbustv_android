@@ -93,9 +93,6 @@ dependencies {
     implementation(libs.androidx.media3.exoplayer.dash)
     implementation(libs.androidx.media3.ui)
 
-    // A parser for simple and extended M3U playlist files written in Kotlin.
-    implementation(libs.m3u.parser)
-
     // Room
     implementation(libs.room.runtime)
     annotationProcessor(libs.room.compiler)
