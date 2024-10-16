@@ -13,6 +13,9 @@ class InsertPlaylistException(message: String? = null, cause: Throwable? = null)
 class UpdatePlaylistException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class GetPlaylistsByProfileException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 
+// EPG
+class SaveEpgDataException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
+
 // Channels
 class SaveChannelsException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class GetChannelsByPlaylistException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
@@ -29,3 +32,6 @@ class GetProfileByIdException(message: String? = null, cause: Throwable? = null)
 class GetProfileSelectedException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class ClearProfileSelectedException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class UserProfilesLimitReachedException(val maxProfilesLimit: Int, message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
+
+// EPG
+class ParseEpgFailedException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)

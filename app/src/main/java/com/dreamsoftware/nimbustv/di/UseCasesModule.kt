@@ -3,10 +3,13 @@ package com.dreamsoftware.nimbustv.di
 import com.dreamsoftware.nimbustv.domain.model.CreateProfileRequestBO
 import com.dreamsoftware.nimbustv.domain.model.UpdatedProfileRequestBO
 import com.dreamsoftware.nimbustv.domain.repository.IChannelRepository
+import com.dreamsoftware.nimbustv.domain.repository.IEpgRepository
 import com.dreamsoftware.nimbustv.domain.repository.IPlaylistRepository
 import com.dreamsoftware.nimbustv.domain.repository.IProfilesRepository
+import com.dreamsoftware.nimbustv.domain.service.IEpgParserService
 import com.dreamsoftware.nimbustv.domain.service.IPlaylistParserService
 import com.dreamsoftware.nimbustv.domain.usecase.ChangeSecurePinUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.SaveEpgUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.CreateProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.DeleteProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfileByIdUseCase
@@ -201,5 +204,16 @@ class UseCasesModule {
     ): GetChannelByIdUseCase =
         GetChannelByIdUseCase(
             channelRepository = channelRepository
+        )
+
+    @Provides
+    @ViewModelScoped
+    fun provideCreateEpgUseCase(
+        epgParserService: IEpgParserService,
+        epgRepository: IEpgRepository
+    ): SaveEpgUseCase =
+        SaveEpgUseCase(
+            epgParserService = epgParserService,
+            epgRepository = epgRepository
         )
 }
