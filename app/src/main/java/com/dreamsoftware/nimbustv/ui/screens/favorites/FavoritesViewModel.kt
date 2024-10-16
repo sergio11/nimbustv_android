@@ -1,10 +1,10 @@
 package com.dreamsoftware.nimbustv.ui.screens.favorites
 
-import com.dreamsoftware.nimbustv.di.FavoritesScreenErrorMapper
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
 import com.dreamsoftware.fudge.core.IFudgeTvErrorMapper
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
+import com.dreamsoftware.nimbustv.di.FavoritesScreenErrorMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

@@ -17,6 +17,7 @@
     <!-- Dashboard Items -->
     <string name="dashboard_navigation_drawer_home_item_name">Home</string>
     <string name="dashboard_navigation_drawer_favorite_item_name">Favorite</string>
+    <string name="dashboard_navigation_drawer_epg_item_name">EPG</string>
     <string name="dashboard_navigation_drawer_settings_item_name">Settings</string>
     <string name="dashboard_navigation_drawer_profile_item_name">Profile</string>
 

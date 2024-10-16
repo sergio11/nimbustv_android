@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import com.dreamsoftware.nimbustv.domain.model.StreamTypeEnum
 import com.dreamsoftware.nimbustv.ui.player.audio.AudioPlayerScreen
 import com.dreamsoftware.nimbustv.ui.player.video.VideoPlayerScreen
+import com.dreamsoftware.nimbustv.ui.screens.epg.EpgScreen
 import com.dreamsoftware.nimbustv.ui.screens.favorites.FavoritesScreen
 import com.dreamsoftware.nimbustv.ui.screens.home.HomeScreen
 import com.dreamsoftware.nimbustv.ui.screens.settings.SettingsScreen
@@ -36,6 +37,16 @@ fun DashboardNavHost(
         composable(Screen.Favorite.route) {
             with(navController) {
                 FavoritesScreen(
+                    onBackPressed = {
+                        popBackStack()
+                    }
+                )
+            }
+        }
+
+        composable(Screen.Epg.route) {
+            with(navController) {
+                EpgScreen(
                     onBackPressed = {
                         popBackStack()
                     }

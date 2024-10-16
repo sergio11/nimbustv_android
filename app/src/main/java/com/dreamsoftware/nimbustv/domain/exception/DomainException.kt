@@ -15,6 +15,7 @@ class GetPlaylistsByProfileException(message: String? = null, cause: Throwable? 
 
 // EPG
 class SaveEpgDataException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
+class GetEpgDataException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 
 // Channels
 class SaveChannelsException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
