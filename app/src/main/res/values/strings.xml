@@ -51,6 +51,10 @@
     <string name="favorites_screen_title">Favorites</string>
     <string name="favorites_not_workout_available">No favorite trainings available yet. Explore and add your favorites to get started on your fitness journey!</string>
 
+    <!-- EPG -->
+    <string name="epg_screen_title">📺 EPG Overview 🌟</string>
+    <string name="epg_screen_channel_not_data_available">🚫 No information available for this channel 🙁</string>
+
     <!-- Save Profile -->
     <string name="create_profile_main_title">🚀 Create Your NimbusTV Profile</string>
     <string name="create_profile_secondary_title">Make it yours! Personalize your profile and dive into the fun.</string>
