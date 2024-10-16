@@ -21,6 +21,7 @@ import com.dreamsoftware.nimbustv.domain.usecase.HasProfilesCountUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.CreatePlaylistUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetChannelByIdUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetChannelsByPlaylistUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.GetEpgDataUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetPlaylistsByProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SelectProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SignOffUseCase
@@ -214,6 +215,15 @@ class UseCasesModule {
     ): SaveEpgUseCase =
         SaveEpgUseCase(
             epgParserService = epgParserService,
+            epgRepository = epgRepository
+        )
+
+    @Provides
+    @ViewModelScoped
+    fun provideGetEpgDataUseCase(
+        epgRepository: IEpgRepository
+    ): GetEpgDataUseCase =
+        GetEpgDataUseCase(
             epgRepository = epgRepository
         )
 }

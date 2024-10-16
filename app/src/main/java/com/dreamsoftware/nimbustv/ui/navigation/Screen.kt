@@ -141,5 +141,6 @@ sealed class Screen(
 
     data object Home: Screen(route = "home", name = "Home")
     data object Favorite: Screen(route = "favorite", name = "Favorite")
+    data object Epg: Screen(route = "epg", name = "Epg")
     data object Settings: Screen(route = "settings", name = "Settings")
 }

@@ -1,0 +1,5 @@
+package com.dreamsoftware.nimbustv.ui.screens.epg
+
+import com.dreamsoftware.fudge.core.IFudgeTvScreenActionListener
+
+interface EpgScreenActionListener: IFudgeTvScreenActionListener

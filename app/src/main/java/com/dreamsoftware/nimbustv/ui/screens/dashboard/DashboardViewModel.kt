@@ -54,6 +54,11 @@ class DashboardViewModel @Inject constructor() : FudgeTvViewModel<DashboardUiSta
             route = Screen.Favorite.route
         ),
         FudgeTvNavigationDrawerItemModel(
+            nameRes = R.string.dashboard_navigation_drawer_epg_item_name,
+            imageRes = R.drawable.ic_epg_icon,
+            route = Screen.Epg.route
+        ),
+        FudgeTvNavigationDrawerItemModel(
             nameRes = R.string.dashboard_navigation_drawer_settings_item_name,
             imageRes = R.drawable.settings,
             route = Screen.Settings.route
