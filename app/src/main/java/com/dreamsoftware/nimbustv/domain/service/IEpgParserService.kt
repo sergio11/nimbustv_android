@@ -6,5 +6,5 @@ import com.dreamsoftware.nimbustv.domain.model.EpgDataBO
 interface IEpgParserService {
 
     @Throws(ParseEpgFailedException::class)
-    suspend fun parseEpgData(url: String): List<EpgDataBO>
+    suspend fun parseEpgData(profileId: String, url: String): List<EpgDataBO>
 }

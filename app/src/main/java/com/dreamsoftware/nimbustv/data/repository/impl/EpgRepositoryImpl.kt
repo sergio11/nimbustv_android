@@ -42,7 +42,7 @@ internal class EpgRepositoryImpl(
     }
 
     @Throws(GetEpgDataException::class)
-    override suspend fun findAll(): List<EpgDataBO> = safeExecute {
+    override suspend fun findAllByProfileId(profileId: String): List<EpgDataBO> = safeExecute {
         try {
             val channelsSaved = channelLocalDataSource.findAll()
             val programmeListSaved = programmeLocalDataSource.findAll()

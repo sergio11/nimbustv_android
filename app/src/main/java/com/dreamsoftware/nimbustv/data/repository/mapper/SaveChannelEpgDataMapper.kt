@@ -9,7 +9,8 @@ internal class SaveChannelEpgDataMapper: IOneSideMapper<EpgDataBO, ChannelEpgEnt
     override fun mapInToOut(input: EpgDataBO): ChannelEpgEntity = with(input) {
         ChannelEpgEntity(
             id = channelId,
-            displayName = displayName
+            displayName = displayName,
+            profileId = profileId
         )
     }
 

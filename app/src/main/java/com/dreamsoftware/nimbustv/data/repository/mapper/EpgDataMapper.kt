@@ -11,14 +11,12 @@ internal class EpgDataMapper : IOneSideMapper<EpgDataInput, List<EpgDataBO>> {
     // Maps the input data to the output data
     override fun mapInToOut(input: EpgDataInput): List<EpgDataBO> {
         // Create a map to associate channels with their respective programmes
-        val channelMap = mutableMapOf<String, Pair<String, MutableList<ProgrammeDataBO>>>()
+        val channelMap = mutableMapOf<String, Triple<String, String, MutableList<ProgrammeDataBO>>>()
 
         // Fill the map with channels
         input.channelEpgList.forEach { channelEntity ->
-            val channelId = channelEntity.id
-            val displayName = channelEntity.displayName
             // Initialize an empty programme list for this channel
-            channelMap[channelId] = Pair(displayName, mutableListOf())
+            channelMap[channelEntity.id] = Triple(channelEntity.displayName, channelEntity.profileId, mutableListOf())
         }
 
         // Fill the map with programmes associated with each channel
@@ -33,12 +31,17 @@ internal class EpgDataMapper : IOneSideMapper<EpgDataInput, List<EpgDataBO>> {
                 endTime = programmeEntity.endTime
             )
             // Add the programme to the corresponding channel's list
-            channelMap[channelId]?.second?.add(programme)
+            channelMap[channelId]?.third?.add(programme)
         }
 
         // Transform the map into a list of EpgDataBO
-        return channelMap.map { (channelId, pair) ->
-            EpgDataBO(channelId, pair.first, pair.second)
+        return channelMap.map { (channelId, data) ->
+            EpgDataBO(
+                channelId = channelId,
+                displayName = data.first,
+                profileId = data.second,
+                programmeList = data.third
+            )
         }
     }
 

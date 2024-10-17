@@ -33,12 +33,11 @@ internal class EpgParserServiceImpl(
     }
 
     @Throws(ParseEpgFailedException::class)
-    override suspend fun parseEpgData(url: String): List<EpgDataBO> =
+    override suspend fun parseEpgData(profileId: String, url: String): List<EpgDataBO> =
         withContext(dispatcher) {
             try {
-                val inputStream = downloadFile(url)
-                inputStream?.let {
-                    parseEpg(it)
+                downloadFile(url)?.let {
+                    parseEpg(it, profileId)
                 } ?: throw IOException("Error downloading file: inputStream is null")
             } catch (ex: Exception) {
                 throw ParseEpgFailedException(
@@ -67,7 +66,7 @@ internal class EpgParserServiceImpl(
         }
     }
 
-    private suspend fun parseEpg(inputStream: InputStream): List<EpgDataBO> = withContext(dispatcher) {
+    private suspend fun parseEpg(inputStream: InputStream, profileId: String): List<EpgDataBO> = withContext(dispatcher) {
         val parser = createXmlParser(inputStream)
         val channelsMap = mutableMapOf<String, Pair<String, MutableList<ProgrammeDataBO>>>()
         val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
@@ -95,11 +94,14 @@ internal class EpgParserServiceImpl(
 
         // Transform the channelsMap into a List<EpgDataBO>
         val epgDataList = channelsMap.map { (channelId, pair) ->
-            EpgDataBO(channelId, pair.first, pair.second)
+            EpgDataBO(
+                channelId = channelId,
+                displayName = pair.first,
+                profileId = profileId,
+                programmeList = pair.second
+            )
         }
-
-        Log.d(TAG, "Parsed ${epgDataList.size} EPG entries.")
-        return@withContext epgDataList
+        epgDataList
     }
 
     private fun parseProgramme(
@@ -109,10 +111,8 @@ internal class EpgParserServiceImpl(
         val channelId = getAttributeValue(null, PROGRAMME_CHANNEL_ATTR)
         val start = getAttributeValue(null, PROGRAMME_START_ATTR)?.trim()?.substring(0, 14)
         val stop = getAttributeValue(null, PROGRAMME_STOP_ATTR)?.trim()?.substring(0, 14)
-
         var title: String? = null
         val id = UUID.randomUUID().toString()
-
         // Iterate through the tags within <programme>
         while (nextTag() != XmlPullParser.END_TAG) {
             if (name == "title") {
@@ -132,7 +132,7 @@ internal class EpgParserServiceImpl(
             )
         } else {
             Log.w(TAG, "Missing required data for programme: channelId=$channelId, start=$start, stop=$stop")
-            null // Return null if essential data is missing
+            null
         }
     }
 
@@ -160,7 +160,7 @@ internal class EpgParserServiceImpl(
             Pair(channelId, displayName)
         } else {
             Log.w(TAG, "Missing required data for channel: id=$channelId, displayName=$displayName")
-            null // Return null if essential data is missing
+            null
         }
     }
 }
