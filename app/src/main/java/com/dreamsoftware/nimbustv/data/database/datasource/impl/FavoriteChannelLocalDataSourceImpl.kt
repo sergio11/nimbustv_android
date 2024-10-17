@@ -18,4 +18,9 @@ internal class FavoriteChannelLocalDataSourceImpl(
     override suspend fun findFavoriteChannelsByProfileId(profileId: String): List<ChannelEntity> = safeExecute {
         favoriteChannelDao.findFavoriteChannelsByProfileId(profileId)
     }
+
+    @Throws(AccessDatabaseException::class)
+    override suspend fun deleteByChannelIdAndProfileId(channelId: String, profileId: String) = safeExecute {
+        favoriteChannelDao.deleteByChannelIdAndProfileId(channelId, profileId)
+    }
 }

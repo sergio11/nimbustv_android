@@ -8,6 +8,7 @@ import com.dreamsoftware.nimbustv.domain.repository.IPlaylistRepository
 import com.dreamsoftware.nimbustv.domain.repository.IProfilesRepository
 import com.dreamsoftware.nimbustv.domain.service.IEpgParserService
 import com.dreamsoftware.nimbustv.domain.service.IPlaylistParserService
+import com.dreamsoftware.nimbustv.domain.usecase.AddFavoriteChannelUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.ChangeSecurePinUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SaveEpgUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.CreateProfileUseCase
@@ -23,7 +24,9 @@ import com.dreamsoftware.nimbustv.domain.usecase.DeleteEpgDataUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetChannelByIdUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetChannelsByPlaylistUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetEpgDataUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.GetFavoriteChannelsByProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetPlaylistsByProfileUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.RemoveChannelFromFavoritesChannelUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SelectProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SignOffUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.UpdateProfileUseCase
@@ -241,5 +244,39 @@ class UseCasesModule {
         DeleteEpgDataUseCase(
             profileRepository = profileRepository,
             epgRepository = epgRepository
+        )
+
+
+    @Provides
+    @ViewModelScoped
+    fun provideAddFavoriteChannelUseCase(
+        profileRepository: IProfilesRepository,
+        channelRepository: IChannelRepository
+    ): AddFavoriteChannelUseCase =
+        AddFavoriteChannelUseCase(
+            profileRepository = profileRepository,
+            channelRepository = channelRepository
+        )
+
+    @Provides
+    @ViewModelScoped
+    fun provideGetFavoriteChannelsByProfileUseCase(
+        profileRepository: IProfilesRepository,
+        channelRepository: IChannelRepository
+    ): GetFavoriteChannelsByProfileUseCase =
+        GetFavoriteChannelsByProfileUseCase(
+            profileRepository = profileRepository,
+            channelRepository = channelRepository
+        )
+
+    @Provides
+    @ViewModelScoped
+    fun provideRemoveChannelFromFavoritesChannelUseCase(
+        profileRepository: IProfilesRepository,
+        channelRepository: IChannelRepository
+    ): RemoveChannelFromFavoritesChannelUseCase =
+        RemoveChannelFromFavoritesChannelUseCase(
+            profileRepository = profileRepository,
+            channelRepository = channelRepository
         )
 }
