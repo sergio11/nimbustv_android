@@ -13,7 +13,7 @@ import androidx.tv.material3.CardDefaults
 import androidx.tv.material3.MaterialTheme
 
 @Composable
-fun EpgProgrammeCell(
+internal fun EpgProgrammeCell(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit) ? = null,
     content: @Composable ColumnScope.() -> Unit

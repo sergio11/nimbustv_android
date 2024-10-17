@@ -48,8 +48,8 @@ internal class EpgRepositoryImpl(
             val programmeListSaved = programmeLocalDataSource.findAll()
             epgDataMapper.mapInToOut(EpgDataInput(channelsSaved, programmeListSaved))
         } catch (ex: DatabaseException) {
-            throw InsertPlaylistException(
-                "An error occurred when trying to save EPG data",
+            throw GetEpgDataException(
+                "An error occurred when trying to get EPG data",
                 ex
             )
         }

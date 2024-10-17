@@ -9,6 +9,7 @@ import com.dreamsoftware.nimbustv.domain.model.EpgDataBO
 import com.dreamsoftware.nimbustv.domain.usecase.DeleteEpgDataUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetEpgDataUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SaveEpgUseCase
+import com.dreamsoftware.nimbustv.ui.utils.EMPTY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -41,11 +42,27 @@ class EpgViewModel @Inject constructor(
         )
 
     override fun onRemoveEpgData() {
-        updateState { it.copy(showRemoveEpgData = true) }
+        updateState { it.copy(showRemoveEpgDataDialog = true) }
     }
 
     override fun onImportNewEpgData() {
+        updateState { it.copy(showImportEpgDataDialog = true) }
+    }
 
+    // https://www.bevy.be/download.php?file=arabiapremiumar.xml.gz
+    override fun onImportNewEpgDataConfirmed() {
+        updateState { it.copy(showImportEpgDataDialog = false) }
+        uiState.value.apply {
+            executeUseCaseWithParams(
+                useCase = saveEpgUseCase,
+                params = SaveEpgUseCase.Params(url = newEpgDataUrl),
+                onSuccess = ::onImportEpgDataCompleted
+            )
+        }
+    }
+
+    override fun onImportNewEpgDataCancelled() {
+        updateState { it.copy(showImportEpgDataDialog = false) }
     }
 
     override fun onRemoveEpgDataConfirmed() {
@@ -56,14 +73,26 @@ class EpgViewModel @Inject constructor(
     }
 
     override fun onRemoveEpgDataCancelled() {
-        updateState { it.copy(showRemoveEpgData = false) }
+        updateState { it.copy(showRemoveEpgDataDialog = false) }
+    }
+
+    override fun onNewEpgDataUrlUpdated(newValue: String) {
+        updateState { it.copy(newEpgDataUrl = newValue) }
     }
 
     private fun onEpgDataRemovedSuccessfully() {
         updateState {
             it.copy(
                 epgData = emptyList(),
-                showRemoveEpgData = false
+                showRemoveEpgDataDialog = false
+            )
+        }
+    }
+
+    private fun onImportEpgDataCompleted(data: List<EpgDataBO>) {
+        updateState {
+            it.copy(
+                epgData = data
             )
         }
     }
@@ -72,7 +101,9 @@ class EpgViewModel @Inject constructor(
 data class EpgUiState(
     override val isLoading: Boolean = false,
     override val errorMessage: String? = null,
-    val showRemoveEpgData: Boolean = false,
+    val showRemoveEpgDataDialog: Boolean = false,
+    val showImportEpgDataDialog: Boolean = false,
+    val newEpgDataUrl: String = String.EMPTY,
     val epgData: List<EpgDataBO> = emptyList()
 ) : UiState<EpgUiState>(isLoading, errorMessage) {
     override fun copyState(isLoading: Boolean, errorMessage: String?): EpgUiState =
