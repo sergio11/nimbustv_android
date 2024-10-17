@@ -6,7 +6,6 @@ import com.dreamsoftware.fudge.core.UiState
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.domain.model.PlayListBO
 import com.dreamsoftware.nimbustv.domain.model.StreamTypeEnum
-import com.dreamsoftware.nimbustv.domain.usecase.SaveEpgUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.CreatePlaylistUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetChannelsByPlaylistUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetPlaylistsByProfileUseCase
@@ -18,7 +17,6 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getPlaylistsByProfileUseCase: GetPlaylistsByProfileUseCase,
     private val createPlaylistUseCase: CreatePlaylistUseCase,
-    private val saveEpgUseCase: SaveEpgUseCase,
     private val getChannelsByPlaylistUseCase: GetChannelsByPlaylistUseCase
 ) : FudgeTvViewModel<HomeUiState, HomeSideEffects>(), HomeScreenActionListener {
 
@@ -28,10 +26,6 @@ class HomeViewModel @Inject constructor(
         executeUseCase(
             useCase = getPlaylistsByProfileUseCase,
             onSuccess = ::onGetPlaylistByProfileCompleted
-        )
-        executeUseCaseWithParams(
-            useCase = saveEpgUseCase,
-            params = SaveEpgUseCase.Params(url = "https://www.bevy.be/download.php?file=arabiapremiumar.xml.gz")
         )
     }
 

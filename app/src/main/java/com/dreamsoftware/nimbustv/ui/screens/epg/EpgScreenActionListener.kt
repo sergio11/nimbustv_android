@@ -6,6 +6,9 @@ interface EpgScreenActionListener: IFudgeTvScreenActionListener {
 
     fun onRemoveEpgData()
     fun onImportNewEpgData()
+    fun onImportNewEpgDataConfirmed()
+    fun onImportNewEpgDataCancelled()
     fun onRemoveEpgDataConfirmed()
     fun onRemoveEpgDataCancelled()
+    fun onNewEpgDataUrlUpdated(newValue: String)
 }

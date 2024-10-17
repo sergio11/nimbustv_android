@@ -15,12 +15,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -29,17 +32,18 @@ import com.dreamsoftware.fudge.component.FudgeTvButton
 import com.dreamsoftware.fudge.component.FudgeTvButtonStyleTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvButtonTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvDialog
+import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
 import com.dreamsoftware.fudge.component.FudgeTvLoadingState
-import com.dreamsoftware.fudge.component.FudgeTvNoContentState
 import com.dreamsoftware.fudge.component.FudgeTvScreenContent
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
+import com.dreamsoftware.fudge.utils.conditional
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.EpgDataBO
 import com.dreamsoftware.nimbustv.domain.model.ProgrammeDataBO
 import com.dreamsoftware.nimbustv.ui.screens.epg.components.EpgProgrammeCell
+import com.dreamsoftware.nimbustv.ui.screens.epg.components.ImportEpgDataDialog
 import com.dreamsoftware.nimbustv.ui.screens.epg.components.NoEpgDataFound
-import com.dreamsoftware.nimbustv.ui.screens.home.components.importer.NoPlaylistFound
 import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
 import com.dreamsoftware.nimbustv.ui.theme.onPrimary
 import com.dreamsoftware.nimbustv.ui.utils.toScheduleFormatted
@@ -51,8 +55,15 @@ internal fun EpgScreenContent(
 ) {
     with(uiState) {
         with(actionListener) {
+            ImportEpgDataDialog(
+                isVisible = showImportEpgDataDialog,
+                epgDataUrl = newEpgDataUrl,
+                onEpgDataUrlUpdated = ::onNewEpgDataUrlUpdated,
+                onAcceptClicked = ::onImportNewEpgDataConfirmed,
+                onCancelClicked = ::onImportNewEpgDataCancelled
+            )
             FudgeTvDialog(
-                isVisible = showRemoveEpgData,
+                isVisible = showRemoveEpgDataDialog,
                 mainLogoRes = R.drawable.main_logo,
                 titleRes = R.string.epg_screen_remove_epg_data_dialog_title,
                 descriptionRes = R.string.epg_screen_remove_epg_data_dialog_description,
@@ -114,7 +125,9 @@ fun EpgHeader(actionListener: EpgScreenActionListener) {
         )
         Row {
             FudgeTvButton(
-                modifier = Modifier.width(150.dp).playSoundEffectOnFocus(),
+                modifier = Modifier
+                    .width(150.dp)
+                    .playSoundEffectOnFocus(),
                 type = FudgeTvButtonTypeEnum.SMALL,
                 style = FudgeTvButtonStyleTypeEnum.TRANSPARENT,
                 textRes = R.string.epg_screen_import_new_button_text,
@@ -122,7 +135,9 @@ fun EpgHeader(actionListener: EpgScreenActionListener) {
             )
             Spacer(modifier = Modifier.width(10.dp))
             FudgeTvButton(
-                modifier = Modifier.width(150.dp).playSoundEffectOnFocus(),
+                modifier = Modifier
+                    .width(150.dp)
+                    .playSoundEffectOnFocus(),
                 type = FudgeTvButtonTypeEnum.SMALL,
                 style = FudgeTvButtonStyleTypeEnum.INVERSE,
                 textRes = R.string.epg_screen_remove_button_text,
@@ -141,8 +156,11 @@ fun EpgList(epgData: List<EpgDataBO>) {
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(vertical = 8.dp)
     ) {
-        items(epgData) { channelData ->
-            ChannelItem(channelData)
+        itemsIndexed(epgData) { idx, channelData ->
+            ChannelItem(
+                channelData = channelData,
+                isFirstChannel = idx == 0
+            )
         }
     }
 }
@@ -151,7 +169,10 @@ fun EpgList(epgData: List<EpgDataBO>) {
  * Composable to display an individual channel and its programs.
  */
 @Composable
-fun ChannelItem(channelData: EpgDataBO) {
+fun ChannelItem(
+    channelData: EpgDataBO,
+    isFirstChannel: Boolean
+) {
     Column(
         modifier = Modifier
             .padding(vertical = 8.dp)
@@ -168,7 +189,10 @@ fun ChannelItem(channelData: EpgDataBO) {
             textBold = true,
             textColor = MaterialTheme.colorScheme.onPrimaryContainer
         )
-        ProgramList(channelData.programmeList)
+        ProgramList(
+            programmeList = channelData.programmeList,
+            isFirstChannel = isFirstChannel
+        )
     }
 }
 
@@ -177,7 +201,10 @@ fun ChannelItem(channelData: EpgDataBO) {
  * If the programmeList is empty, a message indicating no information is displayed.
  */
 @Composable
-fun ProgramList(programmeList: List<ProgrammeDataBO>) {
+fun ProgramList(
+    programmeList: List<ProgrammeDataBO>,
+    isFirstChannel: Boolean
+) {
     if (programmeList.isEmpty()) {
         // Show a card with the message if there are no programs
         Box(
@@ -199,15 +226,22 @@ fun ProgramList(programmeList: List<ProgrammeDataBO>) {
         }
     } else {
         // Display the list of programs in a horizontal row
-        LazyRow(
-            modifier = Modifier
-                .padding(top = 8.dp)
-                .fillMaxWidth(),
-            contentPadding = PaddingValues(horizontal = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(programmeList) { programme ->
-                ProgrammeItem(programme)
+        FudgeTvFocusRequester { focusRequester ->
+            LazyRow(
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .fillMaxWidth(),
+                contentPadding = PaddingValues(horizontal = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                itemsIndexed(programmeList) { idx, programme ->
+                    ProgrammeItem(
+                        modifier = Modifier.conditional(isFirstChannel && idx == 0, ifTrue = {
+                            focusRequester(focusRequester)
+                        }),
+                        programme = programme
+                    )
+                }
             }
         }
     }
@@ -217,9 +251,12 @@ fun ProgramList(programmeList: List<ProgrammeDataBO>) {
  * Composable to display an individual program.
  */
 @Composable
-fun ProgrammeItem(programme: ProgrammeDataBO) {
+fun ProgrammeItem(
+    modifier: Modifier = Modifier,
+    programme: ProgrammeDataBO
+) {
     EpgProgrammeCell(
-        modifier = Modifier
+        modifier = modifier
             .width(200.dp)
     ) {
         Column(

@@ -38,7 +38,7 @@ internal fun NoEpgDataFound(onImportClicked: () -> Unit) {
             )
             Spacer(modifier = Modifier.height(30.dp))
             FudgeTvText(
-                titleRes = R.string.home_screen_import_new_iptv_playlist_main_title,
+                titleRes = R.string.epg_screen_no_epg_data_found_text,
                 type = FudgeTvTextTypeEnum.LABEL_LARGE,
                 textAlign = TextAlign.Center
             )
@@ -47,7 +47,7 @@ internal fun NoEpgDataFound(onImportClicked: () -> Unit) {
                 modifier = Modifier.focusRequester(focusRequester).playSoundEffectOnFocus(),
                 type = FudgeTvButtonTypeEnum.MEDIUM,
                 onClick = onImportClicked,
-                textRes = R.string.home_screen_import_new_iptv_playlist_button_text,
+                textRes = R.string.epg_screen_import_new_epg_data_button_text,
             )
         }
     }
