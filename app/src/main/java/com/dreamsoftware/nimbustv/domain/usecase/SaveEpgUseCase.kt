@@ -17,7 +17,10 @@ class SaveEpgUseCase(
             profileId = profileSelected.id,
             url = params.url
         )
-        epgRepository.save(data)
+        with(epgRepository) {
+            deleteAllByProfileId(profileSelected.id)
+            epgRepository.save(data)
+        }
     }
 
     data class Params(

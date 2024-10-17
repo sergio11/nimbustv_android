@@ -19,6 +19,7 @@ import com.dreamsoftware.nimbustv.domain.usecase.GetProfilesCountUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.HasProfileSelectedUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.HasProfilesCountUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.CreatePlaylistUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.DeleteEpgDataUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetChannelByIdUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetChannelsByPlaylistUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetEpgDataUseCase
@@ -227,6 +228,17 @@ class UseCasesModule {
         epgRepository: IEpgRepository
     ): GetEpgDataUseCase =
         GetEpgDataUseCase(
+            profileRepository = profileRepository,
+            epgRepository = epgRepository
+        )
+
+    @Provides
+    @ViewModelScoped
+    fun provideDeleteEpgDataUseCase(
+        profileRepository: IProfilesRepository,
+        epgRepository: IEpgRepository
+    ): DeleteEpgDataUseCase =
+        DeleteEpgDataUseCase(
             profileRepository = profileRepository,
             epgRepository = epgRepository
         )

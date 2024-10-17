@@ -1,5 +1,6 @@
 package com.dreamsoftware.nimbustv.domain.repository
 
+import com.dreamsoftware.nimbustv.domain.exception.DeleteEpgDataException
 import com.dreamsoftware.nimbustv.domain.exception.GetEpgDataException
 import com.dreamsoftware.nimbustv.domain.exception.SaveEpgDataException
 import com.dreamsoftware.nimbustv.domain.model.EpgDataBO
@@ -11,4 +12,7 @@ interface IEpgRepository {
 
     @Throws(GetEpgDataException::class)
     suspend fun findAllByProfileId(profileId: String): List<EpgDataBO>
+
+    @Throws(DeleteEpgDataException::class)
+    suspend fun deleteAllByProfileId(profileId: String)
 }
