@@ -210,10 +210,12 @@ class UseCasesModule {
     @Provides
     @ViewModelScoped
     fun provideCreateEpgUseCase(
+        profileRepository: IProfilesRepository,
         epgParserService: IEpgParserService,
         epgRepository: IEpgRepository
     ): SaveEpgUseCase =
         SaveEpgUseCase(
+            profileRepository = profileRepository,
             epgParserService = epgParserService,
             epgRepository = epgRepository
         )
@@ -221,9 +223,11 @@ class UseCasesModule {
     @Provides
     @ViewModelScoped
     fun provideGetEpgDataUseCase(
+        profileRepository: IProfilesRepository,
         epgRepository: IEpgRepository
     ): GetEpgDataUseCase =
         GetEpgDataUseCase(
+            profileRepository = profileRepository,
             epgRepository = epgRepository
         )
 }

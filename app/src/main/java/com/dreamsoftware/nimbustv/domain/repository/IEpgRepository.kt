@@ -10,5 +10,5 @@ interface IEpgRepository {
     suspend fun save(data: List<EpgDataBO>): List<EpgDataBO>
 
     @Throws(GetEpgDataException::class)
-    suspend fun findAll(): List<EpgDataBO>
+    suspend fun findAllByProfileId(profileId: String): List<EpgDataBO>
 }

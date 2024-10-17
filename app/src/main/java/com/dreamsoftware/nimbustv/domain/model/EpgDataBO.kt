@@ -5,6 +5,7 @@ import java.time.LocalDateTime
 data class EpgDataBO(
     val channelId: String,
     val displayName: String,
+    val profileId: String,
     val programmeList: List<ProgrammeDataBO>
 )
 
