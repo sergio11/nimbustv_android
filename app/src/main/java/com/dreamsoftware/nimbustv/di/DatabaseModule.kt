@@ -5,16 +5,19 @@ import androidx.room.Room
 import com.dreamsoftware.nimbustv.data.database.NimbusTvDatabase
 import com.dreamsoftware.nimbustv.data.database.dao.ChannelDao
 import com.dreamsoftware.nimbustv.data.database.dao.ChannelEpgDao
+import com.dreamsoftware.nimbustv.data.database.dao.FavoriteChannelDao
 import com.dreamsoftware.nimbustv.data.database.dao.PlayListDao
 import com.dreamsoftware.nimbustv.data.database.dao.ProfileDao
 import com.dreamsoftware.nimbustv.data.database.dao.ProgrammeDao
 import com.dreamsoftware.nimbustv.data.database.datasource.IChannelEpgLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IChannelLocalDataSource
+import com.dreamsoftware.nimbustv.data.database.datasource.IFavoriteChannelLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IPlayListLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IProfileLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IProgrammeLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.impl.ChannelEpgLocalDataSourceImpl
 import com.dreamsoftware.nimbustv.data.database.datasource.impl.ChannelLocalDataSourceImpl
+import com.dreamsoftware.nimbustv.data.database.datasource.impl.FavoriteChannelLocalDataSourceImpl
 import com.dreamsoftware.nimbustv.data.database.datasource.impl.PlaylistLocalDataSourceImpl
 import com.dreamsoftware.nimbustv.data.database.datasource.impl.ProfileLocalDataSourceImpl
 import com.dreamsoftware.nimbustv.data.database.datasource.impl.ProgrammeLocalDataSourceImpl
@@ -92,4 +95,11 @@ object DatabaseModule {
         channelEpgDao: ChannelEpgDao,
         @IoDispatcher dispatcher: CoroutineDispatcher
     ): IChannelEpgLocalDataSource = ChannelEpgLocalDataSourceImpl(channelEpgDao, dispatcher)
+
+    @Singleton
+    @Provides
+    fun provideFavoriteChannelLocalDataSource(
+        favoriteChannelDao: FavoriteChannelDao,
+        @IoDispatcher dispatcher: CoroutineDispatcher
+    ): IFavoriteChannelLocalDataSource = FavoriteChannelLocalDataSourceImpl(favoriteChannelDao, dispatcher)
 }

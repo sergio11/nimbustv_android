@@ -6,11 +6,13 @@ import androidx.room.TypeConverters
 import com.dreamsoftware.nimbustv.data.database.adapter.Adapters
 import com.dreamsoftware.nimbustv.data.database.dao.ChannelDao
 import com.dreamsoftware.nimbustv.data.database.dao.ChannelEpgDao
+import com.dreamsoftware.nimbustv.data.database.dao.FavoriteChannelDao
 import com.dreamsoftware.nimbustv.data.database.dao.PlayListDao
 import com.dreamsoftware.nimbustv.data.database.dao.ProfileDao
 import com.dreamsoftware.nimbustv.data.database.dao.ProgrammeDao
 import com.dreamsoftware.nimbustv.data.database.entity.ChannelEntity
 import com.dreamsoftware.nimbustv.data.database.entity.ChannelEpgEntity
+import com.dreamsoftware.nimbustv.data.database.entity.FavoriteChannelEntity
 import com.dreamsoftware.nimbustv.data.database.entity.PlayListEntity
 import com.dreamsoftware.nimbustv.data.database.entity.ProfileEntity
 import com.dreamsoftware.nimbustv.data.database.entity.ProgrammeEntity
@@ -21,7 +23,8 @@ import com.dreamsoftware.nimbustv.data.database.entity.ProgrammeEntity
         PlayListEntity::class,
         ProfileEntity::class,
         ChannelEpgEntity::class,
-        ProgrammeEntity::class
+        ProgrammeEntity::class,
+        FavoriteChannelEntity::class
     ],
     version = 1
 )
@@ -32,4 +35,5 @@ abstract class NimbusTvDatabase : RoomDatabase() {
     abstract fun profileDao(): ProfileDao
     abstract fun programmeDao(): ProgrammeDao
     abstract fun playListM3UDao(): PlayListDao
+    abstract fun favoriteChannelDao(): FavoriteChannelDao
 }
