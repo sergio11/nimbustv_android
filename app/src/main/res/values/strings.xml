@@ -54,6 +54,14 @@
     <!-- EPG -->
     <string name="epg_screen_title">📺 EPG Overview 🌟</string>
     <string name="epg_screen_channel_not_data_available">🚫 No information available for this channel 🙁</string>
+    <string name="epg_screen_import_new_button_text">Import New EPG</string>
+    <string name="epg_screen_remove_button_text">Remove EPG</string>
+    <string name="epg_screen_remove_epg_data_dialog_title">🗑️ Remove EPG Data?</string>
+    <string name="epg_screen_remove_epg_data_dialog_description">Are you sure you want to delete all the EPG data? This action can\'t be undone! ❗</string>
+    <string name="epg_screen_remove_epg_data_dialog_accept_button">👍 Yes, remove it!</string>
+    <string name="epg_screen_remove_epg_data_dialog_cancel_button">🚫 No, keep it!</string>
+    <string name="epg_screen_no_epg_data_found_text">🔍 No EPG data found! Let\'s get things rolling 📅</string>
+    <string name="epg_screen_import_new_epg_data_button_text">Import New EPG Data</string>
 
     <!-- Save Profile -->
     <string name="create_profile_main_title">🚀 Create Your NimbusTV Profile</string>

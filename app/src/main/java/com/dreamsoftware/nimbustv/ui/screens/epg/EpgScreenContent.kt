@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,6 +25,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
+import com.dreamsoftware.fudge.component.FudgeTvButton
+import com.dreamsoftware.fudge.component.FudgeTvButtonStyleTypeEnum
+import com.dreamsoftware.fudge.component.FudgeTvButtonTypeEnum
+import com.dreamsoftware.fudge.component.FudgeTvDialog
 import com.dreamsoftware.fudge.component.FudgeTvLoadingState
 import com.dreamsoftware.fudge.component.FudgeTvNoContentState
 import com.dreamsoftware.fudge.component.FudgeTvScreenContent
@@ -33,6 +38,9 @@ import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.EpgDataBO
 import com.dreamsoftware.nimbustv.domain.model.ProgrammeDataBO
 import com.dreamsoftware.nimbustv.ui.screens.epg.components.EpgProgrammeCell
+import com.dreamsoftware.nimbustv.ui.screens.epg.components.NoEpgDataFound
+import com.dreamsoftware.nimbustv.ui.screens.home.components.importer.NoPlaylistFound
+import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
 import com.dreamsoftware.nimbustv.ui.theme.onPrimary
 import com.dreamsoftware.nimbustv.ui.utils.toScheduleFormatted
 
@@ -42,20 +50,28 @@ internal fun EpgScreenContent(
     actionListener: EpgScreenActionListener
 ) {
     with(uiState) {
-        FudgeTvScreenContent(onErrorAccepted = actionListener::onErrorMessageCleared) {
-            // Loading state
-            when {
-                isLoading -> {
-                    FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
-                }
-                epgData.isEmpty() -> { // Assuming `epgData` is a List<EpgDataBO>
-                    FudgeTvNoContentState(
-                        modifier = Modifier.fillMaxSize(),
-                        messageRes = R.string.favorites_not_workout_available
-                    )
-                }
-                else -> {
-                    EpgMainContent(epgData)
+        with(actionListener) {
+            FudgeTvDialog(
+                isVisible = showRemoveEpgData,
+                mainLogoRes = R.drawable.main_logo,
+                titleRes = R.string.epg_screen_remove_epg_data_dialog_title,
+                descriptionRes = R.string.epg_screen_remove_epg_data_dialog_description,
+                successRes = R.string.epg_screen_remove_epg_data_dialog_accept_button,
+                cancelRes = R.string.epg_screen_remove_epg_data_dialog_cancel_button,
+                onAcceptClicked = ::onRemoveEpgDataConfirmed,
+                onCancelClicked = ::onRemoveEpgDataCancelled
+            )
+            FudgeTvScreenContent(onErrorAccepted = ::onErrorMessageCleared) {
+                when {
+                    isLoading -> {
+                        FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
+                    }
+                    epgData.isEmpty() -> {
+                        NoEpgDataFound(onImportClicked = ::onImportNewEpgData)
+                    }
+                    else -> {
+                        EpgMainContent(epgData, actionListener)
+                    }
                 }
             }
         }
@@ -66,28 +82,54 @@ internal fun EpgScreenContent(
  * Composable to display the main EPG content including title and list of channels.
  */
 @Composable
-fun EpgMainContent(epgData: List<EpgDataBO>) {
+fun EpgMainContent(
+    epgData: List<EpgDataBO>,
+    actionListener: EpgScreenActionListener
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        EpgTitle()
+        EpgHeader(actionListener)
         EpgList(epgData)
     }
 }
 
 /**
- * Composable for the title of the EPG screen.
+ * Composable for the header of the EPG screen.
  */
 @Composable
-fun EpgTitle() {
-    FudgeTvText(
-        modifier = Modifier.padding(vertical = 16.dp),
-        type = FudgeTvTextTypeEnum.TITLE_LARGE,
-        titleRes = R.string.epg_screen_title,
-        textColor = onPrimary
-    )
+fun EpgHeader(actionListener: EpgScreenActionListener) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        FudgeTvText(
+            modifier = Modifier.padding(vertical = 16.dp),
+            type = FudgeTvTextTypeEnum.TITLE_LARGE,
+            titleRes = R.string.epg_screen_title,
+            textColor = onPrimary
+        )
+        Row {
+            FudgeTvButton(
+                modifier = Modifier.width(150.dp).playSoundEffectOnFocus(),
+                type = FudgeTvButtonTypeEnum.SMALL,
+                style = FudgeTvButtonStyleTypeEnum.TRANSPARENT,
+                textRes = R.string.epg_screen_import_new_button_text,
+                onClick = actionListener::onImportNewEpgData
+            )
+            Spacer(modifier = Modifier.width(10.dp))
+            FudgeTvButton(
+                modifier = Modifier.width(150.dp).playSoundEffectOnFocus(),
+                type = FudgeTvButtonTypeEnum.SMALL,
+                style = FudgeTvButtonStyleTypeEnum.INVERSE,
+                textRes = R.string.epg_screen_remove_button_text,
+                onClick = actionListener::onRemoveEpgData
+            )
+        }
+    }
 }
 
 /**
