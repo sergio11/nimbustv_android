@@ -2,6 +2,7 @@ package com.dreamsoftware.nimbustv.di
 
 import com.dreamsoftware.nimbustv.data.database.datasource.IChannelEpgLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IChannelLocalDataSource
+import com.dreamsoftware.nimbustv.data.database.datasource.IFavoriteChannelLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IPlayListLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IProfileLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IProgrammeLocalDataSource
@@ -144,12 +145,14 @@ class RepositoryModule {
     @Singleton
     fun provideChannelRepository(
         channelLocalDataSource: IChannelLocalDataSource,
+        favoriteChannelLocalDataSource: IFavoriteChannelLocalDataSource,
         saveChannelsMapper: IOneSideMapper<SaveChannelBO, ChannelEntity>,
         channelsMapper: IOneSideMapper<ChannelEntity, ChannelBO>,
         @IoDispatcher dispatcher: CoroutineDispatcher
     ): IChannelRepository =
         ChannelsRepositoryImpl(
             channelLocalDataSource,
+            favoriteChannelLocalDataSource,
             saveChannelsMapper,
             channelsMapper,
             dispatcher

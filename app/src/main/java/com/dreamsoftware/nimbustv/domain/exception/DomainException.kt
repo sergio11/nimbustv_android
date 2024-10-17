@@ -22,6 +22,9 @@ class DeleteEpgDataException(message: String? = null, cause: Throwable? = null):
 class SaveChannelsException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class GetChannelsByPlaylistException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class GetChannelByIdException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
+class AddToFavoritesException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
+class RemoveFromFavoritesException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
+class GetFavoriteChannelsByProfileIdException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 
 //Profiles
 class FetchProfilesException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)

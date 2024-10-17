@@ -9,4 +9,7 @@ interface IFavoriteChannelLocalDataSource: ISupportLocalDataSource<FavoriteChann
 
     @Throws(AccessDatabaseException::class)
     suspend fun findFavoriteChannelsByProfileId(profileId: String): List<ChannelEntity>
+
+    @Throws(AccessDatabaseException::class)
+    suspend fun deleteByChannelIdAndProfileId(channelId: String, profileId: String)
 }

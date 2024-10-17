@@ -63,6 +63,10 @@ object DatabaseModule {
 
     @Singleton
     @Provides
+    fun provideFavoriteChannelDao(db: NimbusTvDatabase) = db.favoriteChannelDao()
+
+    @Singleton
+    @Provides
     fun provideChannelsDataSource(
         channelDao: ChannelDao,
         @IoDispatcher dispatcher: CoroutineDispatcher

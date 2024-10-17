@@ -13,6 +13,9 @@ abstract class FavoriteChannelDao: SupportDaoImpl<FavoriteChannelEntity, Long>(F
     @Query("DELETE FROM favorite_channels WHERE profile_id = :profileId")
     abstract suspend fun deleteAllByProfileId(profileId: String)
 
+    @Query("DELETE FROM favorite_channels WHERE channel_id = :channelId AND profile_id = :profileId")
+    abstract suspend fun deleteByChannelIdAndProfileId(channelId: String, profileId: String)
+
     // Get favorite channels for a specific profile
     @Query("""
         SELECT c.*
