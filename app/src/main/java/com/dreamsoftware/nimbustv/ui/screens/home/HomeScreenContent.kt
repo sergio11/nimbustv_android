@@ -43,7 +43,7 @@ import com.dreamsoftware.nimbustv.ui.core.components.CommonChip
 import com.dreamsoftware.nimbustv.ui.core.components.CommonLazyVerticalGrid
 import com.dreamsoftware.nimbustv.ui.core.components.PlaylistItem
 import com.dreamsoftware.nimbustv.ui.core.components.ImportPlaylistDialog
-import com.dreamsoftware.nimbustv.ui.screens.home.components.importer.NoPlaylistFound
+import com.dreamsoftware.nimbustv.ui.core.components.NoPlaylistFound
 import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
 
 @Composable
