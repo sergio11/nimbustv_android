@@ -57,6 +57,13 @@
     <!-- Playlist -->
     <string name="my_playlists_screen_title">✨ Explore Your Playlist Paradise! 🌈</string>
     <string name="my_playlists_screen_no_data_found_text">🚫 Oops! No playlists found. Let\'s add some magic! ✨</string>
+    <string name="my_playlists_screen_import_new_playlist_button_text">Add a New Playlist!</string>
+
+    <!-- Playlist Detail -->
+    <string name="playlist_detail_screen_title">📋 Channel Playlist Details 📺</string>
+    <string name="playlist_detail_screen_no_data_found_text">🚫 No channels in this playlist. Let’s add some magic! ✨</string>
+    <string name="playlist_detail_screen_remove_playlist_button_text">Remove Playlist</string>
+
     <!-- EPG -->
     <string name="epg_screen_title">📺 Your Ultimate TV Guide 🌟</string>
     <string name="epg_screen_channel_not_data_available">🚫 No information available for this channel 🙁</string>

@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -22,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -93,7 +91,7 @@ internal fun EpgScreenContent(
  * Composable to display the main EPG content including title and list of channels.
  */
 @Composable
-fun EpgMainContent(
+private fun EpgMainContent(
     epgData: List<EpgDataBO>,
     actionListener: EpgScreenActionListener
 ) {
@@ -111,7 +109,7 @@ fun EpgMainContent(
  * Composable for the header of the EPG screen.
  */
 @Composable
-fun EpgHeader(actionListener: EpgScreenActionListener) {
+private fun EpgHeader(actionListener: EpgScreenActionListener) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -151,7 +149,7 @@ fun EpgHeader(actionListener: EpgScreenActionListener) {
  * Composable to display a list of channels and their programs.
  */
 @Composable
-fun EpgList(epgData: List<EpgDataBO>) {
+private fun EpgList(epgData: List<EpgDataBO>) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(vertical = 8.dp)
@@ -169,7 +167,7 @@ fun EpgList(epgData: List<EpgDataBO>) {
  * Composable to display an individual channel and its programs.
  */
 @Composable
-fun ChannelItem(
+private fun ChannelItem(
     channelData: EpgDataBO,
     isFirstChannel: Boolean
 ) {
@@ -201,7 +199,7 @@ fun ChannelItem(
  * If the programmeList is empty, a message indicating no information is displayed.
  */
 @Composable
-fun ProgramList(
+private fun ProgramList(
     programmeList: List<ProgrammeDataBO>,
     isFirstChannel: Boolean
 ) {
@@ -251,7 +249,7 @@ fun ProgramList(
  * Composable to display an individual program.
  */
 @Composable
-fun ProgrammeItem(
+private fun ProgrammeItem(
     modifier: Modifier = Modifier,
     programme: ProgrammeDataBO
 ) {

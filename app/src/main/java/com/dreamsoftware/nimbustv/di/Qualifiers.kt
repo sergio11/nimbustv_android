@@ -40,6 +40,10 @@ annotation class PlaylistsScreenErrorMapper
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
+annotation class PlaylistDetailScreenErrorMapper
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
 annotation class SignInScreenErrorMapper
 
 @Qualifier

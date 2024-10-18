@@ -7,6 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.dreamsoftware.nimbustv.ui.player.audio.AudioPlayerScreenArgs
 import com.dreamsoftware.nimbustv.ui.player.video.VideoPlayerScreenArgs
+import com.dreamsoftware.nimbustv.ui.screens.playlistdetail.PlaylistDetailScreenArgs
 import com.dreamsoftware.nimbustv.ui.screens.profiles.changesecurepin.ChangeSecurePinScreenArgs
 import com.dreamsoftware.nimbustv.ui.screens.profiles.delete.DeleteProfileScreenArgs
 import com.dreamsoftware.nimbustv.ui.screens.profiles.save.SaveProfileScreenArgs
@@ -18,19 +19,22 @@ sealed class Screen(
     val arguments: List<NamedNavArgument> = emptyList()
 ) {
 
-    data object Splash: Screen(route = "splash", name = "Splash")
-    data object Onboarding: Screen(route = "onboarding", name = "Onboarding")
-    data object Dashboard: Screen(route = "dashboard", name = "Dashboard")
-    data object Subscription: Screen(route = "subscription", name = "Subscription")
-    data object Profiles: Screen(route = "profiles", name = "Profiles")
-    data object ProfileSelector: Screen(route = "profile_selector", name = "ProfileSelector")
-    data object ProfilesManagement: Screen(route = "profile_management", name = "ProfilesManagement")
-    data object AddProfile: Screen(route = "add_profile", name = "AddProfile")
-    data object EditProfile: Screen(route = "edit_profile/{id}", name = "EditProfile", arguments = listOf(
-        navArgument("id") {
-            type = NavType.StringType
-        }
-    )) {
+    data object Splash : Screen(route = "splash", name = "Splash")
+    data object Onboarding : Screen(route = "onboarding", name = "Onboarding")
+    data object Dashboard : Screen(route = "dashboard", name = "Dashboard")
+    data object Subscription : Screen(route = "subscription", name = "Subscription")
+    data object Profiles : Screen(route = "profiles", name = "Profiles")
+    data object ProfileSelector : Screen(route = "profile_selector", name = "ProfileSelector")
+    data object ProfilesManagement :
+        Screen(route = "profile_management", name = "ProfilesManagement")
+
+    data object AddProfile : Screen(route = "add_profile", name = "AddProfile")
+    data object EditProfile :
+        Screen(route = "edit_profile/{id}", name = "EditProfile", arguments = listOf(
+            navArgument("id") {
+                type = NavType.StringType
+            }
+        )) {
         fun buildRoute(id: String): String =
             route.replace(
                 oldValue = "{id}",
@@ -45,11 +49,13 @@ sealed class Screen(
             }
         }
     }
-    data object ProfileAdvance: Screen(route = "profile_advance/{id}", name = "ProfileAdvance", arguments = listOf(
-        navArgument("id") {
-            type = NavType.StringType
-        }
-    )) {
+
+    data object ProfileAdvance :
+        Screen(route = "profile_advance/{id}", name = "ProfileAdvance", arguments = listOf(
+            navArgument("id") {
+                type = NavType.StringType
+            }
+        )) {
         fun buildRoute(id: String): String =
             route.replace(
                 oldValue = "{id}",
@@ -64,11 +70,13 @@ sealed class Screen(
             }
         }
     }
-    data object DeleteProfile: Screen(route = "delete_profile/{id}", name = "DeleteProfile", arguments = listOf(
-        navArgument("id") {
-            type = NavType.StringType
-        }
-    )) {
+
+    data object DeleteProfile :
+        Screen(route = "delete_profile/{id}", name = "DeleteProfile", arguments = listOf(
+            navArgument("id") {
+                type = NavType.StringType
+            }
+        )) {
         fun buildRoute(id: String): String =
             route.replace(
                 oldValue = "{id}",
@@ -83,11 +91,13 @@ sealed class Screen(
             }
         }
     }
-    data object UnlockProfile: Screen(route = "unlock_profile/{id}", name = "UnlockProfile", arguments = listOf(
-        navArgument("id") {
-            type = NavType.StringType
-        }
-    )) {
+
+    data object UnlockProfile :
+        Screen(route = "unlock_profile/{id}", name = "UnlockProfile", arguments = listOf(
+            navArgument("id") {
+                type = NavType.StringType
+            }
+        )) {
         fun buildRoute(id: String): String =
             route.replace(
                 oldValue = "{id}",
@@ -100,11 +110,13 @@ sealed class Screen(
             }
         }
     }
-    data object VideoPlayer: Screen(route = "video_player/{id}", name = "VideoPlayer", arguments = listOf(
-        navArgument("id") {
-            type = NavType.StringType
-        }
-    )) {
+
+    data object VideoPlayer :
+        Screen(route = "video_player/{id}", name = "VideoPlayer", arguments = listOf(
+            navArgument("id") {
+                type = NavType.StringType
+            }
+        )) {
         fun buildRoute(id: String): String =
             route.replace(
                 oldValue = "{id}",
@@ -119,11 +131,13 @@ sealed class Screen(
             }
         }
     }
-    data object AudioPlayer: Screen(route = "audio_player/{id}", name = "AudioPlayer", arguments = listOf(
-        navArgument("id") {
-            type = NavType.StringType
-        }
-    )) {
+
+    data object AudioPlayer :
+        Screen(route = "audio_player/{id}", name = "AudioPlayer", arguments = listOf(
+            navArgument("id") {
+                type = NavType.StringType
+            }
+        )) {
         fun buildRoute(id: String): String =
             route.replace(
                 oldValue = "{id}",
@@ -139,9 +153,28 @@ sealed class Screen(
         }
     }
 
-    data object Home: Screen(route = "home", name = "Home")
-    data object Favorite: Screen(route = "favorite", name = "Favorite")
-    data object Playlists: Screen(route = "playlists", name = "Playlists")
-    data object Epg: Screen(route = "epg", name = "Epg")
-    data object Settings: Screen(route = "settings", name = "Settings")
+    data object PlaylistDetail :
+        Screen(route = "playlist_detail/{id}", name = "PlaylistDetail", arguments = listOf(
+            navArgument("id") {
+                type = NavType.StringType
+            }
+        )) {
+        fun buildRoute(id: String): String =
+            route.replace(
+                oldValue = "{id}",
+                newValue = id
+            )
+
+        fun parseArgs(args: Bundle): PlaylistDetailScreenArgs? = with(args) {
+            getString("id")?.let { id ->
+                PlaylistDetailScreenArgs(id = id)
+            }
+        }
+    }
+
+    data object Home : Screen(route = "home", name = "Home")
+    data object Favorite : Screen(route = "favorite", name = "Favorite")
+    data object Playlists : Screen(route = "playlists", name = "Playlists")
+    data object Epg : Screen(route = "epg", name = "Epg")
+    data object Settings : Screen(route = "settings", name = "Settings")
 }

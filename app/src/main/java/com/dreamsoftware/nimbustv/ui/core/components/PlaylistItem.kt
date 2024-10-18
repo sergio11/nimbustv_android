@@ -18,7 +18,7 @@ import com.dreamsoftware.nimbustv.domain.model.PlayListBO
 @Composable
 fun PlaylistItem(
     modifier: Modifier = Modifier,
-    isSelected: Boolean,
+    isSelected: Boolean = false,
     playlist: PlayListBO,
     onPlaylistSelected: (PlayListBO) -> Unit
 ) {
