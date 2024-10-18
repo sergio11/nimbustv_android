@@ -50,9 +50,10 @@
     <string name="home_screen_import_new_iptv_playlist_dialog_accept_button_text">Import Playlist</string>
     <string name="home_screen_import_new_iptv_playlist_dialog_cancel_button_text">Cancel</string>
     <string name="home_screen_import_new_iptv_playlist_dialog_in_progress_text">Importing your playlist… 🎬</string>
+
     <!-- Favorites -->
-    <string name="favorites_screen_title">Favorites</string>
-    <string name="favorites_not_workout_available">No favorite trainings available yet. Explore and add your favorites to get started on your fitness journey!</string>
+    <string name="favorites_screen_title">🌟 Your Favorite Channels 🌟</string>
+    <string name="favorites_screen_no_channels_found_text">🚫 No favorite channels yet! Add some sparkle! ✨</string>
 
     <!-- Playlist -->
     <string name="my_playlists_screen_title">✨ Explore Your Playlist Paradise! 🌈</string>
