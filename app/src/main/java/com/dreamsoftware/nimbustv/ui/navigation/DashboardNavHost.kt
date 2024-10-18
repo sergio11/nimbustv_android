@@ -10,6 +10,7 @@ import com.dreamsoftware.nimbustv.ui.player.video.VideoPlayerScreen
 import com.dreamsoftware.nimbustv.ui.screens.epg.EpgScreen
 import com.dreamsoftware.nimbustv.ui.screens.favorites.FavoritesScreen
 import com.dreamsoftware.nimbustv.ui.screens.home.HomeScreen
+import com.dreamsoftware.nimbustv.ui.screens.playlistdetail.PlaylistDetailScreen
 import com.dreamsoftware.nimbustv.ui.screens.playlists.PlaylistsScreen
 import com.dreamsoftware.nimbustv.ui.screens.settings.SettingsScreen
 
@@ -41,10 +42,23 @@ fun DashboardNavHost(
         composable(Screen.Playlists.route) {
             with(navController) {
                 PlaylistsScreen(
+                    onOpenPlaylistDetail = { playlistId ->
+                        navigate(Screen.PlaylistDetail.buildRoute(playlistId))
+                    },
                     onBackPressed = {
                         popBackStack()
                     }
                 )
+            }
+        }
+
+        composable(Screen.PlaylistDetail.route) { navBackStackEntry ->
+            navBackStackEntry.arguments?.let(Screen.PlaylistDetail::parseArgs)?.let { args ->
+                with(navController) {
+                    PlaylistDetailScreen(args = args) {
+                        popBackStack()
+                    }
+                }
             }
         }
 

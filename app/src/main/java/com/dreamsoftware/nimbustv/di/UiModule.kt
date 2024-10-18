@@ -4,6 +4,7 @@ import android.content.Context
 import com.dreamsoftware.fudge.core.IFudgeTvErrorMapper
 import com.dreamsoftware.nimbustv.ui.screens.epg.EpgScreenSimpleErrorMapper
 import com.dreamsoftware.nimbustv.ui.screens.favorites.FavoritesScreenSimpleErrorMapper
+import com.dreamsoftware.nimbustv.ui.screens.playlistdetail.PlaylistDetailScreenSimpleErrorMapper
 import com.dreamsoftware.nimbustv.ui.screens.playlists.PlaylistsScreenSimpleErrorMapper
 import com.dreamsoftware.nimbustv.ui.screens.profiles.save.SaveProfileScreenSimpleErrorMapper
 import dagger.Module
@@ -48,4 +49,12 @@ class UiModule {
         @ApplicationContext context: Context
     ): IFudgeTvErrorMapper =
         PlaylistsScreenSimpleErrorMapper(context = context)
+
+    @Provides
+    @ViewModelScoped
+    @PlaylistDetailScreenErrorMapper
+    fun providePlaylistDetailScreenErrorMapper(
+        @ApplicationContext context: Context
+    ): IFudgeTvErrorMapper =
+        PlaylistDetailScreenSimpleErrorMapper(context = context)
 }

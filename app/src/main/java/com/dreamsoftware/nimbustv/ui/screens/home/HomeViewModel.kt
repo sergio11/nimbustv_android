@@ -34,12 +34,7 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun onImportNewPlaylistCancelled() {
-        updateState {
-            it.copy(
-                isImportPlaylistDialogVisible = false,
-                newPlayListUrl = String.EMPTY
-            )
-        }
+        resetImportPlaylistState()
     }
 
     override fun onImportNewPlayListConfirmed() {
@@ -112,8 +107,18 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onImportPlayListCompleted() {
-        updateState { it.copy(isImportPlaylistDialogVisible = false) }
+        resetImportPlaylistState()
         fetchData()
+    }
+
+    private fun resetImportPlaylistState() {
+        updateState {
+            it.copy(
+                isImportPlaylistDialogVisible = false,
+                newPlayListUrl = String.EMPTY,
+                newPlayListAlias = String.EMPTY
+            )
+        }
     }
 }
 
