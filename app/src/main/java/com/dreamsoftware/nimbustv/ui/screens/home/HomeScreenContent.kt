@@ -3,15 +3,16 @@ package com.dreamsoftware.nimbustv.ui.screens.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
@@ -24,11 +25,15 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
+import com.dreamsoftware.fudge.component.FudgeTvButton
+import com.dreamsoftware.fudge.component.FudgeTvButtonStyleTypeEnum
+import com.dreamsoftware.fudge.component.FudgeTvButtonTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
 import com.dreamsoftware.fudge.component.FudgeTvLoadingState
 import com.dreamsoftware.fudge.component.FudgeTvScreenContent
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
+import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.domain.model.PlayListBO
 import com.dreamsoftware.nimbustv.ui.core.components.ChannelGridItem
@@ -38,6 +43,7 @@ import com.dreamsoftware.nimbustv.ui.core.components.CommonLazyVerticalGrid
 import com.dreamsoftware.nimbustv.ui.core.components.CommonListItem
 import com.dreamsoftware.nimbustv.ui.screens.home.components.importer.ImportPlaylistDialog
 import com.dreamsoftware.nimbustv.ui.screens.home.components.importer.NoPlaylistFound
+import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
 
 @Composable
 internal fun HomeScreenContent(
@@ -64,7 +70,7 @@ internal fun HomeScreenContent(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        if(playlists.isEmpty()) {
+                        if (playlists.isEmpty()) {
                             NoPlaylistFound(onImportClicked = ::onImportNewPlaylistClicked)
                         } else {
                             PlayListsColumn(
@@ -84,7 +90,7 @@ internal fun HomeScreenContent(
                                 verticalArrangement = Arrangement.Top,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                if(isLoading) {
+                                if (isLoading) {
                                     FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
                                 } else {
                                     channelFocused?.let { channel ->
@@ -138,7 +144,7 @@ private fun CategoriesList(
         modifier = modifier,
         state = listState,
         contentPadding = PaddingValues(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(13.dp)
+        horizontalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         items(categories.size) { idx ->
             val category = categories[idx]
@@ -169,7 +175,7 @@ private fun ChannelsGrid(
             }
         }
     }
-    FudgeTvFocusRequester (shouldRequestFocus = {
+    FudgeTvFocusRequester(shouldRequestFocus = {
         channels.isNotEmpty() && channelFocused != null
     }) { requester ->
         CommonLazyVerticalGrid(
@@ -178,7 +184,7 @@ private fun ChannelsGrid(
             items = channels
         ) { item ->
             ChannelGridItem(
-                modifier = if(item == channelFocused) Modifier.focusRequester(requester) else Modifier,
+                modifier = if (item == channelFocused) Modifier.focusRequester(requester) else Modifier,
                 channel = item,
                 onChannelFocused = onChannelFocused,
                 onChannelPressed = onChannelPressed
@@ -194,51 +200,76 @@ private fun PlayListsColumn(
     playlistSelected: PlayListBO? = null,
     onPlaylistSelected: (PlayListBO) -> Unit
 ) {
-    FudgeTvFocusRequester(shouldRequestFocus = {
-        playlists.isNotEmpty() && playlistSelected != null
-    }) { requester ->
-        Box(
-            modifier = modifier,
-        ) {
-            LazyColumn(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                contentPadding = PaddingValues(8.dp)
+    with(MaterialTheme.colorScheme) {
+        FudgeTvFocusRequester(shouldRequestFocus = {
+            playlists.isNotEmpty() && playlistSelected != null
+        }) { requester ->
+            Column(
+                modifier = modifier,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                items(playlists.size) { idx ->
-                    val playlist = playlists[idx]
-                    val isSelected = playlist == playlistSelected
-                    CommonListItem(modifier = Modifier
-                        .fillMaxWidth()
-                        .height(100.dp)
-                        .padding(8.dp)
-                        .then(
-                            if (isSelected)
-                                Modifier.focusRequester(requester)
-                            else
-                                Modifier
-                        ),
-                        isSelected = isSelected,
-                        onClicked = {
-                            onPlaylistSelected(playlist)
-                        }
-                    ) { isFocused ->
-                        Column(
-                            verticalArrangement = Arrangement.SpaceEvenly,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            FudgeTvText(
-                                type = FudgeTvTextTypeEnum.BODY_LARGE,
-                                titleText = playlist.alias,
-                                textAlign = TextAlign.Center,
-                                maxLines = 2,
-                                textColor = with(MaterialTheme.colorScheme) {
-                                    if (isFocused || isSelected) {
-                                        primary
-                                    } else {
-                                        onPrimaryContainer
+                FudgeTvText(
+                    modifier = Modifier.padding(vertical = 16.dp, horizontal = 4.dp),
+                    titleRes = R.string.home_screen_playlist_column_title_text,
+                    type = FudgeTvTextTypeEnum.TITLE_MEDIUM,
+                    textColor = MaterialTheme.colorScheme.onSurface,
+                    textBold = true,
+                    textAlign = TextAlign.Center
+                )
+                FudgeTvButton(
+                    modifier = Modifier
+                        .width(150.dp)
+                        .playSoundEffectOnFocus(),
+                    type = FudgeTvButtonTypeEnum.SMALL,
+                    style = FudgeTvButtonStyleTypeEnum.TRANSPARENT,
+                    textRes = R.string.home_screen_manage_playlist_button_text,
+                    onClick = {}
+                )
+                Spacer(modifier = Modifier.height(20.dp))
+                LazyColumn(
+                    modifier = Modifier.weight(1f, true),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    contentPadding = PaddingValues(8.dp)
+                ) {
+                    items(playlists.size) { idx ->
+                        val playlist = playlists[idx]
+                        val isSelected = playlist == playlistSelected
+                        CommonListItem(modifier = Modifier
+                            .fillMaxWidth()
+                            .height(100.dp)
+                            .padding(8.dp)
+                            .then(
+                                if (isSelected)
+                                    Modifier.focusRequester(requester)
+                                else
+                                    Modifier
+                            ),
+                            focusedBorderColor = primary,
+                            borderColor = primaryContainer,
+                            isSelected = isSelected,
+                            onClicked = {
+                                onPlaylistSelected(playlist)
+                            }
+                        ) { isFocused ->
+                            Column(
+                                verticalArrangement = Arrangement.SpaceEvenly,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                FudgeTvText(
+                                    type = FudgeTvTextTypeEnum.BODY_LARGE,
+                                    titleText = playlist.alias,
+                                    textAlign = TextAlign.Center,
+                                    textBold = true,
+                                    maxLines = 2,
+                                    textColor = with(MaterialTheme.colorScheme) {
+                                        if (isFocused || isSelected) {
+                                            primary
+                                        } else {
+                                            onPrimaryContainer
+                                        }
                                     }
-                                }
-                            )
+                                )
+                            }
                         }
                     }
                 }

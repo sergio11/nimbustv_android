@@ -31,7 +31,7 @@ fun ChannelGridItem(
         CommonListItem(
             modifier = modifier
                 .fillMaxWidth()
-                .height(150.dp)
+                .height(160.dp)
                 .padding(8.dp),
             containerColor = primaryContainer.copy(0.7f),
             borderColor = onPrimary,
@@ -39,25 +39,27 @@ fun ChannelGridItem(
             onClicked = { onChannelPressed(channel) }
         ) { isFocused ->
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 4.dp),
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 ChannelLogo(
                     size = 80.dp,
                     logo = channel.icon,
-                    borderColor = if(isFocused) {
+                    borderColor = if (isFocused) {
                         primary
                     } else {
                         onPrimaryContainer
                     }
                 )
                 FudgeTvText(
-                    type = FudgeTvTextTypeEnum.BODY_MEDIUM,
+                    type = FudgeTvTextTypeEnum.BODY_SMALL,
                     titleText = channel.title,
                     textAlign = TextAlign.Center,
                     maxLines = 2,
-                    textColor = if(isFocused) {
+                    textColor = if (isFocused) {
                         primary
                     } else {
                         onPrimaryContainer
