@@ -21,6 +21,7 @@ import com.dreamsoftware.nimbustv.domain.usecase.HasProfileSelectedUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.HasProfilesCountUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.CreatePlaylistUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.DeleteEpgDataUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.DeletePlaylistUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetChannelByIdUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetChannelsByPlaylistUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetEpgDataUseCase
@@ -278,5 +279,14 @@ class UseCasesModule {
         RemoveChannelFromFavoritesChannelUseCase(
             profileRepository = profileRepository,
             channelRepository = channelRepository
+        )
+
+    @Provides
+    @ViewModelScoped
+    fun provideDeletePlaylistUseCase(
+        playlistRepository: IPlaylistRepository
+    ): DeletePlaylistUseCase =
+        DeletePlaylistUseCase(
+            playlistRepository = playlistRepository
         )
 }

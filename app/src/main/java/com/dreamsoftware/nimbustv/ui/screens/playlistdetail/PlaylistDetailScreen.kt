@@ -18,6 +18,11 @@ fun PlaylistDetailScreen(
         viewModel = viewModel,
         onBackPressed = onBackPressed,
         onInitialUiState = { PlaylistDetailUiState() },
+        onSideEffect = {
+            when(it) {
+                PlaylistDetailSideEffects.PlaylistRemovedSideEffect -> onBackPressed()
+            }
+        },
         onInit = {
             fetchData(args.id)
         }

@@ -5,6 +5,7 @@ import com.dreamsoftware.nimbustv.data.database.entity.PlayListEntity
 import com.dreamsoftware.nimbustv.data.database.exception.DatabaseException
 import com.dreamsoftware.nimbustv.data.repository.impl.core.SupportRepositoryImpl
 import com.dreamsoftware.nimbustv.data.repository.mapper.UpdatePlaylistData
+import com.dreamsoftware.nimbustv.domain.exception.DeletePlaylistsException
 import com.dreamsoftware.nimbustv.domain.exception.GetPlaylistsByProfileException
 import com.dreamsoftware.nimbustv.domain.exception.InsertPlaylistException
 import com.dreamsoftware.nimbustv.domain.exception.UpdatePlaylistException
@@ -69,6 +70,18 @@ internal class PlaylistRepositoryImpl(
         } catch (ex: DatabaseException) {
             throw GetPlaylistsByProfileException(
                 "An error occurred when trying to fetch playlists by profile id",
+                ex
+            )
+        }
+    }
+
+    @Throws(DeletePlaylistsException::class)
+    override suspend fun deleteById(id: String) {
+        try {
+            playListLocalDataSource.delete(id)
+        } catch (ex: DatabaseException) {
+            throw DeletePlaylistsException(
+                "An error occurred when trying to delete playlist",
                 ex
             )
         }

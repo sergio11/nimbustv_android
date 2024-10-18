@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.dreamsoftware.fudge.component.FudgeTvButton
 import com.dreamsoftware.fudge.component.FudgeTvButtonStyleTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvButtonTypeEnum
+import com.dreamsoftware.fudge.component.FudgeTvDialog
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
 import com.dreamsoftware.fudge.component.FudgeTvLoadingState
 import com.dreamsoftware.fudge.component.FudgeTvNoContentState
@@ -33,6 +34,16 @@ internal fun PlaylistDetailScreenContent(
     actionListener: PlaylistDetailScreenActionListener
 ) {
     with(uiState) {
+        FudgeTvDialog(
+            isVisible = showDeletePlaylistDialog,
+            mainLogoRes = R.drawable.main_logo,
+            titleRes = R.string.playlist_detail_screen_delete_playlist_dialog_title,
+            descriptionRes = R.string.playlist_detail_screen_delete_playlist_dialog_description,
+            successRes = R.string.playlist_detail_screen_delete_playlist_dialog_accept_button_text,
+            cancelRes = R.string.playlist_detail_screen_delete_playlist_dialog_cancel_button_text,
+            onAcceptClicked = actionListener::onDeletePlaylistConfirmed,
+            onCancelClicked = actionListener::onDeletePlaylistCancelled
+        )
         FudgeTvScreenContent(onErrorAccepted = actionListener::onErrorMessageCleared) {
             if (isLoading) {
                 FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
@@ -91,7 +102,7 @@ private fun PlaylistDetailHeader(actionListener: PlaylistDetailScreenActionListe
             type = FudgeTvButtonTypeEnum.SMALL,
             style = FudgeTvButtonStyleTypeEnum.TRANSPARENT,
             textRes = R.string.playlist_detail_screen_remove_playlist_button_text,
-            onClick = { }
+            onClick = actionListener::onDeletePlaylistClicked
         )
     }
 }

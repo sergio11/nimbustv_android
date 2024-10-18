@@ -12,6 +12,7 @@ class ParsePlayListFailedException(message: String? = null, cause: Throwable? = 
 class InsertPlaylistException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class UpdatePlaylistException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class GetPlaylistsByProfileException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
+class DeletePlaylistsException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 
 // EPG
 class SaveEpgDataException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
