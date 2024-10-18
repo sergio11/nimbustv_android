@@ -8,7 +8,9 @@ interface HomeScreenActionListener: IFudgeTvScreenActionListener {
 
     fun onImportNewPlaylistClicked()
     fun onImportNewPlaylistCancelled()
+    fun onImportNewPlayListConfirmed()
     fun onNewPlayListUrlUpdated(newValue: String)
+    fun onNewPlayListAliasUpdated(newValue: String)
     fun onNewPlaylistSelected(newValue: PlayListBO)
     fun onChannelFocused(value: ChannelBO)
     fun onChannelPressed(value: ChannelBO)

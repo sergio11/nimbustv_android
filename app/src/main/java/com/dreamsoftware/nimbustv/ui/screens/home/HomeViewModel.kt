@@ -29,10 +29,6 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    private fun onImportPlaylistCompleted() {
-
-    }
-
     override fun onImportNewPlaylistClicked() {
         updateState { it.copy(isImportPlaylistDialogVisible = true) }
     }
@@ -46,8 +42,25 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    override fun onImportNewPlayListConfirmed() {
+        uiState.value.run {
+            executeUseCaseWithParams(
+                useCase = createPlaylistUseCase,
+                params = CreatePlaylistUseCase.Params(
+                    alias = newPlayListAlias,
+                    url = newPlayListUrl
+                ),
+                onSuccess = { onImportPlayListCompleted() }
+            )
+        }
+    }
+
     override fun onNewPlayListUrlUpdated(newValue: String) {
         updateState { it.copy(newPlayListUrl = newValue) }
+    }
+
+    override fun onNewPlayListAliasUpdated(newValue: String) {
+        updateState { it.copy(newPlayListAlias = newValue) }
     }
 
     override fun onNewPlaylistSelected(newValue: PlayListBO) {
@@ -93,6 +106,11 @@ class HomeViewModel @Inject constructor(
             )
         }
     }
+
+    private fun onImportPlayListCompleted() {
+        updateState { it.copy(isImportPlaylistDialogVisible = false) }
+        fetchData()
+    }
 }
 
 data class HomeUiState(
@@ -101,6 +119,7 @@ data class HomeUiState(
     val channels: List<ChannelBO> = emptyList(),
     val isImportPlaylistDialogVisible: Boolean = false,
     val isImporting: Boolean = false,
+    val newPlayListAlias: String = String.EMPTY,
     val newPlayListUrl: String = String.EMPTY,
     val playlists: List<PlayListBO> = emptyList(),
     val playlistSelected: PlayListBO? = null,

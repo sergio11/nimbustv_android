@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
+import com.dreamsoftware.fudge.component.FudgeTvLoadingState
 import com.dreamsoftware.fudge.component.FudgeTvScreenContent
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
@@ -49,8 +50,11 @@ internal fun HomeScreenContent(
                 FudgeTvScreenContent(onErrorAccepted = ::onErrorMessageCleared) {
                     ImportPlaylistDialog(
                         isVisible = isImportPlaylistDialogVisible,
+                        isImporting = isLoading,
                         playListUrl = newPlayListUrl,
-                        onAcceptClicked = {},
+                        playlistAlias = newPlayListAlias,
+                        onAcceptClicked = ::onImportNewPlayListConfirmed,
+                        onPlayListAliasUpdated = ::onNewPlayListAliasUpdated,
                         onPlayListUrlUpdated = ::onNewPlayListUrlUpdated,
                         onCancelClicked = ::onImportNewPlaylistCancelled
                     )
@@ -81,7 +85,7 @@ internal fun HomeScreenContent(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 if(isLoading) {
-
+                                    FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
                                 } else {
                                     channelFocused?.let { channel ->
                                         ChannelPreview(
@@ -134,7 +138,7 @@ private fun CategoriesList(
         modifier = modifier,
         state = listState,
         contentPadding = PaddingValues(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(10.dp)
+        horizontalArrangement = Arrangement.spacedBy(13.dp)
     ) {
         items(categories.size) { idx ->
             val category = categories[idx]

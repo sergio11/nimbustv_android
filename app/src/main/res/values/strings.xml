@@ -43,10 +43,11 @@
     <string name="home_screen_import_new_iptv_playlist_button_text">Import New Playlist</string>
     <string name="home_screen_import_new_iptv_playlist_dialog_title">📥 Import New IPTV Playlist</string>
     <string name="home_screen_import_new_iptv_playlist_dialog_description">Enter the URL of your M3U playlist to start enjoying your favorite channels on NimbusTV. Let’s get streaming!</string>
+    <string name="home_screen_import_new_iptv_playlist_text_field_alias_label">Playlist name 📺</string>
     <string name="home_screen_import_new_iptv_playlist_text_field_url_label">Enter M3U Playlist URL</string>
     <string name="home_screen_import_new_iptv_playlist_dialog_accept_button_text">Import Playlist</string>
     <string name="home_screen_import_new_iptv_playlist_dialog_cancel_button_text">Cancel</string>
-
+    <string name="home_screen_import_new_iptv_playlist_dialog_in_progress_text">Importing your playlist… 🎬</string>
     <!-- Favorites -->
     <string name="favorites_screen_title">Favorites</string>
     <string name="favorites_not_workout_available">No favorite trainings available yet. Explore and add your favorites to get started on your fitness journey!</string>
