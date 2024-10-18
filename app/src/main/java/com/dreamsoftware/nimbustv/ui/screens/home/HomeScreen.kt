@@ -8,7 +8,8 @@ import com.dreamsoftware.nimbustv.domain.model.StreamTypeEnum
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
-    onPlayChannel: (channelId: String, streamType: StreamTypeEnum) -> Unit
+    onPlayChannel: (channelId: String, streamType: StreamTypeEnum) -> Unit,
+    onManagePlaylist: () -> Unit
 ) {
     FudgeTvScreen(
         viewModel = viewModel,
@@ -16,6 +17,7 @@ fun HomeScreen(
         onSideEffect = {
             when (it) {
                 is HomeSideEffects.PlayChannelSideEffect -> onPlayChannel(it.id, it.type)
+                HomeSideEffects.ManagePlaylistSideEffect -> onManagePlaylist()
             }
         },
         onInit = {

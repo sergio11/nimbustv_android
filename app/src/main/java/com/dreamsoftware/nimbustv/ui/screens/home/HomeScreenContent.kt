@@ -33,6 +33,7 @@ import com.dreamsoftware.fudge.component.FudgeTvLoadingState
 import com.dreamsoftware.fudge.component.FudgeTvScreenContent
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
+import com.dreamsoftware.fudge.utils.conditional
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.domain.model.PlayListBO
@@ -40,7 +41,7 @@ import com.dreamsoftware.nimbustv.ui.core.components.ChannelGridItem
 import com.dreamsoftware.nimbustv.ui.core.components.ChannelPreview
 import com.dreamsoftware.nimbustv.ui.core.components.CommonChip
 import com.dreamsoftware.nimbustv.ui.core.components.CommonLazyVerticalGrid
-import com.dreamsoftware.nimbustv.ui.core.components.CommonListItem
+import com.dreamsoftware.nimbustv.ui.core.components.PlaylistItem
 import com.dreamsoftware.nimbustv.ui.screens.home.components.importer.ImportPlaylistDialog
 import com.dreamsoftware.nimbustv.ui.screens.home.components.importer.NoPlaylistFound
 import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
@@ -81,6 +82,7 @@ internal fun HomeScreenContent(
                                     .border(1.dp, primary),
                                 playlists = playlists,
                                 playlistSelected = playlistSelected,
+                                onManagePlaylistClicked = actionListener::onManagePlaylistClicked,
                                 onPlaylistSelected = actionListener::onNewPlaylistSelected
                             )
                             Column(
@@ -198,80 +200,50 @@ private fun PlayListsColumn(
     modifier: Modifier,
     playlists: List<PlayListBO>,
     playlistSelected: PlayListBO? = null,
+    onManagePlaylistClicked: () -> Unit,
     onPlaylistSelected: (PlayListBO) -> Unit
 ) {
-    with(MaterialTheme.colorScheme) {
-        FudgeTvFocusRequester(shouldRequestFocus = {
-            playlists.isNotEmpty() && playlistSelected != null
-        }) { requester ->
-            Column(
-                modifier = modifier,
-                horizontalAlignment = Alignment.CenterHorizontally
+    FudgeTvFocusRequester(shouldRequestFocus = {
+        playlists.isNotEmpty() && playlistSelected != null
+    }) { requester ->
+        Column(
+            modifier = modifier,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            FudgeTvText(
+                modifier = Modifier.padding(vertical = 16.dp, horizontal = 4.dp),
+                titleRes = R.string.home_screen_playlist_column_title_text,
+                type = FudgeTvTextTypeEnum.TITLE_MEDIUM,
+                textColor = MaterialTheme.colorScheme.onSurface,
+                textBold = true,
+                textAlign = TextAlign.Center
+            )
+            FudgeTvButton(
+                modifier = Modifier
+                    .width(150.dp)
+                    .playSoundEffectOnFocus(),
+                type = FudgeTvButtonTypeEnum.SMALL,
+                style = FudgeTvButtonStyleTypeEnum.TRANSPARENT,
+                textRes = R.string.home_screen_manage_playlist_button_text,
+                onClick = onManagePlaylistClicked
+            )
+            Spacer(modifier = Modifier.height(20.dp))
+            LazyColumn(
+                modifier = Modifier.weight(1f, true),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                contentPadding = PaddingValues(8.dp)
             ) {
-                FudgeTvText(
-                    modifier = Modifier.padding(vertical = 16.dp, horizontal = 4.dp),
-                    titleRes = R.string.home_screen_playlist_column_title_text,
-                    type = FudgeTvTextTypeEnum.TITLE_MEDIUM,
-                    textColor = MaterialTheme.colorScheme.onSurface,
-                    textBold = true,
-                    textAlign = TextAlign.Center
-                )
-                FudgeTvButton(
-                    modifier = Modifier
-                        .width(150.dp)
-                        .playSoundEffectOnFocus(),
-                    type = FudgeTvButtonTypeEnum.SMALL,
-                    style = FudgeTvButtonStyleTypeEnum.TRANSPARENT,
-                    textRes = R.string.home_screen_manage_playlist_button_text,
-                    onClick = {}
-                )
-                Spacer(modifier = Modifier.height(20.dp))
-                LazyColumn(
-                    modifier = Modifier.weight(1f, true),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    contentPadding = PaddingValues(8.dp)
-                ) {
-                    items(playlists.size) { idx ->
-                        val playlist = playlists[idx]
-                        val isSelected = playlist == playlistSelected
-                        CommonListItem(modifier = Modifier
-                            .fillMaxWidth()
-                            .height(100.dp)
-                            .padding(8.dp)
-                            .then(
-                                if (isSelected)
-                                    Modifier.focusRequester(requester)
-                                else
-                                    Modifier
-                            ),
-                            focusedBorderColor = primary,
-                            borderColor = primaryContainer,
-                            isSelected = isSelected,
-                            onClicked = {
-                                onPlaylistSelected(playlist)
-                            }
-                        ) { isFocused ->
-                            Column(
-                                verticalArrangement = Arrangement.SpaceEvenly,
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                FudgeTvText(
-                                    type = FudgeTvTextTypeEnum.BODY_LARGE,
-                                    titleText = playlist.alias,
-                                    textAlign = TextAlign.Center,
-                                    textBold = true,
-                                    maxLines = 2,
-                                    textColor = with(MaterialTheme.colorScheme) {
-                                        if (isFocused || isSelected) {
-                                            primary
-                                        } else {
-                                            onPrimaryContainer
-                                        }
-                                    }
-                                )
-                            }
-                        }
-                    }
+                items(playlists.size) { idx ->
+                    val playlist = playlists[idx]
+                    val isSelected = playlist == playlistSelected
+                    PlaylistItem(
+                        modifier = Modifier.conditional(condition = isSelected, ifTrue = {
+                            focusRequester(requester)
+                        }),
+                        isSelected = isSelected,
+                        playlist = playlist,
+                        onPlaylistSelected = onPlaylistSelected
+                    )
                 }
             }
         }

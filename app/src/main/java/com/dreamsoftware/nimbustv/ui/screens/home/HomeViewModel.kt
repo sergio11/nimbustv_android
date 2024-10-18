@@ -78,6 +78,10 @@ class HomeViewModel @Inject constructor(
 
     override fun onNewCategorySelected(newValue: String) {}
 
+    override fun onManagePlaylistClicked() {
+        launchSideEffect(HomeSideEffects.ManagePlaylistSideEffect)
+    }
+
     private fun onGetPlaylistByProfileCompleted(playlists: List<PlayListBO>) {
         val playlistSelected = playlists.firstOrNull()
         updateState {
@@ -133,4 +137,5 @@ data class HomeUiState(
 
 sealed interface HomeSideEffects : SideEffect {
     data class PlayChannelSideEffect(val id: String, val type: StreamTypeEnum) : HomeSideEffects
+    data object ManagePlaylistSideEffect: HomeSideEffects
 }

@@ -36,7 +36,7 @@ annotation class EpgScreenErrorMapper
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class TrainingScreenErrorMapper
+annotation class PlaylistsScreenErrorMapper
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)

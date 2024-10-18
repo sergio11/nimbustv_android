@@ -54,6 +54,9 @@
     <string name="favorites_screen_title">Favorites</string>
     <string name="favorites_not_workout_available">No favorite trainings available yet. Explore and add your favorites to get started on your fitness journey!</string>
 
+    <!-- Playlist -->
+    <string name="my_playlists_screen_title">✨ Explore Your Playlist Paradise! 🌈</string>
+    <string name="my_playlists_screen_no_data_found_text">🚫 Oops! No playlists found. Let\'s add some magic! ✨</string>
     <!-- EPG -->
     <string name="epg_screen_title">📺 Your Ultimate TV Guide 🌟</string>
     <string name="epg_screen_channel_not_data_available">🚫 No information available for this channel 🙁</string>

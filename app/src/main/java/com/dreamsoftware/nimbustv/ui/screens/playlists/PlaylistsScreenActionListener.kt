@@ -1,0 +1,5 @@
+package com.dreamsoftware.nimbustv.ui.screens.playlists
+
+import com.dreamsoftware.fudge.core.IFudgeTvScreenActionListener
+
+interface PlaylistsScreenActionListener: IFudgeTvScreenActionListener
