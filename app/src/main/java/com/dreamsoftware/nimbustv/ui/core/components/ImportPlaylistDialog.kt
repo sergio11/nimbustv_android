@@ -54,16 +54,16 @@ fun ImportPlaylistDialog(
                 )
             } else {
                 FudgeTvTextField(
-                    value = playlistAlias,
-                    onValueChange = onPlayListAliasUpdated,
-                    labelRes = R.string.home_screen_import_new_iptv_playlist_text_field_alias_label,
-                    icon = Icons.Default.Edit
-                )
-                FudgeTvTextField(
                     value = playListUrl,
                     onValueChange = onPlayListUrlUpdated,
                     labelRes = R.string.home_screen_import_new_iptv_playlist_text_field_url_label,
                     icon = Icons.Default.GetApp
+                )
+                FudgeTvTextField(
+                    value = playlistAlias,
+                    onValueChange = onPlayListAliasUpdated,
+                    labelRes = R.string.home_screen_import_new_iptv_playlist_text_field_alias_label,
+                    icon = Icons.Default.Edit
                 )
             }
         }
