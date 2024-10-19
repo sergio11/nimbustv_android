@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
@@ -41,9 +40,9 @@ import com.dreamsoftware.nimbustv.ui.core.components.ChannelGridItem
 import com.dreamsoftware.nimbustv.ui.core.components.ChannelPreview
 import com.dreamsoftware.nimbustv.ui.core.components.CommonChip
 import com.dreamsoftware.nimbustv.ui.core.components.CommonLazyVerticalGrid
-import com.dreamsoftware.nimbustv.ui.core.components.PlaylistItem
 import com.dreamsoftware.nimbustv.ui.core.components.ImportPlaylistDialog
 import com.dreamsoftware.nimbustv.ui.core.components.NoPlaylistFound
+import com.dreamsoftware.nimbustv.ui.core.components.PlaylistItem
 import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
 
 @Composable
@@ -53,76 +52,90 @@ internal fun HomeScreenContent(
 ) {
     with(state) {
         with(actionListener) {
-            with(MaterialTheme.colorScheme) {
-                FudgeTvScreenContent(onErrorAccepted = ::onErrorMessageCleared) {
-                    ImportPlaylistDialog(
-                        isVisible = isImportPlaylistDialogVisible,
-                        isImporting = isLoading,
-                        playListUrl = newPlayListUrl,
-                        playlistAlias = newPlayListAlias,
-                        onAcceptClicked = ::onImportNewPlayListConfirmed,
-                        onPlayListAliasUpdated = ::onNewPlayListAliasUpdated,
-                        onPlayListUrlUpdated = ::onNewPlayListUrlUpdated,
-                        onCancelClicked = ::onImportNewPlaylistCancelled
+            ImportPlaylistDialog(
+                isVisible = isImportPlaylistDialogVisible,
+                isImporting = isLoading,
+                playListUrl = newPlayListUrl,
+                playlistAlias = newPlayListAlias,
+                onAcceptClicked = ::onImportNewPlayListConfirmed,
+                onPlayListAliasUpdated = ::onNewPlayListAliasUpdated,
+                onPlayListUrlUpdated = ::onNewPlayListUrlUpdated,
+                onCancelClicked = ::onImportNewPlaylistCancelled
+            )
+            FudgeTvScreenContent(onErrorAccepted = ::onErrorMessageCleared) {
+                if (isLoadingPlaylists) {
+                    FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
+                } else if (playlists.isEmpty()) {
+                    NoPlaylistFound(onImportClicked = ::onImportNewPlaylistClicked)
+                } else {
+                    HomeScreenMainContent(
+                        state = state,
+                        actionListener = actionListener
                     )
-                    Row(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        if (playlists.isEmpty()) {
-                            NoPlaylistFound(onImportClicked = ::onImportNewPlaylistClicked)
-                        } else {
-                            PlayListsColumn(
-                                modifier = Modifier
-                                    .fillMaxHeight()
-                                    .fillMaxWidth(0.2f)
-                                    .background(primaryContainer.copy(alpha = 0.5f))
-                                    .border(1.dp, primary),
-                                playlists = playlists,
-                                playlistSelected = playlistSelected,
-                                onManagePlaylistClicked = actionListener::onManagePlaylistClicked,
-                                onPlaylistSelected = actionListener::onNewPlaylistSelected
-                            )
-                            Column(
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun HomeScreenMainContent(
+    state: HomeUiState,
+    actionListener: HomeScreenActionListener
+) {
+    with(state) {
+        with(MaterialTheme.colorScheme) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                PlayListsColumn(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .fillMaxWidth(0.2f)
+                        .background(primaryContainer.copy(alpha = 0.5f))
+                        .border(1.dp, primary),
+                    playlists = playlists,
+                    playlistSelected = playlistSelected,
+                    onManagePlaylistClicked = actionListener::onManagePlaylistClicked,
+                    onPlaylistSelected = actionListener::onNewPlaylistSelected
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    if (isLoadingChannels) {
+                        FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
+                    } else {
+                        channelFocused?.let { channel ->
+                            ChannelPreview(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .fillMaxHeight(),
-                                verticalArrangement = Arrangement.Top,
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                if (isLoading) {
-                                    FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
-                                } else {
-                                    channelFocused?.let { channel ->
-                                        ChannelPreview(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .fillMaxHeight(0.45f)
-                                                .padding(start = 8.dp),
-                                            channel = channel
-                                        )
-                                    }
-                                    CategoriesList(
-                                        categories = categories,
-                                        categorySelected = categorySelected,
-                                        onCategorySelected = actionListener::onNewCategorySelected
-                                    )
-                                    ChannelsGrid(
-                                        channels = channels,
-                                        channelFocused = channelFocused,
-                                        onChannelFocused = actionListener::onChannelFocused,
-                                        onChannelPressed = actionListener::onChannelPressed
-                                    )
-                                }
-                            }
+                                    .fillMaxHeight(0.45f)
+                                    .padding(start = 8.dp),
+                                channel = channel
+                            )
                         }
+                        CategoriesList(
+                            categories = categories,
+                            categorySelected = categorySelected,
+                            onCategorySelected = actionListener::onNewCategorySelected
+                        )
+                        ChannelsGrid(
+                            channels = channels,
+                            channelFocused = channelFocused,
+                            onChannelFocused = actionListener::onChannelFocused,
+                            onChannelPressed = actionListener::onChannelPressed
+                        )
                     }
                 }
             }
         }
-
     }
 }
 
@@ -219,7 +232,8 @@ private fun PlayListsColumn(
             )
             FudgeTvButton(
                 modifier = Modifier
-                    .width(150.dp)
+                    .fillMaxWidth()
+                    .padding(8.dp)
                     .playSoundEffectOnFocus(),
                 type = FudgeTvButtonTypeEnum.SMALL,
                 style = FudgeTvButtonStyleTypeEnum.TRANSPARENT,
