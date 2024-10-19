@@ -23,6 +23,7 @@ class HomeViewModel @Inject constructor(
     override fun onGetDefaultState(): HomeUiState = HomeUiState()
 
     fun fetchData() {
+        updateState { it.copy(isLoadingPlaylists = true) }
         executeUseCase(
             useCase = getPlaylistsByProfileUseCase,
             onSuccess = ::onGetPlaylistByProfileCompleted
@@ -81,6 +82,7 @@ class HomeViewModel @Inject constructor(
         val playlistSelected = playlists.firstOrNull()
         updateState {
             it.copy(
+                isLoadingPlaylists = false,
                 playlists = playlists,
                 playlistSelected = playlistSelected
             )
@@ -89,6 +91,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun fetchChannelsByPlaylist(playlistId: String) {
+        updateState { it.copy(isLoadingChannels = true) }
         executeUseCaseWithParams(
             useCase = getChannelsByPlaylistUseCase,
             params = GetChannelsByPlaylistUseCase.Params(playlistId = playlistId),
@@ -99,6 +102,7 @@ class HomeViewModel @Inject constructor(
     private fun onFetchChannelsByPlaylistCompleted(channels: List<ChannelBO>) {
         updateState {
             it.copy(
+                isLoadingChannels = false,
                 categories = channels.mapNotNull(ChannelBO::category).distinct(),
                 channels = channels,
                 channelFocused = channels.firstOrNull()
@@ -125,9 +129,10 @@ class HomeViewModel @Inject constructor(
 data class HomeUiState(
     override val isLoading: Boolean = false,
     override val errorMessage: String? = null,
+    val isLoadingPlaylists: Boolean = false,
+    val isLoadingChannels: Boolean = false,
     val channels: List<ChannelBO> = emptyList(),
     val isImportPlaylistDialogVisible: Boolean = false,
-    val isImporting: Boolean = false,
     val newPlayListAlias: String = String.EMPTY,
     val newPlayListUrl: String = String.EMPTY,
     val playlists: List<PlayListBO> = emptyList(),

@@ -25,8 +25,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
 import com.dreamsoftware.nimbustv.ui.core.components.CommonChannelHeaderInfo
-import com.dreamsoftware.nimbustv.ui.core.components.CommonFavoriteButton
 import com.dreamsoftware.nimbustv.ui.core.components.CommonPlayerBackground
+import com.dreamsoftware.nimbustv.ui.core.components.FavouriteButton
 import com.dreamsoftware.nimbustv.ui.core.player.PlayerControlsState
 import com.dreamsoftware.nimbustv.ui.core.player.rememberVideoPlayerState
 import com.dreamsoftware.nimbustv.ui.core.player.state.PlayerState
@@ -67,7 +67,7 @@ fun VideoPlayerScreenContent(
             uiState = state,
             isPlaying = playerState is PlayerState.Playing,
             state = videoPlayerState,
-            onFavoriteStateChanged = { },
+            onFavoriteClicked = { },
             onOpenSettingsPressed = { }
         )
     }
@@ -78,7 +78,7 @@ private fun PlayerControls(
     modifier: Modifier = Modifier,
     uiState: VideoPlayerUiState,
     isPlaying: Boolean,
-    onFavoriteStateChanged: (Boolean) -> Unit,
+    onFavoriteClicked: () -> Unit,
     onOpenSettingsPressed: () -> Unit,
     state: PlayerControlsState
 ) {
@@ -123,10 +123,10 @@ private fun PlayerControls(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     FudgeTvFocusRequester { focusRequester ->
-                        CommonFavoriteButton(
+                        FavouriteButton(
                             modifier = Modifier.focusRequester(focusRequester),
                             isFavorite = false,
-                            onStateChanged = onFavoriteStateChanged
+                            onClick = onFavoriteClicked
                         )
                     }
                 }

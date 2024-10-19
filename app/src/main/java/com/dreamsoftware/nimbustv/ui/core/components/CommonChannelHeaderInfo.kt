@@ -23,11 +23,11 @@ fun CommonChannelHeaderInfo(
     logo: String?
 ) {
     with(MaterialTheme.colorScheme) {
-        Row (modifier = modifier.height(50.dp).fillMaxWidth(),
+        Row (modifier = modifier.height(50.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically)  {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                ChannelLogo(size = 40.dp, logo = logo)
+                ChannelLogo(size = 50.dp, logo = logo)
                 Spacer(modifier = Modifier.width(10.dp))
                 Column {
                     FudgeTvText(
