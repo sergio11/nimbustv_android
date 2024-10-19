@@ -10,6 +10,7 @@ import com.dreamsoftware.nimbustv.domain.service.IEpgParserService
 import com.dreamsoftware.nimbustv.domain.service.IPlaylistParserService
 import com.dreamsoftware.nimbustv.domain.usecase.AddFavoriteChannelUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.ChangeSecurePinUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.CheckFavoriteChannelUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SaveEpgUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.CreateProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.DeleteProfileUseCase
@@ -27,7 +28,7 @@ import com.dreamsoftware.nimbustv.domain.usecase.GetChannelsByPlaylistUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetEpgDataUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetFavoriteChannelsByProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetPlaylistsByProfileUseCase
-import com.dreamsoftware.nimbustv.domain.usecase.RemoveChannelFromFavoritesChannelUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.RemoveChannelFromFavoritesUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SelectProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SignOffUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.UpdateProfileUseCase
@@ -275,8 +276,8 @@ class UseCasesModule {
     fun provideRemoveChannelFromFavoritesChannelUseCase(
         profileRepository: IProfilesRepository,
         channelRepository: IChannelRepository
-    ): RemoveChannelFromFavoritesChannelUseCase =
-        RemoveChannelFromFavoritesChannelUseCase(
+    ): RemoveChannelFromFavoritesUseCase =
+        RemoveChannelFromFavoritesUseCase(
             profileRepository = profileRepository,
             channelRepository = channelRepository
         )
@@ -288,5 +289,16 @@ class UseCasesModule {
     ): DeletePlaylistUseCase =
         DeletePlaylistUseCase(
             playlistRepository = playlistRepository
+        )
+
+    @Provides
+    @ViewModelScoped
+    fun provideCheckFavoriteChannelUseCase(
+        profileRepository: IProfilesRepository,
+        channelRepository: IChannelRepository
+    ): CheckFavoriteChannelUseCase =
+        CheckFavoriteChannelUseCase(
+            profileRepository = profileRepository,
+            channelRepository = channelRepository
         )
 }

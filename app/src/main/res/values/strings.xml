@@ -54,6 +54,8 @@
     <!-- Favorites -->
     <string name="favorites_screen_title">🌟 Your Favorite Channels 🌟</string>
     <string name="favorites_screen_no_channels_found_text">🚫 No favorite channels yet! Add some sparkle! ✨</string>
+    <string name="favorites_screen_channel_detail_popup_open_player_button_text">Watch Now</string>
+    <string name="favorites_screen_channel_detail_popup_remove_from_favorites_button_text">Remove from Favorites</string>
 
     <!-- Playlist -->
     <string name="my_playlists_screen_title">✨ Explore Your Playlist Paradise! 🌈</string>

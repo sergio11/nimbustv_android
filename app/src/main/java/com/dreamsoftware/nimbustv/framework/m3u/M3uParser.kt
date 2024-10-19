@@ -162,28 +162,32 @@ object M3uParser {
         return entries
     }
 
-    private fun parseSimple(location: String, baseDir: Path?, kodiProps: Map<String, String>): M3uEntry? {
-        val streamType = determineStreamType(location) // Determine the stream type based on the location
+    private fun parseSimple(
+        location: String,
+        baseDir: Path?,
+        kodiProps: Map<String, String>
+    ): M3uEntry? {
+        val streamType =
+            determineStreamType(location) // Determine the stream type based on the location
 
         return try {
-            M3uEntry(MediaLocation(location, baseDir), kodiProps = kodiProps, streamType = streamType)
+            M3uEntry(
+                MediaLocation(location, baseDir),
+                kodiProps = kodiProps,
+                streamType = streamType
+            )
         } catch (e: IllegalArgumentException) {
             Log.d(TAG, "Could not parse as location: $location")
             null
         }
     }
 
-    // Function to determine the stream type based on the location
-    private fun determineStreamType(location: String): StreamType {
-        return when {
-            location.endsWith(".mpd") || location.endsWith(".m3u8") -> StreamType.ONLY_AUDIO
-            location.contains("radio", ignoreCase = true) -> StreamType.ONLY_AUDIO
-            else -> StreamType.VIDEO
-        }
-    }
-
-
-    private fun parseExtended(infoMatch: MatchResult, location: String, baseDir: Path?, kodiProps: Map<String, String>): M3uEntry? {
+    private fun parseExtended(
+        infoMatch: MatchResult,
+        location: String,
+        baseDir: Path?,
+        kodiProps: Map<String, String>
+    ): M3uEntry? {
         val mediaLocation = try {
             MediaLocation(location, baseDir)
         } catch (e: IllegalArgumentException) {
@@ -246,24 +250,30 @@ object M3uParser {
      * @param metadata the metadata of the entry
      * @return the type of the stream (StreamType.ONLY_AUDIO or StreamType.VIDEO)
      */
-    private fun determineStreamType(location: String, title: String?, metadata: M3uMetadata): StreamType {
-        // Default to VIDEO for most formats
-        var streamType = StreamType.VIDEO
-
-        // Check for specific conditions that indicate it is ONLY_AUDIO
+    private fun determineStreamType(
+        location: String,
+        title: String?,
+        metadata: M3uMetadata
+    ): StreamType =
         if (title?.contains("radio", ignoreCase = true) == true ||
-            metadata.keys.any { it.contains("radio", ignoreCase = true) } ||
-            location.endsWith(".mp3", ignoreCase = true) ||
-            location.endsWith(".aac", ignoreCase = true) ||
-            location.endsWith(".wav", ignoreCase = true) ||
-            location.endsWith(".ogg", ignoreCase = true) ||
-            location.endsWith(".m3u8", ignoreCase = true) ||
-            location.endsWith(".mpd", ignoreCase = true)) {
-            streamType = StreamType.ONLY_AUDIO
+            metadata.keys.any { it.contains("radio", ignoreCase = true) }
+        ) {
+            StreamType.ONLY_AUDIO
+        } else {
+            determineStreamType(location)
         }
 
-        return streamType
-    }
+    // Function to determine the stream type based on the location
+    private fun determineStreamType(location: String): StreamType =
+        if (location.endsWith(".mp3", ignoreCase = true) ||
+            location.endsWith(".aac", ignoreCase = true) ||
+            location.endsWith(".wav", ignoreCase = true) ||
+            location.endsWith(".ogg", ignoreCase = true)
+        ) {
+            StreamType.ONLY_AUDIO
+        } else {
+            StreamType.VIDEO
+        }
 
     private fun parseMetadata(keyValues: String?): M3uMetadata {
         if (keyValues == null) {

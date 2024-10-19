@@ -1,6 +1,5 @@
 package com.dreamsoftware.nimbustv.ui.player.video
 
-import android.util.Log
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
@@ -13,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class VideoPlayerViewModel @Inject constructor(
     private val getChannelByIdUseCase: GetChannelByIdUseCase
-) : FudgeTvViewModel<VideoPlayerUiState, VideoPlayerSideEffects>() {
+) : FudgeTvViewModel<VideoPlayerUiState, VideoPlayerSideEffects>(), VideoPlayerScreenActionListener {
 
     override fun onGetDefaultState(): VideoPlayerUiState = VideoPlayerUiState()
 
@@ -28,7 +27,6 @@ class VideoPlayerViewModel @Inject constructor(
     private fun onGetChannelByIdSuccessfully(channel: ChannelBO) {
         updateState {
             with(channel) {
-                Log.d("ATV_VIDEO_PLAYER", "onGetChannelByIdSuccessfully - url: $url")
                 it.copy(
                     title = title.orEmpty(),
                     subtitle = category.orEmpty(),

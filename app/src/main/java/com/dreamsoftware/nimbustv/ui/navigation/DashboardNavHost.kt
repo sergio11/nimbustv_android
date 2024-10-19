@@ -26,11 +26,13 @@ fun DashboardNavHost(
             with(navController) {
                 HomeScreen(
                     onPlayChannel = { channelId, type ->
-                        navigate(if(type == StreamTypeEnum.ONLY_AUDIO) {
-                            Screen.AudioPlayer.buildRoute(channelId)
-                        } else {
-                            Screen.VideoPlayer.buildRoute(channelId)
-                        })
+                        navigate(
+                            if (type == StreamTypeEnum.ONLY_AUDIO) {
+                                Screen.AudioPlayer.buildRoute(channelId)
+                            } else {
+                                Screen.VideoPlayer.buildRoute(channelId)
+                            }
+                        )
                     },
                     onManagePlaylist = {
                         navigate(Screen.Playlists.route)
@@ -65,6 +67,15 @@ fun DashboardNavHost(
         composable(Screen.Favorite.route) {
             with(navController) {
                 FavoritesScreen(
+                    onPlayChannel = { channelId, type ->
+                        navigate(
+                            if (type == StreamTypeEnum.ONLY_AUDIO) {
+                                Screen.AudioPlayer.buildRoute(channelId)
+                            } else {
+                                Screen.VideoPlayer.buildRoute(channelId)
+                            }
+                        )
+                    },
                     onBackPressed = {
                         popBackStack()
                     }

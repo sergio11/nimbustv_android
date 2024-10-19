@@ -12,7 +12,7 @@ import androidx.sqlite.db.SupportSQLiteQuery
 interface ISupportDAO<T> {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(entity: T)
+    suspend fun insert(entity: T): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(entityList: List<T>)

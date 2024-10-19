@@ -34,6 +34,7 @@ fun CommonChannelHeaderInfo(
                         titleText = title,
                         type = FudgeTvTextTypeEnum.TITLE_LARGE,
                         textBold = true,
+                        singleLine = true,
                         textColor = onPrimaryContainer
                     )
                     FudgeTvText(

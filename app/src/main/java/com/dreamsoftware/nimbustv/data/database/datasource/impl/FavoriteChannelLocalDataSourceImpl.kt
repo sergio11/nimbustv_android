@@ -23,4 +23,9 @@ internal class FavoriteChannelLocalDataSourceImpl(
     override suspend fun deleteByChannelIdAndProfileId(channelId: String, profileId: String) = safeExecute {
         favoriteChannelDao.deleteByChannelIdAndProfileId(channelId, profileId)
     }
+
+    @Throws(AccessDatabaseException::class)
+    override suspend fun isFavoriteChannel(channelId: String, profileId: String): Boolean = safeExecute {
+        favoriteChannelDao.countByChannelIdAndProfileId(channelId, profileId) > 0
+    }
 }

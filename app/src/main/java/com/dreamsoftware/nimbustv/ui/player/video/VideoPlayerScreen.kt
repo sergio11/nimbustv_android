@@ -24,6 +24,9 @@ fun VideoPlayerScreen(
             }
         }
     ) { uiState ->
-        VideoPlayerScreenContent(state = uiState)
+        VideoPlayerScreenContent(
+            state = uiState,
+            actionListener = viewModel
+        )
     }
 }

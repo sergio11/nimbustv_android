@@ -48,7 +48,7 @@ class PlaylistsViewModel @Inject constructor(
     }
 
     override fun onImportNewPlayListConfirmed() {
-        uiState.value.run {
+        doOnUiState {
             executeUseCaseWithParams(
                 useCase = createPlaylistUseCase,
                 params = CreatePlaylistUseCase.Params(

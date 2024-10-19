@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,7 +24,9 @@ import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 @Composable
 fun ChannelPreview(
     modifier: Modifier = Modifier,
-    channel: ChannelBO
+    channel: ChannelBO,
+    isFavoriteChannel: Boolean,
+    onFavoriteStateChanged: (Boolean) -> Unit
 ) {
     with(MaterialTheme.colorScheme) {
         Card(
@@ -53,10 +54,9 @@ fun ChannelPreview(
                         verticalAlignment = Alignment.Bottom
                     ) {
                         FavouriteButton(
-                            isFavorite =  true
-                        ) {
-
-                        }
+                            isFavorite = isFavoriteChannel,
+                            onClick = { onFavoriteStateChanged(!isFavoriteChannel) }
+                        )
                         Spacer(modifier = Modifier.width(10.dp))
                         CommonChannelHeaderInfo(
                             title = title,
