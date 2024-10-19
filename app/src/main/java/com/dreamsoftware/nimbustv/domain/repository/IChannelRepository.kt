@@ -6,6 +6,7 @@ import com.dreamsoftware.nimbustv.domain.exception.GetChannelsByPlaylistExceptio
 import com.dreamsoftware.nimbustv.domain.exception.GetFavoriteChannelsByProfileIdException
 import com.dreamsoftware.nimbustv.domain.exception.RemoveFromFavoritesException
 import com.dreamsoftware.nimbustv.domain.exception.SaveChannelsException
+import com.dreamsoftware.nimbustv.domain.exception.VerifyFavoriteChannelException
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.domain.model.SaveChannelBO
 
@@ -25,6 +26,9 @@ interface IChannelRepository {
 
     @Throws(RemoveFromFavoritesException::class)
     suspend fun removeFromFavorites(channelId: String, profileId: String)
+
+    @Throws(VerifyFavoriteChannelException::class)
+    suspend fun isFavoriteChannel(channelId: String, profileId: String): Boolean
 
     @Throws(GetFavoriteChannelsByProfileIdException::class)
     suspend fun findAllFavoriteChannelsByProfileId(profileId: String): List<ChannelBO>

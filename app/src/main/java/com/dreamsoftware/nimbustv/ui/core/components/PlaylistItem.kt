@@ -27,8 +27,8 @@ fun PlaylistItem(
             .fillMaxWidth()
             .height(100.dp)
             .padding(8.dp),
-            focusedBorderColor = primary,
-            borderColor = primaryContainer,
+            focusedBorderColor = primaryContainer,
+            borderColor = onPrimaryContainer,
             isSelected = isSelected,
             onClicked = {
                 onPlaylistSelected(playlist)

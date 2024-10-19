@@ -9,6 +9,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,6 +25,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
+import com.dreamsoftware.fudge.component.FudgeTvScreenContent
 import com.dreamsoftware.nimbustv.ui.core.components.CommonChannelHeaderInfo
 import com.dreamsoftware.nimbustv.ui.core.components.CommonPlayerBackground
 import com.dreamsoftware.nimbustv.ui.core.components.FavouriteButton
@@ -36,7 +38,8 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnsafeOptInUsageError")
 @Composable
 fun VideoPlayerScreenContent(
-    state: VideoPlayerUiState
+    state: VideoPlayerUiState,
+    actionListener: VideoPlayerScreenActionListener
 ) {
 
     val coroutineScope = rememberCoroutineScope()
@@ -50,26 +53,28 @@ fun VideoPlayerScreenContent(
             }
         }
     }
-    CommonPlayerBackground(
-        videResource = state.videoUrl,
-        videoResourceLicenseKey = state.licenseKey,
-        playerStateListener = stateListener,
-        onEnter = {
-            if (!videoPlayerState.isDisplayed) {
-                coroutineScope.launch {
-                    videoPlayerState.showControls()
+    FudgeTvScreenContent(onErrorAccepted = actionListener::onErrorMessageCleared) {
+        CommonPlayerBackground(
+            videResource = state.videoUrl,
+            videoResourceLicenseKey = state.licenseKey,
+            playerStateListener = stateListener,
+            onEnter = {
+                if (!videoPlayerState.isDisplayed) {
+                    coroutineScope.launch {
+                        videoPlayerState.showControls()
+                    }
                 }
             }
+        ) {
+            PlayerControls(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                uiState = state,
+                isPlaying = playerState is PlayerState.Playing,
+                state = videoPlayerState,
+                onFavoriteClicked = { },
+                onOpenSettingsPressed = { }
+            )
         }
-    ) {
-        PlayerControls(
-            modifier = Modifier.align(Alignment.BottomCenter),
-            uiState = state,
-            isPlaying = playerState is PlayerState.Playing,
-            state = videoPlayerState,
-            onFavoriteClicked = { },
-            onOpenSettingsPressed = { }
-        )
     }
 }
 
@@ -113,6 +118,7 @@ private fun PlayerControls(
                     ),
             ) {
                 CommonChannelHeaderInfo(
+                    modifier = Modifier.fillMaxWidth(),
                     title = title,
                     subtitle = subtitle,
                     logo = channelLogo

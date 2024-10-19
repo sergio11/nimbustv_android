@@ -84,54 +84,64 @@ private fun HomeScreenMainContent(
     actionListener: HomeScreenActionListener
 ) {
     with(state) {
-        with(MaterialTheme.colorScheme) {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize(),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                PlayListsColumn(
+        with(actionListener) {
+            with(MaterialTheme.colorScheme) {
+                Row(
                     modifier = Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth(0.2f)
-                        .background(primaryContainer.copy(alpha = 0.5f))
-                        .border(1.dp, primary),
-                    playlists = playlists,
-                    playlistSelected = playlistSelected,
-                    onManagePlaylistClicked = actionListener::onManagePlaylistClicked,
-                    onPlaylistSelected = actionListener::onNewPlaylistSelected
-                )
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight(),
-                    verticalArrangement = Arrangement.Top,
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .fillMaxSize(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    if (isLoadingChannels) {
-                        FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
-                    } else {
-                        channelFocused?.let { channel ->
-                            ChannelPreview(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .fillMaxHeight(0.45f)
-                                    .padding(start = 8.dp),
-                                channel = channel
+                    PlayListsColumn(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .fillMaxWidth(0.2f)
+                            .background(primaryContainer.copy(alpha = 0.5f))
+                            .border(1.dp, primary),
+                        playlists = playlists,
+                        playlistSelected = playlistSelected,
+                        onManagePlaylistClicked = ::onManagePlaylistClicked,
+                        onPlaylistSelected = ::onNewPlaylistSelected
+                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(),
+                        verticalArrangement = Arrangement.Top,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        if (isLoadingChannels) {
+                            FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
+                        } else {
+                            channelFocused?.let { channel ->
+                                ChannelPreview(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .fillMaxHeight(0.45f)
+                                        .padding(start = 8.dp),
+                                    channel = channel,
+                                    isFavoriteChannel = isFavoriteChannel,
+                                    onFavoriteStateChanged = { isFavorite ->
+                                        if(isFavorite) {
+                                            onAddFavoriteChannelClicked()
+                                        } else {
+                                            onRemoveChannelFromFavorites()
+                                        }
+                                    }
+                                )
+                            }
+                            CategoriesList(
+                                categories = categories,
+                                categorySelected = categorySelected,
+                                onCategorySelected = ::onNewCategorySelected
+                            )
+                            ChannelsGrid(
+                                channels = channels,
+                                channelFocused = channelFocused,
+                                onChannelFocused = ::onChannelFocused,
+                                onChannelPressed = ::onChannelPressed
                             )
                         }
-                        CategoriesList(
-                            categories = categories,
-                            categorySelected = categorySelected,
-                            onCategorySelected = actionListener::onNewCategorySelected
-                        )
-                        ChannelsGrid(
-                            channels = channels,
-                            channelFocused = channelFocused,
-                            onChannelFocused = actionListener::onChannelFocused,
-                            onChannelPressed = actionListener::onChannelPressed
-                        )
                     }
                 }
             }
@@ -233,7 +243,7 @@ private fun PlayListsColumn(
             FudgeTvButton(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp)
+                    .padding(16.dp)
                     .playSoundEffectOnFocus(),
                 type = FudgeTvButtonTypeEnum.SMALL,
                 style = FudgeTvButtonStyleTypeEnum.TRANSPARENT,

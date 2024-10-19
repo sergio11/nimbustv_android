@@ -3,6 +3,7 @@ package com.dreamsoftware.nimbustv.ui.screens.favorites
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -10,7 +11,11 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
+import com.dreamsoftware.fudge.component.FudgeTvButton
+import com.dreamsoftware.fudge.component.FudgeTvButtonStyleTypeEnum
+import com.dreamsoftware.fudge.component.FudgeTvButtonTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
 import com.dreamsoftware.fudge.component.FudgeTvLoadingState
 import com.dreamsoftware.fudge.component.FudgeTvNoContentState
@@ -21,6 +26,7 @@ import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.ui.core.components.ChannelGridItem
 import com.dreamsoftware.nimbustv.ui.core.components.CommonLazyVerticalGrid
+import com.dreamsoftware.nimbustv.ui.core.components.CommonPopup
 
 @Composable
 internal fun FavoritesScreenContent(
@@ -28,19 +34,29 @@ internal fun FavoritesScreenContent(
     actionListener: FavoritesScreenActionListener
 ) {
     with(uiState) {
-        FudgeTvScreenContent(onErrorAccepted = actionListener::onErrorMessageCleared) {
-            if (isLoading) {
-                FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
-            } else if (channels.isEmpty()) {
-                FudgeTvNoContentState(
-                    modifier = Modifier.fillMaxSize(),
-                    messageRes = R.string.favorites_screen_no_channels_found_text
+        with(actionListener) {
+            channelSelected?.let {
+                ChannelDetailsPopup(
+                    channel = it,
+                    onPlayChannel = ::onPlayChannel,
+                    onRemoveFromFavorites = ::onRemoveFromFavorites,
+                    onBackPressed = ::onCloseDetail
                 )
-            } else {
-                FavoriteChannelsMainContent(
-                    channels = channels,
-                    actionListener = actionListener
-                )
+            }
+            FudgeTvScreenContent(onErrorAccepted = ::onErrorMessageCleared) {
+                if (isLoading) {
+                    FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
+                } else if (channels.isEmpty()) {
+                    FudgeTvNoContentState(
+                        modifier = Modifier.fillMaxSize(),
+                        messageRes = R.string.favorites_screen_no_channels_found_text
+                    )
+                } else {
+                    FavoriteChannelsMainContent(
+                        channels = channels,
+                        actionListener = actionListener
+                    )
+                }
             }
         }
     }
@@ -56,16 +72,16 @@ private fun FavoriteChannelsMainContent(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        FavoriteChannelsHeader(actionListener = actionListener)
+        FavoriteChannelsHeader()
         FavoriteChannelsGridContent(
             channels = channels,
-            onChannelSelected = { }
+            onChannelSelected = actionListener::onOpenChannelDetail
         )
     }
 }
 
 @Composable
-private fun FavoriteChannelsHeader(actionListener: FavoritesScreenActionListener) {
+private fun FavoriteChannelsHeader() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -96,6 +112,44 @@ private fun FavoriteChannelsGridContent(
             ChannelGridItem(
                 channel = item,
                 onChannelPressed = onChannelSelected
+            )
+        }
+    }
+}
+
+@Composable
+private fun ChannelDetailsPopup(
+    channel: ChannelBO,
+    onPlayChannel: (ChannelBO) -> Unit,
+    onRemoveFromFavorites: (ChannelBO) -> Unit,
+    onBackPressed: () -> Unit
+) {
+    with(channel) {
+        CommonPopup(
+            imageUrl = icon,
+            title = title,
+            description = category,
+            onBackPressed = onBackPressed
+        ) { focusRequester ->
+            Spacer(modifier = Modifier.weight(1f))
+            FudgeTvButton(
+                modifier = Modifier
+                    .focusRequester(focusRequester)
+                    .fillMaxWidth()
+                    .padding(bottom = 12.dp),
+                type = FudgeTvButtonTypeEnum.MEDIUM,
+                style = FudgeTvButtonStyleTypeEnum.NORMAL,
+                textRes = R.string.favorites_screen_channel_detail_popup_open_player_button_text,
+                onClick = { onPlayChannel(channel) }
+            )
+            FudgeTvButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 12.dp),
+                type = FudgeTvButtonTypeEnum.MEDIUM,
+                style = FudgeTvButtonStyleTypeEnum.TRANSPARENT,
+                textRes = R.string.favorites_screen_channel_detail_popup_remove_from_favorites_button_text,
+                onClick = { onRemoveFromFavorites(channel) }
             )
         }
     }

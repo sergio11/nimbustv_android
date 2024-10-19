@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -27,9 +28,10 @@ fun ChannelLogo(
             modifier = modifier
                 .size(size)
                 .clip(CircleShape)
-                .background(onPrimaryContainer)
+                .background(background)
                 .border(2.dp, borderColor ?: onPrimaryContainer, CircleShape),
             context = LocalContext.current,
+            contentScale = ContentScale.Fit,
             defaultImagePlaceholderRes = R.drawable.main_logo,
             imageUrl = logo
         )

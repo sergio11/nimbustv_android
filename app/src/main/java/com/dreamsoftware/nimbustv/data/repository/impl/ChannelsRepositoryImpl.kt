@@ -12,6 +12,7 @@ import com.dreamsoftware.nimbustv.domain.exception.GetChannelsByPlaylistExceptio
 import com.dreamsoftware.nimbustv.domain.exception.GetFavoriteChannelsByProfileIdException
 import com.dreamsoftware.nimbustv.domain.exception.RemoveFromFavoritesException
 import com.dreamsoftware.nimbustv.domain.exception.SaveChannelsException
+import com.dreamsoftware.nimbustv.domain.exception.VerifyFavoriteChannelException
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.domain.model.SaveChannelBO
 import com.dreamsoftware.nimbustv.domain.repository.IChannelRepository
@@ -94,6 +95,18 @@ internal class ChannelsRepositoryImpl(
         } catch (ex: DatabaseException) {
             throw RemoveFromFavoritesException(
                 "An error occurred when trying to remove channel from favorites",
+                ex
+            )
+        }
+    }
+
+    @Throws(VerifyFavoriteChannelException::class)
+    override suspend fun isFavoriteChannel(channelId: String, profileId: String): Boolean = safeExecute {
+        try {
+            favoriteChannelLocalDataSource.isFavoriteChannel(channelId, profileId)
+        } catch (ex: DatabaseException) {
+            throw VerifyFavoriteChannelException(
+                "An error occurred when trying to verify favorite channel",
                 ex
             )
         }

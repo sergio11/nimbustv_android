@@ -25,6 +25,7 @@ class GetChannelsByPlaylistException(message: String? = null, cause: Throwable? 
 class GetChannelByIdException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class AddToFavoritesException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class RemoveFromFavoritesException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
+class VerifyFavoriteChannelException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class GetFavoriteChannelsByProfileIdException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 
 //Profiles

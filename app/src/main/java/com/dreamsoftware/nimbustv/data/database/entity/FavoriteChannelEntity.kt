@@ -24,7 +24,8 @@ import androidx.room.PrimaryKey
     ],
     indices = [
         Index(value = ["profile_id"]),
-        Index(value = ["channel_id"])
+        Index(value = ["channel_id"]),
+        Index(value = ["profile_id", "channel_id"], unique = true)
     ]
 )
 data class FavoriteChannelEntity(

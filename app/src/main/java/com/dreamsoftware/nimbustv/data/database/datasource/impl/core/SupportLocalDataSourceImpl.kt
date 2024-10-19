@@ -16,8 +16,9 @@ abstract class SupportLocalDataSourceImpl<D : SupportDaoImpl<E, K>, E : IEntity<
     @Throws(RecordNotFoundException::class, AccessDatabaseException::class)
     override suspend fun insert(entity: E): E = safeExecute {
         with(dao) {
-            insert(entity).let {
-                getById(entity.id) ?: throw RecordNotFoundException("record not found")
+            insert(entity).let { result ->
+                getById(entity.id.takeIf { it is String && it.isNotEmpty() || it is Number && it.toLong() > 0 }
+                    ?: result) ?: throw RecordNotFoundException("record not found")
             }
         }
     }

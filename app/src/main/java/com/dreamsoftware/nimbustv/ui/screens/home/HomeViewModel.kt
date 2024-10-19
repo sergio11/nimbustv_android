@@ -1,14 +1,18 @@
 package com.dreamsoftware.nimbustv.ui.screens.home
 
+import android.util.Log
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.domain.model.PlayListBO
 import com.dreamsoftware.nimbustv.domain.model.StreamTypeEnum
+import com.dreamsoftware.nimbustv.domain.usecase.AddFavoriteChannelUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.CheckFavoriteChannelUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.CreatePlaylistUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetChannelsByPlaylistUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetPlaylistsByProfileUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.RemoveChannelFromFavoritesUseCase
 import com.dreamsoftware.nimbustv.ui.utils.EMPTY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -17,7 +21,10 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getPlaylistsByProfileUseCase: GetPlaylistsByProfileUseCase,
     private val createPlaylistUseCase: CreatePlaylistUseCase,
-    private val getChannelsByPlaylistUseCase: GetChannelsByPlaylistUseCase
+    private val getChannelsByPlaylistUseCase: GetChannelsByPlaylistUseCase,
+    private val addFavoriteChannelUseCase: AddFavoriteChannelUseCase,
+    private val removeChannelFromFavoritesUseCase: RemoveChannelFromFavoritesUseCase,
+    private val checkFavoriteChannelUseCase: CheckFavoriteChannelUseCase
 ) : FudgeTvViewModel<HomeUiState, HomeSideEffects>(), HomeScreenActionListener {
 
     override fun onGetDefaultState(): HomeUiState = HomeUiState()
@@ -39,7 +46,7 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun onImportNewPlayListConfirmed() {
-        uiState.value.run {
+        doOnUiState {
             executeUseCaseWithParams(
                 useCase = createPlaylistUseCase,
                 params = CreatePlaylistUseCase.Params(
@@ -66,6 +73,14 @@ class HomeViewModel @Inject constructor(
 
     override fun onChannelFocused(value: ChannelBO) {
         updateState { it.copy(channelFocused = value) }
+        executeUseCaseWithParams(
+            useCase = checkFavoriteChannelUseCase,
+            params = CheckFavoriteChannelUseCase.Params(
+                channelId = value.id
+            ),
+            showLoadingState = false,
+            onSuccess = ::onCheckFavoriteChannelCompleted
+        )
     }
 
     override fun onChannelPressed(value: ChannelBO) {
@@ -76,6 +91,38 @@ class HomeViewModel @Inject constructor(
 
     override fun onManagePlaylistClicked() {
         launchSideEffect(HomeSideEffects.ManagePlaylistSideEffect)
+    }
+
+    override fun onAddFavoriteChannelClicked() {
+        doOnUiState {
+            Log.d("ATV_FAVORITES", "onAddFavoriteChannelClicked CALLED!")
+            channelFocused?.id?.let { channelId ->
+                Log.d("ATV_FAVORITES", "onAddFavoriteChannelClicked channelId -> $channelId CALLED!")
+                executeUseCaseWithParams(
+                    useCase = addFavoriteChannelUseCase,
+                    params = AddFavoriteChannelUseCase.Params(
+                        channelId = channelId
+                    ),
+                    showLoadingState = false,
+                    onSuccess = { onAddFavoriteChannelCompleted() }
+                )
+            }
+        }
+    }
+
+    override fun onRemoveChannelFromFavorites() {
+        doOnUiState {
+            channelFocused?.id?.let { channelId ->
+                executeUseCaseWithParams(
+                    useCase = removeChannelFromFavoritesUseCase,
+                    params = RemoveChannelFromFavoritesUseCase.Params(
+                        channelId = channelId
+                    ),
+                    showLoadingState = false,
+                    onSuccess = { onRemoveChannelFromFavoritesCompleted() }
+                )
+            }
+        }
     }
 
     private fun onGetPlaylistByProfileCompleted(playlists: List<PlayListBO>) {
@@ -124,6 +171,20 @@ class HomeViewModel @Inject constructor(
             )
         }
     }
+
+    private fun onCheckFavoriteChannelCompleted(isFavoriteChannel: Boolean) {
+        updateState { it.copy(isFavoriteChannel = isFavoriteChannel) }
+    }
+
+    private fun onAddFavoriteChannelCompleted() {
+        Log.d("ATV_FAVORITES", "onAddFavoriteChannelCompleted isFavoriteChannel = true CALLED!")
+        updateState { it.copy(isFavoriteChannel = true) }
+    }
+
+    private fun onRemoveChannelFromFavoritesCompleted() {
+        Log.d("ATV_FAVORITES", "onRemoveChannelFromFavoritesCompleted isFavoriteChannel = false CALLED!")
+        updateState { it.copy(isFavoriteChannel = false) }
+    }
 }
 
 data class HomeUiState(
@@ -139,7 +200,8 @@ data class HomeUiState(
     val playlistSelected: PlayListBO? = null,
     val categories: List<String> = emptyList(),
     val categorySelected: String? = null,
-    val channelFocused: ChannelBO? = null
+    val channelFocused: ChannelBO? = null,
+    val isFavoriteChannel: Boolean = false
 ) : UiState<HomeUiState>(isLoading, errorMessage) {
     override fun copyState(isLoading: Boolean, errorMessage: String?): HomeUiState =
         copy(isLoading = isLoading, errorMessage = errorMessage)

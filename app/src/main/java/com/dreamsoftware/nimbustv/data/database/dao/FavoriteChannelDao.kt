@@ -24,4 +24,7 @@ abstract class FavoriteChannelDao: SupportDaoImpl<FavoriteChannelEntity, Long>(F
         WHERE fc.profile_id = :profileId
     """)
     abstract suspend fun findFavoriteChannelsByProfileId(profileId: String): List<ChannelEntity>
+
+    @Query("SELECT COUNT(*) FROM favorite_channels WHERE channel_id = :channelId AND profile_id = :profileId")
+    abstract suspend fun countByChannelIdAndProfileId(channelId: String, profileId: String): Long
 }

@@ -16,4 +16,6 @@ interface HomeScreenActionListener: IFudgeTvScreenActionListener {
     fun onChannelPressed(value: ChannelBO)
     fun onNewCategorySelected(newValue: String)
     fun onManagePlaylistClicked()
+    fun onAddFavoriteChannelClicked()
+    fun onRemoveChannelFromFavorites()
 }
