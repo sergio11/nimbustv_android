@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -24,10 +26,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
 import com.dreamsoftware.fudge.component.FudgeTvScreenContent
-import com.dreamsoftware.fudge.component.player.video.FudgeTvVideoPlayerControlsIcon
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.ui.core.components.CommonChannelHeaderInfo
 import com.dreamsoftware.nimbustv.ui.core.components.CommonPlayerBackground
@@ -128,12 +130,22 @@ private fun PlayerControls(
                         vertical = 32.dp,
                     ),
             ) {
-                CommonChannelHeaderInfo(
+                Row(
                     modifier = Modifier.fillMaxWidth(),
-                    title = title,
-                    subtitle = subtitle,
-                    logo = channelLogo
-                )
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    CommonChannelHeaderInfo(
+                        title = title,
+                        subtitle = subtitle,
+                        logo = channelLogo
+                    )
+                    Image(
+                        painter = painterResource(id = R.drawable.main_logo_inverse),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(80.dp)
+                    )
+                }
                 Spacer(modifier = Modifier.weight(1.0f))
                 FudgeTvFocusRequester { focusRequester ->
                     Row(
