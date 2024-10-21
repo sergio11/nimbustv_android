@@ -12,12 +12,18 @@ data class VideoPlayerScreenArgs(
 fun VideoPlayerScreen(
     viewModel: VideoPlayerViewModel = hiltViewModel(),
     args: VideoPlayerScreenArgs,
+    onOpenSettings: () -> Unit,
     onBackPressed: () -> Unit
 ) {
     FudgeTvScreen(
         viewModel = viewModel,
         onBackPressed = onBackPressed,
         onInitialUiState = { VideoPlayerUiState() },
+        onSideEffect = {
+            when(it) {
+                VideoPlayerSideEffects.OpenSettingsSideEffects -> onOpenSettings()
+            }
+        },
         onInit = {
             with(args) {
                 fetchData(id = id)

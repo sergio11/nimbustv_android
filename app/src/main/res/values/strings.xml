@@ -39,7 +39,6 @@
     <string name="onboarding_exit_app_dialog_description">Are you sure you want to leave NimbusTV? We’ll be here when you’re ready for more entertainment!</string>
 
     <!-- Home Screen -->
-    <string name="home_screen_playlist_column_title_text">My Playlist</string>
     <string name="home_screen_manage_playlist_button_text">Manage Playlists</string>
     <string name="home_screen_import_new_iptv_playlist_main_title">Add Your IPTV Playlist and Dive Into Endless Entertainment! \n Your favorite channels are just a playlist away.</string>
     <string name="home_screen_import_new_iptv_playlist_button_text">Import New Playlist</string>

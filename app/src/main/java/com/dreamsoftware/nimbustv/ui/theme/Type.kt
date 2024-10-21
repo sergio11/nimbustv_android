@@ -6,7 +6,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.tv.material3.Typography
 
-val FitFlexTypography = Typography(
+val NimbusTvTypography = Typography(
     bodyLarge = TextStyle(
         fontFamily = IBMPlexSans,
         fontWeight = FontWeight.Normal,

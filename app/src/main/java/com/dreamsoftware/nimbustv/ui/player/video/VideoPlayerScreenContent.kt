@@ -6,6 +6,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,6 +27,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
 import com.dreamsoftware.fudge.component.FudgeTvScreenContent
+import com.dreamsoftware.fudge.component.player.video.FudgeTvVideoPlayerControlsIcon
+import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.ui.core.components.CommonChannelHeaderInfo
 import com.dreamsoftware.nimbustv.ui.core.components.CommonPlayerBackground
 import com.dreamsoftware.nimbustv.ui.core.components.FavouriteButton
@@ -33,47 +36,55 @@ import com.dreamsoftware.nimbustv.ui.core.player.PlayerControlsState
 import com.dreamsoftware.nimbustv.ui.core.player.rememberVideoPlayerState
 import com.dreamsoftware.nimbustv.ui.core.player.state.PlayerState
 import com.dreamsoftware.nimbustv.ui.core.player.state.PlayerStateListener
+import com.dreamsoftware.nimbustv.ui.player.video.components.VideoPlayerControlsIcon
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnsafeOptInUsageError")
 @Composable
-fun VideoPlayerScreenContent(
+internal fun VideoPlayerScreenContent(
     state: VideoPlayerUiState,
     actionListener: VideoPlayerScreenActionListener
 ) {
-
-    val coroutineScope = rememberCoroutineScope()
-    var playerState: PlayerState by remember { mutableStateOf(PlayerState.Idle) }
-    val videoPlayerState = rememberVideoPlayerState(hideSeconds = 4, coroutineScope)
-    val stateListener = remember {
-        object : PlayerStateListener {
-            override fun on(state: PlayerState) {
-                Log.d("PlayerScreenContent", "State $state")
-                playerState = state
-            }
-        }
-    }
-    FudgeTvScreenContent(onErrorAccepted = actionListener::onErrorMessageCleared) {
-        CommonPlayerBackground(
-            videResource = state.videoUrl,
-            videoResourceLicenseKey = state.licenseKey,
-            playerStateListener = stateListener,
-            onEnter = {
-                if (!videoPlayerState.isDisplayed) {
-                    coroutineScope.launch {
-                        videoPlayerState.showControls()
-                    }
+    with(actionListener) {
+        val coroutineScope = rememberCoroutineScope()
+        var playerState: PlayerState by remember { mutableStateOf(PlayerState.Idle) }
+        val videoPlayerState = rememberVideoPlayerState(hideSeconds = 4, coroutineScope)
+        val stateListener = remember {
+            object : PlayerStateListener {
+                override fun on(state: PlayerState) {
+                    Log.d("PlayerScreenContent", "State $state")
+                    playerState = state
                 }
             }
-        ) {
-            PlayerControls(
-                modifier = Modifier.align(Alignment.BottomCenter),
-                uiState = state,
-                isPlaying = playerState is PlayerState.Playing,
-                state = videoPlayerState,
-                onFavoriteClicked = { },
-                onOpenSettingsPressed = { }
-            )
+        }
+        FudgeTvScreenContent(onErrorAccepted = ::onErrorMessageCleared) {
+            CommonPlayerBackground(
+                videResource = state.videoUrl,
+                videoResourceLicenseKey = state.licenseKey,
+                playerStateListener = stateListener,
+                onEnter = {
+                    if (!videoPlayerState.isDisplayed) {
+                        coroutineScope.launch {
+                            videoPlayerState.showControls()
+                        }
+                    }
+                }
+            ) {
+                PlayerControls(
+                    modifier = Modifier.align(Alignment.BottomCenter),
+                    uiState = state,
+                    isPlaying = playerState is PlayerState.Playing,
+                    state = videoPlayerState,
+                    onFavoriteClicked = { isFavorite ->
+                        if(isFavorite) {
+                            onAddFavoriteChannelClicked()
+                        } else {
+                            onRemoveChannelFromFavorites()
+                        }
+                    },
+                    onOpenSettingsPressed = ::onOpenSettingsClicked
+                )
+            }
         }
     }
 }
@@ -83,7 +94,7 @@ private fun PlayerControls(
     modifier: Modifier = Modifier,
     uiState: VideoPlayerUiState,
     isPlaying: Boolean,
-    onFavoriteClicked: () -> Unit,
+    onFavoriteClicked: (Boolean) -> Unit,
     onOpenSettingsPressed: () -> Unit,
     state: PlayerControlsState
 ) {
@@ -124,15 +135,28 @@ private fun PlayerControls(
                     logo = channelLogo
                 )
                 Spacer(modifier = Modifier.weight(1.0f))
-                Row(
-                    modifier = Modifier.padding(bottom = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    FudgeTvFocusRequester { focusRequester ->
+                FudgeTvFocusRequester { focusRequester ->
+                    Row(
+                        modifier = Modifier
+                            .padding(bottom = 16.dp)
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
                         FavouriteButton(
                             modifier = Modifier.focusRequester(focusRequester),
-                            isFavorite = false,
-                            onClick = onFavoriteClicked
+                            isFavorite = isFavoriteChannel,
+                            size = 50.dp,
+                            onClick = { onFavoriteClicked(!isFavoriteChannel) }
+                        )
+                        VideoPlayerControlsIcon(
+                            modifier = Modifier.padding(start = 12.dp),
+                            icon = R.drawable.settings,
+                            state = state,
+                            size = 50.dp,
+                            isPlaying = isPlaying,
+                            contentDescription = "Settings Icon",
+                            onClick = onOpenSettingsPressed
                         )
                     }
                 }

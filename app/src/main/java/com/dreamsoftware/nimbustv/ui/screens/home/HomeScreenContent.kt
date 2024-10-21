@@ -1,5 +1,7 @@
 package com.dreamsoftware.nimbustv.ui.screens.home
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
@@ -21,6 +24,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
@@ -226,13 +230,12 @@ private fun PlayListsColumn(
             modifier = modifier,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            FudgeTvText(
-                modifier = Modifier.padding(vertical = 16.dp, horizontal = 4.dp),
-                titleRes = R.string.home_screen_playlist_column_title_text,
-                type = FudgeTvTextTypeEnum.TITLE_MEDIUM,
-                textColor = MaterialTheme.colorScheme.onSurface,
-                textBold = true,
-                textAlign = TextAlign.Center
+            Image(
+                painter = painterResource(id = R.drawable.main_logo_inverse),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(120.dp)
+                    .padding(top = 16.dp)
             )
             FudgeTvButton(
                 modifier = Modifier
@@ -244,7 +247,7 @@ private fun PlayListsColumn(
                 textRes = R.string.home_screen_manage_playlist_button_text,
                 onClick = onManagePlaylistClicked
             )
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(10.dp))
             LazyColumn(
                 modifier = Modifier.weight(1f, true),
                 horizontalAlignment = Alignment.CenterHorizontally,

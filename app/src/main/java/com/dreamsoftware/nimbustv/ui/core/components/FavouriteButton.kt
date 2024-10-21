@@ -10,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Border
 import androidx.tv.material3.ButtonDefaults
@@ -21,6 +22,7 @@ import com.dreamsoftware.nimbustv.R
 @Composable
 fun FavouriteButton(
     modifier: Modifier = Modifier,
+    size: Dp = 50.dp,
     isFavorite: Boolean,
     onClick: () -> Unit
 ) {
@@ -30,7 +32,7 @@ fun FavouriteButton(
         IconButton(
             onClick = onClick,
             interactionSource = interactionSource,
-            modifier = modifier.size(50.dp),
+            modifier = modifier.size(size),
             colors = ButtonDefaults.colors(containerColor = Color.Transparent),
             border = ButtonDefaults.border(
                 border = Border(

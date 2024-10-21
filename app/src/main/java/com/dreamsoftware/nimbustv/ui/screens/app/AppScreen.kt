@@ -8,7 +8,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.dreamsoftware.nimbustv.ui.navigation.Screen
-import com.dreamsoftware.nimbustv.ui.theme.FitFlexTVTheme
+import com.dreamsoftware.nimbustv.ui.theme.NimbusTvTheme
 import com.dreamsoftware.nimbustv.ui.utils.navigateSingleTopTo
 import com.dreamsoftware.fudge.component.FudgeTvScreen
 import com.dreamsoftware.fudge.utils.openSystemSettings
@@ -20,7 +20,7 @@ fun AppScreen(
     navController: NavHostController = rememberNavController(),
     viewModel: AppViewModel = hiltViewModel()
 ) {
-    FitFlexTVTheme {
+    NimbusTvTheme {
         with(LocalContext.current) {
             FudgeTvScreen(
                 viewModel = viewModel,

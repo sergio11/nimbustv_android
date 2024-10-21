@@ -42,7 +42,7 @@ val LocalNavigationProvider = staticCompositionLocalOf<NavHostController> {
 }
 
 @Composable
-fun FitFlexTVTheme(
+fun NimbusTvTheme(
     content: @Composable () -> Unit,
 ) {
     CompositionLocalProvider(
@@ -50,7 +50,7 @@ fun FitFlexTVTheme(
     ) {
         FudgeTvTheme(
             lightColorScheme = LightColorScheme,
-            typography = FitFlexTypography,
+            typography = NimbusTvTypography,
             content = content
         )
     }
