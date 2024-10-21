@@ -17,16 +17,13 @@ import com.dreamsoftware.fudge.component.FudgeTvButton
 import com.dreamsoftware.fudge.component.FudgeTvButtonStyleTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvButtonTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
-import com.dreamsoftware.fudge.component.FudgeTvLoadingState
-import com.dreamsoftware.fudge.component.FudgeTvScreenContent
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
 import com.dreamsoftware.fudge.utils.conditional
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.PlayListBO
 import com.dreamsoftware.nimbustv.ui.core.components.CommonLazyVerticalGrid
-import com.dreamsoftware.nimbustv.ui.core.components.ImportPlaylistDialog
-import com.dreamsoftware.nimbustv.ui.core.components.NoPlaylistFound
+import com.dreamsoftware.nimbustv.ui.core.components.CommonPlaylistScreenContent
 import com.dreamsoftware.nimbustv.ui.core.components.PlaylistItem
 import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
 
@@ -37,27 +34,23 @@ internal fun PlaylistsScreenContent(
 ) {
     with(uiState) {
         with(actionListener) {
-            ImportPlaylistDialog(
-                isVisible = isImportPlaylistDialogVisible,
-                isImporting = isLoading,
+            CommonPlaylistScreenContent(
+                isLoading = isLoading,
+                isImportPlaylistDialogVisible = isImportPlaylistDialogVisible,
+                playlists = playlists,
                 playListUrl = newPlayListUrl,
                 playlistAlias = newPlayListAlias,
-                onAcceptClicked = ::onImportNewPlayListConfirmed,
-                onPlayListAliasUpdated = ::onNewPlayListAliasUpdated,
-                onPlayListUrlUpdated = ::onNewPlayListUrlUpdated,
-                onCancelClicked = ::onImportNewPlaylistCancelled
-            )
-            FudgeTvScreenContent(onErrorAccepted = actionListener::onErrorMessageCleared) {
-                if (isLoading) {
-                    FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
-                } else if (playlists.isEmpty()) {
-                    NoPlaylistFound(onImportClicked = ::onImportNewPlaylistClicked)
-                } else {
-                    PlaylistMainContent(
-                        playlists = playlists,
-                        actionListener = actionListener
-                    )
-                }
+                onErrorMessageCleared = ::onErrorMessageCleared,
+                onImportNewPlaylistClicked = ::onImportNewPlaylistClicked,
+                onImportNewPlayListConfirmed = ::onImportNewPlayListConfirmed,
+                onNewPlayListAliasUpdated = ::onNewPlayListAliasUpdated,
+                onNewPlayListUrlUpdated = ::onNewPlayListUrlUpdated,
+                onImportNewPlaylistCancelled = ::onImportNewPlaylistCancelled
+            ) {
+                PlaylistMainContent(
+                    playlists = playlists,
+                    actionListener = actionListener
+                )
             }
         }
     }
