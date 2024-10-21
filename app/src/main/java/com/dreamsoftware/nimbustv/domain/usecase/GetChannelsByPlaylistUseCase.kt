@@ -10,7 +10,7 @@ class GetChannelsByPlaylistUseCase(
 ) : FudgeTvUseCaseWithParams<GetChannelsByPlaylistUseCase.Params, List<ChannelBO>>() {
 
     private companion object {
-        const val LOAD_CHANNELS_DELAY = 300L
+        const val LOAD_CHANNELS_DELAY = 500L
     }
 
     override suspend fun onExecuted(params: Params): List<ChannelBO> = with(params) {

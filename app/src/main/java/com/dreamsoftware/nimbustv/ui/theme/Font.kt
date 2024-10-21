@@ -5,19 +5,17 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import com.dreamsoftware.nimbustv.R
 
-val IBMPlexSans = FontFamily(
-    Font(R.font.ibm_plex_sans_bold, weight = FontWeight.Bold),
-    Font(R.font.ibm_plex_sans_medium, weight = FontWeight.Medium),
-    Font(R.font.ibm_plex_sans_semi_bold, weight = FontWeight.SemiBold),
-    Font(R.font.ibm_plex_sans_regular, weight = FontWeight.Normal),
-    Font(R.font.ibm_plex_sans_light, weight = FontWeight.Light),
-    Font(R.font.ibm_plex_sans_thin, weight = FontWeight.Thin),
-    Font(R.font.ibm_plex_sans_extra_light, weight = FontWeight.ExtraLight),
-    Font(R.font.ibm_plex_sans_extra_light_italic, weight = FontWeight.ExtraLight),
-    Font(R.font.ibm_plex_sans_thin_italic, weight = FontWeight.Thin),
-    Font(R.font.ibm_plex_sans_light_italic, weight = FontWeight.Light),
-    Font(R.font.ibm_plex_sans_medium_italic, weight = FontWeight.Medium),
-    Font(R.font.ibm_plex_sans_semi_bold_italic, weight = FontWeight.SemiBold),
-    Font(R.font.ibm_plex_sans_bold_italic, weight = FontWeight.Bold),
-    Font(R.font.ibm_plex_sans_bold_italic, weight = FontWeight.Bold),
+val Poppins = FontFamily(
+    Font(R.font.poppins_bold, weight = FontWeight.Bold),
+    Font(R.font.poppins_medium, weight = FontWeight.Medium),
+    Font(R.font.poppins_semi_bold, weight = FontWeight.SemiBold),
+    Font(R.font.poppins_regular, weight = FontWeight.Normal),
+    Font(R.font.poppins_light, weight = FontWeight.Light),
+    Font(R.font.poppins_thin, weight = FontWeight.Thin),
+    Font(R.font.poppins_extra_light, weight = FontWeight.ExtraLight),
+    Font(R.font.poppins_extra_light_italic, weight = FontWeight.ExtraLight),
+    Font(R.font.poppins_thin_italic, weight = FontWeight.Thin),
+    Font(R.font.poppins_light_italic, weight = FontWeight.Light),
+    Font(R.font.poppins_medium_italic, weight = FontWeight.Medium),
+    Font(R.font.poppins_extra_bold, weight = FontWeight.ExtraBold),
 )
