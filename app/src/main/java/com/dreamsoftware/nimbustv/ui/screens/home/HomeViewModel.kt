@@ -150,6 +150,7 @@ class HomeViewModel @Inject constructor(
         updateState { it.copy(isLoadingPlaylists = true) }
         executeUseCase(
             useCase = getPlaylistsByProfileUseCase,
+            showLoadingState = false,
             onSuccess = ::onGetPlaylistByProfileCompleted
         )
     }
@@ -160,6 +161,7 @@ class HomeViewModel @Inject constructor(
             playlistSelected?.id?.let { playlistId ->
                 executeUseCaseWithParams(
                     useCase = getChannelsByPlaylistUseCase,
+                    showLoadingState = false,
                     params = GetChannelsByPlaylistUseCase.Params(
                         playlistId = playlistId,
                         category = categorySelected
