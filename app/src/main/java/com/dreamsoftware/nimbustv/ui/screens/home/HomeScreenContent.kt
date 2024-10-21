@@ -206,9 +206,9 @@ private fun ChannelsGrid(
             modifier = modifier.fillMaxWidth(),
             state = rememberLazyGridState(),
             items = channels
-        ) { item ->
+        ) { idx, item ->
             ChannelGridItem(
-                modifier = if (item == channelFocused) Modifier.focusRequester(requester) else Modifier,
+                modifier = if (item == channelFocused || channelFocused == null && idx == 0) Modifier.focusRequester(requester) else Modifier,
                 channel = item,
                 onChannelFocused = onChannelFocused,
                 onChannelPressed = onChannelPressed

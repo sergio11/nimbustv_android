@@ -69,7 +69,8 @@
     <string name="playlist_detail_screen_delete_playlist_dialog_description">Are you sure you want to remove this playlist? It’ll be gone for good! 😱</string>
     <string name="playlist_detail_screen_delete_playlist_dialog_accept_button_text">Yes, Delete it! ✅</string>
     <string name="playlist_detail_screen_delete_playlist_dialog_cancel_button_text">No, Keep it! ❌</string>
-
+    <string name="playlist_detail_screen_channel_detail_popup_open_player_button_text">Watch Now</string>
+    <string name="playlist_detail_screen_detail_popup_remove_from_playlist_button_text">Remove from playlist</string>
     <!-- EPG -->
     <string name="epg_screen_title">📺 Your Ultimate TV Guide 🌟</string>
     <string name="epg_screen_channel_not_data_available">🚫 No information available for this channel 🙁</string>

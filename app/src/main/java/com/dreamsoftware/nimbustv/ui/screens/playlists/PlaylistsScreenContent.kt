@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import com.dreamsoftware.fudge.component.FudgeTvButton
 import com.dreamsoftware.fudge.component.FudgeTvButtonStyleTypeEnum
@@ -20,6 +21,7 @@ import com.dreamsoftware.fudge.component.FudgeTvLoadingState
 import com.dreamsoftware.fudge.component.FudgeTvScreenContent
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
+import com.dreamsoftware.fudge.utils.conditional
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.PlayListBO
 import com.dreamsoftware.nimbustv.ui.core.components.CommonLazyVerticalGrid
@@ -116,8 +118,11 @@ private fun PlaylistsGridContent(
             modifier = Modifier.fillMaxWidth(),
             state = rememberLazyGridState(),
             items = playlists
-        ) { item ->
+        ) { idx, item ->
             PlaylistItem(
+                modifier = Modifier.conditional(idx == 0, ifTrue = {
+                    focusRequester(focusRequester)
+                }),
                 playlist = item,
                 onPlaylistSelected = onPlayListSelected
             )

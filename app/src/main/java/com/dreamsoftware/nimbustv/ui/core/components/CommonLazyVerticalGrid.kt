@@ -16,7 +16,7 @@ fun <T: Any>CommonLazyVerticalGrid(
     modifier: Modifier = Modifier,
     state: LazyGridState,
     items: Iterable<T>,
-    onBuildContent: @Composable LazyGridItemScope.(item: T) -> Unit
+    onBuildContent: @Composable LazyGridItemScope.(Int, item: T) -> Unit
 ) {
     LazyVerticalGrid(
         modifier = modifier,
@@ -27,7 +27,7 @@ fun <T: Any>CommonLazyVerticalGrid(
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         items(Iterables.size(items)) { index ->
-            onBuildContent(Iterables.get(items, index))
+            onBuildContent(index, Iterables.get(items, index))
         }
     }
 }

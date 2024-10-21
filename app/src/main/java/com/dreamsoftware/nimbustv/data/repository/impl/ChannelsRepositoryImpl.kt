@@ -7,6 +7,7 @@ import com.dreamsoftware.nimbustv.data.database.entity.FavoriteChannelEntity
 import com.dreamsoftware.nimbustv.data.database.exception.DatabaseException
 import com.dreamsoftware.nimbustv.data.repository.impl.core.SupportRepositoryImpl
 import com.dreamsoftware.nimbustv.domain.exception.AddToFavoritesException
+import com.dreamsoftware.nimbustv.domain.exception.DeleteChannelByIdException
 import com.dreamsoftware.nimbustv.domain.exception.GetChannelByIdException
 import com.dreamsoftware.nimbustv.domain.exception.GetChannelsByPlaylistException
 import com.dreamsoftware.nimbustv.domain.exception.GetFavoriteChannelsByProfileIdException
@@ -66,6 +67,18 @@ internal class ChannelsRepositoryImpl(
         } catch (ex: DatabaseException) {
             throw GetChannelsByPlaylistException(
                 "An error occurred when trying to find all channels by playlist id",
+                ex
+            )
+        }
+    }
+
+    @Throws(DeleteChannelByIdException::class)
+    override suspend fun deleteById(id: String): Unit = safeExecute {
+        try {
+            channelLocalDataSource.delete(id)
+        } catch (ex: DatabaseException) {
+            throw DeleteChannelByIdException(
+                "An error occurred when trying to delete channel by id",
                 ex
             )
         }
