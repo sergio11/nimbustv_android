@@ -9,6 +9,7 @@ import com.dreamsoftware.nimbustv.data.repository.impl.core.SupportRepositoryImp
 import com.dreamsoftware.nimbustv.domain.exception.AddToFavoritesException
 import com.dreamsoftware.nimbustv.domain.exception.DeleteChannelByIdException
 import com.dreamsoftware.nimbustv.domain.exception.GetChannelByIdException
+import com.dreamsoftware.nimbustv.domain.exception.GetChannelsByPlaylistAndCategoryException
 import com.dreamsoftware.nimbustv.domain.exception.GetChannelsByPlaylistException
 import com.dreamsoftware.nimbustv.domain.exception.GetFavoriteChannelsByProfileIdException
 import com.dreamsoftware.nimbustv.domain.exception.RemoveFromFavoritesException
@@ -67,6 +68,24 @@ internal class ChannelsRepositoryImpl(
         } catch (ex: DatabaseException) {
             throw GetChannelsByPlaylistException(
                 "An error occurred when trying to find all channels by playlist id",
+                ex
+            )
+        }
+    }
+
+    @Throws(GetChannelsByPlaylistAndCategoryException::class)
+    override suspend fun findAllByPlaylistIdAndCategory(
+        playlistId: String,
+        category: String
+    ): List<ChannelBO> = safeExecute {
+        try {
+            channelLocalDataSource
+                .findAllByPlaylistIdAndCategory(playlistId, category)
+                .let(channelsMapper::mapInListToOutList)
+                .toList()
+        } catch (ex: DatabaseException) {
+            throw GetChannelsByPlaylistAndCategoryException(
+                "An error occurred when trying to find all channels by playlist id and category",
                 ex
             )
         }
