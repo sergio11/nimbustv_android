@@ -1,6 +1,7 @@
 package com.dreamsoftware.nimbustv.domain.repository
 
 import com.dreamsoftware.nimbustv.domain.exception.AddToFavoritesException
+import com.dreamsoftware.nimbustv.domain.exception.DeleteChannelByIdException
 import com.dreamsoftware.nimbustv.domain.exception.GetChannelByIdException
 import com.dreamsoftware.nimbustv.domain.exception.GetChannelsByPlaylistException
 import com.dreamsoftware.nimbustv.domain.exception.GetFavoriteChannelsByProfileIdException
@@ -20,6 +21,9 @@ interface IChannelRepository {
 
     @Throws(GetChannelsByPlaylistException::class)
     suspend fun findAllByPlaylistId(playlistId: String): List<ChannelBO>
+
+    @Throws(DeleteChannelByIdException::class)
+    suspend fun deleteById(id: String)
 
     @Throws(AddToFavoritesException::class)
     suspend fun addToFavorites(channelId: String, profileId: String)

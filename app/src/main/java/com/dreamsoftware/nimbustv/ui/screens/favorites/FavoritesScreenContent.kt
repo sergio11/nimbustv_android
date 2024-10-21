@@ -22,6 +22,7 @@ import com.dreamsoftware.fudge.component.FudgeTvNoContentState
 import com.dreamsoftware.fudge.component.FudgeTvScreenContent
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
+import com.dreamsoftware.fudge.utils.conditional
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.ui.core.components.ChannelGridItem
@@ -108,8 +109,11 @@ private fun FavoriteChannelsGridContent(
             modifier = Modifier.fillMaxWidth(),
             state = rememberLazyGridState(),
             items = channels
-        ) { item ->
+        ) { idx, item ->
             ChannelGridItem(
+                modifier = Modifier.conditional(idx == 0, ifTrue = {
+                    focusRequester(focusRequester)
+                }),
                 channel = item,
                 onChannelPressed = onChannelSelected
             )

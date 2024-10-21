@@ -57,9 +57,20 @@ fun DashboardNavHost(
         composable(Screen.PlaylistDetail.route) { navBackStackEntry ->
             navBackStackEntry.arguments?.let(Screen.PlaylistDetail::parseArgs)?.let { args ->
                 with(navController) {
-                    PlaylistDetailScreen(args = args) {
-                        popBackStack()
-                    }
+                    PlaylistDetailScreen(
+                        args = args,
+                        onPlayChannel = { channelId, type ->
+                            navigate(
+                                if (type == StreamTypeEnum.ONLY_AUDIO) {
+                                    Screen.AudioPlayer.buildRoute(channelId)
+                                } else {
+                                    Screen.VideoPlayer.buildRoute(channelId)
+                                }
+                            )
+                        },
+                        onBackPressed = {
+                            popBackStack()
+                        })
                 }
             }
         }
