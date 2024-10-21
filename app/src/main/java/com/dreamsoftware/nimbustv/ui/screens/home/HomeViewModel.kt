@@ -1,6 +1,5 @@
 package com.dreamsoftware.nimbustv.ui.screens.home
 
-import android.util.Log
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
@@ -30,11 +29,13 @@ class HomeViewModel @Inject constructor(
     override fun onGetDefaultState(): HomeUiState = HomeUiState()
 
     fun fetchData() {
-        updateState { it.copy(isLoadingPlaylists = true) }
-        executeUseCase(
-            useCase = getPlaylistsByProfileUseCase,
-            onSuccess = ::onGetPlaylistByProfileCompleted
-        )
+        doOnUiState {
+            if(playlistSelected == null) {
+                fetchPlaylists()
+            } else {
+                fetchChannels()
+            }
+        }
     }
 
     override fun onImportNewPlaylistClicked() {
@@ -67,8 +68,14 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun onNewPlaylistSelected(newValue: PlayListBO) {
-        updateState { it.copy(playlistSelected = newValue) }
-        fetchChannelsByPlaylist(playlistId = newValue.id)
+        updateState {
+            it.copy(
+                playlistSelected = newValue,
+                categorySelected = null,
+                categories = emptyList()
+            )
+        }
+        fetchChannels()
     }
 
     override fun onChannelFocused(value: ChannelBO) {
@@ -87,7 +94,12 @@ class HomeViewModel @Inject constructor(
         launchSideEffect(HomeSideEffects.PlayChannelSideEffect(id = value.id, type = value.streamTypeEnum))
     }
 
-    override fun onNewCategorySelected(newValue: String) {}
+    override fun onNewCategorySelected(newValue: String) {
+        updateState {
+            it.copy(categorySelected = newValue)
+        }
+        fetchChannels()
+    }
 
     override fun onManagePlaylistClicked() {
         launchSideEffect(HomeSideEffects.ManagePlaylistSideEffect)
@@ -95,9 +107,7 @@ class HomeViewModel @Inject constructor(
 
     override fun onAddFavoriteChannelClicked() {
         doOnUiState {
-            Log.d("ATV_FAVORITES", "onAddFavoriteChannelClicked CALLED!")
             channelFocused?.id?.let { channelId ->
-                Log.d("ATV_FAVORITES", "onAddFavoriteChannelClicked channelId -> $channelId CALLED!")
                 executeUseCaseWithParams(
                     useCase = addFavoriteChannelUseCase,
                     params = AddFavoriteChannelUseCase.Params(
@@ -126,31 +136,46 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onGetPlaylistByProfileCompleted(playlists: List<PlayListBO>) {
-        val playlistSelected = playlists.firstOrNull()
         updateState {
             it.copy(
-                isLoadingPlaylists = false,
                 playlists = playlists,
-                playlistSelected = playlistSelected
+                playlistSelected = playlists.firstOrNull(),
+                isLoadingPlaylists = false
             )
         }
-        playlistSelected?.id?.let(::fetchChannelsByPlaylist)
+        fetchChannels()
     }
 
-    private fun fetchChannelsByPlaylist(playlistId: String) {
-        updateState { it.copy(isLoadingChannels = true) }
-        executeUseCaseWithParams(
-            useCase = getChannelsByPlaylistUseCase,
-            params = GetChannelsByPlaylistUseCase.Params(playlistId = playlistId),
-            onSuccess = ::onFetchChannelsByPlaylistCompleted
+    private fun fetchPlaylists() {
+        updateState { it.copy(isLoadingPlaylists = true) }
+        executeUseCase(
+            useCase = getPlaylistsByProfileUseCase,
+            onSuccess = ::onGetPlaylistByProfileCompleted
         )
     }
 
-    private fun onFetchChannelsByPlaylistCompleted(channels: List<ChannelBO>) {
+    private fun fetchChannels() {
+        updateState { it.copy(isLoadingChannels = true) }
+        doOnUiState {
+            playlistSelected?.id?.let { playlistId ->
+                executeUseCaseWithParams(
+                    useCase = getChannelsByPlaylistUseCase,
+                    params = GetChannelsByPlaylistUseCase.Params(
+                        playlistId = playlistId,
+                        category = categorySelected
+                    ),
+                    onSuccess = ::onFetchChannelsCompleted
+                )
+            }
+        }
+
+    }
+
+    private fun onFetchChannelsCompleted(channels: List<ChannelBO>) {
         updateState {
             it.copy(
                 isLoadingChannels = false,
-                categories = channels.mapNotNull(ChannelBO::category).distinct(),
+                categories = it.categories.takeIf { data -> data.isNotEmpty()} ?: channels.mapNotNull(ChannelBO::category).distinct(),
                 channels = channels,
                 channelFocused = channels.firstOrNull()
             )
@@ -177,12 +202,10 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onAddFavoriteChannelCompleted() {
-        Log.d("ATV_FAVORITES", "onAddFavoriteChannelCompleted isFavoriteChannel = true CALLED!")
         updateState { it.copy(isFavoriteChannel = true) }
     }
 
     private fun onRemoveChannelFromFavoritesCompleted() {
-        Log.d("ATV_FAVORITES", "onRemoveChannelFromFavoritesCompleted isFavoriteChannel = false CALLED!")
         updateState { it.copy(isFavoriteChannel = false) }
     }
 }

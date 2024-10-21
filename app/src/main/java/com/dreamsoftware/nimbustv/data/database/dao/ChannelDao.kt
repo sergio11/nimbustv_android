@@ -10,4 +10,7 @@ abstract class ChannelDao: SupportDaoImpl<ChannelEntity, String>(ChannelEntity::
 
     @Query(value = "SELECT * FROM channels WHERE playlist_id = :playlist")
     abstract suspend fun findAllByPlaylistId(playlist: String): List<ChannelEntity>
+
+    @Query(value = "SELECT * FROM channels WHERE playlist_id = :playlist AND category = :category")
+    abstract suspend fun findAllByPlaylistIdAndCategory(playlist: String, category: String): List<ChannelEntity>
 }
