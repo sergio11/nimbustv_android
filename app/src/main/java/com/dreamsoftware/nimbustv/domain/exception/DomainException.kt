@@ -29,6 +29,7 @@ class AddToFavoritesException(message: String? = null, cause: Throwable? = null)
 class RemoveFromFavoritesException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class VerifyFavoriteChannelException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class GetFavoriteChannelsByProfileIdException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
+class SearchChannelsException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 
 //Profiles
 class FetchProfilesException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)

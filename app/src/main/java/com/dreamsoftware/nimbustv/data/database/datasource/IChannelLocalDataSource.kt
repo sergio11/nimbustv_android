@@ -11,4 +11,7 @@ interface IChannelLocalDataSource: ISupportLocalDataSource<ChannelEntity, String
 
     @Throws(AccessDatabaseException::class)
     suspend fun findAllByPlaylistIdAndCategory(playlistId: String, category: String): List<ChannelEntity>
+
+    @Throws(AccessDatabaseException::class)
+    suspend fun findAllByProfileIdAndTerm(profileId: String, term: String): List<ChannelEntity>
 }

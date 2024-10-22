@@ -24,4 +24,12 @@ internal class ChannelLocalDataSourceImpl(
     ): List<ChannelEntity> = safeExecute {
         channelDao.findAllByPlaylistIdAndCategory(playlistId, category)
     }
+
+    @Throws(AccessDatabaseException::class)
+    override suspend fun findAllByProfileIdAndTerm(
+        profileId: String,
+        term: String
+    ): List<ChannelEntity> = safeExecute {
+        channelDao.findAllByPlaylistIdAndCategory(profileId, term)
+    }
 }

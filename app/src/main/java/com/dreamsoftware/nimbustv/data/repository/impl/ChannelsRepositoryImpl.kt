@@ -14,6 +14,7 @@ import com.dreamsoftware.nimbustv.domain.exception.GetChannelsByPlaylistExceptio
 import com.dreamsoftware.nimbustv.domain.exception.GetFavoriteChannelsByProfileIdException
 import com.dreamsoftware.nimbustv.domain.exception.RemoveFromFavoritesException
 import com.dreamsoftware.nimbustv.domain.exception.SaveChannelsException
+import com.dreamsoftware.nimbustv.domain.exception.SearchChannelsException
 import com.dreamsoftware.nimbustv.domain.exception.VerifyFavoriteChannelException
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.domain.model.SaveChannelBO
@@ -154,6 +155,24 @@ internal class ChannelsRepositoryImpl(
         } catch (ex: DatabaseException) {
             throw GetFavoriteChannelsByProfileIdException(
                 "An error occurred when trying to get favorite channels",
+                ex
+            )
+        }
+    }
+
+    @Throws(SearchChannelsException::class)
+    override suspend fun findAllByProfileIdAndTerm(
+        profileId: String,
+        term: String
+    ): List<ChannelBO> = safeExecute {
+        try {
+            channelLocalDataSource
+                .findAllByProfileIdAndTerm(profileId, term)
+                .let(channelsMapper::mapInListToOutList)
+                .toList()
+        } catch (ex: DatabaseException) {
+            throw GetFavoriteChannelsByProfileIdException(
+                "An error occurred when trying to search channels",
                 ex
             )
         }
