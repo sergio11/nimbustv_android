@@ -21,7 +21,7 @@ class SyncEpgDataWorker @AssistedInject constructor(
 
     companion object {
 
-        const val WORK_NAME = "SaveEpgWork"
+        const val WORK_NAME = "SyncEpgDataWorker"
         private const val KEY_EPG_URL = "epg_url"
         private const val KEY_PROFILE_ID = "profile_id"
 

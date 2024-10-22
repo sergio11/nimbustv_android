@@ -13,4 +13,10 @@ abstract class ChannelDao: SupportDaoImpl<ChannelEntity, String>(ChannelEntity::
 
     @Query(value = "SELECT * FROM channels WHERE playlist_id = :playlist AND category = :category")
     abstract suspend fun findAllByPlaylistIdAndCategory(playlist: String, category: String): List<ChannelEntity>
+
+    @Query("SELECT c.* FROM channels c " +
+            "JOIN playlists p ON c.playlist_id = p.id " +
+            "WHERE p.profile_id = :profileId " +
+            "AND LOWER(c.title) LIKE '%' || LOWER(:term) || '%'")
+    abstract suspend fun findAllByProfileIdAndTerm(profileId: String, term: String): List<ChannelEntity>
 }
