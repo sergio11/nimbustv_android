@@ -52,7 +52,7 @@ class EpgViewModel @Inject constructor(
     // https://www.bevy.be/download.php?file=arabiapremiumar.xml.gz
     override fun onImportNewEpgDataConfirmed() {
         updateState { it.copy(showImportEpgDataDialog = false) }
-        uiState.value.apply {
+        doOnUiState {
             executeUseCaseWithParams(
                 useCase = saveEpgUseCase,
                 params = SaveEpgUseCase.Params(url = newEpgDataUrl),
@@ -91,9 +91,7 @@ class EpgViewModel @Inject constructor(
 
     private fun onImportEpgDataCompleted(data: List<EpgDataBO>) {
         updateState {
-            it.copy(
-                epgData = data
-            )
+            it.copy(epgData = data)
         }
     }
 }

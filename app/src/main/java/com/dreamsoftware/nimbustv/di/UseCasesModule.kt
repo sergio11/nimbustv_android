@@ -7,6 +7,7 @@ import com.dreamsoftware.nimbustv.domain.repository.IEpgRepository
 import com.dreamsoftware.nimbustv.domain.repository.IPlaylistRepository
 import com.dreamsoftware.nimbustv.domain.repository.IProfilesRepository
 import com.dreamsoftware.nimbustv.domain.service.IEpgParserService
+import com.dreamsoftware.nimbustv.domain.service.IEpgSchedulerService
 import com.dreamsoftware.nimbustv.domain.service.IPlaylistParserService
 import com.dreamsoftware.nimbustv.domain.usecase.AddFavoriteChannelUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.ChangeSecurePinUseCase
@@ -219,12 +220,14 @@ class UseCasesModule {
     fun provideCreateEpgUseCase(
         profileRepository: IProfilesRepository,
         epgParserService: IEpgParserService,
-        epgRepository: IEpgRepository
+        epgRepository: IEpgRepository,
+        epgSchedulerService: IEpgSchedulerService
     ): SaveEpgUseCase =
         SaveEpgUseCase(
             profileRepository = profileRepository,
             epgParserService = epgParserService,
-            epgRepository = epgRepository
+            epgRepository = epgRepository,
+            epgSchedulerService = epgSchedulerService
         )
 
     @Provides

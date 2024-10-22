@@ -104,6 +104,11 @@ dependencies {
     implementation(libs.kotlinx.serialization)
     implementation(libs.moshi.kotlin)
 
+    // Work Manager
+    implementation(libs.work.manager)
+    implementation(libs.hilt.work)
+    ksp(libs.hilt.compiler.work)
+
     // Baseline Profile Installer
     implementation(libs.androidx.profileinstaller)
 }
