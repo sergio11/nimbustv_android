@@ -1,13 +1,10 @@
 package com.dreamsoftware.nimbustv.ui.screens.search
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
@@ -56,55 +53,74 @@ internal fun SearchScreenContent(
                 Row(
                     modifier = Modifier.fillMaxSize().padding(vertical = 12.dp)
                 ) {
-                    Column(modifier = Modifier.padding(horizontal = 12.dp)) {
-                        FudgeTvText(
-                            titleRes = R.string.search_screen_main_title,
-                            type = FudgeTvTextTypeEnum.TITLE_LARGE,
-                            textColor = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.padding(vertical = 24.dp, horizontal = 8.dp),
-                        )
-                        MiniKeyboard(
-                            modifier = Modifier.width(300.dp),
-                            onKeyPressed = ::onKeyPressed,
-                            onSearchPressed = ::onSearchPressed,
-                            onClearPressed = ::onClearPressed,
-                            onBackSpacePressed = ::onBackSpacePressed,
-                            onSpaceBarPressed = ::onSpaceBarPressed
-                        )
-                    }
-                    Column(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        FudgeTvText(
-                            modifier = Modifier.padding(vertical = 24.dp, horizontal = 8.dp),
-                            type = FudgeTvTextTypeEnum.TITLE_LARGE,
-                            titleText = if(term.isNotBlank()) {
-                                stringResource(id = R.string.search_screen_search_results_title_with_term, term)
-                            } else {
-                                stringResource(id = R.string.search_screen_search_results_title_without_term)
-                            },
-                            textBold = true
-                        )
-                        if (isLoading) {
-                            FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
-                        } else if (channels.isEmpty()) {
-                            FudgeTvNoContentState(
-                                modifier = Modifier.fillMaxSize(),
-                                messageRes = if(term.isNotEmpty()) {
-                                    R.string.search_screen_search_no_results_found
-                                } else {
-                                    R.string.search_screen_search_idle
-                                }
-                            )
-                        } else {
-                            SearchChannelsGridContent(
-                                channels = channels,
-                                onChannelSelected = actionListener::onOpenChannelDetail
-                            )
-                        }
-                    }
+                    SearchKeyboard(actionListener = actionListener)
+                    SearchResults(uiState = uiState, actionListener = actionListener)
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SearchKeyboard(
+    actionListener: SearchScreenActionListener
+) {
+    with(actionListener) {
+        Column(modifier = Modifier.padding(horizontal = 12.dp)) {
+            FudgeTvText(
+                titleRes = R.string.search_screen_main_title,
+                type = FudgeTvTextTypeEnum.TITLE_LARGE,
+                textColor = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(vertical = 24.dp, horizontal = 8.dp),
+            )
+            MiniKeyboard(
+                modifier = Modifier.width(300.dp),
+                onKeyPressed = ::onKeyPressed,
+                onSearchPressed = ::onSearchPressed,
+                onClearPressed = ::onClearPressed,
+                onBackSpacePressed = ::onBackSpacePressed,
+                onSpaceBarPressed = ::onSpaceBarPressed
+            )
+        }
+    }
+}
+
+@Composable
+private fun SearchResults(
+    uiState: SearchUiState,
+    actionListener: SearchScreenActionListener
+) {
+    with(uiState) {
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            FudgeTvText(
+                modifier = Modifier.padding(vertical = 24.dp, horizontal = 8.dp),
+                type = FudgeTvTextTypeEnum.TITLE_LARGE,
+                titleText = if(term.isNotBlank()) {
+                    stringResource(id = R.string.search_screen_search_results_title_with_term, term)
+                } else {
+                    stringResource(id = R.string.search_screen_search_results_title_without_term)
+                },
+                textBold = true
+            )
+            if (isLoading) {
+                FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
+            } else if (channels.isEmpty()) {
+                FudgeTvNoContentState(
+                    modifier = Modifier.fillMaxSize(),
+                    messageRes = if(term.isNotEmpty()) {
+                        R.string.search_screen_search_no_results_found
+                    } else {
+                        R.string.search_screen_search_idle
+                    }
+                )
+            } else {
+                SearchChannelsGridContent(
+                    channels = channels,
+                    onChannelSelected = actionListener::onOpenChannelDetail
+                )
             }
         }
     }
