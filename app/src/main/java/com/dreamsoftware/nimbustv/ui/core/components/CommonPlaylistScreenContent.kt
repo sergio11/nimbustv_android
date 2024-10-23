@@ -26,8 +26,8 @@ fun CommonPlaylistScreenContent(
     ImportPlaylistDialog(
         isVisible = isImportPlaylistDialogVisible,
         isImporting = isLoading,
-        playListUrl = playlistAlias,
-        playlistAlias = playListUrl,
+        playListUrl = playListUrl,
+        playlistAlias = playlistAlias,
         onAcceptClicked = onImportNewPlayListConfirmed,
         onPlayListAliasUpdated = onNewPlayListAliasUpdated,
         onPlayListUrlUpdated = onNewPlayListUrlUpdated,
