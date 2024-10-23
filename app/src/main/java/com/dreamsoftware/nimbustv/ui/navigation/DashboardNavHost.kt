@@ -13,6 +13,7 @@ import com.dreamsoftware.nimbustv.ui.screens.favorites.FavoritesScreen
 import com.dreamsoftware.nimbustv.ui.screens.home.HomeScreen
 import com.dreamsoftware.nimbustv.ui.screens.playlistdetail.PlaylistDetailScreen
 import com.dreamsoftware.nimbustv.ui.screens.playlists.PlaylistsScreen
+import com.dreamsoftware.nimbustv.ui.screens.search.SearchScreen
 import com.dreamsoftware.nimbustv.ui.screens.settings.SettingsScreen
 
 @Composable
@@ -79,6 +80,25 @@ fun DashboardNavHost(
         composable(Screen.Favorite.route) {
             with(navController) {
                 FavoritesScreen(
+                    onPlayChannel = { channelId, type ->
+                        navigate(
+                            if (type == StreamTypeEnum.ONLY_AUDIO) {
+                                Screen.AudioPlayer.buildRoute(channelId)
+                            } else {
+                                Screen.VideoPlayer.buildRoute(channelId)
+                            }
+                        )
+                    },
+                    onBackPressed = {
+                        popBackStack()
+                    }
+                )
+            }
+        }
+
+        composable(Screen.Search.route) {
+            with(navController) {
+                SearchScreen(
                     onPlayChannel = { channelId, type ->
                         navigate(
                             if (type == StreamTypeEnum.ONLY_AUDIO) {

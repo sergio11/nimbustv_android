@@ -1,18 +1,23 @@
 package com.dreamsoftware.nimbustv.ui.screens.search
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.tv.material3.MaterialTheme
 import com.dreamsoftware.fudge.component.FudgeTvButton
 import com.dreamsoftware.fudge.component.FudgeTvButtonStyleTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvButtonTypeEnum
@@ -28,6 +33,7 @@ import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.ui.core.components.ChannelGridItem
 import com.dreamsoftware.nimbustv.ui.core.components.CommonLazyVerticalGrid
 import com.dreamsoftware.nimbustv.ui.core.components.CommonPopup
+import com.dreamsoftware.nimbustv.ui.core.components.MiniKeyboard
 
 @Composable
 internal fun SearchScreenContent(
@@ -45,18 +51,53 @@ internal fun SearchScreenContent(
                 )
             }
             FudgeTvScreenContent(onErrorAccepted = ::onErrorMessageCleared) {
-                if (isLoading) {
-                    FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
-                } else if (channels.isEmpty()) {
-                    FudgeTvNoContentState(
-                        modifier = Modifier.fillMaxSize(),
-                        messageRes = R.string.favorites_screen_no_channels_found_text
-                    )
-                } else {
-                    FavoriteChannelsMainContent(
-                        channels = channels,
-                        actionListener = actionListener
-                    )
+                Row(
+                    modifier = Modifier.fillMaxSize().padding(vertical = 12.dp)
+                ) {
+                    Column(modifier = Modifier.padding(horizontal = 12.dp)) {
+                        FudgeTvText(
+                            titleRes = R.string.search_screen_main_title,
+                            type = FudgeTvTextTypeEnum.TITLE_LARGE,
+                            textColor = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.padding(vertical = 24.dp, horizontal = 8.dp),
+                        )
+                        MiniKeyboard(
+                            modifier = Modifier.width(300.dp),
+                            onKeyPressed = ::onKeyPressed,
+                            onSearchPressed = ::onSearchPressed,
+                            onClearPressed = ::onClearPressed,
+                            onBackSpacePressed = ::onBackSpacePressed,
+                            onSpaceBarPressed = ::onSpaceBarPressed
+                        )
+                    }
+                    Column(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        FudgeTvText(
+                            modifier = Modifier.padding(vertical = 24.dp, horizontal = 8.dp),
+                            type = FudgeTvTextTypeEnum.TITLE_LARGE,
+                            titleText = if(term.isNotBlank()) {
+                                stringResource(id = R.string.search_screen_search_results_title_with_term, term)
+                            } else {
+                                stringResource(id = R.string.search_screen_search_results_title)
+                            },
+                            textBold = true
+                        )
+                        if (isLoading) {
+                            FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
+                        } else if (channels.isEmpty()) {
+                            FudgeTvNoContentState(
+                                modifier = Modifier.fillMaxSize(),
+                                messageRes = R.string.search_screen_search_no_results_found
+                            )
+                        } else {
+                            SearchChannelsGridContent(
+                                channels = channels,
+                                onChannelSelected = actionListener::onOpenChannelDetail
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -64,43 +105,7 @@ internal fun SearchScreenContent(
 }
 
 @Composable
-private fun FavoriteChannelsMainContent(
-    channels: List<ChannelBO>,
-    actionListener: SearchScreenActionListener
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        FavoriteChannelsHeader()
-        FavoriteChannelsGridContent(
-            channels = channels,
-            onChannelSelected = actionListener::onOpenChannelDetail
-        )
-    }
-}
-
-@Composable
-private fun FavoriteChannelsHeader() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 16.dp)
-            .padding(end = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        FudgeTvText(
-            type = FudgeTvTextTypeEnum.HEADLINE_MEDIUM,
-            titleRes = R.string.favorites_screen_title,
-            textBold = true
-        )
-    }
-}
-
-@Composable
-private fun FavoriteChannelsGridContent(
+private fun SearchChannelsGridContent(
     channels: List<ChannelBO>,
     onChannelSelected: (ChannelBO) -> Unit
 ) {
