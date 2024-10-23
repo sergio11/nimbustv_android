@@ -32,6 +32,10 @@ annotation class FavoritesScreenErrorMapper
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
+annotation class SearchChannelsScreenErrorMapper
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
 annotation class EpgScreenErrorMapper
 
 @Qualifier

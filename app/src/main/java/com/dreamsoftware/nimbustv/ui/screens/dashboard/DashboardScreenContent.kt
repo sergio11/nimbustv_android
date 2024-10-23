@@ -1,5 +1,6 @@
 package com.dreamsoftware.nimbustv.ui.screens.dashboard
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavDestination
@@ -17,6 +18,7 @@ internal fun DashboardScreenContent(
     currentDestination: NavDestination?,
 ) {
     with(uiState) {
+        Log.d("ATV_FAVORITES", "DashboardScreenContent called!")
         FudgeTvNavigationDrawer(
             modifier = Modifier,
             mainLogoInverseRes = R.drawable.main_logo_inverse,

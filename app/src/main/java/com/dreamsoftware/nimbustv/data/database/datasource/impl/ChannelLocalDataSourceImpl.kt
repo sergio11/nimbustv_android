@@ -30,6 +30,6 @@ internal class ChannelLocalDataSourceImpl(
         profileId: String,
         term: String
     ): List<ChannelEntity> = safeExecute {
-        channelDao.findAllByPlaylistIdAndCategory(profileId, term)
+        channelDao.findAllByProfileIdAndTerm(profileId, term)
     }
 }

@@ -45,8 +45,10 @@ internal fun SearchScreenContent(
             channelSelected?.let {
                 ChannelDetailsPopup(
                     channel = it,
+                    isFavoriteChannel = isFavoriteChannel,
                     onPlayChannel = ::onPlayChannel,
                     onRemoveFromFavorites = ::onRemoveFromFavorites,
+                    onAddChannelToFavorites = ::onAddToFavorites,
                     onBackPressed = ::onCloseDetail
                 )
             }
@@ -80,7 +82,7 @@ internal fun SearchScreenContent(
                             titleText = if(term.isNotBlank()) {
                                 stringResource(id = R.string.search_screen_search_results_title_with_term, term)
                             } else {
-                                stringResource(id = R.string.search_screen_search_results_title)
+                                stringResource(id = R.string.search_screen_search_results_title_without_term)
                             },
                             textBold = true
                         )
@@ -89,7 +91,11 @@ internal fun SearchScreenContent(
                         } else if (channels.isEmpty()) {
                             FudgeTvNoContentState(
                                 modifier = Modifier.fillMaxSize(),
-                                messageRes = R.string.search_screen_search_no_results_found
+                                messageRes = if(term.isNotEmpty()) {
+                                    R.string.search_screen_search_no_results_found
+                                } else {
+                                    R.string.search_screen_search_idle
+                                }
                             )
                         } else {
                             SearchChannelsGridContent(
@@ -129,7 +135,9 @@ private fun SearchChannelsGridContent(
 @Composable
 private fun ChannelDetailsPopup(
     channel: ChannelBO,
+    isFavoriteChannel: Boolean,
     onPlayChannel: (ChannelBO) -> Unit,
+    onAddChannelToFavorites: (ChannelBO) -> Unit,
     onRemoveFromFavorites: (ChannelBO) -> Unit,
     onBackPressed: () -> Unit
 ) {
@@ -157,8 +165,18 @@ private fun ChannelDetailsPopup(
                     .padding(bottom = 12.dp),
                 type = FudgeTvButtonTypeEnum.MEDIUM,
                 style = FudgeTvButtonStyleTypeEnum.TRANSPARENT,
-                textRes = R.string.favorites_screen_channel_detail_popup_remove_from_favorites_button_text,
-                onClick = { onRemoveFromFavorites(channel) }
+                textRes = if(isFavoriteChannel) {
+                    R.string.search_screen_channel_detail_popup_remove_from_favorites_button_text
+                } else {
+                    R.string.search_screen_channel_detail_popup_add_to_favorites_button_text
+                },
+                onClick = {
+                    if(isFavoriteChannel) {
+                        onRemoveFromFavorites(channel)
+                    } else {
+                        onAddChannelToFavorites(channel)
+                    }
+                }
             )
         }
     }

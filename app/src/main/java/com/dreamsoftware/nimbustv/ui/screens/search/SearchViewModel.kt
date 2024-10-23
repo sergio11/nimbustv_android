@@ -5,9 +5,11 @@ import com.dreamsoftware.fudge.core.FudgeTvViewModel
 import com.dreamsoftware.fudge.core.IFudgeTvErrorMapper
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
-import com.dreamsoftware.nimbustv.di.FavoritesScreenErrorMapper
+import com.dreamsoftware.nimbustv.di.SearchChannelsScreenErrorMapper
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.domain.model.StreamTypeEnum
+import com.dreamsoftware.nimbustv.domain.usecase.AddFavoriteChannelUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.CheckFavoriteChannelUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.RemoveChannelFromFavoritesUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SearchChannelsUseCase
 import com.dreamsoftware.nimbustv.ui.utils.EMPTY
@@ -20,9 +22,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
+    private val addFavoriteChannelUseCase: AddFavoriteChannelUseCase,
     private val removeChannelFromFavoritesUseCase: RemoveChannelFromFavoritesUseCase,
     private val searchChannelsUseCase: SearchChannelsUseCase,
-    @FavoritesScreenErrorMapper private val errorMapper: IFudgeTvErrorMapper,
+    private val checkFavoriteChannelUseCase: CheckFavoriteChannelUseCase,
+    @SearchChannelsScreenErrorMapper private val errorMapper: IFudgeTvErrorMapper,
 ) : FudgeTvViewModel<SearchUiState, SearchSideEffects>(), SearchScreenActionListener {
 
     companion object {
@@ -83,6 +87,7 @@ class SearchViewModel @Inject constructor(
             executeUseCaseWithParams(
                 useCase = searchChannelsUseCase,
                 params = SearchChannelsUseCase.Params(term = term),
+                onMapExceptionToState = ::onMapExceptionToState,
                 onSuccess = ::onSearchCompletedSuccessfully,
             )
         }
@@ -104,6 +109,13 @@ class SearchViewModel @Inject constructor(
 
     override fun onOpenChannelDetail(channel: ChannelBO) {
         updateState { it.copy(channelSelected = channel) }
+        executeUseCaseWithParams(
+            useCase = checkFavoriteChannelUseCase,
+            params = CheckFavoriteChannelUseCase.Params(
+                channelId = channel.id
+            ),
+            onSuccess = ::onVerifyFavoriteChannelCompleted
+        )
     }
 
     override fun onCloseDetail() {
@@ -118,19 +130,36 @@ class SearchViewModel @Inject constructor(
         ))
     }
 
+    override fun onAddToFavorites(channel: ChannelBO) {
+        executeUseCaseWithParams(
+            useCase = addFavoriteChannelUseCase,
+            params = AddFavoriteChannelUseCase.Params(
+                channelId = channel.id
+            ),
+            onSuccess = { onAddChannelToFavoritesCompleted() }
+        )
+    }
+
     override fun onRemoveFromFavorites(channel: ChannelBO) {
-        updateState { it.copy(channelSelected = null) }
         executeUseCaseWithParams(
             useCase = removeChannelFromFavoritesUseCase,
             params = RemoveChannelFromFavoritesUseCase.Params(
                 channelId = channel.id
             ),
-            onSuccess = { onRemoveChannelFromFavoritesCompleted(channel) }
+            onSuccess = { onRemoveChannelFromFavoritesCompleted() }
         )
     }
 
-    private fun onRemoveChannelFromFavoritesCompleted(channelRemoved: ChannelBO) {
-        updateState { it.copy(channels = it.channels.filter { channel -> channel.id != channelRemoved.id }) }
+    private fun onAddChannelToFavoritesCompleted() {
+        updateState { it.copy(isFavoriteChannel = true) }
+    }
+
+    private fun onRemoveChannelFromFavoritesCompleted() {
+        updateState { it.copy(isFavoriteChannel = false) }
+    }
+
+    private fun onVerifyFavoriteChannelCompleted(isFavoriteChannel: Boolean) {
+        updateState { it.copy(isFavoriteChannel = isFavoriteChannel) }
     }
 }
 
@@ -139,7 +168,8 @@ data class SearchUiState(
     override val errorMessage: String? = null,
     val channels: List<ChannelBO> = emptyList(),
     val term: String = String.EMPTY,
-    val channelSelected: ChannelBO? = null
+    val channelSelected: ChannelBO? = null,
+    val isFavoriteChannel: Boolean = false
 ): UiState<SearchUiState>(isLoading, errorMessage) {
     override fun copyState(isLoading: Boolean, errorMessage: String?): SearchUiState =
         copy(isLoading = isLoading, errorMessage = errorMessage)
