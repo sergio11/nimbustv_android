@@ -111,6 +111,7 @@ class SearchViewModel @Inject constructor(
         updateState { it.copy(channelSelected = channel) }
         executeUseCaseWithParams(
             useCase = checkFavoriteChannelUseCase,
+            showLoadingState = false,
             params = CheckFavoriteChannelUseCase.Params(
                 channelId = channel.id
             ),
@@ -133,6 +134,7 @@ class SearchViewModel @Inject constructor(
     override fun onAddToFavorites(channel: ChannelBO) {
         executeUseCaseWithParams(
             useCase = addFavoriteChannelUseCase,
+            showLoadingState = false,
             params = AddFavoriteChannelUseCase.Params(
                 channelId = channel.id
             ),
@@ -143,6 +145,7 @@ class SearchViewModel @Inject constructor(
     override fun onRemoveFromFavorites(channel: ChannelBO) {
         executeUseCaseWithParams(
             useCase = removeChannelFromFavoritesUseCase,
+            showLoadingState = false,
             params = RemoveChannelFromFavoritesUseCase.Params(
                 channelId = channel.id
             ),
