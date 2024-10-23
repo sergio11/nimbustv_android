@@ -1,7 +1,10 @@
 package com.dreamsoftware.nimbustv.ui.core.components
 
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.GetApp
@@ -54,16 +57,29 @@ fun ImportPlaylistDialog(
                 )
             } else {
                 FudgeTvTextField(
+                    modifier = Modifier.width(350.dp),
                     value = playListUrl,
                     onValueChange = onPlayListUrlUpdated,
                     labelRes = R.string.home_screen_import_new_iptv_playlist_text_field_url_label,
-                    icon = Icons.Default.GetApp
+                    icon = Icons.Default.GetApp,
+                    unfocusedLabelColor = primary,
+                    focusedLabelColor = primaryContainer,
+                    focusedBorderColor = primary,
+                    unfocusedBorderColor = primaryContainer,
+                    singleLine = true
                 )
+                Spacer(modifier = Modifier.height(5.dp))
                 FudgeTvTextField(
+                    modifier = Modifier.width(350.dp),
                     value = playlistAlias,
                     onValueChange = onPlayListAliasUpdated,
                     labelRes = R.string.home_screen_import_new_iptv_playlist_text_field_alias_label,
-                    icon = Icons.Default.Edit
+                    icon = Icons.Default.Edit,
+                    unfocusedLabelColor = primary,
+                    focusedLabelColor = primaryContainer,
+                    focusedBorderColor = primary,
+                    unfocusedBorderColor = primaryContainer,
+                    singleLine = true
                 )
             }
         }
