@@ -8,15 +8,21 @@ import com.dreamsoftware.fudge.component.FudgeTvNavigationDrawerItemModel
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
+import com.dreamsoftware.nimbustv.domain.usecase.GetProfileSelectedUseCase
 import com.dreamsoftware.nimbustv.ui.utils.toDrawableResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class DashboardViewModel @Inject constructor() : FudgeTvViewModel<DashboardUiState, DashboardSideEffects>(), DashboardActionListener {
+class DashboardViewModel @Inject constructor(
+    private val getProfileSelectedUseCase: GetProfileSelectedUseCase
+) : FudgeTvViewModel<DashboardUiState, DashboardSideEffects>(), DashboardActionListener {
 
     fun fetchData() {
-
+        executeUseCase(
+            useCase = getProfileSelectedUseCase,
+            onSuccess = ::onGetSelectedProfileSuccessfully
+        )
     }
 
     override fun onGetDefaultState(): DashboardUiState = DashboardUiState(
