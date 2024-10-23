@@ -1,5 +1,6 @@
 package com.dreamsoftware.nimbustv.ui.screens.search
 
+import androidx.lifecycle.viewModelScope
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
 import com.dreamsoftware.fudge.core.IFudgeTvErrorMapper
 import com.dreamsoftware.fudge.core.SideEffect
@@ -7,27 +8,92 @@ import com.dreamsoftware.fudge.core.UiState
 import com.dreamsoftware.nimbustv.di.FavoritesScreenErrorMapper
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.domain.model.StreamTypeEnum
-import com.dreamsoftware.nimbustv.domain.usecase.GetFavoriteChannelsByProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.RemoveChannelFromFavoritesUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.SearchChannelsUseCase
 import com.dreamsoftware.nimbustv.ui.utils.EMPTY
+import com.dreamsoftware.nimbustv.ui.utils.SPACE
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val removeChannelFromFavoritesUseCase: RemoveChannelFromFavoritesUseCase,
-    private val getFavoriteChannelsByProfileUseCase: GetFavoriteChannelsByProfileUseCase,
+    private val searchChannelsUseCase: SearchChannelsUseCase,
     @FavoritesScreenErrorMapper private val errorMapper: IFudgeTvErrorMapper,
 ) : FudgeTvViewModel<SearchUiState, SearchSideEffects>(), SearchScreenActionListener {
+
+    companion object {
+        private const val SEARCH_DELAY_MILLIS: Long = 3000
+    }
+
+    private var searchJob: Job? = null
 
     override fun onGetDefaultState(): SearchUiState = SearchUiState()
 
     fun fetchData() {
-        executeUseCase(
-            useCase = getFavoriteChannelsByProfileUseCase,
-            onSuccess = ::onGetFavoritesChannelsByProfileCompleted,
-            onMapExceptionToState = ::onMapExceptionToState
-        )
+        launchSearch()
+    }
+
+    override fun onKeyPressed(key: String) {
+        doOnUiState { onTermUpdated(newTerm = term.plus(key)) }
+        launchSearchAfterDelay()
+    }
+
+    override fun onClearPressed() {
+        onTermUpdated(newTerm = String.EMPTY)
+    }
+
+    override fun onBackSpacePressed() {
+        doOnUiState { onTermUpdated(newTerm = term.dropLast(1)) }
+        launchSearchAfterDelay()
+    }
+
+    override fun onSpaceBarPressed() {
+        doOnUiState { onTermUpdated(newTerm = term.plus(Char.SPACE)) }
+        launchSearchAfterDelay()
+    }
+
+    override fun onSearchPressed() {
+        launchSearch()
+    }
+
+    private fun launchSearchAfterDelay() {
+        searchJob?.cancel()
+        viewModelScope.launch {
+            delay(SEARCH_DELAY_MILLIS)
+            launchSearch()
+        }.also {
+            searchJob = it
+        }
+    }
+
+    private fun launchSearch() {
+        doOnUiState {
+            if (term.isNotBlank()) {
+                onSearch()
+            }
+        }
+    }
+
+    private fun onSearch() {
+        doOnUiState {
+            executeUseCaseWithParams(
+                useCase = searchChannelsUseCase,
+                params = SearchChannelsUseCase.Params(term = term),
+                onSuccess = ::onSearchCompletedSuccessfully,
+            )
+        }
+    }
+
+    private fun onTermUpdated(newTerm: String) {
+        updateState { it.copy(term = newTerm) }
+    }
+
+    private fun onSearchCompletedSuccessfully(channels: List<ChannelBO>) {
+        updateState { it.copy(channels = channels) }
     }
 
     private fun onMapExceptionToState(ex: Exception, uiState: SearchUiState) =
@@ -35,10 +101,6 @@ class SearchViewModel @Inject constructor(
             isLoading = false,
             errorMessage = errorMapper.mapToMessage(ex)
         )
-
-    private fun onGetFavoritesChannelsByProfileCompleted(channels: List<ChannelBO>) {
-        updateState { it.copy(channels = channels) }
-    }
 
     override fun onOpenChannelDetail(channel: ChannelBO) {
         updateState { it.copy(channelSelected = channel) }
