@@ -62,7 +62,7 @@ fun CommonPopup(
                             .alpha(0.88f),
                         model = imageUrl,
                         contentDescription = null,
-                        contentScale = ContentScale.Fit
+                        contentScale = ContentScale.FillBounds
                     )
                     Column(
                         modifier = Modifier

@@ -53,10 +53,13 @@
 
     <!-- Search Screen -->
     <string name="search_screen_main_title">Ready to Discover Something New?</string>
-    <string name="search_screen_search_results_title">We\'ve Got Your Results!</string>
+    <string name="search_screen_search_results_title_without_term">Waiting for your search…</string>
     <string name="search_screen_search_results_title_with_term" formatted="false">Here’s What We Found for \"%s\"</string>
+    <string name="search_screen_search_idle">Type something to start your search…</string>
     <string name="search_screen_search_results_loading">Hold tight! We\'re finding the best matches for you…</string>
     <string name="search_screen_search_no_results_found">Uh-oh! Nothing matched your search. Give it another shot!</string>
+    <string name="search_screen_channel_detail_popup_remove_from_favorites_button_text">Remove from Favorites</string>
+    <string name="search_screen_channel_detail_popup_add_to_favorites_button_text">Add to Favorites</string>
 
     <!-- Favorites -->
     <string name="favorites_screen_title">🌟 Your Favorite Channels 🌟</string>

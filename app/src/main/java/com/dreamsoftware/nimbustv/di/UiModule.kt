@@ -7,6 +7,7 @@ import com.dreamsoftware.nimbustv.ui.screens.favorites.FavoritesScreenSimpleErro
 import com.dreamsoftware.nimbustv.ui.screens.playlistdetail.PlaylistDetailScreenSimpleErrorMapper
 import com.dreamsoftware.nimbustv.ui.screens.playlists.PlaylistsScreenSimpleErrorMapper
 import com.dreamsoftware.nimbustv.ui.screens.profiles.save.SaveProfileScreenSimpleErrorMapper
+import com.dreamsoftware.nimbustv.ui.screens.search.SearchScreenSimpleErrorMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -57,4 +58,12 @@ class UiModule {
         @ApplicationContext context: Context
     ): IFudgeTvErrorMapper =
         PlaylistDetailScreenSimpleErrorMapper(context = context)
+
+    @Provides
+    @ViewModelScoped
+    @SearchChannelsScreenErrorMapper
+    fun provideSearchChannelsScreenErrorMapper(
+        @ApplicationContext context: Context
+    ): IFudgeTvErrorMapper =
+        SearchScreenSimpleErrorMapper(context = context)
 }

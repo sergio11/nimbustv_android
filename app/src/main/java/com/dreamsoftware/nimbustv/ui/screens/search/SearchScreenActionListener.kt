@@ -8,6 +8,7 @@ interface SearchScreenActionListener: IFudgeTvScreenActionListener {
     fun onOpenChannelDetail(channel: ChannelBO)
     fun onCloseDetail()
     fun onPlayChannel(channel: ChannelBO)
+    fun onAddToFavorites(channel: ChannelBO)
     fun onRemoveFromFavorites(channel: ChannelBO)
     fun onKeyPressed(key: String)
     fun onClearPressed()
