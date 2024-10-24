@@ -1,6 +1,5 @@
 package com.dreamsoftware.nimbustv.framework.m3u.model
 
-import com.dreamsoftware.nimbustv.framework.m3u.StreamType
 import java.time.Duration
 
 /**

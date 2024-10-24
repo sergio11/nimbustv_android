@@ -9,6 +9,7 @@ import com.dreamsoftware.nimbustv.domain.service.IPlaylistParserService
 import com.dreamsoftware.nimbustv.framework.epg.parser.EpgParserServiceImpl
 import com.dreamsoftware.nimbustv.framework.epg.scheduler.WorkManagerEpgSchedulerImpl
 import com.dreamsoftware.nimbustv.framework.m3u.M3UServiceImpl
+import com.dreamsoftware.nimbustv.framework.m3u.M3uParser
 import com.dreamsoftware.nimbustv.framework.m3u.model.M3uEntry
 import com.dreamsoftware.nimbustv.framework.mapper.M3UEntryMapper
 import com.dreamsoftware.nimbustv.utils.IOneSideMapper
@@ -35,6 +36,10 @@ class FrameworkModule {
 
     @Provides
     @Singleton
+    fun provideM3uParser(): M3uParser = M3uParser()
+
+    @Provides
+    @Singleton
     fun provideWorkerManager(
         @ApplicationContext context: Context
     ): WorkManager = WorkManager.getInstance(context)
@@ -43,8 +48,9 @@ class FrameworkModule {
     @Singleton
     fun provideM3UService(
         mapper: IOneSideMapper<M3uEntry, M3uEntryBO>,
+        m3uParser: M3uParser,
         @IoDispatcher dispatcher: CoroutineDispatcher
-    ): IPlaylistParserService = M3UServiceImpl(mapper, dispatcher)
+    ): IPlaylistParserService = M3UServiceImpl(mapper, m3uParser, dispatcher)
 
     @Provides
     @Singleton

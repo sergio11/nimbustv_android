@@ -11,13 +11,14 @@ import java.net.URL
 
 internal class M3UServiceImpl(
     private val m3uEntryMapper: IOneSideMapper<M3uEntry, M3uEntryBO>,
+    private val m3uParser: M3uParser,
     private val dispatcher: CoroutineDispatcher
 ): IPlaylistParserService {
 
     @Throws(ParsePlayListFailedException::class)
     override suspend fun parsePlaylist(playlistUrl: String): List<M3uEntryBO> = withContext(dispatcher) {
         try {
-            M3uParser.parse(URL(playlistUrl).openStream().reader()).also {
+            m3uParser.parse(URL(playlistUrl).openStream().reader()).also {
                 if (it.isEmpty()) {
                     throw Exception("Playlist does not contain any entry")
                 }
