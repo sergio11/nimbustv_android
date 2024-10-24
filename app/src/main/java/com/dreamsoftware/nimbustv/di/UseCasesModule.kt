@@ -5,6 +5,7 @@ import com.dreamsoftware.nimbustv.domain.model.UpdatedProfileRequestBO
 import com.dreamsoftware.nimbustv.domain.repository.IChannelRepository
 import com.dreamsoftware.nimbustv.domain.repository.IEpgRepository
 import com.dreamsoftware.nimbustv.domain.repository.IPlaylistRepository
+import com.dreamsoftware.nimbustv.domain.repository.IPreferencesRepository
 import com.dreamsoftware.nimbustv.domain.repository.IProfilesRepository
 import com.dreamsoftware.nimbustv.domain.service.IEpgParserService
 import com.dreamsoftware.nimbustv.domain.service.IEpgSchedulerService
@@ -30,7 +31,9 @@ import com.dreamsoftware.nimbustv.domain.usecase.GetChannelsByPlaylistUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetEpgDataUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetFavoriteChannelsByProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetPlaylistsByProfileUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.GetUserPreferencesUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.RemoveChannelFromFavoritesUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.SaveUserPreferencesUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SearchChannelsUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SelectProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SignOffUseCase
@@ -330,4 +333,18 @@ class UseCasesModule {
             profileRepository = profileRepository,
             channelRepository = channelRepository
         )
+
+    @Provides
+    @ViewModelScoped
+    fun provideGetUserPreferencesUseCase(
+        preferencesRepository: IPreferencesRepository
+    ): GetUserPreferencesUseCase =
+        GetUserPreferencesUseCase(preferencesRepository = preferencesRepository)
+
+    @Provides
+    @ViewModelScoped
+    fun provideSaveUserPreferencesUseCase(
+        preferencesRepository: IPreferencesRepository
+    ): SaveUserPreferencesUseCase =
+        SaveUserPreferencesUseCase(preferencesRepository = preferencesRepository)
 }

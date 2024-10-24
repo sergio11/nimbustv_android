@@ -43,5 +43,9 @@ class GetProfileSelectedException(message: String? = null, cause: Throwable? = n
 class ClearProfileSelectedException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class UserProfilesLimitReachedException(val maxProfilesLimit: Int, message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 
+// Preferences
+class GetUserPreferencesException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
+class SaveUserPreferencesException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
+
 // EPG
 class ParseEpgFailedException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)

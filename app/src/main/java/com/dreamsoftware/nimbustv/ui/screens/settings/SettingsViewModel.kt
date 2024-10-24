@@ -7,18 +7,24 @@ import com.dreamsoftware.fudge.core.UiState
 import com.dreamsoftware.fudge.utils.FudgeTvEventBus
 import com.dreamsoftware.nimbustv.AppEvent
 import com.dreamsoftware.nimbustv.R
+import com.dreamsoftware.nimbustv.domain.model.UserPreferenceBO
+import com.dreamsoftware.nimbustv.domain.usecase.GetUserPreferencesUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.SaveUserPreferencesUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SignOffUseCase
+import com.dreamsoftware.nimbustv.utils.enumOfOrDefault
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val signOffUseCase: SignOffUseCase,
-    private val appEventBus: FudgeTvEventBus
+    private val appEventBus: FudgeTvEventBus,
+    private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
+    private val saveUserPreferencesUseCase: SaveUserPreferencesUseCase
 ) : FudgeTvViewModel<SettingsUiState, SettingsSideEffects>(), SettingsScreenActionListener {
 
     fun fetchData() {
-
+        executeUseCase(useCase = getUserPreferencesUseCase, onSuccess = ::onFetchUserPreferencesCompleted)
     }
 
     override fun onGetDefaultState(): SettingsUiState = SettingsUiState(
@@ -79,16 +85,36 @@ class SettingsViewModel @Inject constructor(
         launchSideEffect(SettingsSideEffects.OpenSubscriptions)
     }
 
+    private fun onFetchUserPreferencesCompleted(userPreferences: UserPreferenceBO) {
+        updateState { it.copy(settingList = onBuildSettingsList(userPreferences)) }
+    }
 
     private fun onSaveUserPreferences() {
         uiState.value.settingList.filterIsInstance<ISettingItemVO.ISettingValueItemVO.SettingMultipleValuesVO>()
             .let { settings ->
-
+                executeUseCaseWithParams(
+                    useCase = saveUserPreferencesUseCase,
+                    params = SaveUserPreferencesUseCase.Params(
+                        enableSearch = settings.find { it.type == SettingTypeEnum.ENABLE_SEARCH }?.value?.let { value ->
+                            enumOfOrDefault({ it.value == value}, SettingsEnableSearchEnum.SEARCH_ENABLED)
+                        } == SettingsEnableSearchEnum.SEARCH_ENABLED,
+                    )
+                )
             }
     }
 
-    private fun onBuildSettingsList() = listOf(
+    private fun onBuildSettingsList(userPreferences: UserPreferenceBO? = null) = listOf(
         ISettingItemVO.SettingHeaderVO(titleRes = R.string.app_settings),
+        ISettingItemVO.ISettingValueItemVO.SettingMultipleValuesVO(
+            titleRes = R.string.settings_enable_search_preference_title,
+            value = if (userPreferences?.enableSearch == true) {
+                SettingsEnableSearchEnum.SEARCH_ENABLED
+            } else {
+                SettingsEnableSearchEnum.SEARCH_DISABLED
+            }.value,
+            type = SettingTypeEnum.ENABLE_SEARCH,
+            possibleValues = SettingsEnableSearchEnum.entries.map { it.value }
+        ),
         ISettingItemVO.SettingHeaderVO(titleRes = R.string.about_settings),
         ISettingItemVO.ISettingValueItemVO.SettingSingleValueVO(
             titleRes = R.string.settings_about_app_title,
@@ -146,11 +172,16 @@ sealed interface ISettingItemVO {
 }
 
 enum class SettingTypeEnum {
-    UNITS, APP_LANGUAGE, VIDEO_QUALITY
+    ENABLE_SEARCH
 }
 
 enum class SettingActionTypeEnum {
     SIGN_OFF, SUBSCRIPTIONS
+}
+
+enum class SettingsEnableSearchEnum(val value: String) {
+    SEARCH_ENABLED("Enable Channel Search"),
+    SEARCH_DISABLED("Disable Channel Search")
 }
 
 sealed interface SettingsSideEffects : SideEffect {
