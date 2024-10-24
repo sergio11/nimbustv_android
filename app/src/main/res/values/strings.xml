@@ -173,6 +173,8 @@
     <string name="settings_confirm_sign_off_dialog_title">🔒 Confirm Sign Out</string>
     <string name="settings_confirm_sign_off_dialog_description">Are you sure you want to sign out? Any unsaved changes will be lost, and you’ll need to sign in again to continue using NimbusTV.</string>
     <string name="settings_close_session_title">Log Out</string>
+    <string name="settings_enable_search_preference_title">Turn On Channel Search Magic!</string>
+
 
 
     <!-- Miscellaneous -->

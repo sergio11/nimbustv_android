@@ -6,7 +6,9 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.dreamsoftware.nimbustv.data.preferences.datasource.IProfileSessionDataSource
+import com.dreamsoftware.nimbustv.data.preferences.datasource.IUserPreferencesDataSource
 import com.dreamsoftware.nimbustv.data.preferences.datasource.impl.ProfileSessionDataSourceImpl
+import com.dreamsoftware.nimbustv.data.preferences.datasource.impl.UserPreferencesDataSourceImpl
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -66,4 +68,15 @@ class DatastoreModule {
     @Singleton
     fun provideProfileSessionDataSource(dataStore: DataStore<Preferences>): IProfileSessionDataSource =
         ProfileSessionDataSourceImpl(dataStore)
+
+    /**
+     * Provides an implementation of [IUserPreferencesDataSource] for managing user preferences related data.
+     * @param dataStore The DataStore instance used for storing preferences.
+     * @param moshi The Moshi instance used for JSON serialization/deserialization.
+     * @return An instance of [IUserPreferencesDataSource] for user preferences data management.
+     */
+    @Provides
+    @Singleton
+    fun provideUserPreferencesDataSource(dataStore: DataStore<Preferences>, moshi: Moshi): IUserPreferencesDataSource =
+        UserPreferencesDataSourceImpl(dataStore, moshi)
 }

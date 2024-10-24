@@ -12,9 +12,12 @@ import com.dreamsoftware.nimbustv.data.database.entity.PlayListEntity
 import com.dreamsoftware.nimbustv.data.database.entity.ProfileEntity
 import com.dreamsoftware.nimbustv.data.database.entity.ProgrammeEntity
 import com.dreamsoftware.nimbustv.data.preferences.datasource.IProfileSessionDataSource
+import com.dreamsoftware.nimbustv.data.preferences.datasource.IUserPreferencesDataSource
+import com.dreamsoftware.nimbustv.data.preferences.dto.UserPreferencesDTO
 import com.dreamsoftware.nimbustv.data.repository.impl.ChannelsRepositoryImpl
 import com.dreamsoftware.nimbustv.data.repository.impl.EpgRepositoryImpl
 import com.dreamsoftware.nimbustv.data.repository.impl.PlaylistRepositoryImpl
+import com.dreamsoftware.nimbustv.data.repository.impl.PreferencesRepositoryImpl
 import com.dreamsoftware.nimbustv.data.repository.impl.ProfilesRepositoryImpl
 import com.dreamsoftware.nimbustv.data.repository.mapper.ChannelsMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.CreatePlaylistMapper
@@ -29,6 +32,7 @@ import com.dreamsoftware.nimbustv.data.repository.mapper.SaveProgrammeEpgDataMap
 import com.dreamsoftware.nimbustv.data.repository.mapper.UpdatePlaylistData
 import com.dreamsoftware.nimbustv.data.repository.mapper.UpdatePlaylistMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.UpdateProfileMapper
+import com.dreamsoftware.nimbustv.data.repository.mapper.UserPreferencesMapper
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.domain.model.CreatePlayListBO
 import com.dreamsoftware.nimbustv.domain.model.CreateProfileRequestBO
@@ -37,10 +41,13 @@ import com.dreamsoftware.nimbustv.domain.model.PlayListBO
 import com.dreamsoftware.nimbustv.domain.model.ProfileBO
 import com.dreamsoftware.nimbustv.domain.model.SaveChannelBO
 import com.dreamsoftware.nimbustv.domain.model.UpdatedProfileRequestBO
+import com.dreamsoftware.nimbustv.domain.model.UserPreferenceBO
 import com.dreamsoftware.nimbustv.domain.repository.IChannelRepository
 import com.dreamsoftware.nimbustv.domain.repository.IEpgRepository
 import com.dreamsoftware.nimbustv.domain.repository.IPlaylistRepository
+import com.dreamsoftware.nimbustv.domain.repository.IPreferencesRepository
 import com.dreamsoftware.nimbustv.domain.repository.IProfilesRepository
+import com.dreamsoftware.nimbustv.utils.IMapper
 import com.dreamsoftware.nimbustv.utils.IOneSideMapper
 import dagger.Module
 import dagger.Provides
@@ -103,6 +110,10 @@ class RepositoryModule {
     @Singleton
     fun provideChannelsMapper(): IOneSideMapper<ChannelEntity, ChannelBO> =
         ChannelsMapper()
+
+    @Provides
+    @Singleton
+    fun provideUserPreferencesMapper(): IMapper<UserPreferencesDTO, UserPreferenceBO> = UserPreferencesMapper()
 
     @Provides
     @Singleton
@@ -174,6 +185,19 @@ class RepositoryModule {
             saveChannelEpgDataMapper,
             saveProgrammeEpgDataMapper,
             epgDataMapper,
+            dispatcher
+        )
+
+    @Provides
+    @Singleton
+    fun providePreferencesRepository(
+        userPreferencesDataSource: IUserPreferencesDataSource,
+        userPreferencesMapper: IMapper<UserPreferencesDTO, UserPreferenceBO>,
+        @IoDispatcher dispatcher: CoroutineDispatcher
+    ): IPreferencesRepository =
+        PreferencesRepositoryImpl(
+            userPreferencesDataSource,
+            userPreferencesMapper,
             dispatcher
         )
 }
