@@ -157,6 +157,9 @@ fun DashboardNavHost(
                     onGoToSubscriptions = {
                         navigate(Screen.Subscription.route)
                     },
+                    onOpenSystemSettings = {
+                        context.openSystemSettings()
+                    },
                     onBackPressed = {
                         popBackStack()
                     }

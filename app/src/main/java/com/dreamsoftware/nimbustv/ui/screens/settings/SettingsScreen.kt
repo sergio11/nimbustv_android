@@ -8,6 +8,7 @@ import com.dreamsoftware.fudge.component.FudgeTvScreen
 fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
     onGoToSubscriptions: () -> Unit,
+    onOpenSystemSettings: () -> Unit,
     onBackPressed: () -> Unit,
 ) {
     FudgeTvScreen(
@@ -16,6 +17,7 @@ fun SettingsScreen(
         onSideEffect = {
             when(it) {
                 SettingsSideEffects.OpenSubscriptions -> onGoToSubscriptions()
+                SettingsSideEffects.OpenSystemSettings -> onOpenSystemSettings()
             }
         },
         onInitialUiState = { SettingsUiState() },
