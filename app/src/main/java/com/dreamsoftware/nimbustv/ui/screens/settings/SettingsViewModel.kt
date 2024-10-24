@@ -57,6 +57,7 @@ class SettingsViewModel @Inject constructor(
             when(setting.type) {
                 SettingActionTypeEnum.SIGN_OFF ->  updateState { it.copy(showSignOffDialog = true) }
                 SettingActionTypeEnum.SUBSCRIPTIONS -> onOpenSubscriptions()
+                SettingActionTypeEnum.OPEN_SYSTEM_SETTINGS -> onOpenSystemSettings()
             }
         }
     }
@@ -83,6 +84,10 @@ class SettingsViewModel @Inject constructor(
 
     private fun onOpenSubscriptions() {
         launchSideEffect(SettingsSideEffects.OpenSubscriptions)
+    }
+
+    private fun onOpenSystemSettings() {
+        launchSideEffect(SettingsSideEffects.OpenSystemSettings)
     }
 
     private fun onFetchUserPreferencesCompleted(userPreferences: UserPreferenceBO) {
@@ -114,6 +119,10 @@ class SettingsViewModel @Inject constructor(
             }.value,
             type = SettingTypeEnum.ENABLE_SEARCH,
             possibleValues = SettingsEnableSearchEnum.entries.map { it.value }
+        ),
+        ISettingItemVO.SettingActionVO(
+            titleRes = R.string.settings_open_system_settings_title,
+            type = SettingActionTypeEnum.OPEN_SYSTEM_SETTINGS
         ),
         ISettingItemVO.SettingHeaderVO(titleRes = R.string.about_settings),
         ISettingItemVO.ISettingValueItemVO.SettingSingleValueVO(
@@ -184,7 +193,7 @@ enum class SettingTypeEnum {
 }
 
 enum class SettingActionTypeEnum {
-    SIGN_OFF, SUBSCRIPTIONS
+    SIGN_OFF, SUBSCRIPTIONS, OPEN_SYSTEM_SETTINGS
 }
 
 enum class SettingsEnableSearchEnum(val value: String) {
@@ -194,4 +203,5 @@ enum class SettingsEnableSearchEnum(val value: String) {
 
 sealed interface SettingsSideEffects : SideEffect {
     data object OpenSubscriptions: SettingsSideEffects
+    data object OpenSystemSettings: SettingsSideEffects
 }
