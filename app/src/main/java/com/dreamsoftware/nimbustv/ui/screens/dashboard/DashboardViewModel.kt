@@ -1,17 +1,19 @@
 package com.dreamsoftware.nimbustv.ui.screens.dashboard
 
 import androidx.lifecycle.viewModelScope
-import com.dreamsoftware.nimbustv.R
-import com.dreamsoftware.nimbustv.domain.model.AvatarTypeEnum
-import com.dreamsoftware.nimbustv.domain.model.ProfileBO
-import com.dreamsoftware.nimbustv.ui.navigation.Screen
 import com.dreamsoftware.fudge.component.FudgeTvNavigationDrawerItemModel
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
+import com.dreamsoftware.fudge.utils.FudgeTvEventBus
+import com.dreamsoftware.nimbustv.AppEvent
+import com.dreamsoftware.nimbustv.R
+import com.dreamsoftware.nimbustv.domain.model.AvatarTypeEnum
+import com.dreamsoftware.nimbustv.domain.model.ProfileBO
 import com.dreamsoftware.nimbustv.domain.model.UserPreferenceBO
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfileSelectedUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetUserPreferencesUseCase
+import com.dreamsoftware.nimbustv.ui.navigation.Screen
 import com.dreamsoftware.nimbustv.ui.utils.toDrawableResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -20,8 +22,13 @@ import javax.inject.Inject
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
     private val getProfileSelectedUseCase: GetProfileSelectedUseCase,
-    private val getUserPreferencesUseCase: GetUserPreferencesUseCase
+    private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
+    private val appEventBus: FudgeTvEventBus
 ) : FudgeTvViewModel<DashboardUiState, DashboardSideEffects>(), DashboardActionListener {
+
+    init {
+        observeEvents()
+    }
 
     fun fetchData() {
         viewModelScope.launch {
@@ -102,6 +109,16 @@ class DashboardViewModel @Inject constructor(
     private suspend fun fetchUserPreferences(): UserPreferenceBO? = runCatching {
         getUserPreferencesUseCase.onExecuted()
     }.getOrNull()
+
+    private fun observeEvents() {
+        viewModelScope.launch {
+            appEventBus.events.collect { event ->
+                if(event is AppEvent.UserPreferencesUpdated) {
+                    fetchData()
+                }
+            }
+        }
+    }
 }
 
 data class DashboardUiState(
