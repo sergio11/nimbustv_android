@@ -14,22 +14,20 @@ import java.util.LinkedList
 import kotlin.streams.asSequence
 import com.dreamsoftware.nimbustv.framework.m3u.model.MediaLocation
 import com.dreamsoftware.nimbustv.framework.m3u.model.MediaPath
+import com.dreamsoftware.nimbustv.framework.m3u.model.StreamType
 
-// Enum class to represent Stream Types
-enum class StreamType {
-    ONLY_AUDIO,
-    VIDEO
-}
+class M3uParser {
 
-object M3uParser {
-    private const val TAG = "M3U_PARSER"
-    private const val COMMENT_START = '#'
-    private const val EXTENDED_HEADER = "${COMMENT_START}EXTM3U"
-    private const val SECONDS = 1
-    private const val KEY_VALUE_PAIRS = 2
-    private const val TITLE = 3
-    private const val EXTENDED_INFO = """${COMMENT_START}EXTINF:([-]?\d+)(.*),(.+)"""
-    private const val KODI_PROP = """#KODIPROP:([\w\-.]+)=(.+)""" // Regex for KODIPROP
+    private companion object {
+        private const val TAG = "M3U_PARSER"
+        private const val COMMENT_START = '#'
+        private const val EXTENDED_HEADER = "${COMMENT_START}EXTM3U"
+        private const val SECONDS = 1
+        private const val KEY_VALUE_PAIRS = 2
+        private const val TITLE = 3
+        private const val EXTENDED_INFO = """${COMMENT_START}EXTINF:([-]?\d+)(.*),(.+)"""
+        private const val KODI_PROP = """#KODIPROP:([\w\-.]+)=(.+)""" // Regex for KODIPROP
+    }
 
     private val infoRegex = Regex(EXTENDED_INFO)
     private val kodiPropRegex = Regex(KODI_PROP)  // Regex for KODIPROP properties
@@ -44,7 +42,6 @@ object M3uParser {
      * @throws IllegalArgumentException if file is not a regular file
      */
     @Throws(IOException::class)
-    @JvmStatic
     @JvmOverloads
     fun parse(m3uFile: Path, charset: Charset = Charsets.UTF_8): List<M3uEntry> {
         require(Files.isRegularFile(m3uFile)) { "$m3uFile is not a file" }
@@ -58,11 +55,9 @@ object M3uParser {
      * @param baseDir a base dir for resolving relative paths
      * @return a list of all parsed entries in order
      */
-    @JvmStatic
     @JvmOverloads
-    fun parse(m3uContentReader: InputStreamReader, baseDir: Path? = null): List<M3uEntry> {
-        return m3uContentReader.buffered().useLines { parse(it, baseDir) }
-    }
+    fun parse(m3uContentReader: InputStreamReader, baseDir: Path? = null): List<M3uEntry> =
+        m3uContentReader.buffered().useLines { parse(it, baseDir) }
 
     /**
      * Parses the specified content of a `.m3u` file.
@@ -71,11 +66,9 @@ object M3uParser {
      * @param baseDir a base dir for resolving relative paths
      * @return a list of all parsed entries in order
      */
-    @JvmStatic
     @JvmOverloads
-    fun parse(m3uContent: String, baseDir: Path? = null): List<M3uEntry> {
-        return parse(m3uContent.lineSequence(), baseDir)
-    }
+    fun parse(m3uContent: String, baseDir: Path? = null): List<M3uEntry> =
+        parse(m3uContent.lineSequence(), baseDir)
 
     /**
      * Recursively resolves all playlist files contained as entries in the given list.
@@ -85,14 +78,12 @@ object M3uParser {
      * @param entries a list of playlist entries
      * @param charset the encoding to be used to read nested playlist files, defaults to UTF-8
      */
-    @JvmStatic
     @JvmOverloads
     fun resolveNestedPlaylists(
         entries: List<M3uEntry>,
         charset: Charset = Charsets.UTF_8,
-    ): List<M3uEntry> {
-        return resolveRecursively(entries, charset)
-    }
+    ): List<M3uEntry> =
+        resolveRecursively(entries, charset)
 
     private fun parse(lines: Sequence<String>, baseDir: Path?): List<M3uEntry> {
         val filtered = lines
