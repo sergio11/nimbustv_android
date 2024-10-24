@@ -121,6 +121,14 @@ class SettingsViewModel @Inject constructor(
             valueRes = R.string.settings_about_app_content
         ),
         ISettingItemVO.ISettingValueItemVO.SettingSingleValueVO(
+            titleRes = R.string.settings_terms_and_conditions_title,
+            valueRes = R.string.settings_terms_and_conditions_content
+        ),
+        ISettingItemVO.ISettingValueItemVO.SettingSingleValueVO(
+            titleRes = R.string.settings_help_title,
+            valueRes = R.string.settings_help_content
+        ),
+        ISettingItemVO.ISettingValueItemVO.SettingSingleValueVO(
             titleRes = R.string.settings_about_me_title,
             valueRes = R.string.settings_about_me_content
         ),
@@ -180,8 +188,8 @@ enum class SettingActionTypeEnum {
 }
 
 enum class SettingsEnableSearchEnum(val value: String) {
-    SEARCH_ENABLED("Enable Channel Search"),
-    SEARCH_DISABLED("Disable Channel Search")
+    SEARCH_ENABLED("Enable"),
+    SEARCH_DISABLED("Disable")
 }
 
 sealed interface SettingsSideEffects : SideEffect {
