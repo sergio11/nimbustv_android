@@ -26,5 +26,6 @@ sealed interface AppEvent : IFudgeAppEvent {
     data object SignOff : AppEvent
     data class NetworkConnectivityStateChanged(val lastState: Boolean, val newState: Boolean) :
         AppEvent
+    data object UserPreferencesUpdated: AppEvent
 }
 

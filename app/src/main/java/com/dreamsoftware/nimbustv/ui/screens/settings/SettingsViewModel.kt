@@ -24,7 +24,11 @@ class SettingsViewModel @Inject constructor(
 ) : FudgeTvViewModel<SettingsUiState, SettingsSideEffects>(), SettingsScreenActionListener {
 
     fun fetchData() {
-        executeUseCase(useCase = getUserPreferencesUseCase, onSuccess = ::onFetchUserPreferencesCompleted)
+        executeUseCase(
+            useCase = getUserPreferencesUseCase,
+            showLoadingState = false,
+            onSuccess = ::onFetchUserPreferencesCompleted
+        )
     }
 
     override fun onGetDefaultState(): SettingsUiState = SettingsUiState(
@@ -99,13 +103,19 @@ class SettingsViewModel @Inject constructor(
             .let { settings ->
                 executeUseCaseWithParams(
                     useCase = saveUserPreferencesUseCase,
+                    showLoadingState = false,
                     params = SaveUserPreferencesUseCase.Params(
                         enableSearch = settings.find { it.type == SettingTypeEnum.ENABLE_SEARCH }?.value?.let { value ->
                             enumOfOrDefault({ it.value == value}, SettingsEnableSearchEnum.SEARCH_ENABLED)
                         } == SettingsEnableSearchEnum.SEARCH_ENABLED,
-                    )
+                    ),
+                    onSuccess = { onUserPreferencesUpdated() }
                 )
             }
+    }
+
+    private fun onUserPreferencesUpdated() {
+        appEventBus.send(AppEvent.UserPreferencesUpdated)
     }
 
     private fun onBuildSettingsList(userPreferences: UserPreferenceBO? = null) = listOf(

@@ -186,7 +186,7 @@
     <string name="settings_close_session_title">Log Out</string>
     <string name="settings_enable_search_preference_title">Turn On Channel Search Magic!</string>
     <string name="settings_open_system_settings_title">🔧 Jump to System Settings</string>
-    
+
     <!-- Miscellaneous -->
     <string name="no_text_value">--</string>
     <string name="image_cannot_be_loaded">Image cannot be loaded</string>
