@@ -5,10 +5,13 @@ import com.dreamsoftware.fudge.core.IFudgeTvErrorMapper
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
 import com.dreamsoftware.nimbustv.di.EpgScreenErrorMapper
-import com.dreamsoftware.nimbustv.domain.model.EpgDataBO
+import com.dreamsoftware.nimbustv.domain.model.ChannelEpgDataBO
 import com.dreamsoftware.nimbustv.domain.usecase.DeleteEpgDataUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetEpgDataUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SaveEpgUseCase
+import com.dreamsoftware.nimbustv.ui.screens.epg.extension.mapToLiveScheduleList
+import com.dreamsoftware.nimbustv.ui.screens.epg.extension.mapToScheduleList
+import com.dreamsoftware.nimbustv.ui.screens.epg.model.ScheduleVO
 import com.dreamsoftware.nimbustv.ui.utils.EMPTY
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -21,6 +24,8 @@ class EpgViewModel @Inject constructor(
     @EpgScreenErrorMapper private val errorMapper: IFudgeTvErrorMapper,
 ) : FudgeTvViewModel<EpgUiState, EpgSideEffects>(), EpgScreenActionListener {
 
+    private var epgData: List<ChannelEpgDataBO> = emptyList()
+
     override fun onGetDefaultState(): EpgUiState = EpgUiState()
 
     fun fetchData() {
@@ -31,8 +36,9 @@ class EpgViewModel @Inject constructor(
         )
     }
 
-    private fun onGetEpgDataCompleted(data: List<EpgDataBO>) {
-        updateState { it.copy(epgData = data) }
+    private fun onGetEpgDataCompleted(data: List<ChannelEpgDataBO>) {
+        epgData = data
+        updateState { it.copy(liveSchedules = data.mapToLiveScheduleList()) }
     }
 
     private fun onMapExceptionToState(ex: Exception, uiState: EpgUiState) =
@@ -80,20 +86,37 @@ class EpgViewModel @Inject constructor(
         updateState { it.copy(newEpgDataUrl = newValue) }
     }
 
-    private fun onEpgDataRemovedSuccessfully() {
+    override fun onOpenEpgChannel(channelId: String) {
         updateState {
             it.copy(
-                epgData = emptyList(),
+                currentChannelSchedules = epgData
+                    .filter { channel -> channel.channelId == channelId }
+                    .flatMap { channel -> channel.programmeList.mapToScheduleList(channel.displayName) }
+                    .sortedBy(ScheduleVO::startTime)
+            )
+        }
+    }
+
+    private fun onEpgDataRemovedSuccessfully() {
+        epgData = emptyList()
+        updateState {
+            it.copy(
+                liveSchedules = emptyList(),
+                currentChannelSchedules = emptyList(),
                 showRemoveEpgDataDialog = false
             )
         }
     }
 
-    private fun onImportEpgDataCompleted(data: List<EpgDataBO>) {
+    private fun onImportEpgDataCompleted(data: List<ChannelEpgDataBO>) {
+        epgData = data
         updateState {
-            it.copy(epgData = data)
+            it.copy(
+                liveSchedules = data.mapToLiveScheduleList()
+            )
         }
     }
+
 }
 
 data class EpgUiState(
@@ -102,7 +125,8 @@ data class EpgUiState(
     val showRemoveEpgDataDialog: Boolean = false,
     val showImportEpgDataDialog: Boolean = false,
     val newEpgDataUrl: String = String.EMPTY,
-    val epgData: List<EpgDataBO> = emptyList()
+    val liveSchedules: List<ScheduleVO> = emptyList(),
+    val currentChannelSchedules: List<ScheduleVO> = emptyList()
 ) : UiState<EpgUiState>(isLoading, errorMessage) {
     override fun copyState(isLoading: Boolean, errorMessage: String?): EpgUiState =
         copy(isLoading = isLoading, errorMessage = errorMessage)

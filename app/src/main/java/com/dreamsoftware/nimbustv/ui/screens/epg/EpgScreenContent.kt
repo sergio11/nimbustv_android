@@ -1,50 +1,37 @@
 package com.dreamsoftware.nimbustv.ui.screens.epg
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import com.dreamsoftware.fudge.component.FudgeTvButton
 import com.dreamsoftware.fudge.component.FudgeTvButtonStyleTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvButtonTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvDialog
-import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
 import com.dreamsoftware.fudge.component.FudgeTvLoadingState
 import com.dreamsoftware.fudge.component.FudgeTvScreenContent
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
-import com.dreamsoftware.fudge.utils.conditional
 import com.dreamsoftware.nimbustv.R
-import com.dreamsoftware.nimbustv.domain.model.EpgDataBO
-import com.dreamsoftware.nimbustv.domain.model.ProgrammeDataBO
-import com.dreamsoftware.nimbustv.ui.screens.epg.components.EpgProgrammeCell
+import com.dreamsoftware.nimbustv.ui.screens.epg.components.EpgScheduleItem
 import com.dreamsoftware.nimbustv.ui.screens.epg.components.ImportEpgDataDialog
 import com.dreamsoftware.nimbustv.ui.screens.epg.components.NoEpgDataFound
+import com.dreamsoftware.nimbustv.ui.screens.epg.model.ScheduleVO
 import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
 import com.dreamsoftware.nimbustv.ui.theme.onPrimary
-import com.dreamsoftware.nimbustv.ui.utils.toScheduleFormatted
 
 @Composable
 internal fun EpgScreenContent(
@@ -75,11 +62,17 @@ internal fun EpgScreenContent(
                     isLoading -> {
                         FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
                     }
-                    epgData.isEmpty() -> {
+
+                    liveSchedules.isEmpty() -> {
                         NoEpgDataFound(onImportClicked = ::onImportNewEpgData)
                     }
+
                     else -> {
-                        EpgMainContent(epgData, actionListener)
+                        EpgMainContent(
+                            epgLiveSchedules = liveSchedules,
+                            epgChannelSchedules = currentChannelSchedules,
+                            actionListener = actionListener
+                        )
                     }
                 }
             }
@@ -87,12 +80,11 @@ internal fun EpgScreenContent(
     }
 }
 
-/**
- * Composable to display the main EPG content including title and list of channels.
- */
+
 @Composable
 private fun EpgMainContent(
-    epgData: List<EpgDataBO>,
+    epgLiveSchedules: List<ScheduleVO>,
+    epgChannelSchedules: List<ScheduleVO>,
     actionListener: EpgScreenActionListener
 ) {
     Column(
@@ -101,7 +93,21 @@ private fun EpgMainContent(
             .padding(16.dp)
     ) {
         EpgHeader(actionListener)
-        EpgList(epgData)
+        Row {
+            EpgLiveSchedulesColumn(
+                modifier = Modifier.weight(1.0f),
+                liveScheduleList = epgLiveSchedules,
+                onLiveScheduleClicked = actionListener::onOpenEpgChannel
+            )
+            if(epgChannelSchedules.isNotEmpty()) {
+                Spacer(modifier = Modifier.width(4.dp))
+                EpgChannelSchedulesColumn(
+                    modifier = Modifier.weight(1.0f),
+                    channelSchedules = epgChannelSchedules,
+                    onScheduleClicked = {}
+                )
+            }
+        }
     }
 }
 
@@ -145,134 +151,59 @@ private fun EpgHeader(actionListener: EpgScreenActionListener) {
     }
 }
 
-/**
- * Composable to display a list of channels and their programs.
- */
 @Composable
-private fun EpgList(epgData: List<EpgDataBO>) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(vertical = 8.dp)
-    ) {
-        itemsIndexed(epgData) { idx, channelData ->
-            ChannelItem(
-                channelData = channelData,
-                isFirstChannel = idx == 0
-            )
-        }
-    }
-}
-
-/**
- * Composable to display an individual channel and its programs.
- */
-@Composable
-private fun ChannelItem(
-    channelData: EpgDataBO,
-    isFirstChannel: Boolean
+private fun EpgChannelSchedulesColumn(
+    modifier: Modifier = Modifier,
+    channelSchedules: List<ScheduleVO>,
+    onScheduleClicked: (String) -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .padding(vertical = 8.dp)
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.primaryContainer)
-            .clip(RoundedCornerShape(8.dp))
-            .shadow(elevation = 4.dp) // Shadow for a lifted effect
-            .padding(16.dp)
-    ) {
-        FudgeTvText(
-            titleText = channelData.displayName,
-            type = FudgeTvTextTypeEnum.BODY_LARGE,
-            modifier = Modifier.padding(bottom = 8.dp),
-            textBold = true,
-            textColor = MaterialTheme.colorScheme.onPrimaryContainer
-        )
-        ProgramList(
-            programmeList = channelData.programmeList,
-            isFirstChannel = isFirstChannel
-        )
-    }
-}
-
-/**
- * Composable to display a horizontal list of programs under a channel.
- * If the programmeList is empty, a message indicating no information is displayed.
- */
-@Composable
-private fun ProgramList(
-    programmeList: List<ProgrammeDataBO>,
-    isFirstChannel: Boolean
-) {
-    if (programmeList.isEmpty()) {
-        // Show a card with the message if there are no programs
-        Box(
-            modifier = Modifier
-                .padding(top = 8.dp)
-                .fillMaxWidth()
-                .height(100.dp),
-            contentAlignment = Alignment.Center
+    with(MaterialTheme.colorScheme) {
+        LazyColumn(
+            modifier = modifier
+                .background(primaryContainer)
+                .border(
+                    width = 2.dp,
+                    color = onPrimaryContainer
+                )
         ) {
-            EpgProgrammeCell {
-                FudgeTvText(
-                    modifier = Modifier.padding(16.dp),
-                    titleRes = R.string.epg_screen_channel_not_data_available,
-                    type = FudgeTvTextTypeEnum.BODY_MEDIUM,
-                    textColor = MaterialTheme.colorScheme.onSurface,
-                    textAlign = TextAlign.Center
+            items(channelSchedules) { schedule ->
+                EpgScheduleItem(
+                    schedule = schedule,
+                    fullDetail = false,
+                    programmeTypeIconEnabled = true,
+                    containerColor = secondaryContainer,
+                    focusedContainerColor = secondary,
+                    contentColor = onSecondaryContainer,
+                    focusedContentColor = onSecondary,
+                    onScheduleClicked = onScheduleClicked
                 )
             }
         }
-    } else {
-        // Display the list of programs in a horizontal row
-        FudgeTvFocusRequester { focusRequester ->
-            LazyRow(
-                modifier = Modifier
-                    .padding(top = 8.dp)
-                    .fillMaxWidth(),
-                contentPadding = PaddingValues(horizontal = 8.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                itemsIndexed(programmeList) { idx, programme ->
-                    ProgrammeItem(
-                        modifier = Modifier.conditional(isFirstChannel && idx == 0, ifTrue = {
-                            focusRequester(focusRequester)
-                        }),
-                        programme = programme
-                    )
-                }
-            }
-        }
     }
 }
 
-/**
- * Composable to display an individual program.
- */
 @Composable
-private fun ProgrammeItem(
+private fun EpgLiveSchedulesColumn(
     modifier: Modifier = Modifier,
-    programme: ProgrammeDataBO
+    liveScheduleList: List<ScheduleVO>,
+    onLiveScheduleClicked: (String) -> Unit
 ) {
-    EpgProgrammeCell(
-        modifier = modifier
-            .width(200.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(8.dp)
+    with(MaterialTheme.colorScheme) {
+        LazyColumn(
+            modifier = modifier
+                .background(primaryContainer)
+                .border(
+                    width = 2.dp,
+                    color = onPrimaryContainer
+                )
         ) {
-            FudgeTvText(
-                titleText = programme.title,
-                type = FudgeTvTextTypeEnum.BODY_MEDIUM,
-                textColor = MaterialTheme.colorScheme.onSurface,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            FudgeTvText(
-                titleText = programme.toScheduleFormatted(),
-                type = FudgeTvTextTypeEnum.BODY_MEDIUM,
-                textColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-            )
+            items(liveScheduleList) { schedule ->
+                EpgScheduleItem(
+                    schedule = schedule,
+                    showMoreInfoEnabled = true,
+                    onScheduleClicked = onLiveScheduleClicked
+                )
+            }
         }
     }
 }

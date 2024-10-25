@@ -36,7 +36,7 @@ import com.dreamsoftware.nimbustv.data.repository.mapper.UserPreferencesMapper
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.domain.model.CreatePlayListBO
 import com.dreamsoftware.nimbustv.domain.model.CreateProfileRequestBO
-import com.dreamsoftware.nimbustv.domain.model.EpgDataBO
+import com.dreamsoftware.nimbustv.domain.model.ChannelEpgDataBO
 import com.dreamsoftware.nimbustv.domain.model.PlayListBO
 import com.dreamsoftware.nimbustv.domain.model.ProfileBO
 import com.dreamsoftware.nimbustv.domain.model.SaveChannelBO
@@ -66,15 +66,15 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideSaveChannelEpgDataMapper(): IOneSideMapper<EpgDataBO, ChannelEpgEntity> = SaveChannelEpgDataMapper()
+    fun provideSaveChannelEpgDataMapper(): IOneSideMapper<ChannelEpgDataBO, ChannelEpgEntity> = SaveChannelEpgDataMapper()
 
     @Provides
     @Singleton
-    fun provideSaveProgrammeEpgDataMapper(): IOneSideMapper<EpgDataBO, Iterable<ProgrammeEntity>> = SaveProgrammeEpgDataMapper()
+    fun provideSaveProgrammeEpgDataMapper(): IOneSideMapper<ChannelEpgDataBO, Iterable<ProgrammeEntity>> = SaveProgrammeEpgDataMapper()
 
     @Provides
     @Singleton
-    fun provideEpgDataMapper(): IOneSideMapper<EpgDataInput, List<EpgDataBO>> = EpgDataMapper()
+    fun provideEpgDataMapper(): IOneSideMapper<EpgDataInput, List<ChannelEpgDataBO>> = EpgDataMapper()
 
     @Provides
     @Singleton
@@ -174,9 +174,9 @@ class RepositoryModule {
     fun provideEpgRepository(
         programmeLocalDataSource: IProgrammeLocalDataSource,
         channelLocalDataSource: IChannelEpgLocalDataSource,
-        saveChannelEpgDataMapper: IOneSideMapper<EpgDataBO, ChannelEpgEntity>,
-        saveProgrammeEpgDataMapper: IOneSideMapper<EpgDataBO, Iterable<ProgrammeEntity>>,
-        epgDataMapper: IOneSideMapper<EpgDataInput, List<EpgDataBO>>,
+        saveChannelEpgDataMapper: IOneSideMapper<ChannelEpgDataBO, ChannelEpgEntity>,
+        saveProgrammeEpgDataMapper: IOneSideMapper<ChannelEpgDataBO, Iterable<ProgrammeEntity>>,
+        epgDataMapper: IOneSideMapper<EpgDataInput, List<ChannelEpgDataBO>>,
         @IoDispatcher dispatcher: CoroutineDispatcher
     ): IEpgRepository =
         EpgRepositoryImpl(
