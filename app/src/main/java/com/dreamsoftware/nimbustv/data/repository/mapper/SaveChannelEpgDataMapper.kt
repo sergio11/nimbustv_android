@@ -1,12 +1,12 @@
 package com.dreamsoftware.nimbustv.data.repository.mapper
 
 import com.dreamsoftware.nimbustv.data.database.entity.ChannelEpgEntity
-import com.dreamsoftware.nimbustv.domain.model.EpgDataBO
+import com.dreamsoftware.nimbustv.domain.model.ChannelEpgDataBO
 import com.dreamsoftware.nimbustv.utils.IOneSideMapper
 
-internal class SaveChannelEpgDataMapper: IOneSideMapper<EpgDataBO, ChannelEpgEntity> {
+internal class SaveChannelEpgDataMapper: IOneSideMapper<ChannelEpgDataBO, ChannelEpgEntity> {
 
-    override fun mapInToOut(input: EpgDataBO): ChannelEpgEntity = with(input) {
+    override fun mapInToOut(input: ChannelEpgDataBO): ChannelEpgEntity = with(input) {
         ChannelEpgEntity(
             id = channelId,
             displayName = displayName,
@@ -14,6 +14,6 @@ internal class SaveChannelEpgDataMapper: IOneSideMapper<EpgDataBO, ChannelEpgEnt
         )
     }
 
-    override fun mapInListToOutList(input: Iterable<EpgDataBO>): Iterable<ChannelEpgEntity> =
+    override fun mapInListToOutList(input: Iterable<ChannelEpgDataBO>): Iterable<ChannelEpgEntity> =
         input.map(::mapInToOut)
 }

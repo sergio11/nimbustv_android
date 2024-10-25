@@ -11,4 +11,5 @@ interface EpgScreenActionListener: IFudgeTvScreenActionListener {
     fun onRemoveEpgDataConfirmed()
     fun onRemoveEpgDataCancelled()
     fun onNewEpgDataUrlUpdated(newValue: String)
+    fun onOpenEpgChannel(channelId: String)
 }

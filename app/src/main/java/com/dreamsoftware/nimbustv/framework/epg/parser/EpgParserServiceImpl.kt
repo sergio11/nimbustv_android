@@ -2,8 +2,9 @@ package com.dreamsoftware.nimbustv.framework.epg.parser
 
 import android.util.Log
 import com.dreamsoftware.nimbustv.domain.exception.ParseEpgFailedException
-import com.dreamsoftware.nimbustv.domain.model.EpgDataBO
+import com.dreamsoftware.nimbustv.domain.model.ChannelEpgDataBO
 import com.dreamsoftware.nimbustv.domain.model.ProgrammeDataBO
+import com.dreamsoftware.nimbustv.domain.model.ProgrammeType
 import com.dreamsoftware.nimbustv.domain.service.IEpgParserService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -33,7 +34,7 @@ internal class EpgParserServiceImpl(
     }
 
     @Throws(ParseEpgFailedException::class)
-    override suspend fun parseEpgData(profileId: String, url: String): List<EpgDataBO> =
+    override suspend fun parseEpgData(profileId: String, url: String): List<ChannelEpgDataBO> =
         withContext(dispatcher) {
             try {
                 downloadFile(url)?.let {
@@ -66,7 +67,7 @@ internal class EpgParserServiceImpl(
         }
     }
 
-    private suspend fun parseEpg(inputStream: InputStream, profileId: String): List<EpgDataBO> = withContext(dispatcher) {
+    private suspend fun parseEpg(inputStream: InputStream, profileId: String): List<ChannelEpgDataBO> = withContext(dispatcher) {
         val parser = createXmlParser(inputStream)
         val channelsMap = mutableMapOf<String, Pair<String, MutableList<ProgrammeDataBO>>>()
         val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
@@ -94,7 +95,7 @@ internal class EpgParserServiceImpl(
 
         // Transform the channelsMap into a List<EpgDataBO>
         val epgDataList = channelsMap.map { (channelId, pair) ->
-            EpgDataBO(
+            ChannelEpgDataBO(
                 channelId = channelId,
                 displayName = pair.first,
                 profileId = profileId,
@@ -128,7 +129,9 @@ internal class EpgParserServiceImpl(
                 channelId = channelId,
                 title = title ?: "Unknown Title", // Default to "Unknown Title" if missing
                 startTime = LocalDateTime.parse(start, dateTimeFormatter),
-                endTime = LocalDateTime.parse(stop, dateTimeFormatter)
+                endTime = LocalDateTime.parse(stop, dateTimeFormatter),
+                type = ProgrammeType.UNKNOWN,
+                progress = 0
             )
         } else {
             Log.w(TAG, "Missing required data for programme: channelId=$channelId, start=$start, stop=$stop")
