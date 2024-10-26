@@ -3,6 +3,7 @@ package com.dreamsoftware.nimbustv.ui.screens.epg.extension
 import com.dreamsoftware.nimbustv.domain.model.ChannelEpgDataBO
 import com.dreamsoftware.nimbustv.domain.model.ProgrammeDataBO
 import com.dreamsoftware.nimbustv.domain.model.ProgrammeType
+import com.dreamsoftware.nimbustv.ui.screens.epg.model.ChannelOverviewVO
 import com.dreamsoftware.nimbustv.ui.screens.epg.model.ScheduleVO
 import com.dreamsoftware.nimbustv.ui.utils.EMPTY
 import com.dreamsoftware.nimbustv.utils.combinedLet
@@ -21,6 +22,16 @@ internal fun List<ChannelEpgDataBO>.mapToLiveScheduleList(): List<ScheduleVO> =
             startTime = liveSchedule?.startTime,
             endTime = liveSchedule?.endTime,
             programmeDescription = liveSchedule?.description
+        )
+    }
+
+
+internal fun List<ChannelEpgDataBO>.mapToChannelOverviewList(): List<ChannelOverviewVO> =
+    map {
+        ChannelOverviewVO(
+            title = it.displayName,
+            logo = null,
+            schedules = it.programmeList.mapToScheduleList(it.displayName)
         )
     }
 

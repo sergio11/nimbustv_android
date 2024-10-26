@@ -22,7 +22,9 @@ import com.dreamsoftware.fudge.component.FudgeTvScreenContent
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
 import com.dreamsoftware.nimbustv.R
+import com.dreamsoftware.nimbustv.domain.model.EpgViewModeEnum
 import com.dreamsoftware.nimbustv.ui.core.components.CommonPopup
+import com.dreamsoftware.nimbustv.ui.screens.epg.components.EpgChannelOverview
 import com.dreamsoftware.nimbustv.ui.screens.epg.components.EpgNowAndSchedule
 import com.dreamsoftware.nimbustv.ui.screens.epg.components.ImportEpgDataDialog
 import com.dreamsoftware.nimbustv.ui.screens.epg.components.NoEpgDataFound
@@ -60,7 +62,7 @@ internal fun EpgScreenContent(
                         FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
                     }
 
-                    liveSchedules.isEmpty() -> {
+                    epgDataIsEmpty -> {
                         NoEpgDataFound(onImportClicked = ::onImportNewEpgData)
                     }
                     else -> {
@@ -94,13 +96,20 @@ private fun EpgMainContent(
                 .padding(16.dp)
         ) {
             EpgHeader(actionListener)
-            EpgNowAndSchedule(
-                liveSchedules = liveSchedules,
-                channelSchedules = currentChannelSchedules,
-                channelSelectedId = channelSelectedId,
-                onOpenEpgChannel = actionListener::onOpenEpgChannel,
-                onOpenScheduleDetail = actionListener::onOpenScheduleDetail
-            )
+            if (epgViewMode == EpgViewModeEnum.NOW_AND_SCHEDULE) {
+                EpgNowAndSchedule(
+                    liveSchedules = liveSchedules,
+                    channelSchedules = currentChannelSchedules,
+                    channelSelectedId = channelSelectedId,
+                    onOpenEpgChannel = actionListener::onOpenEpgChannel,
+                    onOpenScheduleDetail = actionListener::onOpenScheduleDetail
+                )
+            } else {
+                EpgChannelOverview(
+                    data = channelOverviewList,
+                    onOpenScheduleDetail = actionListener::onOpenScheduleDetail
+                )
+            }
         }
     }
 }
