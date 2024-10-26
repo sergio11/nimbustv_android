@@ -13,12 +13,14 @@ internal fun List<ChannelEpgDataBO>.mapToLiveScheduleList(): List<ScheduleVO> =
         val liveSchedule = it.programmeList.find { programme -> programme.type == ProgrammeType.LIVE_NOW}
         ScheduleVO(
             channelId = it.channelId,
+            channelLogoUrl = null,
             channelName = it.displayName,
             type = ProgrammeType.LIVE_NOW,
             programmeTitle = liveSchedule?.title,
             progress = liveSchedule?.progress,
             startTime = liveSchedule?.startTime,
-            endTime = liveSchedule?.endTime
+            endTime = liveSchedule?.endTime,
+            programmeDescription = liveSchedule?.description
         )
     }
 
@@ -27,12 +29,14 @@ internal fun List<ProgrammeDataBO>.mapToScheduleList(channelName: String): List<
     map {
         ScheduleVO(
             channelId = it.channelId,
+            channelLogoUrl = null,
             channelName = channelName,
             type = it.type,
             programmeTitle = it.title,
             progress = it.progress,
             startTime = it.startTime,
-            endTime = it.endTime
+            endTime = it.endTime,
+            programmeDescription = it.description
         )
     }
 

@@ -13,7 +13,8 @@ internal class SaveProgrammeEpgDataMapper: IOneSideMapper<ChannelEpgDataBO, Iter
                 channelId = it.channelId,
                 title = it.title,
                 startTime = it.startTime,
-                endTime = it.endTime
+                endTime = it.endTime,
+                description = it.description
             )
         }
 

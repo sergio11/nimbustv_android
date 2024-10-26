@@ -113,13 +113,14 @@ internal class EpgParserServiceImpl(
         val start = getAttributeValue(null, PROGRAMME_START_ATTR)?.trim()?.substring(0, 14)
         val stop = getAttributeValue(null, PROGRAMME_STOP_ATTR)?.trim()?.substring(0, 14)
         var title: String? = null
+        var description: String? = null
         val id = UUID.randomUUID().toString()
-        // Iterate through the tags within <programme>
+
         while (nextTag() != XmlPullParser.END_TAG) {
-            if (name == "title") {
-                title = nextText()
-            } else {
-                nextText() // Skip other tags
+            when (name) {
+                "title" -> title = nextText()
+                "desc" -> description = nextText()
+                else -> nextText()
             }
         }
 
@@ -127,11 +128,12 @@ internal class EpgParserServiceImpl(
             ProgrammeDataBO(
                 id = id,
                 channelId = channelId,
-                title = title ?: "Unknown Title", // Default to "Unknown Title" if missing
+                title = title ?: "Unknown Title",
                 startTime = LocalDateTime.parse(start, dateTimeFormatter),
                 endTime = LocalDateTime.parse(stop, dateTimeFormatter),
                 type = ProgrammeType.UNKNOWN,
-                progress = 0
+                progress = 0,
+                description = description
             )
         } else {
             Log.w(TAG, "Missing required data for programme: channelId=$channelId, start=$start, stop=$stop")

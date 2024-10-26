@@ -92,6 +92,14 @@ class EpgViewModel @Inject constructor(
         }
     }
 
+    override fun onOpenScheduleDetail(schedule: ScheduleVO) {
+        updateState { it.copy(scheduleSelected = schedule) }
+    }
+
+    override fun onCloseScheduleDetail() {
+        updateState { it.copy(scheduleSelected = null) }
+    }
+
     private fun onEpgDataRemovedSuccessfully() {
         updateState {
             it.copy(
@@ -129,7 +137,8 @@ data class EpgUiState(
     val channelSelectedId: String = String.EMPTY,
     val newEpgDataUrl: String = String.EMPTY,
     val liveSchedules: List<ScheduleVO> = emptyList(),
-    val currentChannelSchedules: List<ScheduleVO> = emptyList()
+    val currentChannelSchedules: List<ScheduleVO> = emptyList(),
+    val scheduleSelected: ScheduleVO? = null,
 ) : UiState<EpgUiState>(isLoading, errorMessage) {
     override fun copyState(isLoading: Boolean, errorMessage: String?): EpgUiState =
         copy(isLoading = isLoading, errorMessage = errorMessage)
