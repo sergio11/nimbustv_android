@@ -9,6 +9,7 @@ import com.dreamsoftware.nimbustv.domain.model.ChannelEpgDataBO
 import com.dreamsoftware.nimbustv.domain.usecase.DeleteEpgDataUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetEpgDataUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SaveEpgUseCase
+import com.dreamsoftware.nimbustv.ui.screens.epg.extension.filterSchedulesByChannel
 import com.dreamsoftware.nimbustv.ui.screens.epg.extension.mapToLiveScheduleList
 import com.dreamsoftware.nimbustv.ui.screens.epg.extension.mapToScheduleList
 import com.dreamsoftware.nimbustv.ui.screens.epg.model.ScheduleVO
@@ -38,7 +39,14 @@ class EpgViewModel @Inject constructor(
 
     private fun onGetEpgDataCompleted(data: List<ChannelEpgDataBO>) {
         epgData = data
-        updateState { it.copy(liveSchedules = data.mapToLiveScheduleList()) }
+        val channelId = data.firstOrNull()?.channelId.orEmpty()
+        updateState {
+            it.copy(
+                channelSelectedId = channelId,
+                liveSchedules = data.mapToLiveScheduleList(),
+                currentChannelSchedules = data.filterSchedulesByChannel(channelId)
+            )
+        }
     }
 
     private fun onMapExceptionToState(ex: Exception, uiState: EpgUiState) =
@@ -89,10 +97,8 @@ class EpgViewModel @Inject constructor(
     override fun onOpenEpgChannel(channelId: String) {
         updateState {
             it.copy(
-                currentChannelSchedules = epgData
-                    .filter { channel -> channel.channelId == channelId }
-                    .flatMap { channel -> channel.programmeList.mapToScheduleList(channel.displayName) }
-                    .sortedBy(ScheduleVO::startTime)
+                channelSelectedId = channelId,
+                currentChannelSchedules = epgData.filterSchedulesByChannel(channelId)
             )
         }
     }
@@ -124,6 +130,7 @@ data class EpgUiState(
     override val errorMessage: String? = null,
     val showRemoveEpgDataDialog: Boolean = false,
     val showImportEpgDataDialog: Boolean = false,
+    val channelSelectedId: String = String.EMPTY,
     val newEpgDataUrl: String = String.EMPTY,
     val liveSchedules: List<ScheduleVO> = emptyList(),
     val currentChannelSchedules: List<ScheduleVO> = emptyList()
