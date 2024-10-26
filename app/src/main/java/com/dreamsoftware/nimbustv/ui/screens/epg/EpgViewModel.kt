@@ -25,8 +25,6 @@ class EpgViewModel @Inject constructor(
     @EpgScreenErrorMapper private val errorMapper: IFudgeTvErrorMapper,
 ) : FudgeTvViewModel<EpgUiState, EpgSideEffects>(), EpgScreenActionListener {
 
-    private var epgData: List<ChannelEpgDataBO> = emptyList()
-
     override fun onGetDefaultState(): EpgUiState = EpgUiState()
 
     fun fetchData() {
@@ -38,15 +36,7 @@ class EpgViewModel @Inject constructor(
     }
 
     private fun onGetEpgDataCompleted(data: List<ChannelEpgDataBO>) {
-        epgData = data
-        val channelId = data.firstOrNull()?.channelId.orEmpty()
-        updateState {
-            it.copy(
-                channelSelectedId = channelId,
-                liveSchedules = data.mapToLiveScheduleList(),
-                currentChannelSchedules = data.filterSchedulesByChannel(channelId)
-            )
-        }
+        resetState(data)
     }
 
     private fun onMapExceptionToState(ex: Exception, uiState: EpgUiState) =
@@ -63,7 +53,6 @@ class EpgViewModel @Inject constructor(
         updateState { it.copy(showImportEpgDataDialog = true) }
     }
 
-    // https://www.bevy.be/download.php?file=arabiapremiumar.xml.gz
     override fun onImportNewEpgDataConfirmed() {
         updateState { it.copy(showImportEpgDataDialog = false) }
         doOnUiState {
@@ -98,15 +87,15 @@ class EpgViewModel @Inject constructor(
         updateState {
             it.copy(
                 channelSelectedId = channelId,
-                currentChannelSchedules = epgData.filterSchedulesByChannel(channelId)
+                currentChannelSchedules = it.epgData.filterSchedulesByChannel(channelId)
             )
         }
     }
 
     private fun onEpgDataRemovedSuccessfully() {
-        epgData = emptyList()
         updateState {
             it.copy(
+                epgData = emptyList(),
                 liveSchedules = emptyList(),
                 currentChannelSchedules = emptyList(),
                 showRemoveEpgDataDialog = false
@@ -115,14 +104,20 @@ class EpgViewModel @Inject constructor(
     }
 
     private fun onImportEpgDataCompleted(data: List<ChannelEpgDataBO>) {
-        epgData = data
+        resetState(data)
+    }
+
+    private fun resetState(data: List<ChannelEpgDataBO>) {
+        val channelId = data.firstOrNull()?.channelId.orEmpty()
         updateState {
             it.copy(
-                liveSchedules = data.mapToLiveScheduleList()
+                epgData = data,
+                channelSelectedId = channelId,
+                liveSchedules = data.mapToLiveScheduleList(),
+                currentChannelSchedules = data.filterSchedulesByChannel(channelId)
             )
         }
     }
-
 }
 
 data class EpgUiState(
@@ -130,6 +125,7 @@ data class EpgUiState(
     override val errorMessage: String? = null,
     val showRemoveEpgDataDialog: Boolean = false,
     val showImportEpgDataDialog: Boolean = false,
+    val epgData: List<ChannelEpgDataBO> = emptyList(),
     val channelSelectedId: String = String.EMPTY,
     val newEpgDataUrl: String = String.EMPTY,
     val liveSchedules: List<ScheduleVO> = emptyList(),
