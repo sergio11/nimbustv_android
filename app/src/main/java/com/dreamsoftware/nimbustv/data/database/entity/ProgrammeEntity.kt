@@ -23,7 +23,10 @@ data class ProgrammeEntity(
     override val id: String,
     @ColumnInfo(name = "channel_id")
     val channelId: String,
+    @ColumnInfo(name = "title")
     val title: String,
+    @ColumnInfo(name = "description")
+    val description: String?,
     @ColumnInfo(name = "start_time")
     val startTime: LocalDateTime,
     @ColumnInfo(name = "end_time")

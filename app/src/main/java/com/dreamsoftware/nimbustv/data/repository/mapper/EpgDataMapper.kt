@@ -45,7 +45,8 @@ internal class EpgDataMapper : IOneSideMapper<EpgDataInput, List<ChannelEpgDataB
                     startTime = startTime,
                     endTime = endTime,
                     type = programmeType,
-                    progress = progress
+                    progress = progress,
+                    description = description
                 )
                 // Add the programme to the corresponding channel's list
                 channelMap[channelId]?.third?.add(programme)

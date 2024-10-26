@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
@@ -34,6 +35,7 @@ import com.dreamsoftware.fudge.component.FudgeTvScreenContent
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
 import com.dreamsoftware.nimbustv.R
+import com.dreamsoftware.nimbustv.ui.core.components.CommonPopup
 import com.dreamsoftware.nimbustv.ui.screens.epg.components.EpgScheduleItem
 import com.dreamsoftware.nimbustv.ui.screens.epg.components.ImportEpgDataDialog
 import com.dreamsoftware.nimbustv.ui.screens.epg.components.NoEpgDataFound
@@ -74,8 +76,13 @@ internal fun EpgScreenContent(
                     liveSchedules.isEmpty() -> {
                         NoEpgDataFound(onImportClicked = ::onImportNewEpgData)
                     }
-
                     else -> {
+                        scheduleSelected?.let {
+                            ScheduleDetailsPopup(
+                                schedule = it,
+                                onBackPressed = actionListener::onCloseScheduleDetail
+                            )
+                        }
                         EpgMainContent(
                             liveSchedules = liveSchedules,
                             channelSchedules = currentChannelSchedules,
@@ -112,7 +119,9 @@ private fun EpgMainContent(
                         isSelected = channelSelectedId == schedule.channelId,
                         schedule = schedule,
                         showMoreInfoEnabled = true,
-                        onScheduleClicked = actionListener::onOpenEpgChannel
+                        onScheduleClicked = {
+                            actionListener.onOpenEpgChannel(it.channelId)
+                        }
                     )
                 }
                 if(channelSchedules.isNotEmpty()) {
@@ -132,7 +141,7 @@ private fun EpgMainContent(
                             focusedContainerColor = surfaceVariant,
                             contentColor = onSurface,
                             focusedContentColor = onSurfaceVariant,
-                            onScheduleClicked = actionListener::onOpenEpgChannel
+                            onScheduleClicked = actionListener::onOpenScheduleDetail
                         )
                     }
                 }
@@ -213,6 +222,33 @@ private fun EpgSchedulesColumn(
                     onBuildScheduleItem(schedule)
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun ScheduleDetailsPopup(
+    schedule: ScheduleVO,
+    onBackPressed: () -> Unit
+) {
+    with(schedule) {
+        CommonPopup(
+            imageUrl = channelLogoUrl,
+            title = programmeTitle,
+            description = programmeDescription,
+            onBackPressed = onBackPressed
+        ) { focusRequester ->
+            Spacer(modifier = Modifier.weight(1f))
+            FudgeTvButton(
+                modifier = Modifier
+                    .focusRequester(focusRequester)
+                    .fillMaxWidth()
+                    .padding(bottom = 12.dp),
+                type = FudgeTvButtonTypeEnum.MEDIUM,
+                style = FudgeTvButtonStyleTypeEnum.NORMAL,
+                textRes = R.string.favorites_screen_channel_detail_popup_open_player_button_text,
+                onClick = { }
+            )
         }
     }
 }

@@ -27,6 +27,7 @@ import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.ProgrammeType
+import com.dreamsoftware.nimbustv.ui.core.components.ChannelLogo
 import com.dreamsoftware.nimbustv.ui.screens.epg.extension.toScheduleFormatted
 import com.dreamsoftware.nimbustv.ui.screens.epg.model.ScheduleVO
 
@@ -43,7 +44,7 @@ fun EpgScheduleItem(
     programmeTypeIconEnabled: Boolean = false,
     showMoreInfoEnabled: Boolean = false,
     iconColor: Color? = null,
-    onScheduleClicked: (String) -> Unit
+    onScheduleClicked: (ScheduleVO) -> Unit
 ) {
     with(MaterialTheme.colorScheme) {
         with(schedule) {
@@ -55,16 +56,17 @@ fun EpgScheduleItem(
                     selected = isSelected,
                     scale = ListItemDefaults.scale(focusedScale = 1f),
                     shape = ListItemDefaults.shape(shape = RectangleShape),
-                    onClick = { onScheduleClicked(channelId) },
+                    onClick = { onScheduleClicked(schedule) },
                     headlineContent = {
                         Column {
                             FudgeTvText(
-                                titleText = programmeTitle ?: stringResource(id = R.string.epg_screen_channel_not_data_available),
+                                titleText = programmeTitle
+                                    ?: stringResource(id = R.string.epg_screen_channel_not_data_available),
                                 type = FudgeTvTextTypeEnum.LABEL_MEDIUM,
                                 maxLines = 2,
                                 textColor = onPrimaryContainer
                             )
-                            if(hasTimeData()) {
+                            if (hasTimeData()) {
                                 Spacer(Modifier.width(4.dp))
                                 FudgeTvText(
                                     titleText = toScheduleFormatted(),
@@ -75,7 +77,7 @@ fun EpgScheduleItem(
                             }
                         }
                     },
-                    overlineContent = if(fullDetail) {
+                    overlineContent = if (fullDetail) {
                         {
                             FudgeTvText(
                                 titleText = channelName,
@@ -86,8 +88,8 @@ fun EpgScheduleItem(
                             )
                         }
                     } else null,
-                    leadingContent = if(programmeTypeIconEnabled) {
-                        {
+                    leadingContent = {
+                        if (programmeTypeIconEnabled) {
                             FudgeTvImageRes(
                                 modifier = Modifier.size(ListItemDefaults.IconSizeDense),
                                 imageRes = when (type) {
@@ -97,9 +99,14 @@ fun EpgScheduleItem(
                                 },
                                 tint = iconColor ?: onPrimary
                             )
+                        } else {
+                            ChannelLogo(
+                                size = ListItemDefaults.IconSize,
+                                logo = channelLogoUrl
+                            )
                         }
-                    } else null,
-                    supportingContent = if(fullDetail && progress != null) {
+                    },
+                    supportingContent = if (fullDetail && progress != null) {
                         {
                             Spacer(modifier = Modifier.height(4.dp))
                             LinearProgressIndicator(
@@ -116,7 +123,7 @@ fun EpgScheduleItem(
                     } else {
                         null
                     },
-                    trailingContent = if(showMoreInfoEnabled && !isSelected) {
+                    trailingContent = if (showMoreInfoEnabled && !isSelected) {
                         {
                             Icon(
                                 Icons.AutoMirrored.Filled.KeyboardArrowRight,

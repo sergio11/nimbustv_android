@@ -21,9 +21,13 @@ import com.dreamsoftware.nimbustv.domain.model.StreamTypeEnum
 data class ChannelEntity(
     @PrimaryKey
     override val id: String,
+    @ColumnInfo(name = "title")
     val title: String?,
+    @ColumnInfo(name = "url")
     val url: String,
+    @ColumnInfo(name = "icon")
     val icon: String?,
+    @ColumnInfo(name = "category")
     val category: String?,
     @ColumnInfo(name = "manifest_type")
     val manifestType: String?,

@@ -1,6 +1,7 @@
 package com.dreamsoftware.nimbustv.ui.screens.epg
 
 import com.dreamsoftware.fudge.core.IFudgeTvScreenActionListener
+import com.dreamsoftware.nimbustv.ui.screens.epg.model.ScheduleVO
 
 interface EpgScreenActionListener: IFudgeTvScreenActionListener {
 
@@ -12,4 +13,6 @@ interface EpgScreenActionListener: IFudgeTvScreenActionListener {
     fun onRemoveEpgDataCancelled()
     fun onNewEpgDataUrlUpdated(newValue: String)
     fun onOpenEpgChannel(channelId: String)
+    fun onOpenScheduleDetail(schedule: ScheduleVO)
+    fun onCloseScheduleDetail()
 }

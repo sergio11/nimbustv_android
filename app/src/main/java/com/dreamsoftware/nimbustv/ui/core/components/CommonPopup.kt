@@ -1,5 +1,6 @@
 package com.dreamsoftware.nimbustv.ui.core.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,6 +21,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
@@ -29,6 +32,7 @@ import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
 import com.dreamsoftware.fudge.utils.shadowBox
+import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.ui.theme.popupShadow
 import com.dreamsoftware.nimbustv.ui.theme.surfaceContainerHigh
 
@@ -55,15 +59,24 @@ fun CommonPopup(
                         )
                         .clip(RoundedCornerShape(16.dp))
                 ) {
-                    AsyncImage(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight(0.5f)
-                            .alpha(0.88f),
-                        model = imageUrl,
-                        contentDescription = null,
-                        contentScale = ContentScale.FillBounds
-                    )
+                    val imageModifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.5f)
+                        .alpha(0.88f)
+                    if(imageUrl == null) {
+                        Image(
+                            painter = painterResource(id = R.drawable.main_logo),
+                            contentDescription = null,
+                            modifier = imageModifier
+                        )
+                    } else {
+                        AsyncImage(
+                            modifier = imageModifier,
+                            model = imageUrl,
+                            contentDescription = null,
+                            contentScale = ContentScale.FillBounds
+                        )
+                    }
                     Column(
                         modifier = Modifier
                             .fillMaxSize()

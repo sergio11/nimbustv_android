@@ -3,12 +3,13 @@ package com.dreamsoftware.nimbustv.ui.screens.epg.model
 import com.dreamsoftware.nimbustv.domain.model.ProgrammeType
 import java.time.LocalDateTime
 
-
 data class ScheduleVO(
     val channelId: String,
+    val channelLogoUrl: String?,
     val channelName: String,
     val type: ProgrammeType,
     val programmeTitle: String?,
+    val programmeDescription: String?,
     val progress: Int?,
     val startTime: LocalDateTime?,
     val endTime: LocalDateTime?

@@ -20,6 +20,7 @@ data class ProgrammeDataBO(
     val id: String,
     val channelId: String,
     val title: String,
+    val description: String?,
     val type: ProgrammeType,
     val progress: Int,
     val startTime: LocalDateTime,
