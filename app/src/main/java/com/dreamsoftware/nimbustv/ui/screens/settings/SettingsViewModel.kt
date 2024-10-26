@@ -7,6 +7,7 @@ import com.dreamsoftware.fudge.core.UiState
 import com.dreamsoftware.fudge.utils.FudgeTvEventBus
 import com.dreamsoftware.nimbustv.AppEvent
 import com.dreamsoftware.nimbustv.R
+import com.dreamsoftware.nimbustv.domain.model.EpgViewModeEnum
 import com.dreamsoftware.nimbustv.domain.model.UserPreferenceBO
 import com.dreamsoftware.nimbustv.domain.usecase.GetUserPreferencesUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SaveUserPreferencesUseCase
@@ -108,6 +109,7 @@ class SettingsViewModel @Inject constructor(
                         enableSearch = settings.find { it.type == SettingTypeEnum.ENABLE_SEARCH }?.value?.let { value ->
                             enumOfOrDefault({ it.value == value}, SettingsEnableSearchEnum.SEARCH_ENABLED)
                         } == SettingsEnableSearchEnum.SEARCH_ENABLED,
+                        epgViewMode = settings.find { it.type == SettingTypeEnum.EPG_VIEW_MODE }?.value.orEmpty(),
                     ),
                     onSuccess = { onUserPreferencesUpdated() }
                 )
@@ -129,6 +131,12 @@ class SettingsViewModel @Inject constructor(
             }.value,
             type = SettingTypeEnum.ENABLE_SEARCH,
             possibleValues = SettingsEnableSearchEnum.entries.map { it.value }
+        ),
+        ISettingItemVO.ISettingValueItemVO.SettingMultipleValuesVO(
+            titleRes = R.string.settings_epg_view_mode_preference_title,
+            value = userPreferences?.epgViewMode?.value ?: EpgViewModeEnum.NOW_AND_SCHEDULE.value,
+            type = SettingTypeEnum.EPG_VIEW_MODE,
+            possibleValues = EpgViewModeEnum.entries.map { it.value }
         ),
         ISettingItemVO.SettingActionVO(
             titleRes = R.string.settings_open_system_settings_title,
@@ -199,7 +207,7 @@ sealed interface ISettingItemVO {
 }
 
 enum class SettingTypeEnum {
-    ENABLE_SEARCH
+    ENABLE_SEARCH, EPG_VIEW_MODE
 }
 
 enum class SettingActionTypeEnum {
