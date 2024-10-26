@@ -1,8 +1,9 @@
 package com.dreamsoftware.nimbustv.ui.screens.epg
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,9 +13,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import com.dreamsoftware.fudge.component.FudgeTvButton
@@ -69,8 +77,9 @@ internal fun EpgScreenContent(
 
                     else -> {
                         EpgMainContent(
-                            epgLiveSchedules = liveSchedules,
-                            epgChannelSchedules = currentChannelSchedules,
+                            liveSchedules = liveSchedules,
+                            channelSchedules = currentChannelSchedules,
+                            channelSelectedId = channelSelectedId,
                             actionListener = actionListener
                         )
                     }
@@ -83,32 +92,54 @@ internal fun EpgScreenContent(
 
 @Composable
 private fun EpgMainContent(
-    epgLiveSchedules: List<ScheduleVO>,
-    epgChannelSchedules: List<ScheduleVO>,
+    liveSchedules: List<ScheduleVO>,
+    channelSchedules: List<ScheduleVO>,
+    channelSelectedId: String,
     actionListener: EpgScreenActionListener
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        EpgHeader(actionListener)
-        Row {
-            EpgLiveSchedulesColumn(
-                modifier = Modifier.weight(1.0f),
-                liveScheduleList = epgLiveSchedules,
-                onLiveScheduleClicked = actionListener::onOpenEpgChannel
-            )
-            if(epgChannelSchedules.isNotEmpty()) {
-                Spacer(modifier = Modifier.width(4.dp))
-                EpgChannelSchedulesColumn(
-                    modifier = Modifier.weight(1.0f),
-                    channelSchedules = epgChannelSchedules,
-                    onScheduleClicked = {}
-                )
+    with(MaterialTheme.colorScheme) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            EpgHeader(actionListener)
+            Row {
+                EpgSchedulesColumn(schedules = liveSchedules) { schedule ->
+                    EpgScheduleItem(
+                        modifier = Modifier
+                            .width(350.dp),
+                        isSelected = channelSelectedId == schedule.channelId,
+                        schedule = schedule,
+                        showMoreInfoEnabled = true,
+                        onScheduleClicked = actionListener::onOpenEpgChannel
+                    )
+                }
+                if(channelSchedules.isNotEmpty()) {
+                    Spacer(modifier = Modifier.width(2.dp))
+                    EpgSchedulesColumn(
+                        schedules = channelSchedules,
+                        focusItemIndex = channelSchedules.indexOfFirst { it.isLiveNow() }.takeIf { it >= 0 }
+                    ) { schedule ->
+                        EpgScheduleItem(
+                            modifier = Modifier
+                                .width(300.dp),
+                            schedule = schedule,
+                            isSelected = schedule.isLiveNow(),
+                            fullDetail = false,
+                            programmeTypeIconEnabled = true,
+                            containerColor = surface,
+                            focusedContainerColor = surfaceVariant,
+                            contentColor = onSurface,
+                            focusedContentColor = onSurfaceVariant,
+                            onScheduleClicked = actionListener::onOpenEpgChannel
+                        )
+                    }
+                }
             }
         }
     }
+
 }
 
 /**
@@ -152,57 +183,35 @@ private fun EpgHeader(actionListener: EpgScreenActionListener) {
 }
 
 @Composable
-private fun EpgChannelSchedulesColumn(
+private fun EpgSchedulesColumn(
     modifier: Modifier = Modifier,
-    channelSchedules: List<ScheduleVO>,
-    onScheduleClicked: (String) -> Unit
+    schedules: List<ScheduleVO>,
+    focusItemIndex: Int? = null,
+    onBuildScheduleItem: @Composable BoxScope.(ScheduleVO) -> Unit
 ) {
     with(MaterialTheme.colorScheme) {
-        LazyColumn(
-            modifier = modifier
-                .background(primaryContainer)
-                .border(
-                    width = 2.dp,
-                    color = onPrimaryContainer
-                )
-        ) {
-            items(channelSchedules) { schedule ->
-                EpgScheduleItem(
-                    schedule = schedule,
-                    fullDetail = false,
-                    programmeTypeIconEnabled = true,
-                    containerColor = secondaryContainer,
-                    focusedContainerColor = secondary,
-                    contentColor = onSecondaryContainer,
-                    focusedContentColor = onSecondary,
-                    onScheduleClicked = onScheduleClicked
-                )
+        val listState = rememberLazyListState()
+        var containerHeight by remember { mutableIntStateOf(0) }
+        var itemHeight by remember { mutableIntStateOf(0) }
+        LaunchedEffect(focusItemIndex) {
+            if (focusItemIndex != null && itemHeight > 0) {
+                val offset = (containerHeight - itemHeight) / 2
+                listState.animateScrollToItem(focusItemIndex, scrollOffset = -offset)
             }
         }
-    }
-}
-
-@Composable
-private fun EpgLiveSchedulesColumn(
-    modifier: Modifier = Modifier,
-    liveScheduleList: List<ScheduleVO>,
-    onLiveScheduleClicked: (String) -> Unit
-) {
-    with(MaterialTheme.colorScheme) {
         LazyColumn(
             modifier = modifier
-                .background(primaryContainer)
-                .border(
-                    width = 2.dp,
-                    color = onPrimaryContainer
-                )
+                .onSizeChanged { size -> containerHeight = size.height }
+                .background(primaryContainer),
+            state = listState
         ) {
-            items(liveScheduleList) { schedule ->
-                EpgScheduleItem(
-                    schedule = schedule,
-                    showMoreInfoEnabled = true,
-                    onScheduleClicked = onLiveScheduleClicked
-                )
+            items(schedules) { schedule ->
+                Box(
+                    modifier = Modifier
+                        .onSizeChanged { size -> itemHeight = size.height }
+                ) {
+                    onBuildScheduleItem(schedule)
+                }
             }
         }
     }

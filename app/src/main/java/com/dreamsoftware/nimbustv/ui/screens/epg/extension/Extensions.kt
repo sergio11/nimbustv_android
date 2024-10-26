@@ -5,6 +5,7 @@ import com.dreamsoftware.nimbustv.domain.model.ProgrammeDataBO
 import com.dreamsoftware.nimbustv.domain.model.ProgrammeType
 import com.dreamsoftware.nimbustv.ui.screens.epg.model.ScheduleVO
 import com.dreamsoftware.nimbustv.ui.utils.EMPTY
+import com.dreamsoftware.nimbustv.utils.combinedLet
 import java.time.format.DateTimeFormatter
 
 internal fun List<ChannelEpgDataBO>.mapToLiveScheduleList(): List<ScheduleVO> =
@@ -35,10 +36,13 @@ internal fun List<ProgrammeDataBO>.mapToScheduleList(channelName: String): List<
         )
     }
 
-internal fun ScheduleVO.toScheduleFormatted() =
-    if(startTime != null && endTime != null) {
-        "${startTime.format(DateTimeFormatter.ofPattern("HH:mm"))} - " +
-                endTime.format(DateTimeFormatter.ofPattern("HH:mm"))
-    } else {
-        String.EMPTY
-    }
+internal fun ScheduleVO.toScheduleFormatted(): String =
+    combinedLet(startTime, endTime) { startTime, endTime ->
+        "${startTime.format(DateTimeFormatter.ofPattern("hh:mm a"))} - " +
+                endTime.format(DateTimeFormatter.ofPattern("hh:mm a"))
+    } ?: String.EMPTY
+
+internal fun List<ChannelEpgDataBO>.filterSchedulesByChannel(channelId: String): List<ScheduleVO> =
+    filter { channel -> channel.channelId == channelId }
+    .flatMap { channel -> channel.programmeList.mapToScheduleList(channel.displayName) }
+    .sortedBy(ScheduleVO::startTime)

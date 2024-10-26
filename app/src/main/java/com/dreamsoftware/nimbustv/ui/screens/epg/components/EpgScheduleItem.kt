@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.LinearProgressIndicator
@@ -32,7 +32,9 @@ import com.dreamsoftware.nimbustv.ui.screens.epg.model.ScheduleVO
 
 @Composable
 fun EpgScheduleItem(
+    modifier: Modifier = Modifier,
     schedule: ScheduleVO,
+    isSelected: Boolean = false,
     fullDetail: Boolean = true,
     containerColor: Color? = null,
     focusedContainerColor: Color? = null,
@@ -46,30 +48,40 @@ fun EpgScheduleItem(
     with(MaterialTheme.colorScheme) {
         with(schedule) {
             Box(
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = modifier
                     .background(primaryContainer)
             ) {
                 ListItem(
-                    selected = false,
+                    selected = isSelected,
                     scale = ListItemDefaults.scale(focusedScale = 1f),
                     shape = ListItemDefaults.shape(shape = RectangleShape),
                     onClick = { onScheduleClicked(channelId) },
                     headlineContent = {
-                        FudgeTvText(
-                            titleText = programmeTitle ?: stringResource(id = R.string.epg_screen_channel_not_data_available),
-                            type = FudgeTvTextTypeEnum.LABEL_MEDIUM,
-                            modifier = Modifier.padding(bottom = 8.dp),
-                            textColor = onPrimaryContainer
-                        )
+                        Column {
+                            FudgeTvText(
+                                titleText = programmeTitle ?: stringResource(id = R.string.epg_screen_channel_not_data_available),
+                                type = FudgeTvTextTypeEnum.LABEL_MEDIUM,
+                                maxLines = 2,
+                                textColor = onPrimaryContainer
+                            )
+                            if(hasTimeData()) {
+                                Spacer(Modifier.width(4.dp))
+                                FudgeTvText(
+                                    titleText = toScheduleFormatted(),
+                                    type = FudgeTvTextTypeEnum.LABEL_SMALL,
+                                    textColor = onSurface,
+                                    singleLine = true,
+                                )
+                            }
+                        }
                     },
                     overlineContent = if(fullDetail) {
                         {
                             FudgeTvText(
                                 titleText = channelName,
                                 type = FudgeTvTextTypeEnum.LABEL_LARGE,
-                                modifier = Modifier.padding(bottom = 8.dp),
                                 textBold = true,
+                                singleLine = true,
                                 textColor = onPrimaryContainer
                             )
                         }
@@ -77,7 +89,7 @@ fun EpgScheduleItem(
                     leadingContent = if(programmeTypeIconEnabled) {
                         {
                             FudgeTvImageRes(
-                                modifier = Modifier.size(15.dp),
+                                modifier = Modifier.size(ListItemDefaults.IconSizeDense),
                                 imageRes = when (type) {
                                     ProgrammeType.LIVE_NOW -> R.drawable.ic_schedule_live_now
                                     ProgrammeType.PAST -> R.drawable.ic_schedule_past
@@ -87,37 +99,28 @@ fun EpgScheduleItem(
                             )
                         }
                     } else null,
-                    supportingContent = if(hasTimeData()) {
+                    supportingContent = if(fullDetail && progress != null) {
                         {
-                            Column {
-                                FudgeTvText(
-                                    titleText = toScheduleFormatted(),
-                                    type = FudgeTvTextTypeEnum.LABEL_SMALL,
-                                    textColor = onSurface.copy(alpha = 0.7f),
-                                )
-                                if(fullDetail && progress != null) {
-                                    Spacer(modifier = Modifier.height(4.dp))
-                                    LinearProgressIndicator(
-                                        progress = { progress / 100f },
-                                        color = onSecondaryContainer,
-                                        trackColor = secondaryContainer,
-                                        gapSize = 0.dp,
-                                        drawStopIndicator = {},
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(6.dp)
-                                    )
-                                }
-                            }
+                            Spacer(modifier = Modifier.height(4.dp))
+                            LinearProgressIndicator(
+                                progress = { progress / 100f },
+                                color = onSecondaryContainer,
+                                trackColor = secondaryContainer,
+                                gapSize = 0.dp,
+                                drawStopIndicator = {},
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(6.dp)
+                            )
                         }
                     } else {
                         null
                     },
-                    trailingContent = if(showMoreInfoEnabled) {
+                    trailingContent = if(showMoreInfoEnabled && !isSelected) {
                         {
                             Icon(
                                 Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                                modifier = Modifier.size(ListItemDefaults.IconSize),
+                                modifier = Modifier.size(ListItemDefaults.IconSizeDense),
                                 contentDescription = "Show more info"
                             )
                         }
@@ -126,7 +129,9 @@ fun EpgScheduleItem(
                         containerColor = containerColor ?: primaryContainer,
                         focusedContainerColor = focusedContainerColor ?: primary,
                         contentColor = contentColor ?: onPrimaryContainer,
-                        focusedContentColor = focusedContentColor ?: onPrimary
+                        focusedContentColor = focusedContentColor ?: onPrimary,
+                        selectedContentColor = focusedContentColor ?: onPrimary,
+                        selectedContainerColor = focusedContainerColor ?: primary,
                     )
                 )
                 Box(
