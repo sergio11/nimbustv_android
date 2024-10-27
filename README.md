@@ -95,27 +95,27 @@ NimbusTV harnesses a variety of technologies to deliver a seamless streaming exp
 
 NimbusTV is designed with a robust architecture for maintainability, testability, and flexibility. The architecture leverages several design patterns and principles:
 
-**Clean Architecture**  
+### **Clean Architecture**  
 Clean Architecture focuses on separating concerns into distinct layers:
 - **Presentation Layer**: Handles UI and user interactions using Jetpack Compose for modern interfaces. 🖥️✨
 - **Domain Layer**: Contains business logic and use cases, independent of external frameworks. 🧠🔗
 - **Data Layer**: Manages data sources and repositories, abstracting data retrieval and storage. 📦🔒
 
-**Data Sources**  
+### **Data Sources**  
 Data sources fetch and manage data from various origins, including:
 - **Remote Data Sources** 🌐: Interact with cloud services or web APIs (e.g., Firebase Firestore). ☁️🔄
 - **Local Data Sources** 💻: Handle local data storage (e.g., Room and Jetpack DataStore). 💾🗃️
 
-**Repository Pattern**  
+### **Repository Pattern**  
 The repository pattern provides a unified interface for data access, decoupling data retrieval from the rest of the application for easier testing and maintenance. 📚⚙️
 
-**Use Cases**  
+### **Use Cases**  
 In the Domain Layer, Use Cases represent specific actions, encapsulating business logic and interacting with repositories to retrieve or modify data. 🧩🔍
 
-**Inversion of Control (IoC)** 🔄  
+### **Inversion of Control (IoC)** 🔄  
 IoC inverts control flow, allowing dependencies to be injected rather than hardcoded, promoting modularity and reducing boilerplate code. 🔧🔄
 
-**SOLID Principles** 📏  
+### **SOLID Principles** 📏  
 We apply SOLID principles to ensure our codebase remains clean and maintainable:
 - **Single Responsibility Principle (SRP)** ✅: Each class has one responsibility. 
 - **Open/Closed Principle (OCP)** 🔓: Classes are open for extension but closed for modification. 
@@ -123,8 +123,67 @@ We apply SOLID principles to ensure our codebase remains clean and maintainable:
 - **Interface Segregation Principle (ISP)** 🚫: Clients should not depend on interfaces they do not use. 
 - **Dependency Inversion Principle (DIP)** 📏: High-level modules depend on abstractions.
 
-**MVI (Model-View-Intent)** 📈  
+### **MVI (Model-View-Intent)** 📈  
 MVI manages state and interactions, ensuring a predictable unidirectional data flow. 🔄📊
 
 This architecture ensures that NimbusTV is well-structured, easy to maintain, and scalable, adhering to best practices and design principles. 🌈✨
+
+## Contribution
+Contributions to NimbusTV Android are highly encouraged! If you're interested in adding new features, resolving bugs, or enhancing the project's functionality, please feel free to submit pull requests.
+
+## Credits
+NimbusTV is developed and maintained by Sergio Sánchez Sánchez (Dream Software). Special thanks to the open-source community and the contributors who have made this project possible. If you have any questions, feedback, or suggestions, feel free to reach out at dreamsoftware92@gmail.com.
+
+## Acknowledgements 🙏
+
+We express our deep appreciation to [Freepik](https://www.freepik.es/) for generously providing the resources used in this project.
+<div> Icons and images takes from <a href="https://www.freepik.com" title="Freepik"> Freepik </a> from <a href="https://www.flaticon.es/" title="Flaticon">www.flaticon.es'</a></div>
+
+A heartfelt thank you to the creators of the [JetFit repository](https://github.com/TheChance101/tv-samples/tree/JetFit/JetFit) for providing such an invaluable starting point for Jetpack Compose for TV. Your work has been incredibly inspiring and instrumental in shaping the development of this project.
+
+The resources, examples, and insights provided in the JetFit repository served as a foundational reference, enabling us to build and expand upon your excellent groundwork. Your contributions have significantly accelerated our journey and enriched our understanding of creating seamless TV applications using Jetpack Compose. 📺✨
+
+## Visitors Count
+
+ 
+ ## Please Share & Star the repository to keep me motivated.
+  <a href = "https://github.com/sergio11/nimbustv_android/stargazers">
+     <img src = "https://img.shields.io/github/stars/sergio11/nimbustv_android" />
+  </a>
+
+## License ⚖️
+
+This project is licensed under the MIT License, an open-source software license that allows developers to freely use, copy, modify, and distribute the software. 🛠️ This includes use in both personal and commercial projects, with the only requirement being that the original copyright notice is retained. 📄
+
+Please note the following limitations:
+
+- The software is provided "as is", without any warranties, express or implied. 🚫🛡️
+- If you distribute the software, whether in original or modified form, you must include the original copyright notice and license. 📑
+- The license allows for commercial use, but you cannot claim ownership over the software itself. 🏷️
+
+The goal of this license is to maximize freedom for developers while maintaining recognition for the original creators.
+
+```
+MIT License
+
+Copyright (c) 2024 Dream software - Sergio Sánchez 
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
 
