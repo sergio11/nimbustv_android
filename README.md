@@ -14,6 +14,13 @@ A big thank you to the [JetFit](https://github.com/TheChance101/tv-samples/tree/
 
 Explore NimbusTV today, and bring a world of channels right to your living room—effortless, organized, and always ready when you are. 🌐✨📺
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Android%20Studio-3DDC84.svg?style=for-the-badge&logo=android-studio&logoColor=white" />
+  <img src="https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white" />
+  <img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" />
+  <img src="https://img.shields.io/badge/Material%20UI-007FFF?style=for-the-badge&logo=mui&logoColor=white" />
+</p>
+
 ## Technologies Used 🛠️
 
 NimbusTV harnesses a variety of technologies to deliver a seamless streaming experience on Android TV. 🌟
