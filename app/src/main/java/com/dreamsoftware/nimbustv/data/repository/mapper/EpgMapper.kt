@@ -12,7 +12,8 @@ internal class EpgMapper: IOneSideMapper<EpgEntity, EpgBO> {
             alias = alias,
             creationDate = createdAt,
             lastUpdatedDate = lastUpdatedAt,
-            channelsCount = channelsCount
+            channelsCount = channelsCount,
+            url = url
         )
     }
 

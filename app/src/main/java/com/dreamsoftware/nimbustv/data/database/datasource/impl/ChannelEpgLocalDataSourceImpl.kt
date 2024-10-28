@@ -16,4 +16,9 @@ internal class ChannelEpgLocalDataSourceImpl(
     override suspend fun findAllByEpgId(epgId: String) = safeExecute {
         channelEpgDao.findAllByEpgId(epgId)
     }
+
+    @Throws(AccessDatabaseException::class)
+    override suspend fun deleteAllByEpgId(epgId: String) = safeExecute {
+        channelEpgDao.deleteAllByEpgId(epgId)
+    }
 }

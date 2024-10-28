@@ -15,7 +15,8 @@ class GetPlaylistsByProfileException(message: String? = null, cause: Throwable? 
 class DeletePlaylistsException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 
 // EPG
-class SaveEpgDataException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
+class CreateEpgDataException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
+class UpdateEpgDataException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class GetEpgDataException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class GetEpgChannelsDataException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class DeleteEpgDataException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
