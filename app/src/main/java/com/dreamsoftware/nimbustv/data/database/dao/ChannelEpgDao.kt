@@ -8,6 +8,6 @@ import com.dreamsoftware.nimbustv.data.database.entity.ChannelEpgEntity
 @Dao
 abstract class ChannelEpgDao: SupportDaoImpl<ChannelEpgEntity, String>(ChannelEpgEntity::class) {
 
-    @Query(value = "DELETE FROM channels_epg WHERE profile_id = :profileId")
-    abstract suspend fun deleteAllByProfileId(profileId: String)
+    @Query(value = "SELECT * FROM channels_epg WHERE epg_id = :epgId")
+    abstract suspend fun findAllByEpgId(epgId: String): List<ChannelEpgEntity>
 }

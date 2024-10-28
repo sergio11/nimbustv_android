@@ -39,12 +39,11 @@ class SyncEpgDataWorker @AssistedInject constructor(
         if(url.isNotEmpty() && profileId.isNotEmpty()) {
             Log.d(WORK_NAME, "SaveEpgWorker url: $url, profileId: $profileId")
             val data = epgParserService.parseEpgData(
-                profileId = profileId,
                 url = url
             )
             with(epgRepository) {
                 deleteAllByProfileId(profileId)
-                epgRepository.save(data)
+               // epgRepository.save(data)
             }
             Result.success()
         } else {

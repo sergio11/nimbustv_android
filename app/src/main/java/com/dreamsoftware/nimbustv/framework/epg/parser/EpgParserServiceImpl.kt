@@ -2,9 +2,8 @@ package com.dreamsoftware.nimbustv.framework.epg.parser
 
 import android.util.Log
 import com.dreamsoftware.nimbustv.domain.exception.ParseEpgFailedException
-import com.dreamsoftware.nimbustv.domain.model.ChannelEpgDataBO
-import com.dreamsoftware.nimbustv.domain.model.ProgrammeDataBO
-import com.dreamsoftware.nimbustv.domain.model.ProgrammeType
+import com.dreamsoftware.nimbustv.domain.model.EpgChannelEntryBO
+import com.dreamsoftware.nimbustv.domain.model.EpgProgrammeEntryBO
 import com.dreamsoftware.nimbustv.domain.service.IEpgParserService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -16,7 +15,6 @@ import java.io.IOException
 import java.io.InputStream
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.UUID
 import java.util.zip.GZIPInputStream
 
 internal class EpgParserServiceImpl(
@@ -34,11 +32,11 @@ internal class EpgParserServiceImpl(
     }
 
     @Throws(ParseEpgFailedException::class)
-    override suspend fun parseEpgData(profileId: String, url: String): List<ChannelEpgDataBO> =
+    override suspend fun parseEpgData(url: String): List<EpgChannelEntryBO> =
         withContext(dispatcher) {
             try {
                 downloadFile(url)?.let {
-                    parseEpg(it, profileId)
+                    parseEpg(it)
                 } ?: throw IOException("Error downloading file: inputStream is null")
             } catch (ex: Exception) {
                 throw ParseEpgFailedException(
@@ -67,9 +65,9 @@ internal class EpgParserServiceImpl(
         }
     }
 
-    private suspend fun parseEpg(inputStream: InputStream, profileId: String): List<ChannelEpgDataBO> = withContext(dispatcher) {
+    private suspend fun parseEpg(inputStream: InputStream) = withContext(dispatcher) {
         val parser = createXmlParser(inputStream)
-        val channelsMap = mutableMapOf<String, Pair<String, MutableList<ProgrammeDataBO>>>()
+        val channelsMap = mutableMapOf<String, Pair<String, MutableList<EpgProgrammeEntryBO>>>()
         val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss")
         var eventType = parser.eventType
 
@@ -93,12 +91,10 @@ internal class EpgParserServiceImpl(
             eventType = parser.next()
         }
 
-        // Transform the channelsMap into a List<EpgDataBO>
         val epgDataList = channelsMap.map { (channelId, pair) ->
-            ChannelEpgDataBO(
+            EpgChannelEntryBO(
                 channelId = channelId,
                 displayName = pair.first,
-                profileId = profileId,
                 programmeList = pair.second
             )
         }
@@ -108,13 +104,12 @@ internal class EpgParserServiceImpl(
     private fun parseProgramme(
         parser: XmlPullParser,
         dateTimeFormatter: DateTimeFormatter
-    ): ProgrammeDataBO? = with(parser) {
+    ): EpgProgrammeEntryBO? = with(parser) {
         val channelId = getAttributeValue(null, PROGRAMME_CHANNEL_ATTR)
         val start = getAttributeValue(null, PROGRAMME_START_ATTR)?.trim()?.substring(0, 14)
         val stop = getAttributeValue(null, PROGRAMME_STOP_ATTR)?.trim()?.substring(0, 14)
         var title: String? = null
         var description: String? = null
-        val id = UUID.randomUUID().toString()
 
         while (nextTag() != XmlPullParser.END_TAG) {
             when (name) {
@@ -125,14 +120,11 @@ internal class EpgParserServiceImpl(
         }
 
         return if (channelId != null && start != null && stop != null) {
-            ProgrammeDataBO(
-                id = id,
+            EpgProgrammeEntryBO(
                 channelId = channelId,
                 title = title ?: "Unknown Title",
                 startTime = LocalDateTime.parse(start, dateTimeFormatter),
                 endTime = LocalDateTime.parse(stop, dateTimeFormatter),
-                type = ProgrammeType.UNKNOWN,
-                progress = 0,
                 description = description
             )
         } else {

@@ -4,7 +4,6 @@ import com.dreamsoftware.nimbustv.data.database.dao.ChannelEpgDao
 import com.dreamsoftware.nimbustv.data.database.datasource.IChannelEpgLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.impl.core.SupportLocalDataSourceImpl
 import com.dreamsoftware.nimbustv.data.database.entity.ChannelEpgEntity
-import com.dreamsoftware.nimbustv.data.database.entity.PlayListEntity
 import com.dreamsoftware.nimbustv.data.database.exception.AccessDatabaseException
 import kotlinx.coroutines.CoroutineDispatcher
 
@@ -14,7 +13,7 @@ internal class ChannelEpgLocalDataSourceImpl(
 ): SupportLocalDataSourceImpl<ChannelEpgDao, ChannelEpgEntity, String>(channelEpgDao, dispatcher), IChannelEpgLocalDataSource {
 
     @Throws(AccessDatabaseException::class)
-    override suspend fun deleteAllByProfileId(profileId: String): Unit = safeExecute {
-        channelEpgDao.deleteAllByProfileId(profileId)
+    override suspend fun findAllByEpgId(epgId: String) = safeExecute {
+        channelEpgDao.findAllByEpgId(epgId)
     }
 }

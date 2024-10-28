@@ -6,24 +6,27 @@ import androidx.room.TypeConverters
 import com.dreamsoftware.nimbustv.data.database.adapter.Adapters
 import com.dreamsoftware.nimbustv.data.database.dao.ChannelDao
 import com.dreamsoftware.nimbustv.data.database.dao.ChannelEpgDao
+import com.dreamsoftware.nimbustv.data.database.dao.EpgDao
 import com.dreamsoftware.nimbustv.data.database.dao.FavoriteChannelDao
 import com.dreamsoftware.nimbustv.data.database.dao.PlayListDao
 import com.dreamsoftware.nimbustv.data.database.dao.ProfileDao
 import com.dreamsoftware.nimbustv.data.database.dao.ProgrammeDao
 import com.dreamsoftware.nimbustv.data.database.entity.ChannelEntity
 import com.dreamsoftware.nimbustv.data.database.entity.ChannelEpgEntity
+import com.dreamsoftware.nimbustv.data.database.entity.EpgEntity
 import com.dreamsoftware.nimbustv.data.database.entity.FavoriteChannelEntity
 import com.dreamsoftware.nimbustv.data.database.entity.PlayListEntity
 import com.dreamsoftware.nimbustv.data.database.entity.ProfileEntity
-import com.dreamsoftware.nimbustv.data.database.entity.ProgrammeEntity
+import com.dreamsoftware.nimbustv.data.database.entity.ChannelScheduleEntity
 
 @Database(
     entities = [
         ChannelEntity::class,
         PlayListEntity::class,
         ProfileEntity::class,
+        EpgEntity::class,
         ChannelEpgEntity::class,
-        ProgrammeEntity::class,
+        ChannelScheduleEntity::class,
         FavoriteChannelEntity::class
     ],
     version = 1
@@ -31,6 +34,7 @@ import com.dreamsoftware.nimbustv.data.database.entity.ProgrammeEntity
 @TypeConverters(Adapters::class)
 abstract class NimbusTvDatabase : RoomDatabase() {
     abstract fun channelDao(): ChannelDao
+    abstract fun epgDao(): EpgDao
     abstract fun channelEpgDao(): ChannelEpgDao
     abstract fun profileDao(): ProfileDao
     abstract fun programmeDao(): ProgrammeDao

@@ -2,7 +2,7 @@ package com.dreamsoftware.nimbustv.ui.utils
 
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.AvatarTypeEnum
-import com.dreamsoftware.nimbustv.domain.model.ProgrammeDataBO
+import com.dreamsoftware.nimbustv.domain.model.EpgScheduleBO
 import java.time.format.DateTimeFormatter
 
 val String.Companion.EMPTY: String
@@ -19,6 +19,6 @@ fun AvatarTypeEnum.toDrawableResource(): Int =
         AvatarTypeEnum.MAN -> R.drawable.profile_avatar_man
     }
 
-fun ProgrammeDataBO.toScheduleFormatted() =
+fun EpgScheduleBO.toScheduleFormatted() =
     "${startTime.format(DateTimeFormatter.ofPattern("HH:mm"))} - " +
             endTime.format(DateTimeFormatter.ofPattern("HH:mm"))

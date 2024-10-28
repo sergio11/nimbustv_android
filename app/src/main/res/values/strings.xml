@@ -94,9 +94,11 @@
     <string name="epg_screen_import_new_epg_data_button_text">Import New EPG Data</string>
     <string name="epg_screen_import_new_epg_data_dialog_title">🌐 Import New EPG Data</string>
     <string name="epg_screen_import_new_epg_data_dialog_description">Enter the URL to fetch the latest EPG data and keep your guide up-to-date! 📅</string>
-    <string name="epg_screen_import_new_epg_data_text_field_url_label">EPG Data URL</string>
+    <string name="epg_screen_import_new_epg_data_text_field_url_label">EPG URL</string>
+    <string name="epg_screen_import_new_epg_data_text_field_alias_label">EPG Alias</string>
     <string name="epg_screen_import_new_epg_data_dialog_accept_button_text">Import Now</string>
     <string name="epg_screen_import_new_epg_data_dialog_cancel_button_text">Cancel</string>
+    <string name="epg_screen_import_new_epg_dialog_in_progress_text">Importing your EPG… 🎬</string>
     <!-- Save Profile -->
     <string name="create_profile_main_title">🚀 Create Your NimbusTV Profile</string>
     <string name="create_profile_secondary_title">Make it yours! Personalize your profile and dive into the fun.</string>

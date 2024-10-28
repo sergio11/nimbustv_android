@@ -2,15 +2,17 @@ package com.dreamsoftware.nimbustv.di
 
 import com.dreamsoftware.nimbustv.data.database.datasource.IChannelEpgLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IChannelLocalDataSource
+import com.dreamsoftware.nimbustv.data.database.datasource.IEpgLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IFavoriteChannelLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IPlayListLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IProfileLocalDataSource
-import com.dreamsoftware.nimbustv.data.database.datasource.IProgrammeLocalDataSource
+import com.dreamsoftware.nimbustv.data.database.datasource.IChannelScheduleEpgLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.entity.ChannelEntity
 import com.dreamsoftware.nimbustv.data.database.entity.ChannelEpgEntity
+import com.dreamsoftware.nimbustv.data.database.entity.EpgEntity
 import com.dreamsoftware.nimbustv.data.database.entity.PlayListEntity
 import com.dreamsoftware.nimbustv.data.database.entity.ProfileEntity
-import com.dreamsoftware.nimbustv.data.database.entity.ProgrammeEntity
+import com.dreamsoftware.nimbustv.data.database.entity.ChannelScheduleEntity
 import com.dreamsoftware.nimbustv.data.preferences.datasource.IProfileSessionDataSource
 import com.dreamsoftware.nimbustv.data.preferences.datasource.IUserPreferencesDataSource
 import com.dreamsoftware.nimbustv.data.preferences.dto.UserPreferencesDTO
@@ -24,19 +26,25 @@ import com.dreamsoftware.nimbustv.data.repository.mapper.CreatePlaylistMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.CreateProfileMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.EpgDataInput
 import com.dreamsoftware.nimbustv.data.repository.mapper.EpgDataMapper
+import com.dreamsoftware.nimbustv.data.repository.mapper.EpgMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.PlaylistMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.ProfileMapper
-import com.dreamsoftware.nimbustv.data.repository.mapper.SaveChannelEpgDataMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.SaveChannelsMapper
-import com.dreamsoftware.nimbustv.data.repository.mapper.SaveProgrammeEpgDataMapper
+import com.dreamsoftware.nimbustv.data.repository.mapper.SaveEpgChannelDataMapper
+import com.dreamsoftware.nimbustv.data.repository.mapper.SaveEpgMapper
+import com.dreamsoftware.nimbustv.data.repository.mapper.SaveEpgProgrammeDataMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.UpdatePlaylistData
 import com.dreamsoftware.nimbustv.data.repository.mapper.UpdatePlaylistMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.UpdateProfileMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.UserPreferencesMapper
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
+import com.dreamsoftware.nimbustv.domain.model.CreateEpgBO
+import com.dreamsoftware.nimbustv.domain.model.CreateEpgChannelBO
+import com.dreamsoftware.nimbustv.domain.model.CreateEpgScheduleBO
 import com.dreamsoftware.nimbustv.domain.model.CreatePlayListBO
 import com.dreamsoftware.nimbustv.domain.model.CreateProfileRequestBO
-import com.dreamsoftware.nimbustv.domain.model.ChannelEpgDataBO
+import com.dreamsoftware.nimbustv.domain.model.EpgBO
+import com.dreamsoftware.nimbustv.domain.model.EpgChannelBO
 import com.dreamsoftware.nimbustv.domain.model.PlayListBO
 import com.dreamsoftware.nimbustv.domain.model.ProfileBO
 import com.dreamsoftware.nimbustv.domain.model.SaveChannelBO
@@ -66,15 +74,23 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideSaveChannelEpgDataMapper(): IOneSideMapper<ChannelEpgDataBO, ChannelEpgEntity> = SaveChannelEpgDataMapper()
+    fun provideSaveEpgDataMapper(): IOneSideMapper<CreateEpgBO, EpgEntity> = SaveEpgMapper()
 
     @Provides
     @Singleton
-    fun provideSaveProgrammeEpgDataMapper(): IOneSideMapper<ChannelEpgDataBO, Iterable<ProgrammeEntity>> = SaveProgrammeEpgDataMapper()
+    fun provideSaveEpgChannelDataMapper(): IOneSideMapper<CreateEpgChannelBO, ChannelEpgEntity> = SaveEpgChannelDataMapper()
 
     @Provides
     @Singleton
-    fun provideEpgDataMapper(): IOneSideMapper<EpgDataInput, List<ChannelEpgDataBO>> = EpgDataMapper()
+    fun provideSaveEpgProgrammeDataMapper(): IOneSideMapper<CreateEpgScheduleBO, ChannelScheduleEntity> = SaveEpgProgrammeDataMapper()
+
+    @Provides
+    @Singleton
+    fun provideEpgDataMapper(): IOneSideMapper<EpgDataInput, List<EpgChannelBO>> = EpgDataMapper()
+
+    @Provides
+    @Singleton
+    fun provideEpgMapper(): IOneSideMapper<EpgEntity, EpgBO> = EpgMapper()
 
     @Provides
     @Singleton
@@ -172,19 +188,25 @@ class RepositoryModule {
     @Provides
     @Singleton
     fun provideEpgRepository(
-        programmeLocalDataSource: IProgrammeLocalDataSource,
+        programmeLocalDataSource: IChannelScheduleEpgLocalDataSource,
         channelLocalDataSource: IChannelEpgLocalDataSource,
-        saveChannelEpgDataMapper: IOneSideMapper<ChannelEpgDataBO, ChannelEpgEntity>,
-        saveProgrammeEpgDataMapper: IOneSideMapper<ChannelEpgDataBO, Iterable<ProgrammeEntity>>,
-        epgDataMapper: IOneSideMapper<EpgDataInput, List<ChannelEpgDataBO>>,
+        epgLocalDataSource: IEpgLocalDataSource,
+        saveEpgDataMapper: IOneSideMapper<CreateEpgBO, EpgEntity>,
+        saveEpgChannelDataMapper: IOneSideMapper<CreateEpgChannelBO, ChannelEpgEntity>,
+        saveEpgProgrammeDataMapper: IOneSideMapper<CreateEpgScheduleBO, ChannelScheduleEntity>,
+        epgDataMapper: IOneSideMapper<EpgEntity, EpgBO>,
+        epgChannelsDataMapper: IOneSideMapper<EpgDataInput, List<EpgChannelBO>>,
         @IoDispatcher dispatcher: CoroutineDispatcher
     ): IEpgRepository =
         EpgRepositoryImpl(
             programmeLocalDataSource,
             channelLocalDataSource,
-            saveChannelEpgDataMapper,
-            saveProgrammeEpgDataMapper,
+            epgLocalDataSource,
+            saveEpgDataMapper,
+            saveEpgChannelDataMapper,
+            saveEpgProgrammeDataMapper,
             epgDataMapper,
+            epgChannelsDataMapper,
             dispatcher
         )
 

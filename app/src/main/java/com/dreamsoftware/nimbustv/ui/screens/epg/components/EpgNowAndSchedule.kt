@@ -37,7 +37,7 @@ import com.dreamsoftware.fudge.component.FudgeTvImageRes
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
 import com.dreamsoftware.nimbustv.R
-import com.dreamsoftware.nimbustv.domain.model.ProgrammeType
+import com.dreamsoftware.nimbustv.domain.model.ScheduleTypeEnum
 import com.dreamsoftware.nimbustv.ui.core.components.ChannelLogo
 import com.dreamsoftware.nimbustv.ui.screens.epg.extension.toScheduleFormatted
 import com.dreamsoftware.nimbustv.ui.screens.epg.model.ScheduleVO
@@ -185,8 +185,8 @@ private fun EpgScheduleItem(
                             FudgeTvImageRes(
                                 modifier = Modifier.size(ListItemDefaults.IconSizeDense),
                                 imageRes = when (type) {
-                                    ProgrammeType.LIVE_NOW -> R.drawable.ic_schedule_live_now
-                                    ProgrammeType.PAST -> R.drawable.ic_schedule_past
+                                    ScheduleTypeEnum.LIVE_NOW -> R.drawable.ic_schedule_live_now
+                                    ScheduleTypeEnum.PAST -> R.drawable.ic_schedule_past
                                     else -> R.drawable.ic_schedule_future
                                 },
                                 tint = iconColor ?: onPrimary
