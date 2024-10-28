@@ -41,6 +41,7 @@ import com.dreamsoftware.nimbustv.ui.screens.epg.components.EpgNowAndSchedule
 import com.dreamsoftware.nimbustv.ui.core.components.ImportEpgDataDialog
 import com.dreamsoftware.nimbustv.ui.screens.epg.components.NoEpgDataFound
 import com.dreamsoftware.nimbustv.ui.screens.epg.model.ScheduleVO
+import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
 import com.dreamsoftware.nimbustv.ui.theme.onPrimary
 
 @Composable
@@ -109,7 +110,8 @@ private fun EpgMainContent(
                         .border(1.dp, MaterialTheme.colorScheme.primary),
                     epgList = epgList,
                     epgSelected = epgSelected,
-                    onEpgSelected = ::onNewEpgSelected
+                    onEpgSelected = ::onNewEpgSelected,
+                    onManageEpgListClicked = ::onManageEpgListClicked
                 )
                 Column(
                     modifier = Modifier
@@ -161,6 +163,7 @@ private fun EpgListColumn(
     modifier: Modifier,
     epgList: List<EpgBO>,
     epgSelected: EpgBO? = null,
+    onManageEpgListClicked: () -> Unit,
     onEpgSelected: (EpgBO) -> Unit
 ) {
     FudgeTvFocusRequester(shouldRequestFocus = {
@@ -176,6 +179,16 @@ private fun EpgListColumn(
                 modifier = Modifier
                     .size(120.dp)
                     .padding(top = 16.dp)
+            )
+            FudgeTvButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .playSoundEffectOnFocus(),
+                type = FudgeTvButtonTypeEnum.SMALL,
+                style = FudgeTvButtonStyleTypeEnum.TRANSPARENT,
+                textRes = R.string.epg_screen_manage_epg_list_button_text,
+                onClick = onManageEpgListClicked
             )
             Spacer(modifier = Modifier.height(10.dp))
             LazyColumn(

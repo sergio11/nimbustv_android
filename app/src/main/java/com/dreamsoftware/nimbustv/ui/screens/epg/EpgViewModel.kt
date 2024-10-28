@@ -45,6 +45,10 @@ class EpgViewModel @Inject constructor(
         fetchEpgDataById(newValue.id)
     }
 
+    override fun onManageEpgListClicked() {
+        launchSideEffect(EpgSideEffects.ManageEpgSourcesSideEffect)
+    }
+
     override fun onImportNewEpgData() {
         updateState { it.copy(showImportEpgDataDialog = true) }
     }
@@ -197,4 +201,6 @@ data class EpgUiState(
         copy(isLoading = isLoading, errorMessage = errorMessage)
 }
 
-sealed interface EpgSideEffects : SideEffect
+sealed interface EpgSideEffects : SideEffect {
+    data object ManageEpgSourcesSideEffect: EpgSideEffects
+}

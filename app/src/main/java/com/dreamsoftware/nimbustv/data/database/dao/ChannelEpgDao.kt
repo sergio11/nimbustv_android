@@ -10,4 +10,7 @@ abstract class ChannelEpgDao: SupportDaoImpl<ChannelEpgEntity, String>(ChannelEp
 
     @Query(value = "SELECT * FROM channels_epg WHERE epg_id = :epgId")
     abstract suspend fun findAllByEpgId(epgId: String): List<ChannelEpgEntity>
+
+    @Query(value = "DELETE FROM channels_epg WHERE epg_id = :epgId")
+    abstract suspend fun deleteAllByEpgId(epgId: String)
 }

@@ -8,4 +8,7 @@ interface IChannelEpgLocalDataSource: ISupportLocalDataSource<ChannelEpgEntity, 
 
     @Throws(AccessDatabaseException::class)
     suspend fun findAllByEpgId(epgId: String): List<ChannelEpgEntity>
+
+    @Throws(AccessDatabaseException::class)
+    suspend fun deleteAllByEpgId(epgId: String)
 }
