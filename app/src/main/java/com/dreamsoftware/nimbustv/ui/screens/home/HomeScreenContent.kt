@@ -40,7 +40,7 @@ import com.dreamsoftware.nimbustv.ui.core.components.ChannelPreview
 import com.dreamsoftware.nimbustv.ui.core.components.CommonChip
 import com.dreamsoftware.nimbustv.ui.core.components.CommonLazyVerticalGrid
 import com.dreamsoftware.nimbustv.ui.core.components.CommonPlaylistScreenContent
-import com.dreamsoftware.nimbustv.ui.core.components.PlaylistItem
+import com.dreamsoftware.nimbustv.ui.core.components.CommonSelectableItem
 import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
 
 @Composable
@@ -252,13 +252,14 @@ private fun PlayListsColumn(
                 items(playlists.size) { idx ->
                     val playlist = playlists[idx]
                     val isSelected = playlist == playlistSelected
-                    PlaylistItem(
+                    CommonSelectableItem(
                         modifier = Modifier.conditional(condition = isSelected, ifTrue = {
                             focusRequester(requester)
                         }),
                         isSelected = isSelected,
-                        playlist = playlist,
-                        onPlaylistSelected = onPlaylistSelected
+                        titleText = playlist.alias,
+                        subtitleText = "Channels ( ${playlist.channelsCount} )",
+                        onItemSelected = { onPlaylistSelected(playlist) }
                     )
                 }
             }

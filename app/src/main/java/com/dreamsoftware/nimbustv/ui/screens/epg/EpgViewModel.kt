@@ -5,11 +5,12 @@ import com.dreamsoftware.fudge.core.IFudgeTvErrorMapper
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
 import com.dreamsoftware.nimbustv.di.EpgScreenErrorMapper
-import com.dreamsoftware.nimbustv.domain.model.ChannelEpgDataBO
+import com.dreamsoftware.nimbustv.domain.model.EpgBO
+import com.dreamsoftware.nimbustv.domain.model.EpgChannelBO
 import com.dreamsoftware.nimbustv.domain.model.EpgViewModeEnum
 import com.dreamsoftware.nimbustv.domain.model.UserPreferenceBO
-import com.dreamsoftware.nimbustv.domain.usecase.DeleteEpgDataUseCase
-import com.dreamsoftware.nimbustv.domain.usecase.GetEpgDataUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.GetEpgDataByIdUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.GetEpgListUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetUserPreferencesUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SaveEpgUseCase
 import com.dreamsoftware.nimbustv.ui.screens.epg.extension.filterSchedulesByChannel
@@ -24,33 +25,24 @@ import javax.inject.Inject
 @HiltViewModel
 class EpgViewModel @Inject constructor(
     private val saveEpgUseCase: SaveEpgUseCase,
-    private val getEpgDataUseCase: GetEpgDataUseCase,
-    private val deleteEpgDataUseCase: DeleteEpgDataUseCase,
+    private val getEpgDataByIdUseCase: GetEpgDataByIdUseCase,
+    private val getEpgListUseCase: GetEpgListUseCase,
     private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
     @EpgScreenErrorMapper private val errorMapper: IFudgeTvErrorMapper,
 ) : FudgeTvViewModel<EpgUiState, EpgSideEffects>(), EpgScreenActionListener {
 
-    private var epgData: List<ChannelEpgDataBO> = emptyList()
+    private var epgSelectedData: List<EpgChannelBO> = emptyList()
 
     override fun onGetDefaultState(): EpgUiState = EpgUiState()
 
     fun fetchData() {
-        fetchEgpData()
+        fetchEgpListByProfile()
         fetchUserPreferences()
     }
 
-    private fun onGetEpgDataCompleted(data: List<ChannelEpgDataBO>) {
-        resetState(data)
-    }
-
-    private fun onMapExceptionToState(ex: Exception, uiState: EpgUiState) =
-        uiState.copy(
-            isLoading = false,
-            errorMessage = errorMapper.mapToMessage(ex)
-        )
-
-    override fun onRemoveEpgData() {
-        updateState { it.copy(showRemoveEpgDataDialog = true) }
+    override fun onNewEpgSelected(newValue: EpgBO) {
+        updateState { it.copy(epgSelected = newValue) }
+        fetchEpgDataById(newValue.id)
     }
 
     override fun onImportNewEpgData() {
@@ -58,11 +50,15 @@ class EpgViewModel @Inject constructor(
     }
 
     override fun onImportNewEpgDataConfirmed() {
-        updateState { it.copy(showImportEpgDataDialog = false) }
+        updateState { it.copy(isImporting = true) }
         doOnUiState {
             executeUseCaseWithParams(
                 useCase = saveEpgUseCase,
-                params = SaveEpgUseCase.Params(url = newEpgDataUrl),
+                showLoadingState = false,
+                params = SaveEpgUseCase.Params(
+                    alias = newEpgAlias,
+                    url = newEpgDataUrl
+                ),
                 onSuccess = ::onImportEpgDataCompleted
             )
         }
@@ -72,18 +68,11 @@ class EpgViewModel @Inject constructor(
         updateState { it.copy(showImportEpgDataDialog = false) }
     }
 
-    override fun onRemoveEpgDataConfirmed() {
-        executeUseCase(
-            useCase = deleteEpgDataUseCase,
-            onSuccess = { onEpgDataRemovedSuccessfully() }
-        )
+    override fun onNewEpgAliasUpdated(newValue: String) {
+        updateState { it.copy(newEpgAlias = newValue) }
     }
 
-    override fun onRemoveEpgDataCancelled() {
-        updateState { it.copy(showRemoveEpgDataDialog = false) }
-    }
-
-    override fun onNewEpgDataUrlUpdated(newValue: String) {
+    override fun onNewEpgUrlUpdated(newValue: String) {
         updateState { it.copy(newEpgDataUrl = newValue) }
     }
 
@@ -91,7 +80,7 @@ class EpgViewModel @Inject constructor(
         updateState {
             it.copy(
                 channelSelectedId = channelId,
-                currentChannelSchedules = epgData.filterSchedulesByChannel(channelId)
+                currentChannelSchedules = epgSelectedData.filterSchedulesByChannel(channelId)
             )
         }
     }
@@ -104,28 +93,68 @@ class EpgViewModel @Inject constructor(
         updateState { it.copy(scheduleSelected = null) }
     }
 
-    private fun onEpgDataRemovedSuccessfully() {
-        epgData = emptyList()
+    private fun onMapExceptionToState(ex: Exception, uiState: EpgUiState) =
+        uiState.copy(
+            isLoading = false,
+            errorMessage = errorMapper.mapToMessage(ex)
+        )
+
+    private fun onImportEpgDataCompleted(data: EpgBO) {
         updateState {
             it.copy(
-                channelOverviewList = emptyList(),
-                liveSchedules = emptyList(),
-                currentChannelSchedules = emptyList(),
-                showRemoveEpgDataDialog = false
+                isImporting = false,
+                showImportEpgDataDialog = false
             )
         }
-    }
-
-    private fun onImportEpgDataCompleted(data: List<ChannelEpgDataBO>) {
-        resetState(data)
+        onGetEpgListCompleted(listOf(data))
     }
     
     private fun onGetUserPreferencesCompleted(userPreferenceBO: UserPreferenceBO) {
         updateState { it.copy(epgViewMode = userPreferenceBO.epgViewMode) }
     }
 
-    private fun resetState(data: List<ChannelEpgDataBO>) {
-        epgData = data
+    private fun onGetEpgListCompleted(data: List<EpgBO>) {
+        val epgSelected = data.firstOrNull()
+        updateState {
+            it.copy(
+                epgList = data,
+                epgSelected = epgSelected
+            )
+        }
+        epgSelected?.id?.let(::fetchEpgDataById)
+    }
+
+    private fun onGetEpgDataCompleted(data: List<EpgChannelBO>) {
+        resetState(data)
+    }
+
+    private fun fetchEgpListByProfile() {
+        executeUseCase(
+            useCase = getEpgListUseCase,
+            onSuccess = ::onGetEpgListCompleted,
+            onMapExceptionToState = ::onMapExceptionToState
+        )
+    }
+
+    private fun fetchEpgDataById(epgId: String) {
+        executeUseCaseWithParams(
+            useCase = getEpgDataByIdUseCase,
+            params = GetEpgDataByIdUseCase.Params(epgId),
+            onSuccess = ::onGetEpgDataCompleted,
+            onMapExceptionToState = ::onMapExceptionToState
+        )
+    }
+
+    private fun fetchUserPreferences() {
+        executeUseCase(
+            useCase = getUserPreferencesUseCase,
+            showLoadingState = false,
+            onSuccess = ::onGetUserPreferencesCompleted
+        )
+    }
+
+    private fun resetState(data: List<EpgChannelBO>) {
+        epgSelectedData = data
         val channelId = data.firstOrNull()?.channelId.orEmpty()
         updateState {
             if(it.epgViewMode == EpgViewModeEnum.NOW_AND_SCHEDULE) {
@@ -142,32 +171,19 @@ class EpgViewModel @Inject constructor(
             }
         }
     }
-
-    private fun fetchEgpData() {
-        executeUseCase(
-            useCase = getEpgDataUseCase,
-            onSuccess = ::onGetEpgDataCompleted,
-            onMapExceptionToState = ::onMapExceptionToState
-        )
-    }
-
-    private fun fetchUserPreferences() {
-        executeUseCase(
-            useCase = getUserPreferencesUseCase,
-            showLoadingState = false,
-            onSuccess = ::onGetUserPreferencesCompleted
-        )
-    }
 }
 
 data class EpgUiState(
     override val isLoading: Boolean = false,
     override val errorMessage: String? = null,
-    val showRemoveEpgDataDialog: Boolean = false,
     val showImportEpgDataDialog: Boolean = false,
+    val isImporting: Boolean = false,
+    val epgList: List<EpgBO> = emptyList(),
+    val epgSelected: EpgBO? = null,
     val epgViewMode: EpgViewModeEnum = EpgViewModeEnum.NOW_AND_SCHEDULE,
     val channelOverviewList: List<ChannelOverviewVO> = emptyList(),
     val channelSelectedId: String = String.EMPTY,
+    val newEpgAlias: String = String.EMPTY,
     val newEpgDataUrl: String = String.EMPTY,
     val liveSchedules: List<ScheduleVO> = emptyList(),
     val currentChannelSchedules: List<ScheduleVO> = emptyList(),

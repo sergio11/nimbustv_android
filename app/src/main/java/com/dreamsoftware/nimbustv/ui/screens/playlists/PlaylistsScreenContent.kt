@@ -24,7 +24,7 @@ import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.PlayListBO
 import com.dreamsoftware.nimbustv.ui.core.components.CommonLazyVerticalGrid
 import com.dreamsoftware.nimbustv.ui.core.components.CommonPlaylistScreenContent
-import com.dreamsoftware.nimbustv.ui.core.components.PlaylistItem
+import com.dreamsoftware.nimbustv.ui.core.components.CommonSelectableItem
 import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
 
 @Composable
@@ -112,12 +112,13 @@ private fun PlaylistsGridContent(
             state = rememberLazyGridState(),
             items = playlists
         ) { idx, item ->
-            PlaylistItem(
+            CommonSelectableItem(
                 modifier = Modifier.conditional(idx == 0, ifTrue = {
                     focusRequester(focusRequester)
                 }),
-                playlist = item,
-                onPlaylistSelected = onPlayListSelected
+                titleText = item.alias,
+                subtitleText = "Channels ( ${item.channelsCount} )",
+                onItemSelected = { onPlayListSelected(item) }
             )
         }
     }

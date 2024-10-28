@@ -10,18 +10,18 @@ import androidx.room.PrimaryKey
 @Entity(
     tableName = "channels_epg",
     foreignKeys = [ForeignKey(
-        entity = ProfileEntity::class,
+        entity = EpgEntity::class,
         parentColumns = ["id"],
-        childColumns = ["profile_id"],
+        childColumns = ["epg_id"],
         onDelete = ForeignKey.CASCADE
     )],
-    indices = [Index(value = ["profile_id"])]
+    indices = [Index(value = ["epg_id"])]
 )
 data class ChannelEpgEntity(
     @PrimaryKey
     override val id: String,
     @ColumnInfo(name = "display_name")
     val displayName: String,
-    @ColumnInfo(name = "profile_id")
-    val profileId: String
+    @ColumnInfo(name = "epg_id")
+    val epgId: String
 ): IEntity<String>

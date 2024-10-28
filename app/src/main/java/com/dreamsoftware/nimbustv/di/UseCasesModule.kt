@@ -28,7 +28,8 @@ import com.dreamsoftware.nimbustv.domain.usecase.DeleteEpgDataUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.DeletePlaylistUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetChannelByIdUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetChannelsByPlaylistUseCase
-import com.dreamsoftware.nimbustv.domain.usecase.GetEpgDataUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.GetEpgDataByIdUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.GetEpgListUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetFavoriteChannelsByProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetPlaylistsByProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetUserPreferencesUseCase
@@ -238,11 +239,20 @@ class UseCasesModule {
 
     @Provides
     @ViewModelScoped
-    fun provideGetEpgDataUseCase(
+    fun provideGetEpgDataByIdUseCase(
+        epgRepository: IEpgRepository
+    ): GetEpgDataByIdUseCase =
+        GetEpgDataByIdUseCase(
+            epgRepository = epgRepository
+        )
+
+    @Provides
+    @ViewModelScoped
+    fun provideGetEpgListUseCase(
         profileRepository: IProfilesRepository,
         epgRepository: IEpgRepository
-    ): GetEpgDataUseCase =
-        GetEpgDataUseCase(
+    ): GetEpgListUseCase =
+        GetEpgListUseCase(
             profileRepository = profileRepository,
             epgRepository = epgRepository
         )
