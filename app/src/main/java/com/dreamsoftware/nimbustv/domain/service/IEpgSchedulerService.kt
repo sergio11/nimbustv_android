@@ -2,7 +2,7 @@ package com.dreamsoftware.nimbustv.domain.service
 
 interface IEpgSchedulerService {
 
-    fun scheduleSyncEpgWorkForProfile(url: String, profileId: String)
+    fun scheduleSyncEpgWork(epgId: String)
 
-    fun cancelSyncEpgWork(profileId: String)
+    fun cancelSyncEpgWork(epgId: String)
 }

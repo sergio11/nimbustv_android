@@ -7,6 +7,7 @@ import com.dreamsoftware.nimbustv.ui.screens.epg.model.ScheduleVO
 interface EpgScreenActionListener: IFudgeTvScreenActionListener {
 
     fun onNewEpgSelected(newValue: EpgBO)
+    fun onManageEpgListClicked()
     fun onImportNewEpgData()
     fun onImportNewEpgDataConfirmed()
     fun onImportNewEpgDataCancelled()

@@ -38,10 +38,9 @@ internal class WorkManagerEpgSchedulerImpl(
      * Constraints are applied to ensure the work only runs when the device
      * is connected to a network.
      *
-     * @param url The URL to fetch the EPG data from.
-     * @param profileId The unique identifier for the profile to sync.
+     * @param epgId The unique identifier for the EPG to sync.
      */
-    override fun scheduleSyncEpgWorkForProfile(url: String, profileId: String) {
+    override fun scheduleSyncEpgWork(epgId: String) {
         // Define constraints to ensure network connectivity
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -53,9 +52,9 @@ internal class WorkManagerEpgSchedulerImpl(
         // Create a PeriodicWorkRequest to run daily
         val workRequest =
             PeriodicWorkRequestBuilder<SyncEpgDataWorker>(REPEAT_INTERVAL_IN_DAYS, TimeUnit.DAYS)
-                .setInputData(SyncEpgDataWorker.buildInputData(url, profileId))
+                .setInputData(SyncEpgDataWorker.buildInputData(epgId))
                 .setConstraints(constraints)
-                .setId(UUID.fromString(profileId))
+                .setId(UUID.fromString(epgId))
                 .setInitialDelay(initialDelay, TimeUnit.MILLISECONDS)
                 .build()
 
@@ -68,13 +67,13 @@ internal class WorkManagerEpgSchedulerImpl(
     }
 
     /**
-     * Cancels any scheduled EPG sync work for the specified profile.
+     * Cancels any scheduled EPG sync work
      *
-     * @param profileId The unique identifier for the profile whose work is to be canceled.
+     * @param epgId The unique identifier for the EPG whose work is to be canceled.
      */
-    override fun cancelSyncEpgWork(profileId: String) {
-        // Cancel the scheduled work by the profile ID
-        workManager.cancelWorkById(UUID.fromString(profileId))
+    override fun cancelSyncEpgWork(epgId: String) {
+        // Cancel the scheduled work by the EPG ID
+        workManager.cancelWorkById(UUID.fromString(epgId))
     }
 
     /**

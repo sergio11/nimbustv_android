@@ -12,12 +12,14 @@ import com.dreamsoftware.nimbustv.data.repository.mapper.EpgDataInput
 import com.dreamsoftware.nimbustv.domain.exception.DeleteEpgDataException
 import com.dreamsoftware.nimbustv.domain.exception.GetEpgChannelsDataException
 import com.dreamsoftware.nimbustv.domain.exception.GetEpgDataException
-import com.dreamsoftware.nimbustv.domain.exception.SaveEpgDataException
+import com.dreamsoftware.nimbustv.domain.exception.CreateEpgDataException
+import com.dreamsoftware.nimbustv.domain.exception.UpdateEpgDataException
 import com.dreamsoftware.nimbustv.domain.model.CreateEpgBO
 import com.dreamsoftware.nimbustv.domain.model.CreateEpgChannelBO
 import com.dreamsoftware.nimbustv.domain.model.CreateEpgScheduleBO
 import com.dreamsoftware.nimbustv.domain.model.EpgBO
 import com.dreamsoftware.nimbustv.domain.model.EpgChannelBO
+import com.dreamsoftware.nimbustv.domain.model.UpdateEpgBO
 import com.dreamsoftware.nimbustv.domain.repository.IEpgRepository
 import com.dreamsoftware.nimbustv.utils.IOneSideMapper
 import kotlinx.coroutines.CoroutineDispatcher
@@ -34,8 +36,8 @@ internal class EpgRepositoryImpl(
     dispatcher: CoroutineDispatcher
 ) : SupportRepositoryImpl(dispatcher), IEpgRepository {
 
-    @Throws(SaveEpgDataException::class)
-    override suspend fun save(data: CreateEpgBO): EpgBO = safeExecute {
+    @Throws(CreateEpgDataException::class)
+    override suspend fun create(data: CreateEpgBO): EpgBO = safeExecute {
         try {
             val epgSaved = epgLocalDataSource.insert(saveEpgDataMapper.mapInToOut(data)).also {
                 channelLocalDataSource.insert(saveEpgChannelDataMapper.mapInListToOutList(data.channelList).toList())
@@ -44,8 +46,39 @@ internal class EpgRepositoryImpl(
             epgDataMapper.mapInToOut(epgSaved)
         } catch (ex: DatabaseException) {
             ex.printStackTrace()
-            throw SaveEpgDataException(
-                "An error occurred when trying to save EPG data",
+            throw CreateEpgDataException(
+                "An error occurred when trying to create EPG data",
+                ex
+            )
+        }
+    }
+
+    @Throws(UpdateEpgDataException::class)
+    override suspend fun update(data: UpdateEpgBO): EpgBO = safeExecute {
+        try {
+            val epg = epgLocalDataSource.findById(data.id)
+            channelLocalDataSource.deleteAllByEpgId(epg.id)
+            channelLocalDataSource.insert(saveEpgChannelDataMapper.mapInListToOutList(data.channelList).toList())
+            programmeLocalDataSource.insert(saveEpgProgrammeDataMapper.mapInListToOutList(data.channelList.flatMap { it.programmeList }).toList())
+            epgDataMapper.mapInToOut(epg)
+        } catch (ex: DatabaseException) {
+            ex.printStackTrace()
+            throw UpdateEpgDataException(
+                "An error occurred when trying to update EPG data",
+                ex
+            )
+        }
+    }
+
+    @Throws(GetEpgDataException::class)
+    override suspend fun findById(epgId: String): EpgBO = safeExecute {
+        try {
+            epgLocalDataSource.findById(epgId)
+                .let(epgDataMapper::mapInToOut)
+        } catch (ex: DatabaseException) {
+            ex.printStackTrace()
+            throw GetEpgDataException(
+                "An error occurred when trying to get EPG data",
                 ex
             )
         }
@@ -76,6 +109,19 @@ internal class EpgRepositoryImpl(
             ex.printStackTrace()
             throw GetEpgChannelsDataException(
                 "An error occurred when trying to get EPG channels data",
+                ex
+            )
+        }
+    }
+
+    @Throws(DeleteEpgDataException::class)
+    override suspend fun deleteAllByEpgId(epgId: String) = safeExecute {
+        try {
+            channelLocalDataSource.deleteAllByEpgId(epgId)
+        } catch (ex: DatabaseException) {
+            ex.printStackTrace()
+            throw DeleteEpgDataException(
+                "An error occurred when trying to delete EPG data",
                 ex
             )
         }
