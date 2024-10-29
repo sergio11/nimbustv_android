@@ -121,6 +121,7 @@ class EpgViewModel @Inject constructor(
         val epgSelected = data.firstOrNull()
         updateState {
             it.copy(
+                isLoadingEpgList = false,
                 epgList = data,
                 epgSelected = epgSelected
             )
@@ -133,16 +134,20 @@ class EpgViewModel @Inject constructor(
     }
 
     private fun fetchEgpListByProfile() {
+        updateState { it.copy(isLoadingEpgList = true) }
         executeUseCase(
             useCase = getEpgListUseCase,
+            showLoadingState = false,
             onSuccess = ::onGetEpgListCompleted,
             onMapExceptionToState = ::onMapExceptionToState
         )
     }
 
     private fun fetchEpgDataById(epgId: String) {
+        updateState { it.copy(isLoadingEpgData = true) }
         executeUseCaseWithParams(
             useCase = getEpgDataByIdUseCase,
+            showLoadingState = false,
             params = GetEpgDataByIdUseCase.Params(epgId),
             onSuccess = ::onGetEpgDataCompleted,
             onMapExceptionToState = ::onMapExceptionToState
@@ -163,12 +168,14 @@ class EpgViewModel @Inject constructor(
         updateState {
             if(it.epgViewMode == EpgViewModeEnum.NOW_AND_SCHEDULE) {
                 it.copy(
+                    isLoadingEpgData = false,
                     channelSelectedId = channelId,
                     liveSchedules = data.mapToLiveScheduleList(),
                     currentChannelSchedules = data.filterSchedulesByChannel(channelId)
                 )
             } else {
                 it.copy(
+                    isLoadingEpgData = false,
                     channelSelectedId = channelId,
                     channelOverviewList = data.mapToChannelOverviewList()
                 )
@@ -180,6 +187,8 @@ class EpgViewModel @Inject constructor(
 data class EpgUiState(
     override val isLoading: Boolean = false,
     override val errorMessage: String? = null,
+    val isLoadingEpgList: Boolean = false,
+    val isLoadingEpgData: Boolean = false,
     val showImportEpgDataDialog: Boolean = false,
     val isImporting: Boolean = false,
     val epgList: List<EpgBO> = emptyList(),
@@ -195,7 +204,7 @@ data class EpgUiState(
 ) : UiState<EpgUiState>(isLoading, errorMessage) {
 
     val epgDataIsEmpty: Boolean
-            get() = liveSchedules.isEmpty() && channelOverviewList.isEmpty()
+            get() = epgList.isEmpty() && liveSchedules.isEmpty() && channelOverviewList.isEmpty()
 
     override fun copyState(isLoading: Boolean, errorMessage: String?): EpgUiState =
         copy(isLoading = isLoading, errorMessage = errorMessage)
