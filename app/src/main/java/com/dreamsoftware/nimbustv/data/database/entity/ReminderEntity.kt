@@ -29,8 +29,6 @@ import java.util.Date
 data class ReminderEntity(
     @PrimaryKey
     override val id: String,
-    @ColumnInfo(name = "execution_at_millis")
-    val executionAtMillis: Long,
     @ColumnInfo(name = "created_at")
     val createdAt: Date = Date(),
     @ColumnInfo(name = "profile_id")
