@@ -1,29 +1,23 @@
-package com.dreamsoftware.nimbustv.ui.screens.epg
+package com.dreamsoftware.nimbustv.ui.screens.epgsources
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.dreamsoftware.fudge.component.FudgeTvScreen
 
 @Composable
-fun EpgScreen(
-    viewModel: EpgViewModel = hiltViewModel(),
-    onManageEpgSources: () -> Unit,
+fun EpgSourcesScreen(
+    viewModel: EpgSourcesViewModel = hiltViewModel(),
     onBackPressed: () -> Unit,
 ) {
     FudgeTvScreen(
         viewModel = viewModel,
         onBackPressed = onBackPressed,
-        onInitialUiState = { EpgUiState() },
-        onSideEffect = {
-            when(it) {
-                EpgSideEffects.ManageEpgSourcesSideEffect -> onManageEpgSources()
-            }
-        },
+        onInitialUiState = { EpgSourcesUiState() },
         onInit = {
             fetchData()
         }
     ) { uiState ->
-        EpgScreenContent(
+        EpgSourcesScreenContent(
             uiState = uiState,
             actionListener = viewModel
         )

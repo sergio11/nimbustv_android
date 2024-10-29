@@ -175,6 +175,7 @@ sealed class Screen(
     data object Home : Screen(route = "home", name = "Home")
     data object Favorite : Screen(route = "favorite", name = "Favorite")
     data object Search : Screen(route = "search", name = "Search")
+    data object EpgSources : Screen(route = "epgsources", name = "EpgSources")
     data object Playlists : Screen(route = "playlists", name = "Playlists")
     data object Epg : Screen(route = "epg", name = "Epg")
     data object Settings : Screen(route = "settings", name = "Settings")

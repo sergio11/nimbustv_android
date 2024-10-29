@@ -66,4 +66,12 @@ class UiModule {
         @ApplicationContext context: Context
     ): IFudgeTvErrorMapper =
         SearchScreenSimpleErrorMapper(context = context)
+
+    @Provides
+    @ViewModelScoped
+    @EpgSourcesScreenErrorMapper
+    fun provideEpgSourcesScreenErrorMapper(
+        @ApplicationContext context: Context
+    ): IFudgeTvErrorMapper =
+        EpgScreenSimpleErrorMapper(context = context)
 }

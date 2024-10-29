@@ -9,6 +9,7 @@ import com.dreamsoftware.nimbustv.domain.model.StreamTypeEnum
 import com.dreamsoftware.nimbustv.ui.player.audio.AudioPlayerScreen
 import com.dreamsoftware.nimbustv.ui.player.video.VideoPlayerScreen
 import com.dreamsoftware.nimbustv.ui.screens.epg.EpgScreen
+import com.dreamsoftware.nimbustv.ui.screens.epgsources.EpgSourcesScreen
 import com.dreamsoftware.nimbustv.ui.screens.favorites.FavoritesScreen
 import com.dreamsoftware.nimbustv.ui.screens.home.HomeScreen
 import com.dreamsoftware.nimbustv.ui.screens.playlistdetail.PlaylistDetailScreen
@@ -118,6 +119,19 @@ fun DashboardNavHost(
         composable(Screen.Epg.route) {
             with(navController) {
                 EpgScreen(
+                    onManageEpgSources = {
+                        navigate(Screen.EpgSources.route)
+                    },
+                    onBackPressed = {
+                        popBackStack()
+                    }
+                )
+            }
+        }
+
+        composable(Screen.EpgSources.route) {
+            with(navController) {
+                EpgSourcesScreen(
                     onBackPressed = {
                         popBackStack()
                     }
