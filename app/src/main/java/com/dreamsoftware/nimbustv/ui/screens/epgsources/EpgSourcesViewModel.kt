@@ -7,6 +7,7 @@ import com.dreamsoftware.fudge.core.UiState
 import com.dreamsoftware.nimbustv.di.EpgSourcesScreenErrorMapper
 import com.dreamsoftware.nimbustv.domain.model.EpgBO
 import com.dreamsoftware.nimbustv.domain.usecase.CreateEpgUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.DeleteEpgUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetEpgListUseCase
 import com.dreamsoftware.nimbustv.ui.utils.EMPTY
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,8 +17,11 @@ import javax.inject.Inject
 class EpgSourcesViewModel @Inject constructor(
     private val getEpgListUseCase: GetEpgListUseCase,
     private val createEpgUseCase: CreateEpgUseCase,
+    private val deleteEpgUseCase: DeleteEpgUseCase,
     @EpgSourcesScreenErrorMapper private val errorMapper: IFudgeTvErrorMapper,
 ) : FudgeTvViewModel<EpgSourcesUiState, EpgSourcesSideEffects>(), EpgSourcesScreenActionListener {
+
+    private var epgToDelete: EpgBO? = null
 
     override fun onGetDefaultState(): EpgSourcesUiState = EpgSourcesUiState()
 
@@ -70,6 +74,29 @@ class EpgSourcesViewModel @Inject constructor(
         updateState { it.copy(newEpgAlias = newValue) }
     }
 
+    override fun onDeleteEpgClicked(epg: EpgBO) {
+        epgToDelete = epg
+        updateState { it.copy(showDeleteEpgDialog = true) }
+    }
+
+    override fun onDeleteEpgConfirmed() {
+        epgToDelete?.id?.let { epgId ->
+            executeUseCaseWithParams(
+                useCase = deleteEpgUseCase,
+                showLoadingState = false,
+                params = DeleteEpgUseCase.Params(
+                    id = epgId
+                ),
+                onSuccess = { onDeleteEpgCompleted() }
+            )
+        }
+    }
+
+    override fun onDeleteEpgCancelled() {
+        epgToDelete = null
+        updateState { it.copy(showDeleteEpgDialog = false) }
+    }
+
     private fun onImportEpgCompleted() {
         resetImportEpgState()
         fetchData()
@@ -85,12 +112,19 @@ class EpgSourcesViewModel @Inject constructor(
             )
         }
     }
+
+    private fun onDeleteEpgCompleted() {
+        epgToDelete = null
+        updateState { it.copy(showDeleteEpgDialog = false) }
+        fetchData()
+    }
 }
 
 data class EpgSourcesUiState(
     override val isLoading: Boolean = false,
     override val errorMessage: String? = null,
     val epgSources: List<EpgBO> = emptyList(),
+    val showDeleteEpgDialog: Boolean = false,
     val isImportEpgDialogVisible: Boolean = false,
     val isImporting: Boolean = false,
     val newEpgAlias: String = String.EMPTY,

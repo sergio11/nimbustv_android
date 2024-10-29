@@ -99,6 +99,10 @@
     <!-- Epg Sources -->
     <string name="epg_sources_screen_title">🔍 All Your EPG Sources in One Place</string>
     <string name="epg_sources_screen_import_new_epg_button_text">✨ Import a New EPG!</string>
+    <string name="epg_sources_screen_delete_epg_dialog_title">🗑️ Confirm EPG Deletion</string>
+    <string name="epg_sources_screen_delete_epg_dialog_description">Are you sure you want to remove this EPG? It’ll be gone for good! 😱</string>
+    <string name="epg_sources_screen_delete_epg_dialog_accept_button_text">Yes, Delete it!</string>
+    <string name="epg_sources_screen_delete_epg_dialog_cancel_button_text">No, Keep it!</string>
 
     <!-- Save Profile -->
     <string name="create_profile_main_title">🚀 Create Your NimbusTV Profile</string>

@@ -24,7 +24,7 @@ import com.dreamsoftware.nimbustv.domain.usecase.HasProfileSelectedUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.HasProfilesCountUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.CreatePlaylistUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.DeleteChannelByIdUseCase
-import com.dreamsoftware.nimbustv.domain.usecase.DeleteEpgDataUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.DeleteEpgUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.DeletePlaylistUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetChannelByIdUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetChannelsByPlaylistUseCase
@@ -260,12 +260,10 @@ class UseCasesModule {
     @Provides
     @ViewModelScoped
     fun provideDeleteEpgDataUseCase(
-        profileRepository: IProfilesRepository,
         epgRepository: IEpgRepository,
         epgSchedulerService: IEpgSchedulerService
-    ): DeleteEpgDataUseCase =
-        DeleteEpgDataUseCase(
-            profileRepository = profileRepository,
+    ): DeleteEpgUseCase =
+        DeleteEpgUseCase(
             epgRepository = epgRepository,
             epgSchedulerService = epgSchedulerService
         )
