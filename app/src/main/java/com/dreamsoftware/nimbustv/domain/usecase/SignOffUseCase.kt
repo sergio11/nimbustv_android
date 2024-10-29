@@ -5,8 +5,16 @@ import com.dreamsoftware.nimbustv.domain.repository.IProfilesRepository
 
 class SignOffUseCase(
     private val profilesRepository: IProfilesRepository,
+    private val cancelProfileRemindersUseCase: CancelProfileRemindersUseCase,
 ): FudgeTvUseCase<Unit>() {
     override suspend fun onExecuted() {
-        profilesRepository.clearProfileSelected()
+        with(profilesRepository) {
+            cancelProfileRemindersUseCase.onExecuted(
+                CancelProfileRemindersUseCase.Params(
+                    profileId = getProfileSelected().id
+                )
+            )
+            clearProfileSelected()
+        }
     }
 }
