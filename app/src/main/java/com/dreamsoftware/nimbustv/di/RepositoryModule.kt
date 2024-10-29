@@ -31,6 +31,7 @@ import com.dreamsoftware.nimbustv.data.repository.mapper.CreateRemindersMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.EpgDataInput
 import com.dreamsoftware.nimbustv.data.repository.mapper.EpgDataMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.EpgMapper
+import com.dreamsoftware.nimbustv.data.repository.mapper.EpgScheduleMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.PlaylistMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.ProfileMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.RemindersMapper
@@ -51,6 +52,7 @@ import com.dreamsoftware.nimbustv.domain.model.CreateProfileRequestBO
 import com.dreamsoftware.nimbustv.domain.model.CreateReminderBO
 import com.dreamsoftware.nimbustv.domain.model.EpgBO
 import com.dreamsoftware.nimbustv.domain.model.EpgChannelBO
+import com.dreamsoftware.nimbustv.domain.model.EpgScheduleBO
 import com.dreamsoftware.nimbustv.domain.model.PlayListBO
 import com.dreamsoftware.nimbustv.domain.model.ProfileBO
 import com.dreamsoftware.nimbustv.domain.model.ReminderBO
@@ -94,7 +96,13 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideEpgDataMapper(): IOneSideMapper<EpgDataInput, List<EpgChannelBO>> = EpgDataMapper()
+    fun provideEpgScheduleMapper(): IOneSideMapper<ChannelScheduleEntity, EpgScheduleBO> = EpgScheduleMapper()
+
+    @Provides
+    @Singleton
+    fun provideEpgDataMapper(
+        epgScheduleDataMapper: IOneSideMapper<ChannelScheduleEntity, EpgScheduleBO>
+    ): IOneSideMapper<EpgDataInput, List<EpgChannelBO>> = EpgDataMapper(epgScheduleDataMapper)
 
     @Provides
     @Singleton
@@ -214,6 +222,7 @@ class RepositoryModule {
         saveEpgProgrammeDataMapper: IOneSideMapper<CreateEpgScheduleBO, ChannelScheduleEntity>,
         epgDataMapper: IOneSideMapper<EpgEntity, EpgBO>,
         epgChannelsDataMapper: IOneSideMapper<EpgDataInput, List<EpgChannelBO>>,
+        epgScheduleDataMapper: IOneSideMapper<ChannelScheduleEntity, EpgScheduleBO>,
         @IoDispatcher dispatcher: CoroutineDispatcher
     ): IEpgRepository =
         EpgRepositoryImpl(
@@ -225,6 +234,7 @@ class RepositoryModule {
             saveEpgProgrammeDataMapper,
             epgDataMapper,
             epgChannelsDataMapper,
+            epgScheduleDataMapper,
             dispatcher
         )
 

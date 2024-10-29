@@ -7,6 +7,7 @@ import com.dreamsoftware.nimbustv.domain.repository.IEpgRepository
 import com.dreamsoftware.nimbustv.domain.repository.IPlaylistRepository
 import com.dreamsoftware.nimbustv.domain.repository.IPreferencesRepository
 import com.dreamsoftware.nimbustv.domain.repository.IProfilesRepository
+import com.dreamsoftware.nimbustv.domain.repository.IRemindersRepository
 import com.dreamsoftware.nimbustv.domain.service.IEpgParserService
 import com.dreamsoftware.nimbustv.domain.service.IEpgSchedulerService
 import com.dreamsoftware.nimbustv.domain.service.IPlaylistParserService
@@ -23,6 +24,7 @@ import com.dreamsoftware.nimbustv.domain.usecase.GetProfilesCountUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.HasProfileSelectedUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.HasProfilesCountUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.CreatePlaylistUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.CreateReminderUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.DeleteChannelByIdUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.DeleteEpgUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.DeletePlaylistUseCase
@@ -357,4 +359,16 @@ class UseCasesModule {
         preferencesRepository: IPreferencesRepository
     ): SaveUserPreferencesUseCase =
         SaveUserPreferencesUseCase(preferencesRepository = preferencesRepository)
+
+
+    @Provides
+    @ViewModelScoped
+    fun provideCreateReminderUseCase(
+        profileRepository: IProfilesRepository,
+        remindersRepository: IRemindersRepository
+    ): CreateReminderUseCase =
+        CreateReminderUseCase(
+            profileRepository = profileRepository,
+            remindersRepository = remindersRepository
+        )
 }
