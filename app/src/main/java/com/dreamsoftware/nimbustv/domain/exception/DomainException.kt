@@ -49,7 +49,9 @@ class UserProfilesLimitReachedException(val maxProfilesLimit: Int, message: Stri
 
 //Reminders
 class FetchRemindersByProfileException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
+class FetchReminderByIdException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class CreateReminderException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
+class DeleteReminderByIdException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 
 // Preferences
 class GetUserPreferencesException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
