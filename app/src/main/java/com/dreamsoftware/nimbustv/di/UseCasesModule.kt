@@ -11,6 +11,7 @@ import com.dreamsoftware.nimbustv.domain.repository.IRemindersRepository
 import com.dreamsoftware.nimbustv.domain.service.IEpgParserService
 import com.dreamsoftware.nimbustv.domain.service.IEpgSchedulerService
 import com.dreamsoftware.nimbustv.domain.service.IPlaylistParserService
+import com.dreamsoftware.nimbustv.domain.service.IReminderSchedulerService
 import com.dreamsoftware.nimbustv.domain.usecase.AddFavoriteChannelUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.ChangeSecurePinUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.CheckFavoriteChannelUseCase
@@ -365,10 +366,12 @@ class UseCasesModule {
     @ViewModelScoped
     fun provideCreateReminderUseCase(
         profileRepository: IProfilesRepository,
-        remindersRepository: IRemindersRepository
+        remindersRepository: IRemindersRepository,
+        reminderSchedulerService: IReminderSchedulerService
     ): CreateReminderUseCase =
         CreateReminderUseCase(
             profileRepository = profileRepository,
-            remindersRepository = remindersRepository
+            remindersRepository = remindersRepository,
+            reminderSchedulerService = reminderSchedulerService
         )
 }
