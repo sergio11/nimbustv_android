@@ -8,12 +8,18 @@ import com.dreamsoftware.nimbustv.domain.service.IEpgSchedulerService
 class DeleteProfileUseCase(
     private val epgRepository: IEpgRepository,
     private val profilesRepository: IProfilesRepository,
-    private val epgSchedulerService: IEpgSchedulerService
+    private val epgSchedulerService: IEpgSchedulerService,
+    private val cancelProfileRemindersUseCase: CancelProfileRemindersUseCase,
 ) : FudgeTvUseCaseWithParams<DeleteProfileUseCase.Params, Boolean>() {
 
     override suspend fun onExecuted(params: Params): Boolean = with(params) {
         epgRepository.findAllByProfileId(profileId)
             .forEach { epgSchedulerService.cancelSyncEpgWork(it.id) }
+        cancelProfileRemindersUseCase.onExecuted(
+            CancelProfileRemindersUseCase.Params(
+                profileId = profileId
+            )
+        )
         profilesRepository.deleteProfile(profileId)
     }
 
