@@ -5,10 +5,12 @@ import com.dreamsoftware.nimbustv.domain.exception.GetEpgChannelsDataException
 import com.dreamsoftware.nimbustv.domain.exception.GetEpgDataException
 import com.dreamsoftware.nimbustv.domain.exception.CreateEpgDataException
 import com.dreamsoftware.nimbustv.domain.exception.DeleteEpgException
+import com.dreamsoftware.nimbustv.domain.exception.GetScheduleDataException
 import com.dreamsoftware.nimbustv.domain.exception.UpdateEpgDataException
 import com.dreamsoftware.nimbustv.domain.model.CreateEpgBO
 import com.dreamsoftware.nimbustv.domain.model.EpgBO
 import com.dreamsoftware.nimbustv.domain.model.EpgChannelBO
+import com.dreamsoftware.nimbustv.domain.model.EpgScheduleBO
 import com.dreamsoftware.nimbustv.domain.model.UpdateEpgBO
 
 interface IEpgRepository {
@@ -36,4 +38,7 @@ interface IEpgRepository {
 
     @Throws(DeleteEpgDataException::class)
     suspend fun deleteAllByProfileId(profileId: String)
+
+    @Throws(GetScheduleDataException::class)
+    suspend fun findScheduleById(scheduleId: String): EpgScheduleBO
 }

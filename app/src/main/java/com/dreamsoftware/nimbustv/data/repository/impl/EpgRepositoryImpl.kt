@@ -14,12 +14,14 @@ import com.dreamsoftware.nimbustv.domain.exception.GetEpgChannelsDataException
 import com.dreamsoftware.nimbustv.domain.exception.GetEpgDataException
 import com.dreamsoftware.nimbustv.domain.exception.CreateEpgDataException
 import com.dreamsoftware.nimbustv.domain.exception.DeleteEpgException
+import com.dreamsoftware.nimbustv.domain.exception.GetScheduleDataException
 import com.dreamsoftware.nimbustv.domain.exception.UpdateEpgDataException
 import com.dreamsoftware.nimbustv.domain.model.CreateEpgBO
 import com.dreamsoftware.nimbustv.domain.model.CreateEpgChannelBO
 import com.dreamsoftware.nimbustv.domain.model.CreateEpgScheduleBO
 import com.dreamsoftware.nimbustv.domain.model.EpgBO
 import com.dreamsoftware.nimbustv.domain.model.EpgChannelBO
+import com.dreamsoftware.nimbustv.domain.model.EpgScheduleBO
 import com.dreamsoftware.nimbustv.domain.model.UpdateEpgBO
 import com.dreamsoftware.nimbustv.domain.repository.IEpgRepository
 import com.dreamsoftware.nimbustv.utils.IOneSideMapper
@@ -34,6 +36,7 @@ internal class EpgRepositoryImpl(
     private val saveEpgProgrammeDataMapper: IOneSideMapper<CreateEpgScheduleBO, ChannelScheduleEntity>,
     private val epgDataMapper: IOneSideMapper<EpgEntity, EpgBO>,
     private val epgChannelsDataMapper: IOneSideMapper<EpgDataInput, List<EpgChannelBO>>,
+    private val epgScheduleDataMapper: IOneSideMapper<ChannelScheduleEntity, EpgScheduleBO>,
     dispatcher: CoroutineDispatcher
 ) : SupportRepositoryImpl(dispatcher), IEpgRepository {
 
@@ -159,6 +162,20 @@ internal class EpgRepositoryImpl(
             ex.printStackTrace()
             throw DeleteEpgDataException(
                 "An error occurred when trying to delete EPG data",
+                ex
+            )
+        }
+    }
+
+    @Throws(GetScheduleDataException::class)
+    override suspend fun findScheduleById(scheduleId: String): EpgScheduleBO = safeExecute {
+        try {
+            programmeLocalDataSource.findById(scheduleId)
+                .let(epgScheduleDataMapper::mapInToOut)
+        } catch (ex: DatabaseException) {
+            ex.printStackTrace()
+            throw GetScheduleDataException(
+                "An error occurred when trying to get the schedule data",
                 ex
             )
         }

@@ -21,6 +21,7 @@ class GetEpgDataException(message: String? = null, cause: Throwable? = null): Do
 class GetEpgChannelsDataException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class DeleteEpgException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class DeleteEpgDataException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
+class GetScheduleDataException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 
 // Channels
 class SaveChannelsException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)

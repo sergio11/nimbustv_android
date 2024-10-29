@@ -4,13 +4,11 @@ import com.dreamsoftware.nimbustv.data.database.entity.ChannelEpgEntity
 import com.dreamsoftware.nimbustv.data.database.entity.ChannelScheduleEntity
 import com.dreamsoftware.nimbustv.domain.model.EpgChannelBO
 import com.dreamsoftware.nimbustv.domain.model.EpgScheduleBO
-import com.dreamsoftware.nimbustv.domain.model.ScheduleTypeEnum
-import com.dreamsoftware.nimbustv.domain.utils.calculateProgress
-import com.dreamsoftware.nimbustv.domain.utils.isLiveNow
 import com.dreamsoftware.nimbustv.utils.IOneSideMapper
-import java.time.LocalDateTime
 
-internal class EpgDataMapper : IOneSideMapper<EpgDataInput, List<EpgChannelBO>> {
+internal class EpgDataMapper(
+    private val epgScheduleDataMapper: IOneSideMapper<ChannelScheduleEntity, EpgScheduleBO>
+) : IOneSideMapper<EpgDataInput, List<EpgChannelBO>> {
 
     // Maps the input data to the output data
     override fun mapInToOut(input: EpgDataInput): List<EpgChannelBO> {
@@ -25,30 +23,7 @@ internal class EpgDataMapper : IOneSideMapper<EpgDataInput, List<EpgChannelBO>> 
 
         // Fill the map with programmes associated with each channel
         input.programmeList.forEach { programmeEntity ->
-            with(programmeEntity) {
-                val programmeType = when {
-                    isLiveNow(startTime, endTime) -> ScheduleTypeEnum.LIVE_NOW
-                    endTime.isBefore(LocalDateTime.now()) -> ScheduleTypeEnum.PAST
-                    startTime.isAfter(LocalDateTime.now()) -> ScheduleTypeEnum.FUTURE
-                    else -> ScheduleTypeEnum.UNKNOWN
-                }
-                val progress = when (programmeType) {
-                    ScheduleTypeEnum.LIVE_NOW -> calculateProgress(startTime, endTime)
-                    ScheduleTypeEnum.PAST -> 100
-                    else -> 0
-                }
-                val programme = EpgScheduleBO(
-                    id = id,
-                    channelId = channelId,
-                    title = title,
-                    startTime = startTime,
-                    endTime = endTime,
-                    type = programmeType,
-                    progress = progress,
-                    description = description
-                )
-                channelMap[channelId]?.second?.add(programme)
-            }
+            channelMap[programmeEntity.channelId]?.second?.add(epgScheduleDataMapper.mapInToOut(programmeEntity))
         }
 
         // Transform the map into a list of EpgDataBO

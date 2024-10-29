@@ -9,7 +9,6 @@ internal class RemindersMapper: IOneSideMapper<ReminderEntity, ReminderBO> {
     override fun mapInToOut(input: ReminderEntity): ReminderBO = with(input) {
         ReminderBO(
             id = id,
-            executionAtMillis = executionAtMillis,
             scheduleId = scheduleId
         )
     }
