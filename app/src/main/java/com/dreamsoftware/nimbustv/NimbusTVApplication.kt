@@ -6,6 +6,7 @@ import androidx.work.Configuration
 import com.dreamsoftware.fudge.utils.IFudgeAppEvent
 import com.dreamsoftware.fudge.utils.IFudgeTvApplicationAware
 import dagger.hilt.android.HiltAndroidApp
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -27,5 +28,12 @@ sealed interface AppEvent : IFudgeAppEvent {
     data class NetworkConnectivityStateChanged(val lastState: Boolean, val newState: Boolean) :
         AppEvent
     data object UserPreferencesUpdated: AppEvent
+    data class ScheduleReminderFired(
+        val scheduleId: String,
+        val title: String,
+        val description: String?,
+        val startTime: LocalDateTime,
+        val endTime: LocalDateTime,
+    ): AppEvent
 }
 
