@@ -65,10 +65,12 @@ class UseCasesModule {
     @Provides
     @ViewModelScoped
     fun provideDeleteProfileUseCase(
+        epgRepository: IEpgRepository,
         profilesRepository: IProfilesRepository,
         epgSchedulerService: IEpgSchedulerService
     ): DeleteProfileUseCase =
         DeleteProfileUseCase(
+            epgRepository = epgRepository,
             profilesRepository = profilesRepository,
             epgSchedulerService = epgSchedulerService
         )
