@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
@@ -63,13 +64,14 @@ internal fun EpgScreenContent(
             )
             FudgeTvScreenContent(onErrorAccepted = ::onErrorMessageCleared) {
                 when {
-                    isLoading -> {
+                    isLoadingEpgList && epgDataIsEmpty -> {
                         FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
                     }
 
                     epgDataIsEmpty -> {
                         NoEpgDataFound(onImportClicked = ::onImportNewEpgData)
                     }
+
                     else -> {
                         scheduleSelected?.let {
                             ScheduleDetailsPopup(
@@ -108,6 +110,7 @@ private fun EpgMainContent(
                         .fillMaxWidth(0.2f)
                         .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f))
                         .border(1.dp, MaterialTheme.colorScheme.primary),
+                    isLoading = isLoadingEpgList,
                     epgList = epgList,
                     epgSelected = epgSelected,
                     onEpgSelected = ::onNewEpgSelected,
@@ -119,19 +122,27 @@ private fun EpgMainContent(
                         .padding(16.dp)
                 ) {
                     EpgHeader()
-                    if (epgViewMode == EpgViewModeEnum.NOW_AND_SCHEDULE) {
-                        EpgNowAndSchedule(
-                            liveSchedules = liveSchedules,
-                            channelSchedules = currentChannelSchedules,
-                            channelSelectedId = channelSelectedId,
-                            onOpenEpgChannel = ::onOpenEpgChannel,
-                            onOpenScheduleDetail = ::onOpenScheduleDetail
-                        )
-                    } else {
-                        EpgChannelOverview(
-                            data = channelOverviewList,
-                            onOpenScheduleDetail = ::onOpenScheduleDetail
-                        )
+                    when {
+                        isLoadingEpgData -> {
+                            FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
+                        }
+
+                        epgViewMode == EpgViewModeEnum.NOW_AND_SCHEDULE -> {
+                            EpgNowAndSchedule(
+                                liveSchedules = liveSchedules,
+                                channelSchedules = currentChannelSchedules,
+                                channelSelectedId = channelSelectedId,
+                                onOpenEpgChannel = ::onOpenEpgChannel,
+                                onOpenScheduleDetail = ::onOpenScheduleDetail
+                            )
+                        }
+
+                        else -> {
+                            EpgChannelOverview(
+                                data = channelOverviewList,
+                                onOpenScheduleDetail = ::onOpenScheduleDetail
+                            )
+                        }
                     }
                 }
             }
@@ -161,6 +172,7 @@ private fun EpgHeader() {
 @Composable
 private fun EpgListColumn(
     modifier: Modifier,
+    isLoading: Boolean,
     epgList: List<EpgBO>,
     epgSelected: EpgBO? = null,
     onManageEpgListClicked: () -> Unit,
@@ -191,23 +203,29 @@ private fun EpgListColumn(
                 onClick = onManageEpgListClicked
             )
             Spacer(modifier = Modifier.height(10.dp))
-            LazyColumn(
-                modifier = Modifier.weight(1f, true),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                contentPadding = PaddingValues(8.dp)
-            ) {
-                items(epgList.size) { idx ->
-                    val epg = epgList[idx]
-                    val isSelected = epg == epgSelected
-                    CommonSelectableItem(
-                        modifier = Modifier.conditional(condition = isSelected, ifTrue = {
-                            focusRequester(requester)
-                        }),
-                        isSelected = isSelected,
-                        titleText = epg.alias,
-                        subtitleText = "Channels ( ${epg.channelsCount} )",
-                        onItemSelected = { onEpgSelected(epg) }
-                    )
+            if (isLoading) {
+                FudgeTvLoadingState(modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White))
+            } else {
+                LazyColumn(
+                    modifier = Modifier.weight(1f, true),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    contentPadding = PaddingValues(8.dp)
+                ) {
+                    items(epgList.size) { idx ->
+                        val epg = epgList[idx]
+                        val isSelected = epg == epgSelected
+                        CommonSelectableItem(
+                            modifier = Modifier.conditional(condition = isSelected, ifTrue = {
+                                focusRequester(requester)
+                            }),
+                            isSelected = isSelected,
+                            titleText = epg.alias,
+                            subtitleText = "Channels ( ${epg.channelsCount} )",
+                            onItemSelected = { onEpgSelected(epg) }
+                        )
+                    }
                 }
             }
         }
