@@ -1,13 +1,16 @@
 package com.dreamsoftware.nimbustv.di
 
+import ReminderSchedulerWorkManagerImpl
 import android.content.Context
 import androidx.work.WorkManager
 import com.dreamsoftware.nimbustv.domain.model.M3uEntryBO
+import com.dreamsoftware.nimbustv.domain.repository.IEpgRepository
 import com.dreamsoftware.nimbustv.domain.service.IEpgParserService
 import com.dreamsoftware.nimbustv.domain.service.IEpgSchedulerService
 import com.dreamsoftware.nimbustv.domain.service.IPlaylistParserService
+import com.dreamsoftware.nimbustv.domain.service.IReminderSchedulerService
 import com.dreamsoftware.nimbustv.framework.epg.parser.EpgParserServiceImpl
-import com.dreamsoftware.nimbustv.framework.epg.scheduler.WorkManagerEpgSchedulerImpl
+import com.dreamsoftware.nimbustv.framework.epg.scheduler.EpgSchedulerWorkManagerImpl
 import com.dreamsoftware.nimbustv.framework.m3u.M3UServiceImpl
 import com.dreamsoftware.nimbustv.framework.m3u.M3uParser
 import com.dreamsoftware.nimbustv.framework.m3u.model.M3uEntry
@@ -63,5 +66,12 @@ class FrameworkModule {
     @Singleton
     fun provideEpgSchedulerService(
         workManager: WorkManager
-    ): IEpgSchedulerService = WorkManagerEpgSchedulerImpl(workManager)
+    ): IEpgSchedulerService = EpgSchedulerWorkManagerImpl(workManager)
+
+    @Provides
+    @Singleton
+    fun provideReminderSchedulerService(
+        epgRepository: IEpgRepository,
+        workManager: WorkManager
+    ): IReminderSchedulerService = ReminderSchedulerWorkManagerImpl(workManager, epgRepository)
 }
