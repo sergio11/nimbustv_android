@@ -13,7 +13,7 @@ import com.dreamsoftware.nimbustv.domain.service.IPlaylistParserService
 import com.dreamsoftware.nimbustv.domain.usecase.AddFavoriteChannelUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.ChangeSecurePinUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.CheckFavoriteChannelUseCase
-import com.dreamsoftware.nimbustv.domain.usecase.SaveEpgUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.CreateEpgUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.CreateProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.DeleteProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfileByIdUseCase
@@ -229,8 +229,8 @@ class UseCasesModule {
         epgParserService: IEpgParserService,
         epgRepository: IEpgRepository,
         epgSchedulerService: IEpgSchedulerService
-    ): SaveEpgUseCase =
-        SaveEpgUseCase(
+    ): CreateEpgUseCase =
+        CreateEpgUseCase(
             profileRepository = profileRepository,
             epgParserService = epgParserService,
             epgRepository = epgRepository,

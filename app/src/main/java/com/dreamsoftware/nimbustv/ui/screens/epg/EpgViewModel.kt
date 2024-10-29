@@ -12,7 +12,7 @@ import com.dreamsoftware.nimbustv.domain.model.UserPreferenceBO
 import com.dreamsoftware.nimbustv.domain.usecase.GetEpgDataByIdUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetEpgListUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetUserPreferencesUseCase
-import com.dreamsoftware.nimbustv.domain.usecase.SaveEpgUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.CreateEpgUseCase
 import com.dreamsoftware.nimbustv.ui.screens.epg.extension.filterSchedulesByChannel
 import com.dreamsoftware.nimbustv.ui.screens.epg.extension.mapToChannelOverviewList
 import com.dreamsoftware.nimbustv.ui.screens.epg.extension.mapToLiveScheduleList
@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EpgViewModel @Inject constructor(
-    private val saveEpgUseCase: SaveEpgUseCase,
+    private val createEpgUseCase: CreateEpgUseCase,
     private val getEpgDataByIdUseCase: GetEpgDataByIdUseCase,
     private val getEpgListUseCase: GetEpgListUseCase,
     private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
@@ -57,9 +57,9 @@ class EpgViewModel @Inject constructor(
         updateState { it.copy(isImporting = true) }
         doOnUiState {
             executeUseCaseWithParams(
-                useCase = saveEpgUseCase,
+                useCase = createEpgUseCase,
                 showLoadingState = false,
-                params = SaveEpgUseCase.Params(
+                params = CreateEpgUseCase.Params(
                     alias = newEpgAlias,
                     url = newEpgDataUrl
                 ),

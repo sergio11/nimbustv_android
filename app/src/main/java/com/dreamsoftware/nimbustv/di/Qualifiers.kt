@@ -48,6 +48,10 @@ annotation class PlaylistDetailScreenErrorMapper
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
+annotation class EpgSourcesScreenErrorMapper
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
 annotation class SignInScreenErrorMapper
 
 @Qualifier
