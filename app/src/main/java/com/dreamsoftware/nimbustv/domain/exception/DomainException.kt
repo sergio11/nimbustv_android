@@ -19,6 +19,7 @@ class CreateEpgDataException(message: String? = null, cause: Throwable? = null):
 class UpdateEpgDataException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class GetEpgDataException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class GetEpgChannelsDataException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
+class DeleteEpgException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 class DeleteEpgDataException(message: String? = null, cause: Throwable? = null): DomainRepositoryException(message, cause)
 
 // Channels

@@ -13,6 +13,7 @@ import com.dreamsoftware.nimbustv.domain.exception.DeleteEpgDataException
 import com.dreamsoftware.nimbustv.domain.exception.GetEpgChannelsDataException
 import com.dreamsoftware.nimbustv.domain.exception.GetEpgDataException
 import com.dreamsoftware.nimbustv.domain.exception.CreateEpgDataException
+import com.dreamsoftware.nimbustv.domain.exception.DeleteEpgException
 import com.dreamsoftware.nimbustv.domain.exception.UpdateEpgDataException
 import com.dreamsoftware.nimbustv.domain.model.CreateEpgBO
 import com.dreamsoftware.nimbustv.domain.model.CreateEpgChannelBO
@@ -40,8 +41,13 @@ internal class EpgRepositoryImpl(
     override suspend fun create(data: CreateEpgBO): EpgBO = safeExecute {
         try {
             val epgSaved = epgLocalDataSource.insert(saveEpgDataMapper.mapInToOut(data)).also {
-                channelLocalDataSource.insert(saveEpgChannelDataMapper.mapInListToOutList(data.channelList).toList())
-                programmeLocalDataSource.insert(saveEpgProgrammeDataMapper.mapInListToOutList(data.channelList.flatMap { it.programmeList }).toList())
+                channelLocalDataSource.insert(
+                    saveEpgChannelDataMapper.mapInListToOutList(data.channelList).toList()
+                )
+                programmeLocalDataSource.insert(
+                    saveEpgProgrammeDataMapper.mapInListToOutList(data.channelList.flatMap { it.programmeList })
+                        .toList()
+                )
             }
             epgDataMapper.mapInToOut(epgSaved)
         } catch (ex: DatabaseException) {
@@ -58,8 +64,13 @@ internal class EpgRepositoryImpl(
         try {
             val epg = epgLocalDataSource.findById(data.id)
             channelLocalDataSource.deleteAllByEpgId(epg.id)
-            channelLocalDataSource.insert(saveEpgChannelDataMapper.mapInListToOutList(data.channelList).toList())
-            programmeLocalDataSource.insert(saveEpgProgrammeDataMapper.mapInListToOutList(data.channelList.flatMap { it.programmeList }).toList())
+            channelLocalDataSource.insert(
+                saveEpgChannelDataMapper.mapInListToOutList(data.channelList).toList()
+            )
+            programmeLocalDataSource.insert(
+                saveEpgProgrammeDataMapper.mapInListToOutList(data.channelList.flatMap { it.programmeList })
+                    .toList()
+            )
             epgDataMapper.mapInToOut(epg)
         } catch (ex: DatabaseException) {
             ex.printStackTrace()
@@ -109,6 +120,19 @@ internal class EpgRepositoryImpl(
             ex.printStackTrace()
             throw GetEpgChannelsDataException(
                 "An error occurred when trying to get EPG channels data",
+                ex
+            )
+        }
+    }
+
+    @Throws(DeleteEpgException::class)
+    override suspend fun deleteById(epgId: String): Unit = safeExecute {
+        try {
+            epgLocalDataSource.delete(epgId)
+        } catch (ex: DatabaseException) {
+            ex.printStackTrace()
+            throw DeleteEpgException(
+                "An error occurred when trying to delete the EPG",
                 ex
             )
         }
