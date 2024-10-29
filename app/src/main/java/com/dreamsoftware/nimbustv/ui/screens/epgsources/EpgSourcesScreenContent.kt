@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.dreamsoftware.fudge.component.FudgeTvButton
 import com.dreamsoftware.fudge.component.FudgeTvButtonStyleTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvButtonTypeEnum
+import com.dreamsoftware.fudge.component.FudgeTvDialog
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
 import com.dreamsoftware.fudge.component.FudgeTvLoadingState
 import com.dreamsoftware.fudge.component.FudgeTvScreenContent
@@ -46,6 +47,16 @@ internal fun EpgSourcesScreenContent(
                 onEpgAliasUpdated = ::onNewEpgAliasUpdated,
                 onAcceptClicked = ::onImportNewEpgConfirmed,
                 onCancelClicked = ::onImportNewEpgCancelled
+            )
+            FudgeTvDialog(
+                isVisible = showDeleteEpgDialog,
+                mainLogoRes = R.drawable.main_logo,
+                titleRes = R.string.epg_sources_screen_delete_epg_dialog_title,
+                descriptionRes = R.string.epg_sources_screen_delete_epg_dialog_description,
+                successRes = R.string.epg_sources_screen_delete_epg_dialog_accept_button_text,
+                cancelRes = R.string.epg_sources_screen_delete_epg_dialog_cancel_button_text,
+                onAcceptClicked = ::onDeleteEpgConfirmed,
+                onCancelClicked = ::onDeleteEpgCancelled
             )
             FudgeTvScreenContent(onErrorAccepted = ::onErrorMessageCleared) {
                 when {
@@ -79,7 +90,10 @@ private fun EpgSourcesMainContent(
             .padding(16.dp)
     ) {
         EpgSourcesHeader(actionListener = actionListener)
-        EpgSourcesGridContent(data = data)
+        EpgSourcesGridContent(
+            data = data,
+            onItemClicked = actionListener::onDeleteEpgClicked
+        )
     }
 }
 
@@ -112,7 +126,8 @@ private fun EpgSourcesHeader(actionListener: EpgSourcesScreenActionListener) {
 
 @Composable
 private fun EpgSourcesGridContent(
-    data: List<EpgBO>
+    data: List<EpgBO>,
+    onItemClicked: (EpgBO) -> Unit
 ) {
     FudgeTvFocusRequester { focusRequester ->
         CommonLazyVerticalGrid(
@@ -126,7 +141,7 @@ private fun EpgSourcesGridContent(
                 }),
                 titleText = item.alias,
                 subtitleText = "Channels ( ${item.channelsCount} )",
-                onItemSelected = {}
+                onItemSelected = { onItemClicked(item) }
             )
         }
     }

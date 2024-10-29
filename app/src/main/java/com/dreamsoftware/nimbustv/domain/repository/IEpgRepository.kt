@@ -4,6 +4,7 @@ import com.dreamsoftware.nimbustv.domain.exception.DeleteEpgDataException
 import com.dreamsoftware.nimbustv.domain.exception.GetEpgChannelsDataException
 import com.dreamsoftware.nimbustv.domain.exception.GetEpgDataException
 import com.dreamsoftware.nimbustv.domain.exception.CreateEpgDataException
+import com.dreamsoftware.nimbustv.domain.exception.DeleteEpgException
 import com.dreamsoftware.nimbustv.domain.exception.UpdateEpgDataException
 import com.dreamsoftware.nimbustv.domain.model.CreateEpgBO
 import com.dreamsoftware.nimbustv.domain.model.EpgBO
@@ -26,6 +27,9 @@ interface IEpgRepository {
 
     @Throws(GetEpgChannelsDataException::class)
     suspend fun findAllChannelsByEpgId(epgId: String): List<EpgChannelBO>
+
+    @Throws(DeleteEpgException::class)
+    suspend fun deleteById(epgId: String)
 
     @Throws(DeleteEpgDataException::class)
     suspend fun deleteAllByEpgId(epgId: String)
