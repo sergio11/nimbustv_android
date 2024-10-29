@@ -10,6 +10,7 @@ import com.dreamsoftware.nimbustv.data.database.dao.FavoriteChannelDao
 import com.dreamsoftware.nimbustv.data.database.dao.PlayListDao
 import com.dreamsoftware.nimbustv.data.database.dao.ProfileDao
 import com.dreamsoftware.nimbustv.data.database.dao.ProgrammeDao
+import com.dreamsoftware.nimbustv.data.database.dao.ReminderDao
 import com.dreamsoftware.nimbustv.data.database.datasource.IChannelEpgLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IChannelLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IEpgLocalDataSource
@@ -17,6 +18,7 @@ import com.dreamsoftware.nimbustv.data.database.datasource.IFavoriteChannelLocal
 import com.dreamsoftware.nimbustv.data.database.datasource.IPlayListLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IProfileLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IChannelScheduleEpgLocalDataSource
+import com.dreamsoftware.nimbustv.data.database.datasource.IReminderLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.impl.ChannelEpgLocalDataSourceImpl
 import com.dreamsoftware.nimbustv.data.database.datasource.impl.ChannelLocalDataSourceImpl
 import com.dreamsoftware.nimbustv.data.database.datasource.impl.EpgLocalDataSourceImpl
@@ -24,6 +26,7 @@ import com.dreamsoftware.nimbustv.data.database.datasource.impl.FavoriteChannelL
 import com.dreamsoftware.nimbustv.data.database.datasource.impl.PlaylistLocalDataSourceImpl
 import com.dreamsoftware.nimbustv.data.database.datasource.impl.ProfileLocalDataSourceImpl
 import com.dreamsoftware.nimbustv.data.database.datasource.impl.ChannelScheduleEpgLocalDataSourceImpl
+import com.dreamsoftware.nimbustv.data.database.datasource.impl.ReminderLocalDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -74,6 +77,10 @@ object DatabaseModule {
 
     @Singleton
     @Provides
+    fun provideReminderDao(db: NimbusTvDatabase) = db.reminderDao()
+
+    @Singleton
+    @Provides
     fun provideChannelsDataSource(
         channelDao: ChannelDao,
         @IoDispatcher dispatcher: CoroutineDispatcher
@@ -120,4 +127,11 @@ object DatabaseModule {
         epgDao: EpgDao,
         @IoDispatcher dispatcher: CoroutineDispatcher
     ): IEpgLocalDataSource = EpgLocalDataSourceImpl(epgDao, dispatcher)
+
+    @Singleton
+    @Provides
+    fun provideReminderLocalDataSource(
+        reminderDao: ReminderDao,
+        @IoDispatcher dispatcher: CoroutineDispatcher
+    ): IReminderLocalDataSource = ReminderLocalDataSourceImpl(reminderDao, dispatcher)
 }

@@ -11,6 +11,7 @@ import com.dreamsoftware.nimbustv.data.database.dao.FavoriteChannelDao
 import com.dreamsoftware.nimbustv.data.database.dao.PlayListDao
 import com.dreamsoftware.nimbustv.data.database.dao.ProfileDao
 import com.dreamsoftware.nimbustv.data.database.dao.ProgrammeDao
+import com.dreamsoftware.nimbustv.data.database.dao.ReminderDao
 import com.dreamsoftware.nimbustv.data.database.entity.ChannelEntity
 import com.dreamsoftware.nimbustv.data.database.entity.ChannelEpgEntity
 import com.dreamsoftware.nimbustv.data.database.entity.EpgEntity
@@ -18,6 +19,7 @@ import com.dreamsoftware.nimbustv.data.database.entity.FavoriteChannelEntity
 import com.dreamsoftware.nimbustv.data.database.entity.PlayListEntity
 import com.dreamsoftware.nimbustv.data.database.entity.ProfileEntity
 import com.dreamsoftware.nimbustv.data.database.entity.ChannelScheduleEntity
+import com.dreamsoftware.nimbustv.data.database.entity.ReminderEntity
 
 @Database(
     entities = [
@@ -27,7 +29,8 @@ import com.dreamsoftware.nimbustv.data.database.entity.ChannelScheduleEntity
         EpgEntity::class,
         ChannelEpgEntity::class,
         ChannelScheduleEntity::class,
-        FavoriteChannelEntity::class
+        FavoriteChannelEntity::class,
+        ReminderEntity::class
     ],
     version = 1
 )
@@ -40,4 +43,5 @@ abstract class NimbusTvDatabase : RoomDatabase() {
     abstract fun programmeDao(): ProgrammeDao
     abstract fun playListM3UDao(): PlayListDao
     abstract fun favoriteChannelDao(): FavoriteChannelDao
+    abstract fun reminderDao(): ReminderDao
 }
