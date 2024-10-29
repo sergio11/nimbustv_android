@@ -7,12 +7,14 @@ import com.dreamsoftware.nimbustv.data.database.datasource.IFavoriteChannelLocal
 import com.dreamsoftware.nimbustv.data.database.datasource.IPlayListLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IProfileLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IChannelScheduleEpgLocalDataSource
+import com.dreamsoftware.nimbustv.data.database.datasource.IReminderLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.entity.ChannelEntity
 import com.dreamsoftware.nimbustv.data.database.entity.ChannelEpgEntity
 import com.dreamsoftware.nimbustv.data.database.entity.EpgEntity
 import com.dreamsoftware.nimbustv.data.database.entity.PlayListEntity
 import com.dreamsoftware.nimbustv.data.database.entity.ProfileEntity
 import com.dreamsoftware.nimbustv.data.database.entity.ChannelScheduleEntity
+import com.dreamsoftware.nimbustv.data.database.entity.ReminderEntity
 import com.dreamsoftware.nimbustv.data.preferences.datasource.IProfileSessionDataSource
 import com.dreamsoftware.nimbustv.data.preferences.datasource.IUserPreferencesDataSource
 import com.dreamsoftware.nimbustv.data.preferences.dto.UserPreferencesDTO
@@ -21,14 +23,17 @@ import com.dreamsoftware.nimbustv.data.repository.impl.EpgRepositoryImpl
 import com.dreamsoftware.nimbustv.data.repository.impl.PlaylistRepositoryImpl
 import com.dreamsoftware.nimbustv.data.repository.impl.PreferencesRepositoryImpl
 import com.dreamsoftware.nimbustv.data.repository.impl.ProfilesRepositoryImpl
+import com.dreamsoftware.nimbustv.data.repository.impl.RemindersRepositoryImpl
 import com.dreamsoftware.nimbustv.data.repository.mapper.ChannelsMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.CreatePlaylistMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.CreateProfileMapper
+import com.dreamsoftware.nimbustv.data.repository.mapper.CreateRemindersMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.EpgDataInput
 import com.dreamsoftware.nimbustv.data.repository.mapper.EpgDataMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.EpgMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.PlaylistMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.ProfileMapper
+import com.dreamsoftware.nimbustv.data.repository.mapper.RemindersMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.SaveChannelsMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.SaveEpgChannelDataMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.SaveEpgMapper
@@ -43,10 +48,12 @@ import com.dreamsoftware.nimbustv.domain.model.CreateEpgChannelBO
 import com.dreamsoftware.nimbustv.domain.model.CreateEpgScheduleBO
 import com.dreamsoftware.nimbustv.domain.model.CreatePlayListBO
 import com.dreamsoftware.nimbustv.domain.model.CreateProfileRequestBO
+import com.dreamsoftware.nimbustv.domain.model.CreateReminderBO
 import com.dreamsoftware.nimbustv.domain.model.EpgBO
 import com.dreamsoftware.nimbustv.domain.model.EpgChannelBO
 import com.dreamsoftware.nimbustv.domain.model.PlayListBO
 import com.dreamsoftware.nimbustv.domain.model.ProfileBO
+import com.dreamsoftware.nimbustv.domain.model.ReminderBO
 import com.dreamsoftware.nimbustv.domain.model.SaveChannelBO
 import com.dreamsoftware.nimbustv.domain.model.UpdatedProfileRequestBO
 import com.dreamsoftware.nimbustv.domain.model.UserPreferenceBO
@@ -55,6 +62,7 @@ import com.dreamsoftware.nimbustv.domain.repository.IEpgRepository
 import com.dreamsoftware.nimbustv.domain.repository.IPlaylistRepository
 import com.dreamsoftware.nimbustv.domain.repository.IPreferencesRepository
 import com.dreamsoftware.nimbustv.domain.repository.IProfilesRepository
+import com.dreamsoftware.nimbustv.domain.repository.IRemindersRepository
 import com.dreamsoftware.nimbustv.utils.IMapper
 import com.dreamsoftware.nimbustv.utils.IOneSideMapper
 import dagger.Module
@@ -126,6 +134,16 @@ class RepositoryModule {
     @Singleton
     fun provideChannelsMapper(): IOneSideMapper<ChannelEntity, ChannelBO> =
         ChannelsMapper()
+
+    @Provides
+    @Singleton
+    fun provideRemindersMapper(): IOneSideMapper<ReminderEntity, ReminderBO> =
+        RemindersMapper()
+
+    @Provides
+    @Singleton
+    fun provideCreateRemindersMapper(): IOneSideMapper<CreateReminderBO, ReminderEntity> =
+        CreateRemindersMapper()
 
     @Provides
     @Singleton
@@ -220,6 +238,21 @@ class RepositoryModule {
         PreferencesRepositoryImpl(
             userPreferencesDataSource,
             userPreferencesMapper,
+            dispatcher
+        )
+
+    @Provides
+    @Singleton
+    fun provideRemindersRepository(
+        reminderLocalDataSource: IReminderLocalDataSource,
+        remindersMapper: IOneSideMapper<ReminderEntity, ReminderBO>,
+        createReminderMapper: IOneSideMapper<CreateReminderBO, ReminderEntity>,
+        @IoDispatcher dispatcher: CoroutineDispatcher
+    ): IRemindersRepository =
+        RemindersRepositoryImpl(
+            reminderLocalDataSource,
+            remindersMapper,
+            createReminderMapper,
             dispatcher
         )
 }
