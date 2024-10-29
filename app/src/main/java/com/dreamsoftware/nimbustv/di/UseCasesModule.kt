@@ -13,6 +13,7 @@ import com.dreamsoftware.nimbustv.domain.service.IEpgSchedulerService
 import com.dreamsoftware.nimbustv.domain.service.IPlaylistParserService
 import com.dreamsoftware.nimbustv.domain.service.IReminderSchedulerService
 import com.dreamsoftware.nimbustv.domain.usecase.AddFavoriteChannelUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.CancelProfileRemindersUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.ChangeSecurePinUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.CheckFavoriteChannelUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.CreateEpgUseCase
@@ -38,6 +39,7 @@ import com.dreamsoftware.nimbustv.domain.usecase.GetPlaylistsByProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetUserPreferencesUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.RemoveChannelFromFavoritesUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SaveUserPreferencesUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.ScheduleProfileRemindersUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SearchChannelsUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SelectProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SignOffUseCase
@@ -70,12 +72,14 @@ class UseCasesModule {
     fun provideDeleteProfileUseCase(
         epgRepository: IEpgRepository,
         profilesRepository: IProfilesRepository,
-        epgSchedulerService: IEpgSchedulerService
+        epgSchedulerService: IEpgSchedulerService,
+        cancelProfileRemindersUseCase: CancelProfileRemindersUseCase,
     ): DeleteProfileUseCase =
         DeleteProfileUseCase(
             epgRepository = epgRepository,
             profilesRepository = profilesRepository,
-            epgSchedulerService = epgSchedulerService
+            epgSchedulerService = epgSchedulerService,
+            cancelProfileRemindersUseCase = cancelProfileRemindersUseCase
         )
 
 
@@ -118,10 +122,14 @@ class UseCasesModule {
     @Provides
     @ViewModelScoped
     fun provideSelectProfileUseCase(
-        profilesRepository: IProfilesRepository
+        profilesRepository: IProfilesRepository,
+        cancelProfileRemindersUseCase: CancelProfileRemindersUseCase,
+        scheduleProfileRemindersUseCase: ScheduleProfileRemindersUseCase
     ): SelectProfileUseCase =
         SelectProfileUseCase(
-            profilesRepository = profilesRepository
+            profilesRepository = profilesRepository,
+            cancelProfileRemindersUseCase = cancelProfileRemindersUseCase,
+            scheduleProfileRemindersUseCase = scheduleProfileRemindersUseCase
         )
 
     @Provides
@@ -167,10 +175,12 @@ class UseCasesModule {
     @Provides
     @ViewModelScoped
     fun provideSignOffUseCase(
-        profilesRepository: IProfilesRepository
+        profilesRepository: IProfilesRepository,
+        cancelProfileRemindersUseCase: CancelProfileRemindersUseCase,
     ): SignOffUseCase =
         SignOffUseCase(
-            profilesRepository = profilesRepository
+            profilesRepository = profilesRepository,
+            cancelProfileRemindersUseCase = cancelProfileRemindersUseCase
         )
 
     @Provides
@@ -372,6 +382,28 @@ class UseCasesModule {
         CreateReminderUseCase(
             profileRepository = profileRepository,
             remindersRepository = remindersRepository,
+            reminderSchedulerService = reminderSchedulerService
+        )
+
+    @Provides
+    @ViewModelScoped
+    fun provideCancelProfileRemindersUseCase(
+        reminderRepository: IRemindersRepository,
+        reminderSchedulerService: IReminderSchedulerService
+    ): CancelProfileRemindersUseCase =
+        CancelProfileRemindersUseCase(
+            reminderRepository = reminderRepository,
+            reminderSchedulerService = reminderSchedulerService
+        )
+
+    @Provides
+    @ViewModelScoped
+    fun provideScheduleProfileRemindersUseCase(
+        reminderRepository: IRemindersRepository,
+        reminderSchedulerService: IReminderSchedulerService
+    ): ScheduleProfileRemindersUseCase =
+        ScheduleProfileRemindersUseCase(
+            reminderRepository = reminderRepository,
             reminderSchedulerService = reminderSchedulerService
         )
 }
