@@ -4,6 +4,7 @@ import com.dreamsoftware.nimbustv.domain.model.ScheduleTypeEnum
 import java.time.LocalDateTime
 
 data class ScheduleVO(
+    val id: String,
     val channelId: String,
     val channelLogoUrl: String?,
     val channelName: String,

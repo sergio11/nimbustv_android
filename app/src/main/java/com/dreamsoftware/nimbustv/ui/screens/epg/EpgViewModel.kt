@@ -13,6 +13,9 @@ import com.dreamsoftware.nimbustv.domain.usecase.GetEpgDataByIdUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetEpgListUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetUserPreferencesUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.CreateEpgUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.CreateReminderUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.RemoveReminderByScheduleUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.VerifyScheduleHasReminderUseCase
 import com.dreamsoftware.nimbustv.ui.screens.epg.extension.filterSchedulesByChannel
 import com.dreamsoftware.nimbustv.ui.screens.epg.extension.mapToChannelOverviewList
 import com.dreamsoftware.nimbustv.ui.screens.epg.extension.mapToLiveScheduleList
@@ -28,6 +31,9 @@ class EpgViewModel @Inject constructor(
     private val getEpgDataByIdUseCase: GetEpgDataByIdUseCase,
     private val getEpgListUseCase: GetEpgListUseCase,
     private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
+    private val createReminderUseCase: CreateReminderUseCase,
+    private val verifyScheduleHasReminderUseCase: VerifyScheduleHasReminderUseCase,
+    private val removeReminderByScheduleUseCase: RemoveReminderByScheduleUseCase,
     @EpgScreenErrorMapper private val errorMapper: IFudgeTvErrorMapper,
 ) : FudgeTvViewModel<EpgUiState, EpgSideEffects>(), EpgScreenActionListener {
 
@@ -91,10 +97,48 @@ class EpgViewModel @Inject constructor(
 
     override fun onOpenScheduleDetail(schedule: ScheduleVO) {
         updateState { it.copy(scheduleSelected = schedule) }
+        executeUseCaseWithParams(
+            useCase = verifyScheduleHasReminderUseCase,
+            showLoadingState = false,
+            params = VerifyScheduleHasReminderUseCase.Params(
+                scheduleId = schedule.id
+            ),
+            onSuccess = ::onVerifyScheduleReminderCompleted
+        )
     }
 
     override fun onCloseScheduleDetail() {
         updateState { it.copy(scheduleSelected = null) }
+    }
+
+    override fun onSetReminder() {
+        doOnUiState {
+            scheduleSelected?.let { schedule ->
+                executeUseCaseWithParams(
+                    useCase = createReminderUseCase,
+                    showLoadingState = false,
+                    params = CreateReminderUseCase.Params(
+                        scheduleId = schedule.id
+                    ),
+                    onSuccess = { onSetScheduleReminderCompleted() }
+                )
+            }
+        }
+    }
+
+    override fun onRemoveReminder() {
+        doOnUiState {
+            scheduleSelected?.id?.let { scheduleId ->
+                executeUseCaseWithParams(
+                    useCase = removeReminderByScheduleUseCase,
+                    showLoadingState = false,
+                    params = RemoveReminderByScheduleUseCase.Params(
+                        scheduleId = scheduleId
+                    ),
+                    onSuccess = { onRemoveScheduleReminderCompleted() }
+                )
+            }
+        }
     }
 
     private fun onMapExceptionToState(ex: Exception, uiState: EpgUiState) =
@@ -162,6 +206,18 @@ class EpgViewModel @Inject constructor(
         )
     }
 
+    private fun onRemoveScheduleReminderCompleted() {
+        updateState { it.copy(scheduleSelectedHasReminderSet = false) }
+    }
+
+    private fun onSetScheduleReminderCompleted() {
+        updateState { it.copy(scheduleSelectedHasReminderSet = true) }
+    }
+
+    private fun onVerifyScheduleReminderCompleted(hasReminder: Boolean) {
+        updateState { it.copy(scheduleSelectedHasReminderSet = hasReminder) }
+    }
+
     private fun resetState(data: List<EpgChannelBO>) {
         epgSelectedData = data
         val channelId = data.firstOrNull()?.channelId.orEmpty()
@@ -201,6 +257,7 @@ data class EpgUiState(
     val liveSchedules: List<ScheduleVO> = emptyList(),
     val currentChannelSchedules: List<ScheduleVO> = emptyList(),
     val scheduleSelected: ScheduleVO? = null,
+    val scheduleSelectedHasReminderSet: Boolean = false
 ) : UiState<EpgUiState>(isLoading, errorMessage) {
 
     val epgDataIsEmpty: Boolean

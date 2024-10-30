@@ -16,4 +16,6 @@ interface EpgScreenActionListener: IFudgeTvScreenActionListener {
     fun onOpenEpgChannel(channelId: String)
     fun onOpenScheduleDetail(schedule: ScheduleVO)
     fun onCloseScheduleDetail()
+    fun onSetReminder()
+    fun onRemoveReminder()
 }
