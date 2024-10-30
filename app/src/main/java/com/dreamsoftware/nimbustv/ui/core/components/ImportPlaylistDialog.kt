@@ -49,9 +49,10 @@ fun ImportPlaylistDialog(
                     textColor = primary,
                     textAlign = TextAlign.Center
                 )
+                Spacer(modifier = Modifier.height(5.dp))
                 CircularProgressIndicator(
                     modifier = Modifier
-                        .size(60.dp)
+                        .size(55.dp)
                         .padding(8.dp),
                     color = primary
                 )
