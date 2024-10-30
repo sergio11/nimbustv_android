@@ -74,6 +74,7 @@ internal class EpgRepositoryImpl(
                 saveEpgProgrammeDataMapper.mapInListToOutList(data.channelList.flatMap { it.programmeList })
                     .toList()
             )
+            epgLocalDataSource.updateLastUpdatedAt(epg.id)
             epgDataMapper.mapInToOut(epg)
         } catch (ex: DatabaseException) {
             ex.printStackTrace()

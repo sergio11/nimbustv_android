@@ -11,4 +11,7 @@ interface IEpgLocalDataSource: ISupportLocalDataSource<EpgEntity, String> {
 
     @Throws(AccessDatabaseException::class)
     suspend fun deleteAllByProfileId(profileId: String)
+
+    @Throws(AccessDatabaseException::class)
+    suspend fun updateLastUpdatedAt(epgId: String)
 }

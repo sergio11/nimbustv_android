@@ -22,4 +22,9 @@ internal class EpgLocalDataSourceImpl(
     override suspend fun deleteAllByProfileId(profileId: String): Unit = safeExecute {
         epgDao.deleteAllByProfileId(profileId)
     }
+
+    @Throws(AccessDatabaseException::class)
+    override suspend fun updateLastUpdatedAt(epgId: String) = safeExecute {
+        epgDao.updateLastUpdatedAt(epgId)
+    }
 }

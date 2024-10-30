@@ -83,6 +83,7 @@
     <string name="playlist_detail_screen_detail_popup_remove_from_playlist_button_text">Remove from playlist</string>
     <!-- EPG -->
     <string name="epg_screen_title">📺 Your Ultimate TV Guide 🌟</string>
+    <string name="epg_screen_last_updated_at" formatted="false">📅 Last Updated: %s</string>
     <string name="epg_screen_channel_not_data_available">🚫 No information available for this channel 🙁</string>
     <string name="epg_screen_import_new_button_text">Import New EPG</string>
     <string name="epg_screen_no_epg_data_found_text">🔍 No EPG data found! It looks like there’s nothing here yet, \n but don’t worry—tap below to import your EPG guide and get things rolling! 📅</string>
