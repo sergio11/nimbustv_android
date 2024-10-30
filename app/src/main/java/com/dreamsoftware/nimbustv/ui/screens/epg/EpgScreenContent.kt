@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import com.dreamsoftware.fudge.component.FudgeTvButton
@@ -44,6 +45,7 @@ import com.dreamsoftware.nimbustv.ui.screens.epg.components.NoEpgDataFound
 import com.dreamsoftware.nimbustv.ui.screens.epg.model.ScheduleVO
 import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
 import com.dreamsoftware.nimbustv.ui.theme.onPrimary
+import com.dreamsoftware.nimbustv.ui.utils.toDateFormatted
 
 @Composable
 internal fun EpgScreenContent(
@@ -121,7 +123,7 @@ private fun EpgMainContent(
                         .fillMaxSize()
                         .padding(16.dp)
                 ) {
-                    EpgHeader()
+                    EpgHeader(epgSelected = epgSelected)
                     when {
                         isLoadingEpgData -> {
                             FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
@@ -154,7 +156,9 @@ private fun EpgMainContent(
  * Composable for the header of the EPG screen.
  */
 @Composable
-private fun EpgHeader() {
+private fun EpgHeader(
+    epgSelected: EpgBO?
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -166,6 +170,19 @@ private fun EpgHeader() {
             titleRes = R.string.epg_screen_title,
             textColor = onPrimary
         )
+        epgSelected?.lastUpdatedDate?.let {
+            FudgeTvText(
+                modifier = Modifier
+                    .padding(vertical = 16.dp)
+                    .padding(end = 8.dp),
+                type = FudgeTvTextTypeEnum.TITLE_MEDIUM,
+                titleText = stringResource(
+                    id = R.string.epg_screen_last_updated_at,
+                    it.toDateFormatted()
+                ),
+                textColor = onPrimary
+            )
+        }
     }
 }
 
@@ -204,9 +221,11 @@ private fun EpgListColumn(
             )
             Spacer(modifier = Modifier.height(10.dp))
             if (isLoading) {
-                FudgeTvLoadingState(modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.White))
+                FudgeTvLoadingState(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.White)
+                )
             } else {
                 LazyColumn(
                     modifier = Modifier.weight(1f, true),
