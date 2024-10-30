@@ -13,4 +13,7 @@ abstract class EpgDao: SupportDaoImpl<EpgEntity, String>(EpgEntity::class) {
 
     @Query(value = "DELETE FROM epg WHERE profile_id = :profileId")
     abstract suspend fun deleteAllByProfileId(profileId: String)
+
+    @Query("UPDATE epg SET last_updated_at = CURRENT_TIMESTAMP WHERE id = :epgId")
+    abstract suspend fun updateLastUpdatedAt(epgId: String)
 }
