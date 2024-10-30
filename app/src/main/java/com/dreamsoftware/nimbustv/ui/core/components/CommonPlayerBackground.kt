@@ -1,6 +1,7 @@
 package com.dreamsoftware.nimbustv.ui.core.components
 
 import androidx.annotation.RawRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -21,6 +22,8 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.compose.runtime.State
 import androidx.media3.common.util.UnstableApi
+import androidx.tv.material3.MaterialTheme
+import com.dreamsoftware.fudge.component.FudgeTvLoadingState
 import com.dreamsoftware.fudge.utils.handleDPadKeyEvents
 import com.dreamsoftware.nimbustv.ui.core.player.PlayerFactory
 import com.dreamsoftware.nimbustv.ui.core.player.SupportPlayer
@@ -90,7 +93,9 @@ fun CommonPlayerBackground(
             )
         }
     } else {
-
+        FudgeTvLoadingState(modifier = Modifier
+            .background(MaterialTheme.colorScheme.background)
+            .fillMaxSize())
     }
 }
 
