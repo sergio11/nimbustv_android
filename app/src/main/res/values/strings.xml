@@ -30,6 +30,10 @@
     <string name="invalid_secure_pin_message">Invalid secure pin format.</string>
     <string name="invalid_alias_message">You must provide an alias.</string>
 
+    <!-- Reminder -->
+    <string name="reminder_dialog_title_text">🚀 Get Ready to Watch!</string>
+    <string name="reminder_dialog_description_text" formatted="false">Heads up! The show "%1$s" begins at %2$s and finishes at %3$s. Grab your snacks! 🍿</string>
+    <string name="reminder_dialog_accept_button_text">I’m on it! 🎬</string>
     <!-- Onboarding -->
     <string name="onboarding_main_title_text">Welcome to NimbusTV!</string>
     <string name="onboarding_secondary_title_text">Your Streaming Journey Begins Here</string>

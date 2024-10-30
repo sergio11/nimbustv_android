@@ -25,6 +25,8 @@ fun AvatarTypeEnum.toDrawableResource(): Int =
 fun Date.toDateFormatted(): String = toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
     .format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
 
+fun LocalDateTime.toTimeFormatted(): String = format(DateTimeFormatter.ofPattern("HH:mm"))
+
 fun EpgScheduleBO.toScheduleFormatted() =
     "${startTime.format(DateTimeFormatter.ofPattern("HH:mm"))} - " +
             endTime.format(DateTimeFormatter.ofPattern("HH:mm"))
