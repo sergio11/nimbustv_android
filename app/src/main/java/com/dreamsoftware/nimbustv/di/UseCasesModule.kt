@@ -38,6 +38,7 @@ import com.dreamsoftware.nimbustv.domain.usecase.GetFavoriteChannelsByProfileUse
 import com.dreamsoftware.nimbustv.domain.usecase.GetPlaylistsByProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetUserPreferencesUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.RemoveChannelFromFavoritesUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.RemoveReminderByScheduleUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SaveUserPreferencesUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.ScheduleProfileRemindersUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SearchChannelsUseCase
@@ -45,6 +46,7 @@ import com.dreamsoftware.nimbustv.domain.usecase.SelectProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SignOffUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.UpdateProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.VerifyPinUseCase
+import com.dreamsoftware.nimbustv.domain.usecase.VerifyScheduleHasReminderUseCase
 import com.dreamsoftware.nimbustv.domain.validation.IBusinessEntityValidator
 import dagger.Module
 import dagger.Provides
@@ -404,6 +406,26 @@ class UseCasesModule {
     ): ScheduleProfileRemindersUseCase =
         ScheduleProfileRemindersUseCase(
             reminderRepository = reminderRepository,
+            reminderSchedulerService = reminderSchedulerService
+        )
+
+    @Provides
+    @ViewModelScoped
+    fun provideVerifyScheduleHasReminderUseCase(
+        remindersRepository: IRemindersRepository
+    ): VerifyScheduleHasReminderUseCase =
+        VerifyScheduleHasReminderUseCase(
+            remindersRepository = remindersRepository
+        )
+
+    @Provides
+    @ViewModelScoped
+    fun provideRemoveReminderByScheduleUseCase(
+        remindersRepository: IRemindersRepository,
+        reminderSchedulerService: IReminderSchedulerService
+    ): RemoveReminderByScheduleUseCase =
+        RemoveReminderByScheduleUseCase(
+            remindersRepository = remindersRepository,
             reminderSchedulerService = reminderSchedulerService
         )
 }

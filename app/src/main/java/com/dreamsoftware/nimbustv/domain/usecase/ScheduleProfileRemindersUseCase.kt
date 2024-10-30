@@ -10,8 +10,8 @@ class ScheduleProfileRemindersUseCase(
 ) : FudgeTvUseCaseWithParams<ScheduleProfileRemindersUseCase.Params, Unit>() {
 
     override suspend fun onExecuted(params: Params) = with(params) {
-        reminderRepository.findAllByProfileId(profileId).forEach {
-            reminderSchedulerService.scheduleReminder(it.id)
+        reminderRepository.findAllByProfileId(profileId).forEach { reminder ->
+            reminderSchedulerService.scheduleReminder(reminder)
         }
     }
 

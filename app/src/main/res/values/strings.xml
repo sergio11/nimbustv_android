@@ -96,7 +96,10 @@
     <string name="epg_screen_import_new_epg_data_dialog_cancel_button_text">Cancel</string>
     <string name="epg_screen_import_new_epg_dialog_in_progress_text">Importing your EPG… 🎬</string>
     <string name="epg_screen_manage_epg_list_button_text">Manage EPG List</string>
-
+    <string name="epg_screen_item_channels_count_text" formatted="false">Channels ( %s )</string>
+    <string name="epg_screen_epg_schedule_popup_open_player_button_text">Watch Now</string>
+    <string name="epg_screen_epg_schedule_popup_set_reminder_button_text">Set Your Reminder!</string>
+    <string name="epg_screen_epg_schedule_popup_remove_reminder_button_text">Cancel Reminder</string>
     <!-- Epg Sources -->
     <string name="epg_sources_screen_title">🔍 All Your EPG Sources in One Place</string>
     <string name="epg_sources_screen_import_new_epg_button_text">✨ Import a New EPG!</string>

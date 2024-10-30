@@ -78,6 +78,9 @@ internal fun EpgScreenContent(
                         scheduleSelected?.let {
                             ScheduleDetailsPopup(
                                 schedule = it,
+                                hasReminder = scheduleSelectedHasReminderSet,
+                                onRemoveReminder = actionListener::onRemoveReminder,
+                                onSetReminder = actionListener::onSetReminder,
                                 onBackPressed = actionListener::onCloseScheduleDetail
                             )
                         }
@@ -241,7 +244,7 @@ private fun EpgListColumn(
                             }),
                             isSelected = isSelected,
                             titleText = epg.alias,
-                            subtitleText = "Channels ( ${epg.channelsCount} )",
+                            subtitleText = stringResource(id = R.string.epg_screen_item_channels_count_text, epg.channelsCount),
                             onItemSelected = { onEpgSelected(epg) }
                         )
                     }
@@ -255,6 +258,9 @@ private fun EpgListColumn(
 @Composable
 private fun ScheduleDetailsPopup(
     schedule: ScheduleVO,
+    hasReminder: Boolean,
+    onSetReminder: () -> Unit,
+    onRemoveReminder: () -> Unit,
     onBackPressed: () -> Unit
 ) {
     with(schedule) {
@@ -265,16 +271,40 @@ private fun ScheduleDetailsPopup(
             onBackPressed = onBackPressed
         ) { focusRequester ->
             Spacer(modifier = Modifier.weight(1f))
-            FudgeTvButton(
-                modifier = Modifier
-                    .focusRequester(focusRequester)
-                    .fillMaxWidth()
-                    .padding(bottom = 12.dp),
-                type = FudgeTvButtonTypeEnum.MEDIUM,
-                style = FudgeTvButtonStyleTypeEnum.NORMAL,
-                textRes = R.string.favorites_screen_channel_detail_popup_open_player_button_text,
-                onClick = { }
-            )
+            if(schedule.isLiveNow()) {
+                FudgeTvButton(
+                    modifier = Modifier
+                        .focusRequester(focusRequester)
+                        .fillMaxWidth()
+                        .padding(bottom = 12.dp),
+                    type = FudgeTvButtonTypeEnum.MEDIUM,
+                    style = FudgeTvButtonStyleTypeEnum.NORMAL,
+                    textRes = R.string.epg_screen_epg_schedule_popup_open_player_button_text,
+                    onClick = { }
+                )
+            }
+            if(schedule.isFuture()) {
+                FudgeTvButton(
+                    modifier = Modifier
+                        .focusRequester(focusRequester)
+                        .fillMaxWidth()
+                        .padding(bottom = 12.dp),
+                    type = FudgeTvButtonTypeEnum.MEDIUM,
+                    style = FudgeTvButtonStyleTypeEnum.NORMAL,
+                    textRes = if(hasReminder) {
+                        R.string.epg_screen_epg_schedule_popup_remove_reminder_button_text
+                    } else {
+                        R.string.epg_screen_epg_schedule_popup_set_reminder_button_text
+                    },
+                    onClick = {
+                        if(hasReminder) {
+                            onRemoveReminder()
+                        } else {
+                            onSetReminder()
+                        }
+                    }
+                )
+            }
         }
     }
 }

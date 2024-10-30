@@ -7,7 +7,9 @@ import com.dreamsoftware.nimbustv.data.repository.impl.core.SupportRepositoryImp
 import com.dreamsoftware.nimbustv.domain.exception.CreateReminderException
 import com.dreamsoftware.nimbustv.domain.exception.DeleteReminderByIdException
 import com.dreamsoftware.nimbustv.domain.exception.FetchReminderByIdException
+import com.dreamsoftware.nimbustv.domain.exception.FetchReminderByScheduleIdException
 import com.dreamsoftware.nimbustv.domain.exception.FetchRemindersByProfileException
+import com.dreamsoftware.nimbustv.domain.exception.VerifyReminderByIdException
 import com.dreamsoftware.nimbustv.domain.model.CreateReminderBO
 import com.dreamsoftware.nimbustv.domain.model.ReminderBO
 import com.dreamsoftware.nimbustv.domain.repository.IRemindersRepository
@@ -29,6 +31,17 @@ internal class RemindersRepositoryImpl(
                 .let(remindersMapper::mapInToOut)
         } catch (ex: DatabaseException) {
             throw FetchReminderByIdException("An error occurred when fetching reminder by id", ex)
+        }
+    }
+
+    @Throws(FetchReminderByScheduleIdException::class)
+    override suspend fun findByScheduleId(scheduleId: String): ReminderBO = safeExecute {
+        try {
+            reminderLocalDataSource
+                .findByScheduleId(scheduleId)
+                .let(remindersMapper::mapInToOut)
+        } catch (ex: DatabaseException) {
+            throw FetchReminderByScheduleIdException("An error occurred when fetching reminder by schedule id", ex)
         }
     }
 
@@ -61,6 +74,15 @@ internal class RemindersRepositoryImpl(
             reminderLocalDataSource.delete(id)
         } catch (ex: DatabaseException) {
             throw DeleteReminderByIdException("An error occurred when trying to delete reminders", ex)
+        }
+    }
+
+    @Throws(VerifyReminderByIdException::class)
+    override suspend fun hasReminder(scheduleId: String): Boolean = safeExecute {
+        try {
+            reminderLocalDataSource.hasReminder(scheduleId)
+        } catch (ex: DatabaseException) {
+            throw VerifyReminderByIdException("An error occurred when trying to verify if schedule has a reminder set", ex)
         }
     }
 }
