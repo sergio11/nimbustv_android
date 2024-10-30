@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.dreamsoftware.fudge.component.FudgeTvButton
 import com.dreamsoftware.fudge.component.FudgeTvButtonStyleTypeEnum
@@ -140,7 +141,7 @@ private fun EpgSourcesGridContent(
                     focusRequester(focusRequester)
                 }),
                 titleText = item.alias,
-                subtitleText = "Channels ( ${item.channelsCount} )",
+                subtitleText = stringResource(id = R.string.epg_screen_item_channels_count_text, item.channelsCount),
                 onItemSelected = { onItemClicked(item) }
             )
         }

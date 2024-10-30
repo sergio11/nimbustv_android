@@ -16,4 +16,14 @@ internal class ReminderLocalDataSourceImpl(
     override suspend fun findAllByProfileId(profileId: String): List<ReminderEntity> = safeExecute {
         reminderDao.findAllByProfileId(profileId)
     }
+
+    @Throws(AccessDatabaseException::class)
+    override suspend fun findByScheduleId(scheduleId: String): ReminderEntity = safeExecute {
+        reminderDao.findByScheduleId(scheduleId)
+    }
+
+    @Throws(AccessDatabaseException::class)
+    override suspend fun hasReminder(scheduleId: String): Boolean = safeExecute {
+        reminderDao.countByScheduleId(scheduleId) > 0
+    }
 }

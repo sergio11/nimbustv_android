@@ -10,4 +10,10 @@ abstract class ReminderDao: SupportDaoImpl<ReminderEntity, String>(ReminderEntit
 
     @Query(value = "SELECT * FROM reminders WHERE profile_id = :profileId")
     abstract suspend fun findAllByProfileId(profileId: String): List<ReminderEntity>
+
+    @Query(value = "SELECT * FROM reminders WHERE schedule_id = :scheduleId")
+    abstract suspend fun findByScheduleId(scheduleId: String): ReminderEntity
+
+    @Query("SELECT COUNT(*) FROM reminders WHERE schedule_id = :scheduleId")
+    abstract suspend fun countByScheduleId(scheduleId: String): Long
 }

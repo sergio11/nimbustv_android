@@ -11,8 +11,10 @@ import java.time.format.DateTimeFormatter
 
 internal fun List<EpgChannelBO>.mapToLiveScheduleList(): List<ScheduleVO> =
     map {
-        val liveSchedule = it.schedules.find { programme -> programme.type == ScheduleTypeEnum.LIVE_NOW}
+        val liveSchedule =
+            it.schedules.find { programme -> programme.type == ScheduleTypeEnum.LIVE_NOW }
         ScheduleVO(
+            id = liveSchedule?.id.orEmpty(),
             channelId = it.channelId,
             channelLogoUrl = null,
             channelName = it.displayName,
@@ -39,6 +41,8 @@ internal fun List<EpgChannelBO>.mapToChannelOverviewList(): List<ChannelOverview
 internal fun List<EpgScheduleBO>.mapToScheduleList(channelName: String): List<ScheduleVO> =
     map {
         ScheduleVO(
+            id = it.id
+            ,
             channelId = it.channelId,
             channelLogoUrl = null,
             channelName = channelName,
@@ -59,5 +63,5 @@ internal fun ScheduleVO.toScheduleFormatted(): String =
 
 internal fun List<EpgChannelBO>.filterSchedulesByChannel(channelId: String): List<ScheduleVO> =
     filter { channel -> channel.channelId == channelId }
-    .flatMap { channel -> channel.schedules.mapToScheduleList(channel.displayName) }
-    .sortedBy(ScheduleVO::startTime)
+        .flatMap { channel -> channel.schedules.mapToScheduleList(channel.displayName) }
+        .sortedBy(ScheduleVO::startTime)

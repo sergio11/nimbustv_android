@@ -8,4 +8,10 @@ interface IReminderLocalDataSource: ISupportLocalDataSource<ReminderEntity, Stri
 
     @Throws(AccessDatabaseException::class)
     suspend fun findAllByProfileId(profileId: String): List<ReminderEntity>
+
+    @Throws(AccessDatabaseException::class)
+    suspend fun findByScheduleId(scheduleId: String): ReminderEntity
+
+    @Throws(AccessDatabaseException::class)
+    suspend fun hasReminder(scheduleId: String): Boolean
 }

@@ -23,8 +23,8 @@ class CreateReminderUseCase(
                 scheduleId = scheduleId,
                 profileId = profileSelected.id
             )
-        ).also {
-            reminderSchedulerService.scheduleReminder(reminderId)
+        ).also { reminder ->
+            reminderSchedulerService.scheduleReminder(reminder)
         }
     }
 
