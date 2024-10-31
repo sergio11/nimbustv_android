@@ -184,12 +184,31 @@ Welcome to the **Home** screen of **NimbusTV**, your central hub for exploring a
   <img src="doc/screenshots/picture_4.png" />
 </p>
 
-
 - **Playlist Management** 🎛️: From the main screen, access the **Manage Playlist** button to open the playlist management view, where you can:
   - **Add New Playlists** ➕: Add new M3U playlists to expand your channel lineup.
   - **Delete Playlists** 🗑️: Remove playlists that are no longer needed.
   - **Update Playlists** 🔄: Refresh playlists to keep content up-to-date.
   - **Explore Channels and Favorites** 📋: View each playlist's channels, mark favorites, or play them instantly.
+ 
+<p align="center">
+  <img src="doc/screenshots/picture_8.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_10.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_11.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_12.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_13.png" />
+</p>
 
 With NimbusTV’s **Home** screen, you’re in control of all your playlists and favorite channels, providing a fully personalized TV experience. 🎉
 
