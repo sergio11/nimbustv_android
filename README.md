@@ -128,6 +128,38 @@ MVI manages state and interactions, ensuring a predictable unidirectional data f
 
 This architecture ensures that NimbusTV is well-structured, easy to maintain, and scalable, adhering to best practices and design principles. 🌈✨
 
+## App Screenshots 📸
+
+Discover **NimbusTV** and its intuitive design with these screenshots, giving you a glimpse into the app’s key features!
+
+### Onboarding and Getting Started 🎬
+
+Begin your experience on **NimbusTV** by creating a profile. This first step is all about setting up a unique space for your favorite EPGs and playlists. No need for online accounts or login—everything is managed locally for a standalone experience. Start organizing your content right away!
+
+<p align="center">
+  <img src="doc/screenshots/picture_1.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_2.png" />
+</p>
+
+### Managing Your Profiles 👤
+
+Step into the **Profiles** section, where you can customize **NimbusTV** to suit your viewing preferences. Here’s what makes the Profiles section so versatile:
+
+- **Profile Selection**: Choose between different profiles in the **Profile Selection** screen. Each profile allows for custom EPGs and playlists, ensuring a unique setup for each viewer.
+
+- **Creating Profiles**: Add up to four profiles, perfect for household members who want their own playlists and EPGs. Customize each with a unique name and avatar, making NimbusTV adaptable and fun for everyone!
+
+- **Editing Profiles**: Update profile details, including name, avatar, and security PIN, all while keeping your data secure and your experience personalized.
+
+- **Deleting Profiles**: When a profile is no longer needed, delete it to keep **NimbusTV** clean and focused on what matters most.
+
+The **Profiles** section makes NimbusTV adaptable to every user’s viewing needs, ensuring a personalized experience on a single device.
+
+
+
 ## Contribution
 Contributions to NimbusTV Android are highly encouraged! If you're interested in adding new features, resolving bugs, or enhancing the project's functionality, please feel free to submit pull requests.
 
