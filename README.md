@@ -234,8 +234,31 @@ The **Channel Search** feature in **NimbusTV** is your go-to tool for quickly fi
   <img src="doc/screenshots/picture_16.png" />
 </p>
 
+<p align="center">
+  <img src="doc/screenshots/picture_14.png" />
+</p>
+
 The **Channel Search** screen streamlines navigation and lets you customize your experience by finding and favoriting channels across your playlists.
 
+### Favorites Section ⭐
+
+The **Favorites** section in **NimbusTV** is designed for quick access to the channels you love most. Here’s what makes it a perfect tool for streamlining your viewing experience:
+
+- **Easy Access to Favorites** 📜: Your favorite channels are all listed in one place, making it effortless to start watching right away.
+
+- **Instant Playback** ▶️: Simply select a channel from the list to begin playback, no need to navigate through different playlists.
+
+- **Manage Favorites** 🗑️: Want to declutter? Easily remove channels from your favorites list with a single action, keeping only the content you truly enjoy.
+
+The **Favorites** section keeps your top channels just a click away, making it your personalized hub for entertainment on NimbusTV!
+
+<p align="center">
+  <img src="doc/screenshots/picture_19.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_20.png" />
+</p>
 
 ## Contribution
 Contributions to NimbusTV Android are highly encouraged! If you're interested in adding new features, resolving bugs, or enhancing the project's functionality, please feel free to submit pull requests.
