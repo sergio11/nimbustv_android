@@ -212,6 +212,29 @@ Welcome to the **Home** screen of **NimbusTV**, your central hub for exploring a
 
 With NimbusTV’s **Home** screen, you’re in control of all your playlists and favorite channels, providing a fully personalized TV experience. 🎉
 
+### Channel Search Screen 🔎📺
+
+The **Channel Search** feature in **NimbusTV** is your go-to tool for quickly finding channels across all imported playlists! Accessible from the **Side Menu** (if enabled in **Preferences**), this screen allows you to:
+
+- **Quickly Search Channels** 🔍: Type a keyword to search through all registered channels, making it easy to find exactly what you’re looking for in seconds.
+
+- **Intuitive On-Screen Keyboard** ⌨️: Use the keyboard on the left side of the screen to input search terms, with the results instantly updating as you type.
+
+- **Results Display** 📜: Found channels are shown in a convenient list on the right side of the screen. Browse through and explore results based on your search term.
+
+- **Channel Actions** 💬: Selecting a channel in the search results opens a dialog with two options:
+  - **Play Now** ▶️: Instantly tune in to the channel.
+  - **Add to Favorites** ⭐: Save the channel for quick access from your favorites list.
+
+<p align="center">
+  <img src="doc/screenshots/picture_15.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_16.png" />
+</p>
+
+The **Channel Search** screen streamlines navigation and lets you customize your experience by finding and favoriting channels across your playlists.
 
 
 ## Contribution
