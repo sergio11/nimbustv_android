@@ -158,6 +158,41 @@ Step into the **Profiles** section, where you can customize **NimbusTV** to suit
 
 The **Profiles** section makes NimbusTV adaptable to every user’s viewing needs, ensuring a personalized experience on a single device.
 
+### Home Screen 🏠📺
+
+Welcome to the **Home** screen of **NimbusTV**, your central hub for exploring and enjoying your playlists and channels:
+
+<p align="center">
+  <img src="doc/screenshots/picture_9.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_6.png" />
+</p>
+
+- **Channel Preview** 🔍: Hover over any channel to get a quick preview of what's currently playing—ideal for browsing without fully tuning in.
+
+- **Favorites** ⭐: Mark your favorite channels to keep them easily accessible for quick viewing.
+
+- **Smooth Playlist Switching** 🔄: Effortlessly switch between playlists to explore channels organized by theme or preference, perfect if you like variety.
+
+<p align="center">
+  <img src="doc/screenshots/picture_5.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_4.png" />
+</p>
+
+
+- **Playlist Management** 🎛️: From the main screen, access the **Manage Playlist** button to open the playlist management view, where you can:
+  - **Add New Playlists** ➕: Add new M3U playlists to expand your channel lineup.
+  - **Delete Playlists** 🗑️: Remove playlists that are no longer needed.
+  - **Update Playlists** 🔄: Refresh playlists to keep content up-to-date.
+  - **Explore Channels and Favorites** 📋: View each playlist's channels, mark favorites, or play them instantly.
+
+With NimbusTV’s **Home** screen, you’re in control of all your playlists and favorite channels, providing a fully personalized TV experience. 🎉
+
 
 
 ## Contribution
