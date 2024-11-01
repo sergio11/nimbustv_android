@@ -2,11 +2,13 @@ package com.dreamsoftware.nimbustv.ui.screens.settings
 
 import androidx.annotation.StringRes
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
+import com.dreamsoftware.fudge.core.IFudgeTvErrorMapper
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
 import com.dreamsoftware.fudge.utils.FudgeTvEventBus
 import com.dreamsoftware.nimbustv.AppEvent
 import com.dreamsoftware.nimbustv.R
+import com.dreamsoftware.nimbustv.di.SettingsScreenErrorMapper
 import com.dreamsoftware.nimbustv.domain.model.EpgViewModeEnum
 import com.dreamsoftware.nimbustv.domain.model.UserPreferenceBO
 import com.dreamsoftware.nimbustv.domain.usecase.GetUserPreferencesUseCase
@@ -21,14 +23,16 @@ class SettingsViewModel @Inject constructor(
     private val signOffUseCase: SignOffUseCase,
     private val appEventBus: FudgeTvEventBus,
     private val getUserPreferencesUseCase: GetUserPreferencesUseCase,
-    private val saveUserPreferencesUseCase: SaveUserPreferencesUseCase
+    private val saveUserPreferencesUseCase: SaveUserPreferencesUseCase,
+    @SettingsScreenErrorMapper private val errorMapper: IFudgeTvErrorMapper,
 ) : FudgeTvViewModel<SettingsUiState, SettingsSideEffects>(), SettingsScreenActionListener {
 
     fun fetchData() {
         executeUseCase(
             useCase = getUserPreferencesUseCase,
             showLoadingState = false,
-            onSuccess = ::onFetchUserPreferencesCompleted
+            onSuccess = ::onFetchUserPreferencesCompleted,
+            onMapExceptionToState = ::onMapExceptionToState
         )
     }
 
@@ -111,7 +115,8 @@ class SettingsViewModel @Inject constructor(
                         } == SettingsEnableSearchEnum.SEARCH_ENABLED,
                         epgViewMode = settings.find { it.type == SettingTypeEnum.EPG_VIEW_MODE }?.value.orEmpty(),
                     ),
-                    onSuccess = { onUserPreferencesUpdated() }
+                    onSuccess = { onUserPreferencesUpdated() },
+                    onMapExceptionToState = ::onMapExceptionToState
                 )
             }
     }
@@ -164,6 +169,12 @@ class SettingsViewModel @Inject constructor(
             type = SettingActionTypeEnum.SIGN_OFF
         )
     )
+
+    private fun onMapExceptionToState(ex: Exception, uiState: SettingsUiState) =
+        uiState.copy(
+            isLoading = false,
+            errorMessage = errorMapper.mapToMessage(ex)
+        )
 }
 
 data class SettingsUiState(

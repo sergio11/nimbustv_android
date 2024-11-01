@@ -1,8 +1,10 @@
 package com.dreamsoftware.nimbustv.ui.screens.home
 
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
+import com.dreamsoftware.fudge.core.IFudgeTvErrorMapper
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
+import com.dreamsoftware.nimbustv.di.HomeScreenErrorMapper
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.domain.model.PlayListBO
 import com.dreamsoftware.nimbustv.domain.model.StreamTypeEnum
@@ -23,7 +25,8 @@ class HomeViewModel @Inject constructor(
     private val getChannelsByPlaylistUseCase: GetChannelsByPlaylistUseCase,
     private val addFavoriteChannelUseCase: AddFavoriteChannelUseCase,
     private val removeChannelFromFavoritesUseCase: RemoveChannelFromFavoritesUseCase,
-    private val checkFavoriteChannelUseCase: CheckFavoriteChannelUseCase
+    private val checkFavoriteChannelUseCase: CheckFavoriteChannelUseCase,
+    @HomeScreenErrorMapper private val errorMapper: IFudgeTvErrorMapper
 ) : FudgeTvViewModel<HomeUiState, HomeSideEffects>(), HomeScreenActionListener {
 
     override fun onGetDefaultState(): HomeUiState = HomeUiState()
@@ -54,7 +57,8 @@ class HomeViewModel @Inject constructor(
                     alias = newPlayListAlias,
                     url = newPlayListUrl
                 ),
-                onSuccess = { onImportPlayListCompleted() }
+                onSuccess = { onImportPlayListCompleted() },
+                onMapExceptionToState = ::onMapExceptionToState
             )
         }
     }
@@ -86,7 +90,8 @@ class HomeViewModel @Inject constructor(
                 channelId = value.id
             ),
             showLoadingState = false,
-            onSuccess = ::onCheckFavoriteChannelCompleted
+            onSuccess = ::onCheckFavoriteChannelCompleted,
+            onMapExceptionToState = ::onMapExceptionToState
         )
     }
 
@@ -114,7 +119,8 @@ class HomeViewModel @Inject constructor(
                         channelId = channelId
                     ),
                     showLoadingState = false,
-                    onSuccess = { onAddFavoriteChannelCompleted() }
+                    onSuccess = { onAddFavoriteChannelCompleted() },
+                    onMapExceptionToState = ::onMapExceptionToState
                 )
             }
         }
@@ -129,7 +135,8 @@ class HomeViewModel @Inject constructor(
                         channelId = channelId
                     ),
                     showLoadingState = false,
-                    onSuccess = { onRemoveChannelFromFavoritesCompleted() }
+                    onSuccess = { onRemoveChannelFromFavoritesCompleted() },
+                    onMapExceptionToState = ::onMapExceptionToState
                 )
             }
         }
@@ -151,7 +158,8 @@ class HomeViewModel @Inject constructor(
         executeUseCase(
             useCase = getPlaylistsByProfileUseCase,
             showLoadingState = false,
-            onSuccess = ::onGetPlaylistByProfileCompleted
+            onSuccess = ::onGetPlaylistByProfileCompleted,
+            onMapExceptionToState = ::onMapExceptionToState
         )
     }
 
@@ -166,7 +174,8 @@ class HomeViewModel @Inject constructor(
                         playlistId = playlistId,
                         category = categorySelected
                     ),
-                    onSuccess = ::onFetchChannelsCompleted
+                    onSuccess = ::onFetchChannelsCompleted,
+                    onMapExceptionToState = ::onMapExceptionToState
                 )
             }
         }
@@ -210,6 +219,14 @@ class HomeViewModel @Inject constructor(
     private fun onRemoveChannelFromFavoritesCompleted() {
         updateState { it.copy(isFavoriteChannel = false) }
     }
+
+    private fun onMapExceptionToState(ex: Exception, uiState: HomeUiState) =
+        uiState.copy(
+            isLoadingPlaylists = false,
+            isLoadingChannels = false,
+            isLoading = false,
+            errorMessage = errorMapper.mapToMessage(ex)
+        )
 }
 
 data class HomeUiState(

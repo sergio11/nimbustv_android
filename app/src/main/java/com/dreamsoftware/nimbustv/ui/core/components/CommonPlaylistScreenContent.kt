@@ -15,6 +15,7 @@ fun CommonPlaylistScreenContent(
     playlists: List<PlayListBO> = emptyList(),
     playlistAlias: String,
     playListUrl: String,
+    errorMessage: String?,
     onImportNewPlaylistClicked: () -> Unit,
     onErrorMessageCleared: () -> Unit,
     onImportNewPlayListConfirmed: () -> Unit,
@@ -33,7 +34,10 @@ fun CommonPlaylistScreenContent(
         onPlayListUrlUpdated = onNewPlayListUrlUpdated,
         onCancelClicked = onImportNewPlaylistCancelled
     )
-    FudgeTvScreenContent(onErrorAccepted = onErrorMessageCleared) {
+    FudgeTvScreenContent(
+        error = errorMessage,
+        onErrorAccepted = onErrorMessageCleared
+    ) {
         if (isLoading) {
             FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
         } else if (playlists.isEmpty()) {

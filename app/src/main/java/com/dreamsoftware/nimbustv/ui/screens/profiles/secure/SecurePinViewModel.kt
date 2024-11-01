@@ -1,14 +1,16 @@
 package com.dreamsoftware.nimbustv.ui.screens.profiles.secure
 
-import com.dreamsoftware.nimbustv.domain.model.ProfileBO
-import com.dreamsoftware.nimbustv.ui.utils.EMPTY
-import com.dreamsoftware.nimbustv.utils.combinedLet
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
+import com.dreamsoftware.fudge.core.IFudgeTvErrorMapper
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
+import com.dreamsoftware.nimbustv.di.SecurePinScreenErrorMapper
+import com.dreamsoftware.nimbustv.domain.model.ProfileBO
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfileByIdUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.SelectProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.VerifyPinUseCase
+import com.dreamsoftware.nimbustv.ui.utils.EMPTY
+import com.dreamsoftware.nimbustv.utils.combinedLet
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -16,7 +18,8 @@ import javax.inject.Inject
 class SecurePinViewModel @Inject constructor(
     private val verifyPinUseCase: VerifyPinUseCase,
     private val selectProfileUseCase: SelectProfileUseCase,
-    private val getProfileByIdUseCase: GetProfileByIdUseCase
+    private val getProfileByIdUseCase: GetProfileByIdUseCase,
+    @SecurePinScreenErrorMapper private val errorMapper: IFudgeTvErrorMapper
 ): FudgeTvViewModel<SecurePinUiState, SecurePinSideEffects>(), SecurePinScreenActionListener {
 
     override fun onGetDefaultState(): SecurePinUiState = SecurePinUiState()
@@ -25,7 +28,8 @@ class SecurePinViewModel @Inject constructor(
         executeUseCaseWithParams(
             useCase = getProfileByIdUseCase,
             params = GetProfileByIdUseCase.Params(profileId),
-            onSuccess = ::onLoadProfileCompleted
+            onSuccess = ::onLoadProfileCompleted,
+            onMapExceptionToState = ::onMapExceptionToState
         )
     }
 
@@ -41,9 +45,8 @@ class SecurePinViewModel @Inject constructor(
                 executeUseCaseWithParams(
                     useCase = verifyPinUseCase,
                     params = VerifyPinUseCase.Params(profileId = profile.id, pin = pin),
-                    onSuccess = {
-                        onVerifyPinSuccessfully(profile)
-                    }
+                    onSuccess = { onVerifyPinSuccessfully(profile) },
+                    onMapExceptionToState = ::onMapExceptionToState
                 )
             }
         }
@@ -63,15 +66,20 @@ class SecurePinViewModel @Inject constructor(
         executeUseCaseWithParams(
             useCase = selectProfileUseCase,
             params = SelectProfileUseCase.Params(profile),
-            onSuccess = {
-                onProfileSelected()
-            }
+            onSuccess = { onProfileSelected() },
+            onMapExceptionToState = ::onMapExceptionToState
         )
     }
 
     private fun onProfileSelected() {
         launchSideEffect(SecurePinSideEffects.ProfileUnlockedSuccessfully)
     }
+
+    private fun onMapExceptionToState(ex: Exception, uiState: SecurePinUiState) =
+        uiState.copy(
+            isLoading = false,
+            errorMessage = errorMapper.mapToMessage(ex)
+        )
 }
 
 data class SecurePinUiState(
