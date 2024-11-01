@@ -33,6 +33,7 @@ import com.dreamsoftware.fudge.component.FudgeTvFilterChip
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
 import com.dreamsoftware.fudge.component.FudgeTvLazyVerticalGrid
 import com.dreamsoftware.fudge.component.FudgeTvLoadingState
+import com.dreamsoftware.fudge.component.fudgeTvPlaySoundEffectOnFocus
 import com.dreamsoftware.fudge.utils.conditional
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
@@ -41,7 +42,6 @@ import com.dreamsoftware.nimbustv.ui.core.components.ChannelGridItem
 import com.dreamsoftware.nimbustv.ui.core.components.ChannelPreview
 import com.dreamsoftware.nimbustv.ui.core.components.CommonPlaylistScreenContent
 import com.dreamsoftware.nimbustv.ui.core.components.CommonSelectableItem
-import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
 
 @Composable
 internal fun HomeScreenContent(
@@ -239,7 +239,7 @@ private fun PlayListsColumn(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
-                    .playSoundEffectOnFocus(),
+                    .fudgeTvPlaySoundEffectOnFocus(),
                 type = FudgeTvButtonTypeEnum.SMALL,
                 style = FudgeTvButtonStyleTypeEnum.TRANSPARENT,
                 textRes = R.string.home_screen_manage_playlist_button_text,
