@@ -25,6 +25,10 @@ Explore NimbusTV today, and bring a world of channels right to your living room�
 
 NimbusTV is designed to transform the way users experience content on their Android TVs, offering an all-encompassing, intuitive platform that boasts a wide range of features tailored to enhance user satisfaction and engagement.
 
+<p align="center">
+  <img src="doc/screenshots/picture_57.gif" />
+</p>
+
 ### Features ✨
 
 - **Multi-Playlist Management** 📃: 
@@ -149,14 +153,26 @@ Begin your experience on **NimbusTV** by creating a profile. This first step is 
   <img src="doc/screenshots/picture_2.png" />
 </p>
 
+<p align="center">
+  <img src="doc/screenshots/picture_43.png" />
+</p>
+
 ### Managing Your Profiles 👤
 
 Step into the **Profiles** section, where you can customize **NimbusTV** to suit your viewing preferences. Here’s what makes the Profiles section so versatile:
+
+<p align="center">
+  <img src="doc/screenshots/picture_44.png" />
+</p>
 
 - **Profile Selection**: Choose between different profiles in the **Profile Selection** screen. Each profile allows for custom EPGs and playlists, ensuring a unique setup for each viewer.
 
 <p align="center">
   <img src="doc/screenshots/picture_21.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_58.gif" />
 </p>
 
 - **Creating Profiles**: Add up to four profiles, perfect for household members who want their own playlists and EPGs. Customize each with a unique name and avatar, making NimbusTV adaptable and fun for everyone!
@@ -211,6 +227,10 @@ Welcome to the **Home** screen of **NimbusTV**, your central hub for exploring a
   <img src="doc/screenshots/picture_6.png" />
 </p>
 
+<p align="center">
+  <img src="doc/screenshots/picture_38.png" />
+</p>
+
 - **Channel Preview** 🔍: Hover over any channel to get a quick preview of what's currently playing—ideal for browsing without fully tuning in.
 
 - **Favorites** ⭐: Mark your favorite channels to keep them easily accessible for quick viewing.
@@ -233,6 +253,10 @@ Welcome to the **Home** screen of **NimbusTV**, your central hub for exploring a
  
 <p align="center">
   <img src="doc/screenshots/picture_8.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_39.png" />
 </p>
 
 <p align="center">
@@ -301,7 +325,108 @@ The **Favorites** section keeps your top channels just a click away, making it y
   <img src="doc/screenshots/picture_20.png" />
 </p>
 
-## Settings Screen ⚙️
+
+### EPG (Electronic Program Guide) 📅
+
+The **Electronic Program Guide (EPG)** in **NimbusTV** lets each profile import, view, and manage channel lists and programming schedules. Here’s an overview of its key features:
+
+<p align="center">
+  <img src="doc/screenshots/picture_41.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_42.png" />
+</p>
+
+#### EPG Viewing Modes 🎛️
+
+**NimbusTV** offers two EPG display modes, configurable from **Settings**:
+
+- **Now & Schedule Mode** ⏰:  
+  This mode displays the EPG in a two-column format:
+  - The first column shows all channels with their currently airing programs.
+  - The second column lists the full schedule for each channel, indicating whether the event is past, live, or upcoming.  
+  You can select any upcoming event to open a dialog and set a reminder, which will notify you 5 minutes before the show starts.
+
+<p align="center">
+  <img src="doc/screenshots/picture_49.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_50.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_51.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_52.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_7.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_59.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_60.gif" />
+</p>
+
+- **Single-Column Mode** 📜:  
+  This format organizes the EPG into a single column, with each channel appearing in an individual row alongside its full schedule for the day. Just like in **Now & Schedule Mode**, you can interact with events and set reminders for future shows.
+
+<p align="center">
+  <img src="doc/screenshots/picture_53.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_54.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_56.gif" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_40.png" />
+</p>
+
+Both modes provide intuitive navigation through each channel’s programming, making it quick and easy to keep track of your favorite shows.
+
+#### EPG Source Management 🔧
+
+Each profile can access **EPG Source Management**, where you can:
+
+<p align="center">
+  <img src="doc/screenshots/picture_46.png" />
+</p>
+
+- **Add New EPGs** ➕: Import custom EPG sources to load channel programming schedules.
+
+<p align="center">
+  <img src="doc/screenshots/picture_47.png" />
+</p>
+
+- **Delete Existing EPGs** 🗑️: Remove any EPG sources that you no longer need.
+
+<p align="center">
+  <img src="doc/screenshots/picture_48.png" />
+</p>
+
+- **Daily Auto-Updates** 🔄: NimbusTV schedules a daily update for each active EPG, refreshing programming data so you always have the latest information.
+
+With these flexible options, each profile in **NimbusTV** can tailor its own program guide, ensuring a viewing experience that’s convenient and perfectly suited to your preferences. Stay organized, informed, and on top of your favorite channels’ schedules!
+
+<p align="center">
+  <img src="doc/screenshots/picture_45.png" />
+</p>
+
+
+### Settings Screen ⚙️
 
 The **Settings** screen in **NimbusTV** offers you a range of customizable options to tailor your viewing experience. Here’s how you can enhance your interaction with the app:
 
