@@ -50,6 +50,7 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun onImportNewPlayListConfirmed() {
+        updateState { it.copy(isImporting = true) }
         doOnUiState {
             executeUseCaseWithParams(
                 useCase = createPlaylistUseCase,
@@ -201,6 +202,7 @@ class HomeViewModel @Inject constructor(
     private fun resetImportPlaylistState() {
         updateState {
             it.copy(
+                isImporting = false,
                 isImportPlaylistDialogVisible = false,
                 newPlayListUrl = String.EMPTY,
                 newPlayListAlias = String.EMPTY
@@ -223,6 +225,7 @@ class HomeViewModel @Inject constructor(
     private fun onMapExceptionToState(ex: Exception, uiState: HomeUiState) =
         uiState.copy(
             isImportPlaylistDialogVisible = false,
+            isImporting = false,
             isLoadingPlaylists = false,
             isLoadingChannels = false,
             isLoading = false,
@@ -233,6 +236,7 @@ class HomeViewModel @Inject constructor(
 data class HomeUiState(
     override val isLoading: Boolean = false,
     override val errorMessage: String? = null,
+    val isImporting: Boolean = false,
     val isLoadingPlaylists: Boolean = false,
     val isLoadingChannels: Boolean = false,
     val channels: List<ChannelBO> = emptyList(),
