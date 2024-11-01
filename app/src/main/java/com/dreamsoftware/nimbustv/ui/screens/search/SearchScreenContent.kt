@@ -27,6 +27,7 @@ import com.dreamsoftware.fudge.component.FudgeTvPopupDialog
 import com.dreamsoftware.fudge.component.FudgeTvScreenContent
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
+import com.dreamsoftware.fudge.component.fudgeTvPlaySoundEffectOnFocus
 import com.dreamsoftware.fudge.utils.conditional
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
@@ -173,6 +174,7 @@ private fun ChannelDetailsPopup(
                 modifier = Modifier
                     .focusRequester(focusRequester)
                     .fillMaxWidth()
+                    .fudgeTvPlaySoundEffectOnFocus()
                     .padding(bottom = 12.dp),
                 type = FudgeTvButtonTypeEnum.MEDIUM,
                 style = FudgeTvButtonStyleTypeEnum.NORMAL,
@@ -182,6 +184,7 @@ private fun ChannelDetailsPopup(
             FudgeTvButton(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .fudgeTvPlaySoundEffectOnFocus()
                     .padding(bottom = 12.dp),
                 type = FudgeTvButtonTypeEnum.MEDIUM,
                 style = FudgeTvButtonStyleTypeEnum.TRANSPARENT,

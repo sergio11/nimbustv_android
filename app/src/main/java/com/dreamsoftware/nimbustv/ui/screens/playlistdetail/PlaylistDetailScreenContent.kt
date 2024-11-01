@@ -26,11 +26,11 @@ import com.dreamsoftware.fudge.component.FudgeTvPopupDialog
 import com.dreamsoftware.fudge.component.FudgeTvScreenContent
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
+import com.dreamsoftware.fudge.component.fudgeTvPlaySoundEffectOnFocus
 import com.dreamsoftware.fudge.utils.conditional
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.ui.core.components.ChannelGridItem
-import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
 
 @Composable
 internal fun PlaylistDetailScreenContent(
@@ -115,7 +115,7 @@ private fun PlaylistDetailHeader(actionListener: PlaylistDetailScreenActionListe
         FudgeTvButton(
             modifier = Modifier
                 .width(150.dp)
-                .playSoundEffectOnFocus(),
+                .fudgeTvPlaySoundEffectOnFocus(),
             type = FudgeTvButtonTypeEnum.SMALL,
             style = FudgeTvButtonStyleTypeEnum.TRANSPARENT,
             textRes = R.string.playlist_detail_screen_remove_playlist_button_text,
@@ -165,6 +165,7 @@ private fun PlaylistChannelDetailsPopup(
             FudgeTvButton(
                 modifier = Modifier
                     .focusRequester(focusRequester)
+                    .fudgeTvPlaySoundEffectOnFocus()
                     .fillMaxWidth()
                     .padding(bottom = 12.dp),
                 type = FudgeTvButtonTypeEnum.MEDIUM,
@@ -175,6 +176,7 @@ private fun PlaylistChannelDetailsPopup(
             FudgeTvButton(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .fudgeTvPlaySoundEffectOnFocus()
                     .padding(bottom = 12.dp),
                 type = FudgeTvButtonTypeEnum.MEDIUM,
                 style = FudgeTvButtonStyleTypeEnum.TRANSPARENT,

@@ -20,8 +20,8 @@ import com.dreamsoftware.fudge.component.FudgeTvButtonTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
+import com.dreamsoftware.fudge.component.fudgeTvPlaySoundEffectOnFocus
 import com.dreamsoftware.nimbustv.R
-import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
 
 @Composable
 internal fun NoPlaylistFound(onImportClicked: () -> Unit) {
@@ -46,7 +46,7 @@ internal fun NoPlaylistFound(onImportClicked: () -> Unit) {
             FudgeTvButton(
                 modifier = Modifier
                     .focusRequester(focusRequester)
-                    .playSoundEffectOnFocus(),
+                    .fudgeTvPlaySoundEffectOnFocus(),
                 type = FudgeTvButtonTypeEnum.MEDIUM,
                 onClick = onImportClicked,
                 textRes = R.string.home_screen_import_new_iptv_playlist_button_text,
