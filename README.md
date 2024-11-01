@@ -25,6 +25,10 @@ Explore NimbusTV today, and bring a world of channels right to your living room�
 
 NimbusTV is designed to transform the way users experience content on their Android TVs, offering an all-encompassing, intuitive platform that boasts a wide range of features tailored to enhance user satisfaction and engagement.
 
+<p align="center">
+  <img src="doc/screenshots/picture_57.gif" />
+</p>
+
 ### Features ✨
 
 - **Multi-Playlist Management** 📃: 
