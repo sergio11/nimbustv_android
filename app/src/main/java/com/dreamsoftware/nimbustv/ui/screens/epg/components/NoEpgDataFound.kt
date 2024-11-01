@@ -20,8 +20,8 @@ import com.dreamsoftware.fudge.component.FudgeTvButtonTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
+import com.dreamsoftware.fudge.component.fudgeTvPlaySoundEffectOnFocus
 import com.dreamsoftware.nimbustv.R
-import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
 
 @Composable
 internal fun NoEpgDataFound(onImportClicked: () -> Unit) {
@@ -44,7 +44,9 @@ internal fun NoEpgDataFound(onImportClicked: () -> Unit) {
             )
             Spacer(modifier = Modifier.height(30.dp))
             FudgeTvButton(
-                modifier = Modifier.focusRequester(focusRequester).playSoundEffectOnFocus(),
+                modifier = Modifier
+                    .focusRequester(focusRequester)
+                    .fudgeTvPlaySoundEffectOnFocus(),
                 type = FudgeTvButtonTypeEnum.MEDIUM,
                 onClick = onImportClicked,
                 textRes = R.string.epg_screen_import_new_epg_data_button_text,
