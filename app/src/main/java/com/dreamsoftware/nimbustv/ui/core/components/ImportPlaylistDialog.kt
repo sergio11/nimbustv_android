@@ -1,5 +1,7 @@
 package com.dreamsoftware.nimbustv.ui.core.components
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -10,6 +12,8 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.GetApp
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -57,29 +61,38 @@ fun ImportPlaylistDialog(
                     color = primary
                 )
             } else {
-                FudgeTvTextField(
-                    modifier = Modifier.width(350.dp),
-                    value = playListUrl,
-                    onValueChange = onPlayListUrlUpdated,
-                    labelRes = R.string.home_screen_import_new_iptv_playlist_text_field_url_label,
-                    icon = Icons.Default.GetApp,
-                    unfocusedLabelColor = primary,
-                    focusedLabelColor = primaryContainer,
-                    focusedBorderColor = primary,
-                    unfocusedBorderColor = primaryContainer,
-                    singleLine = true
-                )
-                Spacer(modifier = Modifier.height(5.dp))
+                val playlistAliasInteractionSource = remember { MutableInteractionSource() }
+                val isPlaylistAliasFocused by playlistAliasInteractionSource.collectIsFocusedAsState()
+                if(!isPlaylistAliasFocused) {
+                    FudgeTvTextField(
+                        modifier = Modifier.width(350.dp),
+                        value = playListUrl,
+                        onValueChange = onPlayListUrlUpdated,
+                        labelRes = R.string.home_screen_import_new_iptv_playlist_text_field_url_label,
+                        icon = Icons.Default.GetApp,
+                        focusedTextColor = primary,
+                        unfocusedTextColor = primary,
+                        unfocusedLabelColor = primary,
+                        focusedLabelColor = primaryContainer,
+                        focusedBorderColor = primary,
+                        unfocusedBorderColor = primaryContainer,
+                        singleLine = true
+                    )
+                    Spacer(modifier = Modifier.height(5.dp))
+                }
                 FudgeTvTextField(
                     modifier = Modifier.width(350.dp),
                     value = playlistAlias,
                     onValueChange = onPlayListAliasUpdated,
                     labelRes = R.string.home_screen_import_new_iptv_playlist_text_field_alias_label,
                     icon = Icons.Default.Edit,
+                    focusedTextColor = primary,
+                    unfocusedTextColor = primary,
                     unfocusedLabelColor = primary,
                     focusedLabelColor = primaryContainer,
                     focusedBorderColor = primary,
                     unfocusedBorderColor = primaryContainer,
+                    interactionSource = playlistAliasInteractionSource,
                     singleLine = true
                 )
             }

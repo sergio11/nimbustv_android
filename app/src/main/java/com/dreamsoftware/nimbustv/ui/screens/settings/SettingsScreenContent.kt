@@ -38,7 +38,6 @@ import androidx.tv.material3.ListItem
 import androidx.tv.material3.ListItemDefaults
 import androidx.tv.material3.MaterialTheme
 import com.dreamsoftware.nimbustv.R
-import com.dreamsoftware.nimbustv.ui.theme.surfaceContainerHigh
 import com.dreamsoftware.fudge.component.FudgeTvDialog
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
 import com.dreamsoftware.fudge.component.FudgeTvScreenContent
@@ -194,7 +193,7 @@ private fun SettingsItem(
             },
             headlineContent = {},
             colors = ListItemDefaults.colors(
-                containerColor = surfaceContainerHigh.copy(alpha = 0.3f),
+                containerColor = surfaceVariant.copy(alpha = 0.3f),
                 contentColor = onSurfaceVariant,
                 focusedContentColor = surfaceVariant
             ),

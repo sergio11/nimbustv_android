@@ -124,8 +124,8 @@
     <string name="epg_screen_import_new_epg_data_button_text">Import New EPG Data</string>
     <string name="epg_screen_import_new_epg_data_dialog_title">🌐 Import New EPG Data</string>
     <string name="epg_screen_import_new_epg_data_dialog_description">Enter the URL to fetch the latest EPG data and keep your guide up-to-date! 📅</string>
-    <string name="epg_screen_import_new_epg_data_text_field_url_label">EPG URL</string>
-    <string name="epg_screen_import_new_epg_data_text_field_alias_label">EPG Alias</string>
+    <string name="epg_screen_import_new_epg_data_text_field_url_label">📺 Enter EPG URL</string>
+    <string name="epg_screen_import_new_epg_data_text_field_alias_label">✨ Create a Unique EPG Alias</string>
     <string name="epg_screen_import_new_epg_data_dialog_accept_button_text">Import Now</string>
     <string name="epg_screen_import_new_epg_data_dialog_cancel_button_text">Cancel</string>
     <string name="epg_screen_import_new_epg_dialog_in_progress_text">Importing your EPG… 🎬</string>
@@ -183,20 +183,20 @@
     <string name="profiles_change_secure_pin_main_title">🔄 Change Your Secure PIN</string>
     <string name="profiles_change_secure_pin_main_description">Update your PIN to keep your profile safe.</string>
     <string name="profiles_change_secure_pin_form_confirm_button_text">Update PIN</string>
-    <string name="profiles_change_secure_pin_delete_button_text">Remove PIN</string>
+    <string name="profiles_change_secure_pin_delete_button_text">Delete Profile</string>
     <string name="profiles_change_secure_pin_form_current_pin_label_text">Current PIN</string>
     <string name="profiles_change_secure_pin_form_new_pin_label_text">New PIN</string>
     <string name="profiles_change_secure_updated_dialog_title">🎉 PIN Updated</string>
     <string name="profiles_change_secure_updated_dialog_description">Your PIN has been successfully updated.</string>
 
     <!-- Delete Profile -->
-    <string name="delete_profile_main_title">⚠️ Delete Profile</string>
-    <string name="delete_profile_main_description">Are you sure you want to permanently delete this profile?</string>
-    <string name="delete_profile_form_accept_button_text">Yes, Delete</string>
-    <string name="delete_profile_form_cancel_button_text">Cancel</string>
-    <string name="delete_profile_explanation_text">This action cannot be undone.</string>
-    <string name="delete_profile_dialog_title">🗑️ Confirm Profile Deletion</string>
-    <string name="delete_profile_dialog_description">Once deleted, this profile cannot be restored. Proceed with caution.</string>
+    <string name="delete_profile_main_title">⚠️ Time to Say Goodbye!</string>
+    <string name="delete_profile_main_description">Are you absolutely sure you want to permanently delete this profile? All your reminders, playlists, and EPGs will be lost forever! 😢</string>
+    <string name="delete_profile_form_accept_button_text">Yes, Delete Profile</string>
+    <string name="delete_profile_form_cancel_button_text">No, Keep It</string>
+    <string name="delete_profile_explanation_text">This action is irreversible. Choose wisely! ⚡</string>
+    <string name="delete_profile_dialog_title">🗑️ Profile Deleted</string>
+    <string name="delete_profile_dialog_description">This profile has been deleted. All reminders, EPGs, and channel playlists have been permanently lost and cannot be restored.</string>
 
     <!-- Splash -->
     <string name="splash_main_title_text">Welcome to NimbusTV!</string>

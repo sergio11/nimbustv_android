@@ -17,12 +17,12 @@ import com.dreamsoftware.fudge.component.FudgeTvButton
 import com.dreamsoftware.fudge.component.FudgeTvButtonStyleTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvButtonTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
+import com.dreamsoftware.fudge.component.FudgeTvLazyVerticalGrid
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
 import com.dreamsoftware.fudge.utils.conditional
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.PlayListBO
-import com.dreamsoftware.nimbustv.ui.core.components.CommonLazyVerticalGrid
 import com.dreamsoftware.nimbustv.ui.core.components.CommonPlaylistScreenContent
 import com.dreamsoftware.nimbustv.ui.core.components.CommonSelectableItem
 import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
@@ -108,7 +108,7 @@ private fun PlaylistsGridContent(
     onPlayListSelected: (PlayListBO) -> Unit
 ) {
     FudgeTvFocusRequester { focusRequester ->
-        CommonLazyVerticalGrid(
+        FudgeTvLazyVerticalGrid(
             modifier = Modifier.fillMaxWidth(),
             state = rememberLazyGridState(),
             items = playlists
