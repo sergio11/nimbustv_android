@@ -24,7 +24,10 @@ import java.time.LocalDateTime
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index(value = ["channel_id"])]
+    indices = [
+        Index(value = ["channel_id"]),
+        Index(value = ["epg_id"])
+    ]
 )
 data class ChannelScheduleEntity(
     @PrimaryKey
