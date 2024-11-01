@@ -15,6 +15,7 @@ fun CommonPlaylistScreenContent(
     playlists: List<PlayListBO> = emptyList(),
     playlistAlias: String,
     playListUrl: String,
+    isImporting: Boolean = false,
     errorMessage: String?,
     onImportNewPlaylistClicked: () -> Unit,
     onErrorMessageCleared: () -> Unit,
@@ -26,7 +27,7 @@ fun CommonPlaylistScreenContent(
 ) {
     ImportPlaylistDialog(
         isVisible = isImportPlaylistDialogVisible,
-        isImporting = isLoading,
+        isImporting = isImporting,
         playListUrl = playListUrl,
         playlistAlias = playlistAlias,
         onAcceptClicked = onImportNewPlayListConfirmed,
