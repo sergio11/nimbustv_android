@@ -150,13 +150,49 @@ Step into the **Profiles** section, where you can customize **NimbusTV** to suit
 
 - **Profile Selection**: Choose between different profiles in the **Profile Selection** screen. Each profile allows for custom EPGs and playlists, ensuring a unique setup for each viewer.
 
+<p align="center">
+  <img src="doc/screenshots/picture_21.png" />
+</p>
+
 - **Creating Profiles**: Add up to four profiles, perfect for household members who want their own playlists and EPGs. Customize each with a unique name and avatar, making NimbusTV adaptable and fun for everyone!
+
+<p align="center">
+  <img src="doc/screenshots/picture_22.png" />
+</p>  
+
+<p align="center">
+  <img src="doc/screenshots/picture_24.png" />
+</p>  
+
+<p align="center">
+  <img src="doc/screenshots/picture_25.png" />
+</p>  
 
 - **Editing Profiles**: Update profile details, including name, avatar, and security PIN, all while keeping your data secure and your experience personalized.
 
+<p align="center">
+  <img src="doc/screenshots/picture_23.png" />
+</p>  
+
+<p align="center">
+  <img src="doc/screenshots/picture_26.png" />
+</p>  
+
 - **Deleting Profiles**: When a profile is no longer needed, delete it to keep **NimbusTV** clean and focused on what matters most.
 
+<p align="center">
+  <img src="doc/screenshots/picture_27.png" />
+</p>  
+
+<p align="center">
+  <img src="doc/screenshots/picture_28.png" />
+</p>  
+
 The **Profiles** section makes NimbusTV adaptable to every user’s viewing needs, ensuring a personalized experience on a single device.
+
+<p align="center">
+  <img src="doc/screenshots/picture_29.png" />
+</p>  
 
 ### Home Screen 🏠📺
 
