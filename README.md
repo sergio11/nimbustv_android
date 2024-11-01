@@ -171,6 +171,10 @@ Step into the **Profiles** section, where you can customize **NimbusTV** to suit
   <img src="doc/screenshots/picture_21.png" />
 </p>
 
+<p align="center">
+  <img src="doc/screenshots/picture_58.gif" />
+</p>
+
 - **Creating Profiles**: Add up to four profiles, perfect for household members who want their own playlists and EPGs. Customize each with a unique name and avatar, making NimbusTV adaptable and fun for everyone!
 
 <p align="center">
