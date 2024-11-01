@@ -24,13 +24,13 @@ import com.dreamsoftware.fudge.component.FudgeTvLoadingState
 import com.dreamsoftware.fudge.component.FudgeTvScreenContent
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
+import com.dreamsoftware.fudge.component.fudgeTvPlaySoundEffectOnFocus
 import com.dreamsoftware.fudge.utils.conditional
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.EpgBO
 import com.dreamsoftware.nimbustv.ui.core.components.CommonSelectableItem
 import com.dreamsoftware.nimbustv.ui.core.components.ImportEpgDataDialog
 import com.dreamsoftware.nimbustv.ui.screens.epg.components.NoEpgDataFound
-import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
 
 @Composable
 internal fun EpgSourcesScreenContent(
@@ -119,7 +119,7 @@ private fun EpgSourcesHeader(actionListener: EpgSourcesScreenActionListener) {
         FudgeTvButton(
             modifier = Modifier
                 .width(200.dp)
-                .playSoundEffectOnFocus(),
+                .fudgeTvPlaySoundEffectOnFocus(),
             type = FudgeTvButtonTypeEnum.SMALL,
             style = FudgeTvButtonStyleTypeEnum.TRANSPARENT,
             textRes = R.string.epg_sources_screen_import_new_epg_button_text,

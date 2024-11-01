@@ -1,7 +1,5 @@
 package com.dreamsoftware.nimbustv.ui.screens.onboarding
 
-import android.content.Context
-import android.media.AudioManager
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,8 +21,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -35,6 +31,7 @@ import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvVideoBackground
+import com.dreamsoftware.fudge.component.fudgeTvPlaySoundEffectOnFocus
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.ui.core.components.ExitAppDialog
 
@@ -177,7 +174,7 @@ private fun OnBoardingBottom(
                 FudgeTvButton(
                     modifier = Modifier
                         .align(Alignment.Center)
-                        .playSoundEffectOnFocus()
+                        .fudgeTvPlaySoundEffectOnFocus()
                         .focusRequester(requester),
                     type = FudgeTvButtonTypeEnum.LARGE,
                     textRes = R.string.onboarding_lets_go_button_text,
@@ -187,19 +184,4 @@ private fun OnBoardingBottom(
         }
     }
 
-}
-
-@Composable
-fun Modifier.playSoundEffectOnFocus(
-    effectType: Int = AudioManager.FX_FOCUS_NAVIGATION_UP
-): Modifier {
-    val context = LocalContext.current
-    val audioManager = remember {
-        context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-    }
-    return this.onFocusChanged {
-        if (it.isFocused) {
-            audioManager.playSoundEffect(effectType)
-        }
-    }
 }

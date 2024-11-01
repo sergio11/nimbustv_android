@@ -33,6 +33,7 @@ import com.dreamsoftware.fudge.component.FudgeTvPopupDialog
 import com.dreamsoftware.fudge.component.FudgeTvScreenContent
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
+import com.dreamsoftware.fudge.component.fudgeTvPlaySoundEffectOnFocus
 import com.dreamsoftware.fudge.utils.conditional
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.EpgBO
@@ -43,7 +44,6 @@ import com.dreamsoftware.nimbustv.ui.screens.epg.components.EpgNowAndSchedule
 import com.dreamsoftware.nimbustv.ui.core.components.ImportEpgDataDialog
 import com.dreamsoftware.nimbustv.ui.screens.epg.components.NoEpgDataFound
 import com.dreamsoftware.nimbustv.ui.screens.epg.model.ScheduleVO
-import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
 import com.dreamsoftware.nimbustv.ui.theme.onPrimary
 import com.dreamsoftware.nimbustv.ui.utils.toDateFormatted
 
@@ -219,7 +219,7 @@ private fun EpgListColumn(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
-                    .playSoundEffectOnFocus(),
+                    .fudgeTvPlaySoundEffectOnFocus(),
                 type = FudgeTvButtonTypeEnum.SMALL,
                 style = FudgeTvButtonStyleTypeEnum.TRANSPARENT,
                 textRes = R.string.epg_screen_manage_epg_list_button_text,

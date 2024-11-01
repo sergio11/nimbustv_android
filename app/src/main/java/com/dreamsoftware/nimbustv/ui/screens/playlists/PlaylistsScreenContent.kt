@@ -20,12 +20,12 @@ import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
 import com.dreamsoftware.fudge.component.FudgeTvLazyVerticalGrid
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
+import com.dreamsoftware.fudge.component.fudgeTvPlaySoundEffectOnFocus
 import com.dreamsoftware.fudge.utils.conditional
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.PlayListBO
 import com.dreamsoftware.nimbustv.ui.core.components.CommonPlaylistScreenContent
 import com.dreamsoftware.nimbustv.ui.core.components.CommonSelectableItem
-import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
 
 @Composable
 internal fun PlaylistsScreenContent(
@@ -94,7 +94,7 @@ private fun PlaylistHeader(actionListener: PlaylistsScreenActionListener) {
         FudgeTvButton(
             modifier = Modifier
                 .width(150.dp)
-                .playSoundEffectOnFocus(),
+                .fudgeTvPlaySoundEffectOnFocus(),
             type = FudgeTvButtonTypeEnum.SMALL,
             style = FudgeTvButtonStyleTypeEnum.TRANSPARENT,
             textRes = R.string.my_playlists_screen_import_new_playlist_button_text,
