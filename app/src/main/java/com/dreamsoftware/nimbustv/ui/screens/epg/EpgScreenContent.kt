@@ -271,7 +271,7 @@ private fun ScheduleDetailsPopup(
             defaultImageRes = R.drawable.main_logo,
             imageUrl = channelLogoUrl,
             title = programmeTitle,
-            description = programmeDescription,
+            description = programmeDescription?.takeIf { it.isNotEmpty() } ?: programmeTitle,
             onBackPressed = onBackPressed
         ) { focusRequester ->
             Spacer(modifier = Modifier.weight(1f))

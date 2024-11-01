@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.tv.material3.Icon
 import androidx.tv.material3.ListItem
 import androidx.tv.material3.ListItemDefaults
@@ -239,6 +240,7 @@ private fun EpgScheduleItem(
                         .height(2.dp)
                         .background(Color.White)
                         .align(Alignment.BottomCenter)
+                        .zIndex(1f)
                 )
             }
         }

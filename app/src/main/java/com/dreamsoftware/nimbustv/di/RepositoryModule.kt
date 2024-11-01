@@ -38,7 +38,7 @@ import com.dreamsoftware.nimbustv.data.repository.mapper.RemindersMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.SaveChannelsMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.SaveEpgChannelDataMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.SaveEpgMapper
-import com.dreamsoftware.nimbustv.data.repository.mapper.SaveEpgProgrammeDataMapper
+import com.dreamsoftware.nimbustv.data.repository.mapper.SaveEpgScheduleDataMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.UpdatePlaylistData
 import com.dreamsoftware.nimbustv.data.repository.mapper.UpdatePlaylistMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.UpdateProfileData
@@ -92,7 +92,7 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideSaveEpgProgrammeDataMapper(): IOneSideMapper<CreateEpgScheduleBO, ChannelScheduleEntity> = SaveEpgProgrammeDataMapper()
+    fun provideSaveEpgProgrammeDataMapper(): IOneSideMapper<CreateEpgScheduleBO, ChannelScheduleEntity> = SaveEpgScheduleDataMapper()
 
     @Provides
     @Singleton

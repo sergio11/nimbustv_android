@@ -43,6 +43,7 @@ internal class ProfilesRepositoryImpl(
                 .let(profilesMapper::mapInListToOutList)
                 .toList()
         } catch (ex: DatabaseException) {
+            ex.printStackTrace()
             throw FetchProfilesException("An error occurred when fetching profiles", ex)
         }
     }
@@ -52,6 +53,7 @@ internal class ProfilesRepositoryImpl(
         try {
             profileLocalDataSource.count()
         } catch (ex: DatabaseException) {
+            ex.printStackTrace()
             throw FetchProfilesException("An error occurred when fetching profiles", ex)
         }
     }
@@ -75,6 +77,7 @@ internal class ProfilesRepositoryImpl(
                     .let(profilesMapper::mapInToOut)
             }
         } catch (ex: DatabaseException) {
+            ex.printStackTrace()
             throw UpdateProfileException("An error occurred when updating profile", ex)
         }
     }
@@ -86,6 +89,7 @@ internal class ProfilesRepositoryImpl(
                 delete(profileId) > 0
             }
         } catch (ex: DatabaseException) {
+            ex.printStackTrace()
             throw DeleteProfileException("An error occurred when deleting profile", ex)
         }
     }
@@ -97,6 +101,7 @@ internal class ProfilesRepositoryImpl(
                 .insert(createProfileMapper.mapInToOut(data))
                 .let(profilesMapper::mapInToOut)
         } catch (ex: DatabaseException) {
+            ex.printStackTrace()
             throw CreateProfileException("An error occurred when creating profiles", ex)
         }
     }
@@ -106,6 +111,7 @@ internal class ProfilesRepositoryImpl(
         try {
             profileSessionDataSource.saveProfileSelectedId(profile.id)
         } catch (ex: SaveProfileSelectedPreferenceLocalException) {
+            ex.printStackTrace()
             throw SelectProfileException(
                 "An error occurred when saving the current profile selected",
                 ex
@@ -123,6 +129,7 @@ internal class ProfilesRepositoryImpl(
                     }
                 }
         } catch (ex: DatabaseException) {
+            ex.printStackTrace()
             throw VerifyPinException("An error occurred when verifying pin profile", ex)
         }
     }
@@ -134,6 +141,7 @@ internal class ProfilesRepositoryImpl(
                 .findById(profileId)
                 .let(profilesMapper::mapInToOut)
         } catch (ex: DatabaseException) {
+            ex.printStackTrace()
             throw GetProfileByIdException("An error occurred when getting profile by id", ex)
         }
     }

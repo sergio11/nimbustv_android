@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,21 +29,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
-import com.dreamsoftware.nimbustv.R
-import com.dreamsoftware.nimbustv.ui.core.components.ExitAppDialog
 import com.dreamsoftware.fudge.component.FudgeTvButton
-import com.dreamsoftware.fudge.component.FudgeTvButtonStyleTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvButtonTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvVideoBackground
+import com.dreamsoftware.nimbustv.R
+import com.dreamsoftware.nimbustv.ui.core.components.ExitAppDialog
 
 @Composable
 internal fun OnboardingScreenContent(
     modifier: Modifier = Modifier,
-    onGoToHome: () -> Unit,
-    onGoToMoreInfo: () -> Unit,
+    onGoToHome: () -> Unit
 ) {
     Box(
         modifier = modifier
@@ -69,11 +66,11 @@ internal fun OnboardingScreenContent(
                 OnBoardingLogo(modifier = commonModifier)
                 OnboardingContentInfo(modifier = commonModifier)
             }
-            OnBoardingActions(
+            OnBoardingBottom(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                onGoToSignIn = onGoToHome,
-                onGoToSignUp = onGoToMoreInfo
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                onGoToHome = onGoToHome
             )
         }
     }
@@ -112,7 +109,9 @@ private fun OnBoardingLogo(modifier: Modifier) {
 }
 
 @Composable
-private fun OnboardingContentInfo(modifier: Modifier) {
+private fun OnboardingContentInfo(
+    modifier: Modifier
+) {
     Box(
         modifier = modifier,
         contentAlignment = Alignment.Center
@@ -156,43 +155,38 @@ private fun OnboardingVideoBackground() {
 }
 
 @Composable
-private fun OnBoardingActions(
+private fun OnBoardingBottom(
     modifier: Modifier,
-    onGoToSignIn: () -> Unit,
-    onGoToSignUp: () -> Unit
+    onGoToHome: () -> Unit
 ) {
     FudgeTvFocusRequester { requester ->
         Row (
             modifier = modifier,
-            horizontalArrangement = Arrangement.End,
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ){
-            Box(
-                modifier = Modifier.weight(1f),
-                contentAlignment = Alignment.Center
-            ) {
-                FudgeTvText(
-                    titleRes = R.string.developer_credits_text,
-                    type = FudgeTvTextTypeEnum.LABEL_MEDIUM,
-                    textAlign = TextAlign.Center
+            val commonModifier = Modifier
+                .weight(0.65f)
+            FudgeTvText(
+                modifier = commonModifier,
+                titleRes = R.string.developer_credits_text,
+                type = FudgeTvTextTypeEnum.LABEL_MEDIUM,
+                textAlign = TextAlign.Center
+            )
+            Box(modifier = commonModifier) {
+                FudgeTvButton(
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .playSoundEffectOnFocus()
+                        .focusRequester(requester),
+                    type = FudgeTvButtonTypeEnum.LARGE,
+                    textRes = R.string.onboarding_lets_go_button_text,
+                    onClick = onGoToHome,
                 )
             }
-            FudgeTvButton(
-                modifier = Modifier.playSoundEffectOnFocus().focusRequester(requester),
-                type = FudgeTvButtonTypeEnum.LARGE,
-                textRes = R.string.onboarding_lets_go_button_text,
-                onClick = onGoToSignIn,
-            )
-            Spacer(modifier = Modifier.width(30.dp))
-            FudgeTvButton(
-                modifier = Modifier.playSoundEffectOnFocus(),
-                type = FudgeTvButtonTypeEnum.LARGE,
-                onClick = onGoToSignUp,
-                textRes = R.string.onboarding_more_info_button_text,
-                style = FudgeTvButtonStyleTypeEnum.INVERSE
-            )
         }
     }
+
 }
 
 @Composable
