@@ -10,7 +10,7 @@ internal class ProfileMapper: IOneSideMapper<ProfileEntity, ProfileBO> {
 
     override fun mapInToOut(input: ProfileEntity): ProfileBO = with(input) {
         ProfileBO(
-            id = id.toString(),
+            id = id,
             alias = alias,
             avatarType = enumNameOfOrDefault(avatarType, AvatarTypeEnum.BOY)
         )

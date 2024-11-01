@@ -150,12 +150,6 @@ class SearchViewModel @Inject constructor(
         updateState { it.copy(channels = channels) }
     }
 
-    private fun onMapExceptionToState(ex: Exception, uiState: SearchUiState) =
-        uiState.copy(
-            isLoading = false,
-            errorMessage = errorMapper.mapToMessage(ex)
-        )
-
     private fun onAddChannelToFavoritesCompleted() {
         updateState { it.copy(isFavoriteChannel = true) }
     }
@@ -167,6 +161,13 @@ class SearchViewModel @Inject constructor(
     private fun onVerifyFavoriteChannelCompleted(isFavoriteChannel: Boolean) {
         updateState { it.copy(isFavoriteChannel = isFavoriteChannel) }
     }
+
+    private fun onMapExceptionToState(ex: Exception, uiState: SearchUiState) =
+        uiState.copy(
+            channelSelected = null,
+            isLoading = false,
+            errorMessage = errorMapper.mapToMessage(ex)
+        )
 }
 
 data class SearchUiState(

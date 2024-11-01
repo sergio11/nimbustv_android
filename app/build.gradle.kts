@@ -15,7 +15,7 @@ android {
         applicationId = "com.dreamsoftware.nimbustv"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 50
+        versionCode = 80
         versionName = "1.0"
         vectorDrawables {
             useSupportLibrary = true

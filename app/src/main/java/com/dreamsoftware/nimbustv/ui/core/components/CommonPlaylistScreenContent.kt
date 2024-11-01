@@ -25,20 +25,20 @@ fun CommonPlaylistScreenContent(
     onImportNewPlaylistCancelled: () -> Unit,
     content: @Composable BoxScope.() -> Unit,
 ) {
-    ImportPlaylistDialog(
-        isVisible = isImportPlaylistDialogVisible,
-        isImporting = isImporting,
-        playListUrl = playListUrl,
-        playlistAlias = playlistAlias,
-        onAcceptClicked = onImportNewPlayListConfirmed,
-        onPlayListAliasUpdated = onNewPlayListAliasUpdated,
-        onPlayListUrlUpdated = onNewPlayListUrlUpdated,
-        onCancelClicked = onImportNewPlaylistCancelled
-    )
     FudgeTvScreenContent(
         error = errorMessage,
         onErrorAccepted = onErrorMessageCleared
     ) {
+        ImportPlaylistDialog(
+            isVisible = isImportPlaylistDialogVisible,
+            isImporting = isImporting,
+            playListUrl = playListUrl,
+            playlistAlias = playlistAlias,
+            onAcceptClicked = onImportNewPlayListConfirmed,
+            onPlayListAliasUpdated = onNewPlayListAliasUpdated,
+            onPlayListUrlUpdated = onNewPlayListUrlUpdated,
+            onCancelClicked = onImportNewPlaylistCancelled
+        )
         if (isLoading) {
             FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
         } else if (playlists.isEmpty()) {

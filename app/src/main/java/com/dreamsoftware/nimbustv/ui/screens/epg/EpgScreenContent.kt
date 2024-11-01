@@ -29,6 +29,7 @@ import com.dreamsoftware.fudge.component.FudgeTvButtonStyleTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvButtonTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
 import com.dreamsoftware.fudge.component.FudgeTvLoadingState
+import com.dreamsoftware.fudge.component.FudgeTvPopupDialog
 import com.dreamsoftware.fudge.component.FudgeTvScreenContent
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
@@ -36,7 +37,6 @@ import com.dreamsoftware.fudge.utils.conditional
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.EpgBO
 import com.dreamsoftware.nimbustv.domain.model.EpgViewModeEnum
-import com.dreamsoftware.nimbustv.ui.core.components.CommonPopup
 import com.dreamsoftware.nimbustv.ui.core.components.CommonSelectableItem
 import com.dreamsoftware.nimbustv.ui.screens.epg.components.EpgChannelOverview
 import com.dreamsoftware.nimbustv.ui.screens.epg.components.EpgNowAndSchedule
@@ -267,7 +267,8 @@ private fun ScheduleDetailsPopup(
     onBackPressed: () -> Unit
 ) {
     with(schedule) {
-        CommonPopup(
+        FudgeTvPopupDialog(
+            defaultImageRes = R.drawable.main_logo,
             imageUrl = channelLogoUrl,
             title = programmeTitle,
             description = programmeDescription,
