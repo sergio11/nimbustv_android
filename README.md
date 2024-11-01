@@ -425,6 +425,24 @@ With these flexible options, each profile in **NimbusTV** can tailor its own pro
   <img src="doc/screenshots/picture_45.png" />
 </p>
 
+### Full-Screen Player 🎥
+
+The **Full-Screen Player** in **NimbusTV** provides an immersive viewing experience, allowing you to enjoy channels in full detail. Here’s what you can do within the player:
+
+- **Full-Screen Playback** 📺: Each channel can be viewed in full-screen mode, giving you a clear and focused experience of your selected content.
+
+- **Add to Favorites** ⭐: Want quick access to a channel? Add it to your favorites directly from the player screen with just one click.
+
+- **Access System Settings** ⚙️: Open the system settings panel without leaving the player, allowing for quick adjustments to enhance your viewing experience.
+
+#### Audio-Only Player for Music & Radio 📻
+
+For music or radio channels, **NimbusTV** launches a special **Audio-Only Player**:
+
+- **Music & Radio Display** 🎶: When tuning into a radio or music channel, the audio-only player displays station or channel information, delivering a streamlined audio experience without video, ideal for listening enjoyment.
+
+With both full-screen video playback and an optimized audio-only mode, **NimbusTV**’s player is designed to adapt to your viewing and listening needs, making every channel as engaging as possible.
+
 
 ### Settings Screen ⚙️
 
