@@ -17,14 +17,16 @@ fun String.isProfileAliasValid() = length >= MIN_ALIAS_LENGTH
 fun String.isProfileAliasNotValid() = !isProfileAliasValid()
 
 fun List<EpgChannelEntryBO>.mapToCreateEpgChannelBO(epgId: String) = map { channel ->
+    val channelId = UUID.randomUUID().toString()
     CreateEpgChannelBO(
+        id = channelId,
         channelId = channel.channelId,
         displayName = channel.displayName,
         epgId = epgId,
         programmeList = channel.programmeList.map { schedule ->
             CreateEpgScheduleBO(
                 id = UUID.randomUUID().toString(),
-                channelId = channel.channelId,
+                channelId = channelId,
                 title = schedule.title,
                 description = schedule.description,
                 startTime = schedule.startTime,

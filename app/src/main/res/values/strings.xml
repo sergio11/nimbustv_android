@@ -69,7 +69,6 @@
     <string name="onboarding_secondary_title_text">Your Streaming Journey Begins Here</string>
     <string name="onboarding_additional_info_text">Easily manage and enjoy your M3U playlists with NimbusTV. Experience smooth playback and effortless channel navigation.</string>
     <string name="onboarding_lets_go_button_text">Let\'s Dive In!</string>
-    <string name="onboarding_more_info_button_text">Find Out More</string>
     <string name="onboarding_exit_app_dialog_title">Leaving So Soon?</string>
     <string name="onboarding_exit_app_dialog_description">Are you sure you want to leave NimbusTV? We’ll be here when you’re ready for more entertainment!</string>
 
@@ -137,8 +136,8 @@
     <!-- Epg Sources -->
     <string name="epg_sources_screen_title">🔍 All Your EPG Sources in One Place</string>
     <string name="epg_sources_screen_import_new_epg_button_text">✨ Import a New EPG!</string>
-    <string name="epg_sources_screen_delete_epg_dialog_title">🗑️ Confirm EPG Deletion</string>
-    <string name="epg_sources_screen_delete_epg_dialog_description">Are you sure you want to remove this EPG? It’ll be gone for good! 😱</string>
+    <string name="epg_sources_screen_delete_epg_dialog_title">🗑️ Remove EPG Source?</string>
+    <string name="epg_sources_screen_delete_epg_dialog_description">You\'re about to delete this EPG source. This will erase all its program data. Continue?</string>
     <string name="epg_sources_screen_delete_epg_dialog_accept_button_text">Yes, Delete it!</string>
     <string name="epg_sources_screen_delete_epg_dialog_cancel_button_text">No, Keep it!</string>
 

@@ -53,9 +53,6 @@ fun AppNavHost(
                     OnboardingScreen(
                         onGoToHome = {
                             navigateSingleTopTo(Screen.Profiles.route)
-                        },
-                        onGoToMoreInfo = {
-
                         }
                     )
                 }
