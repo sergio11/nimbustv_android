@@ -31,6 +31,7 @@ class FavoritesViewModel @Inject constructor(
 
     private fun onMapExceptionToState(ex: Exception, uiState: FavoritesUiState) =
         uiState.copy(
+            channelSelected = null,
             isLoading = false,
             errorMessage = errorMapper.mapToMessage(ex)
         )

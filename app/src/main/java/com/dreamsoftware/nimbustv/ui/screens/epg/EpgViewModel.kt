@@ -141,12 +141,6 @@ class EpgViewModel @Inject constructor(
         }
     }
 
-    private fun onMapExceptionToState(ex: Exception, uiState: EpgUiState) =
-        uiState.copy(
-            isLoading = false,
-            errorMessage = errorMapper.mapToMessage(ex)
-        )
-
     private fun onImportEpgDataCompleted(data: EpgBO) {
         updateState {
             it.copy(
@@ -238,6 +232,14 @@ class EpgViewModel @Inject constructor(
             }
         }
     }
+
+    private fun onMapExceptionToState(ex: Exception, uiState: EpgUiState) =
+        uiState.copy(
+            showImportEpgDataDialog = false,
+            isLoading = false,
+            isImporting = false,
+            errorMessage = errorMapper.mapToMessage(ex)
+        )
 }
 
 data class EpgUiState(

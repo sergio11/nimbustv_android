@@ -29,7 +29,9 @@ import androidx.tv.material3.MaterialTheme
 import com.dreamsoftware.fudge.component.FudgeTvButton
 import com.dreamsoftware.fudge.component.FudgeTvButtonStyleTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvButtonTypeEnum
+import com.dreamsoftware.fudge.component.FudgeTvFilterChip
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
+import com.dreamsoftware.fudge.component.FudgeTvLazyVerticalGrid
 import com.dreamsoftware.fudge.component.FudgeTvLoadingState
 import com.dreamsoftware.fudge.utils.conditional
 import com.dreamsoftware.nimbustv.R
@@ -37,8 +39,6 @@ import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.domain.model.PlayListBO
 import com.dreamsoftware.nimbustv.ui.core.components.ChannelGridItem
 import com.dreamsoftware.nimbustv.ui.core.components.ChannelPreview
-import com.dreamsoftware.nimbustv.ui.core.components.CommonChip
-import com.dreamsoftware.nimbustv.ui.core.components.CommonLazyVerticalGrid
 import com.dreamsoftware.nimbustv.ui.core.components.CommonPlaylistScreenContent
 import com.dreamsoftware.nimbustv.ui.core.components.CommonSelectableItem
 import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
@@ -167,7 +167,7 @@ private fun CategoriesList(
     ) {
         items(categories.size) { idx ->
             val category = categories[idx]
-            CommonChip(
+            FudgeTvFilterChip(
                 isSelected = category == categorySelected,
                 text = category,
                 onSelected = {
@@ -197,7 +197,7 @@ private fun ChannelsGrid(
     FudgeTvFocusRequester(shouldRequestFocus = {
         channels.isNotEmpty() && channelFocused != null
     }) { requester ->
-        CommonLazyVerticalGrid(
+        FudgeTvLazyVerticalGrid(
             modifier = modifier.fillMaxWidth(),
             state = rememberLazyGridState(),
             items = channels

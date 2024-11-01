@@ -2,18 +2,18 @@ package com.dreamsoftware.nimbustv.di
 
 import com.dreamsoftware.nimbustv.data.database.datasource.IChannelEpgLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IChannelLocalDataSource
+import com.dreamsoftware.nimbustv.data.database.datasource.IChannelScheduleEpgLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IEpgLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IFavoriteChannelLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IPlayListLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IProfileLocalDataSource
-import com.dreamsoftware.nimbustv.data.database.datasource.IChannelScheduleEpgLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.datasource.IReminderLocalDataSource
 import com.dreamsoftware.nimbustv.data.database.entity.ChannelEntity
 import com.dreamsoftware.nimbustv.data.database.entity.ChannelEpgEntity
+import com.dreamsoftware.nimbustv.data.database.entity.ChannelScheduleEntity
 import com.dreamsoftware.nimbustv.data.database.entity.EpgEntity
 import com.dreamsoftware.nimbustv.data.database.entity.PlayListEntity
 import com.dreamsoftware.nimbustv.data.database.entity.ProfileEntity
-import com.dreamsoftware.nimbustv.data.database.entity.ChannelScheduleEntity
 import com.dreamsoftware.nimbustv.data.database.entity.ReminderEntity
 import com.dreamsoftware.nimbustv.data.preferences.datasource.IProfileSessionDataSource
 import com.dreamsoftware.nimbustv.data.preferences.datasource.IUserPreferencesDataSource
@@ -41,6 +41,7 @@ import com.dreamsoftware.nimbustv.data.repository.mapper.SaveEpgMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.SaveEpgProgrammeDataMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.UpdatePlaylistData
 import com.dreamsoftware.nimbustv.data.repository.mapper.UpdatePlaylistMapper
+import com.dreamsoftware.nimbustv.data.repository.mapper.UpdateProfileData
 import com.dreamsoftware.nimbustv.data.repository.mapper.UpdateProfileMapper
 import com.dreamsoftware.nimbustv.data.repository.mapper.UserPreferencesMapper
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
@@ -57,7 +58,6 @@ import com.dreamsoftware.nimbustv.domain.model.PlayListBO
 import com.dreamsoftware.nimbustv.domain.model.ProfileBO
 import com.dreamsoftware.nimbustv.domain.model.ReminderBO
 import com.dreamsoftware.nimbustv.domain.model.SaveChannelBO
-import com.dreamsoftware.nimbustv.domain.model.UpdatedProfileRequestBO
 import com.dreamsoftware.nimbustv.domain.model.UserPreferenceBO
 import com.dreamsoftware.nimbustv.domain.repository.IChannelRepository
 import com.dreamsoftware.nimbustv.domain.repository.IEpgRepository
@@ -115,7 +115,7 @@ class RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideUpdateProfileMapper(): IOneSideMapper<UpdatedProfileRequestBO, ProfileEntity> =
+    fun provideUpdateProfileMapper(): IOneSideMapper<UpdateProfileData, ProfileEntity> =
         UpdateProfileMapper()
 
     @Provides
@@ -163,7 +163,7 @@ class RepositoryModule {
         profileLocalDataSource: IProfileLocalDataSource,
         profilesMapper: IOneSideMapper<ProfileEntity, ProfileBO>,
         createProfileMapper: IOneSideMapper<CreateProfileRequestBO, ProfileEntity>,
-        updateProfileMapper: IOneSideMapper<UpdatedProfileRequestBO, ProfileEntity>,
+        updateProfileMapper: IOneSideMapper<UpdateProfileData, ProfileEntity>,
         profileSessionDataSource: IProfileSessionDataSource,
         @IoDispatcher dispatcher: CoroutineDispatcher
     ): IProfilesRepository =
