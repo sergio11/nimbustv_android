@@ -8,6 +8,7 @@ import com.dreamsoftware.nimbustv.data.preferences.exception.ClearProfileSelecte
 import com.dreamsoftware.nimbustv.data.preferences.exception.FetchProfileSelectedPreferenceLocalException
 import com.dreamsoftware.nimbustv.data.preferences.exception.SaveProfileSelectedPreferenceLocalException
 import com.dreamsoftware.nimbustv.data.repository.impl.core.SupportRepositoryImpl
+import com.dreamsoftware.nimbustv.data.repository.mapper.UpdateProfileData
 import com.dreamsoftware.nimbustv.domain.exception.ClearProfileSelectedException
 import com.dreamsoftware.nimbustv.domain.exception.CreateProfileException
 import com.dreamsoftware.nimbustv.domain.exception.DeleteProfileException
@@ -29,10 +30,10 @@ internal class ProfilesRepositoryImpl(
     private val profileLocalDataSource: IProfileLocalDataSource,
     private val profilesMapper: IOneSideMapper<ProfileEntity, ProfileBO>,
     private val createProfileMapper: IOneSideMapper<CreateProfileRequestBO, ProfileEntity>,
-    private val updateProfileMapper: IOneSideMapper<UpdatedProfileRequestBO, ProfileEntity>,
+    private val updateProfileMapper: IOneSideMapper<UpdateProfileData, ProfileEntity>,
     private val profileSessionDataSource: IProfileSessionDataSource,
     dispatcher: CoroutineDispatcher
-): SupportRepositoryImpl(dispatcher), IProfilesRepository {
+) : SupportRepositoryImpl(dispatcher), IProfilesRepository {
 
     @Throws(FetchProfilesException::class)
     override suspend fun getProfiles(): List<ProfileBO> = safeExecute {
@@ -61,9 +62,18 @@ internal class ProfilesRepositoryImpl(
         data: UpdatedProfileRequestBO
     ): ProfileBO = safeExecute {
         try {
-            profileLocalDataSource
-                .update(updateProfileMapper.mapInToOut(data))
-                .let(profilesMapper::mapInToOut)
+            with(profileLocalDataSource) {
+                val currentProfile = findById(profileId)
+                update(
+                    updateProfileMapper.mapInToOut(
+                        UpdateProfileData(
+                            currentProfile = currentProfile,
+                            updatedProfileRequest = data
+                        )
+                    )
+                )
+                    .let(profilesMapper::mapInToOut)
+            }
         } catch (ex: DatabaseException) {
             throw UpdateProfileException("An error occurred when updating profile", ex)
         }
@@ -92,11 +102,14 @@ internal class ProfilesRepositoryImpl(
     }
 
     @Throws(SelectProfileException::class)
-    override suspend fun selectProfile(profile: ProfileBO) : Unit = safeExecute {
+    override suspend fun selectProfile(profile: ProfileBO): Unit = safeExecute {
         try {
             profileSessionDataSource.saveProfileSelectedId(profile.id)
         } catch (ex: SaveProfileSelectedPreferenceLocalException) {
-            throw SelectProfileException("An error occurred when saving the current profile selected", ex)
+            throw SelectProfileException(
+                "An error occurred when saving the current profile selected",
+                ex
+            )
         }
     }
 
@@ -105,7 +118,7 @@ internal class ProfilesRepositoryImpl(
         try {
             profileLocalDataSource
                 .verifyPin(profileId, pin).let { isSuccess ->
-                    if(!isSuccess) {
+                    if (!isSuccess) {
                         throw VerifyPinException("Pin verification failed for profile $profileId")
                     }
                 }
@@ -151,7 +164,10 @@ internal class ProfilesRepositoryImpl(
         try {
             profileSessionDataSource.clearProfileSelectedId()
         } catch (ex: ClearProfileSelectedPreferenceLocalException) {
-            throw ClearProfileSelectedException("An error occurred when trying to clear the profile selected", ex)
+            throw ClearProfileSelectedException(
+                "An error occurred when trying to clear the profile selected",
+                ex
+            )
         }
     }
 }

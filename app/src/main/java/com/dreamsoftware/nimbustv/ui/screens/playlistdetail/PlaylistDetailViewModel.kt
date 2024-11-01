@@ -36,20 +36,6 @@ class PlaylistDetailViewModel @Inject constructor(
         )
     }
 
-    private fun onMapExceptionToState(ex: Exception, uiState: PlaylistDetailUiState) =
-        uiState.copy(
-            isLoading = false,
-            errorMessage = errorMapper.mapToMessage(ex)
-        )
-
-    private fun onGetChannelsByPlaylistCompleted(data: List<ChannelBO>) {
-        updateState { it.copy(channels = data) }
-    }
-
-    override fun onDeletePlaylistClicked() {
-        updateState { it.copy(showDeletePlaylistDialog = true) }
-    }
-
     override fun onDeletePlaylistConfirmed() {
         updateState { it.copy(showDeletePlaylistDialog = false) }
         executeUseCaseWithParams(
@@ -90,8 +76,16 @@ class PlaylistDetailViewModel @Inject constructor(
         updateState { it.copy(channelSelected = channel) }
     }
 
+    override fun onDeletePlaylistClicked() {
+        updateState { it.copy(showDeletePlaylistDialog = true) }
+    }
+
     private fun onPlayListRemoved() {
         launchSideEffect(PlaylistDetailSideEffects.PlaylistRemovedSideEffect)
+    }
+
+    private fun onGetChannelsByPlaylistCompleted(data: List<ChannelBO>) {
+        updateState { it.copy(channels = data) }
     }
 
     private fun onChannelRemoved(channelBO: ChannelBO) {
@@ -102,6 +96,14 @@ class PlaylistDetailViewModel @Inject constructor(
             )
         }
     }
+
+    private fun onMapExceptionToState(ex: Exception, uiState: PlaylistDetailUiState) =
+        uiState.copy(
+            channelSelected = null,
+            showDeletePlaylistDialog = false,
+            isLoading = false,
+            errorMessage = errorMapper.mapToMessage(ex)
+        )
 }
 
 data class PlaylistDetailUiState(

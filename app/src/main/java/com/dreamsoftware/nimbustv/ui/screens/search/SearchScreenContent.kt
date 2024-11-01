@@ -19,8 +19,11 @@ import com.dreamsoftware.fudge.component.FudgeTvButton
 import com.dreamsoftware.fudge.component.FudgeTvButtonStyleTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvButtonTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
+import com.dreamsoftware.fudge.component.FudgeTvLazyVerticalGrid
 import com.dreamsoftware.fudge.component.FudgeTvLoadingState
+import com.dreamsoftware.fudge.component.FudgeTvMiniKeyboard
 import com.dreamsoftware.fudge.component.FudgeTvNoContentState
+import com.dreamsoftware.fudge.component.FudgeTvPopupDialog
 import com.dreamsoftware.fudge.component.FudgeTvScreenContent
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
@@ -28,9 +31,6 @@ import com.dreamsoftware.fudge.utils.conditional
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.ui.core.components.ChannelGridItem
-import com.dreamsoftware.nimbustv.ui.core.components.CommonLazyVerticalGrid
-import com.dreamsoftware.nimbustv.ui.core.components.CommonPopup
-import com.dreamsoftware.nimbustv.ui.core.components.MiniKeyboard
 
 @Composable
 internal fun SearchScreenContent(
@@ -76,7 +76,7 @@ private fun SearchKeyboard(
                 textColor = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.padding(vertical = 24.dp, horizontal = 8.dp),
             )
-            MiniKeyboard(
+            FudgeTvMiniKeyboard(
                 modifier = Modifier.width(300.dp),
                 onKeyPressed = ::onKeyPressed,
                 onSearchPressed = ::onSearchPressed,
@@ -135,7 +135,7 @@ private fun SearchChannelsGridContent(
     onChannelSelected: (ChannelBO) -> Unit
 ) {
     FudgeTvFocusRequester { focusRequester ->
-        CommonLazyVerticalGrid(
+        FudgeTvLazyVerticalGrid(
             modifier = Modifier.fillMaxWidth(),
             state = rememberLazyGridState(),
             items = channels
@@ -161,7 +161,8 @@ private fun ChannelDetailsPopup(
     onBackPressed: () -> Unit
 ) {
     with(channel) {
-        CommonPopup(
+        FudgeTvPopupDialog(
+            defaultImageRes = R.drawable.main_logo,
             imageUrl = icon,
             title = title,
             description = category,

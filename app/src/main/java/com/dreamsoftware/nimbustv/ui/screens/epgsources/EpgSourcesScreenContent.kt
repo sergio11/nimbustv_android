@@ -19,6 +19,7 @@ import com.dreamsoftware.fudge.component.FudgeTvButtonStyleTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvButtonTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvDialog
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
+import com.dreamsoftware.fudge.component.FudgeTvLazyVerticalGrid
 import com.dreamsoftware.fudge.component.FudgeTvLoadingState
 import com.dreamsoftware.fudge.component.FudgeTvScreenContent
 import com.dreamsoftware.fudge.component.FudgeTvText
@@ -26,7 +27,6 @@ import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
 import com.dreamsoftware.fudge.utils.conditional
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.EpgBO
-import com.dreamsoftware.nimbustv.ui.core.components.CommonLazyVerticalGrid
 import com.dreamsoftware.nimbustv.ui.core.components.CommonSelectableItem
 import com.dreamsoftware.nimbustv.ui.core.components.ImportEpgDataDialog
 import com.dreamsoftware.nimbustv.ui.screens.epg.components.NoEpgDataFound
@@ -134,7 +134,7 @@ private fun EpgSourcesGridContent(
     onItemClicked: (EpgBO) -> Unit
 ) {
     FudgeTvFocusRequester { focusRequester ->
-        CommonLazyVerticalGrid(
+        FudgeTvLazyVerticalGrid(
             modifier = Modifier.fillMaxWidth(),
             state = rememberLazyGridState(),
             items = data

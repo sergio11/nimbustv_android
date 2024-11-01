@@ -19,8 +19,10 @@ import com.dreamsoftware.fudge.component.FudgeTvButtonStyleTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvButtonTypeEnum
 import com.dreamsoftware.fudge.component.FudgeTvDialog
 import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
+import com.dreamsoftware.fudge.component.FudgeTvLazyVerticalGrid
 import com.dreamsoftware.fudge.component.FudgeTvLoadingState
 import com.dreamsoftware.fudge.component.FudgeTvNoContentState
+import com.dreamsoftware.fudge.component.FudgeTvPopupDialog
 import com.dreamsoftware.fudge.component.FudgeTvScreenContent
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
@@ -28,8 +30,6 @@ import com.dreamsoftware.fudge.utils.conditional
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.ChannelBO
 import com.dreamsoftware.nimbustv.ui.core.components.ChannelGridItem
-import com.dreamsoftware.nimbustv.ui.core.components.CommonLazyVerticalGrid
-import com.dreamsoftware.nimbustv.ui.core.components.CommonPopup
 import com.dreamsoftware.nimbustv.ui.screens.onboarding.playSoundEffectOnFocus
 
 @Composable
@@ -130,7 +130,7 @@ private fun PlaylistsChannelsGridContent(
     onChannelSelected: (ChannelBO) -> Unit
 ) {
     FudgeTvFocusRequester { focusRequester ->
-        CommonLazyVerticalGrid(
+        FudgeTvLazyVerticalGrid(
             modifier = Modifier.fillMaxWidth(),
             state = rememberLazyGridState(),
             items = channels
@@ -154,7 +154,8 @@ private fun PlaylistChannelDetailsPopup(
     onBackPressed: () -> Unit
 ) {
     with(channel) {
-        CommonPopup(
+        FudgeTvPopupDialog(
+            defaultImageRes = R.drawable.main_logo,
             imageUrl = icon,
             title = title,
             description = category,

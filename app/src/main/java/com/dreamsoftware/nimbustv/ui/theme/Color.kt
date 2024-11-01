@@ -31,7 +31,6 @@ val background = Color(0xFF000000) // Black for background
 val onBackground = Color(0xFFFFFFFF) // White for text on black background
 
 val surface = Color(0xFF121212) // Very Dark Gray for surface
-val surfaceContainerHigh = Color(0xFF1F1F1F) // Dark Gray for containers
 val onSurface = Color(0xFFFFFFFF) // White for text on dark gray surface
 val surfaceVariant = Color(0xFF333333) // Medium Gray for variants
 val onSurfaceVariant = Color(0xFFFFFFFF) // White for text on gray variants
@@ -42,4 +41,3 @@ val inverseOnSurface = Color(0xFF000000) // Black for text on inverse surface
 val inverseSurface = Color(0xFFFFFFFF) // White for inverse surface
 val shadowCarouselColor = Color(0x99000000) // Semi-transparent Black for shadows
 val inversePrimary = Color(0xFFB71C1C) // Darker Red for inverse primary
-val popupShadow = Color(0x33212121) // Semi-transparent Black for popup shadows

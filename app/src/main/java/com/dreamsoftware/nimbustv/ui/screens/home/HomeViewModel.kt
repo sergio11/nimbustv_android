@@ -222,6 +222,7 @@ class HomeViewModel @Inject constructor(
 
     private fun onMapExceptionToState(ex: Exception, uiState: HomeUiState) =
         uiState.copy(
+            isImportPlaylistDialogVisible = false,
             isLoadingPlaylists = false,
             isLoadingChannels = false,
             isLoading = false,

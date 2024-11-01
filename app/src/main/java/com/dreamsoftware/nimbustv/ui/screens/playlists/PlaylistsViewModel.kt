@@ -29,17 +29,6 @@ class PlaylistsViewModel @Inject constructor(
         )
     }
 
-    private fun onFetchPlaylistsSuccessfully(data: List<PlayListBO>) {
-        updateState { it.copy(playlists = data) }
-    }
-
-    private fun onMapExceptionToState(ex: Exception, uiState: PlaylistsUiState) =
-        uiState.copy(
-            isImporting = false,
-            isLoading = false,
-            errorMessage = errorMapper.mapToMessage(ex)
-        )
-
     override fun onImportNewPlaylistClicked() {
         updateState { it.copy(isImportPlaylistDialogVisible = true) }
     }
@@ -90,6 +79,18 @@ class PlaylistsViewModel @Inject constructor(
             )
         }
     }
+
+    private fun onFetchPlaylistsSuccessfully(data: List<PlayListBO>) {
+        updateState { it.copy(playlists = data) }
+    }
+
+    private fun onMapExceptionToState(ex: Exception, uiState: PlaylistsUiState) =
+        uiState.copy(
+            isImportPlaylistDialogVisible = false,
+            isImporting = false,
+            isLoading = false,
+            errorMessage = errorMapper.mapToMessage(ex)
+        )
 }
 
 data class PlaylistsUiState(

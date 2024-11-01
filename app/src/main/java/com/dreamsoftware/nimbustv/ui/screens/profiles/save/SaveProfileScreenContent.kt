@@ -9,12 +9,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Key
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Security
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.tv.material3.MaterialTheme
 import com.dreamsoftware.nimbustv.R
 import com.dreamsoftware.nimbustv.domain.model.AvatarTypeEnum
 import com.dreamsoftware.nimbustv.ui.theme.Dimens
@@ -174,32 +177,54 @@ private fun SaveProfileFormContent(
     onAliasChanged: (String) -> Unit,
     onPinChanged: (String) -> Unit
 ) {
-    with(uiState) {
-        FudgeTvFocusRequester { requester ->
-            Column(
-                modifier = modifier,
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                FudgeTvTextField(
-                    modifier = Modifier.focusRequester(requester),
-                    icon = Icons.Filled.Person,
-                    type = FudgeTvTextFieldTypeEnum.TEXT,
-                    value = alias,
-                    errorMessage = aliasError,
-                    labelRes = R.string.save_profile_form_alias_label_text,
-                    onValueChange = onAliasChanged
-                )
-                if(!isEditMode) {
-                    Spacer(modifier = Modifier.height(20.dp))
+    with(MaterialTheme.colorScheme) {
+        with(uiState) {
+            FudgeTvFocusRequester { requester ->
+                Column(
+                    modifier = modifier,
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
                     FudgeTvTextField(
-                        icon = Icons.Filled.Key,
-                        value = securePin,
-                        errorMessage = securePinError,
-                        type = FudgeTvTextFieldTypeEnum.NUMBER_SECRET,
-                        labelRes = R.string.save_profile_form_pin_label_text,
-                        onValueChange = onPinChanged
+                        modifier = Modifier.focusRequester(requester),
+                        icon = Icons.Filled.Person,
+                        type = FudgeTvTextFieldTypeEnum.TEXT,
+                        value = alias,
+                        errorMessage = aliasError,
+                        focusedTextColor = primary,
+                        unfocusedTextColor = primary,
+                        unfocusedLabelColor = if(alias.isEmpty()) {
+                            primary
+                        } else {
+                            onPrimary
+                        },
+                        focusedLabelColor = onPrimary,
+                        focusedBorderColor = onPrimary,
+                        unfocusedBorderColor = primaryContainer,
+                        labelRes = R.string.save_profile_form_alias_label_text,
+                        onValueChange = onAliasChanged
                     )
+                    if(!isEditMode) {
+                        Spacer(modifier = Modifier.height(20.dp))
+                        FudgeTvTextField(
+                            icon = Icons.Filled.Key,
+                            value = securePin,
+                            errorMessage = securePinError,
+                            focusedTextColor = primary,
+                            unfocusedTextColor = primary,
+                            unfocusedLabelColor = if(securePin.isEmpty()) {
+                                primary
+                            } else {
+                                onPrimary
+                            },
+                            focusedLabelColor = onPrimary,
+                            focusedBorderColor = onPrimary,
+                            unfocusedBorderColor = primaryContainer,
+                            type = FudgeTvTextFieldTypeEnum.NUMBER_SECRET,
+                            labelRes = R.string.save_profile_form_pin_label_text,
+                            onValueChange = onPinChanged
+                        )
+                    }
                 }
             }
         }
