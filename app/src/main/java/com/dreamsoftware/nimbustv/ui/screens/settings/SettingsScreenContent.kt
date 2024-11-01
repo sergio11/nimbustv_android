@@ -53,7 +53,10 @@ internal fun SettingsScreenContent(
 ) {
     with(uiState) {
         with(MaterialTheme.colorScheme) {
-            FudgeTvScreenContent(onErrorAccepted = actionListener::onErrorMessageCleared) {
+            FudgeTvScreenContent(
+                error = errorMessage,
+                onErrorAccepted = actionListener::onErrorMessageCleared
+            ) {
                 FudgeTvDialog(
                     isVisible = showSignOffDialog,
                     mainLogoRes = R.drawable.main_logo,

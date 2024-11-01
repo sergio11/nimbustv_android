@@ -33,16 +33,6 @@ class EpgSourcesViewModel @Inject constructor(
         )
     }
 
-    private fun onFetchEpgSourcesSuccessfully(data: List<EpgBO>) {
-        updateState { it.copy(epgSources = data) }
-    }
-
-    private fun onMapExceptionToState(ex: Exception, uiState: EpgSourcesUiState) =
-        uiState.copy(
-            isLoading = false,
-            errorMessage = errorMapper.mapToMessage(ex)
-        )
-
     override fun onImportNewEpgClicked() {
         updateState { it.copy(isImportEpgDialogVisible = true) }
     }
@@ -61,7 +51,8 @@ class EpgSourcesViewModel @Inject constructor(
                     alias = newEpgAlias,
                     url = newEpgUrl
                 ),
-                onSuccess = { onImportEpgCompleted() }
+                onSuccess = { onImportEpgCompleted() },
+                onMapExceptionToState = ::onMapExceptionToState
             )
         }
     }
@@ -87,7 +78,8 @@ class EpgSourcesViewModel @Inject constructor(
                 params = DeleteEpgUseCase.Params(
                     id = epgId
                 ),
-                onSuccess = { onDeleteEpgCompleted() }
+                onSuccess = { onDeleteEpgCompleted() },
+                onMapExceptionToState = ::onMapExceptionToState
             )
         }
     }
@@ -96,6 +88,17 @@ class EpgSourcesViewModel @Inject constructor(
         epgToDelete = null
         updateState { it.copy(showDeleteEpgDialog = false) }
     }
+
+    private fun onFetchEpgSourcesSuccessfully(data: List<EpgBO>) {
+        updateState { it.copy(epgSources = data) }
+    }
+
+    private fun onMapExceptionToState(ex: Exception, uiState: EpgSourcesUiState) =
+        uiState.copy(
+            isLoading = false,
+            isImporting = false,
+            errorMessage = errorMapper.mapToMessage(ex)
+        )
 
     private fun onImportEpgCompleted() {
         resetImportEpgState()

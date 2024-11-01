@@ -22,9 +22,39 @@
     <string name="dashboard_navigation_drawer_settings_item_name">Settings</string>
     <string name="dashboard_navigation_drawer_profile_item_name">Profile</string>
 
-    <!-- Generic Error Messages -->
-    <string name="generic_form_invalid_data_provided">Invalid data provided, please check it and try again.</string>
-    <string name="generic_error_exception">An error occurred, please try again.</string>
+    <!-- Error messages -->
+    <string name="generic_error_exception">An unexpected error occurred. Please try again.</string>
+    <string name="generic_form_invalid_data_provided">Invalid data provided. Please check your entries and try again.</string>
+    <string name="get_profile_selected_exception">Unable to retrieve the selected profile. Please try again.</string>
+    <string name="parse_playlist_failed_exception">Failed to parse the playlist. Please ensure it is in the correct format.</string>
+    <string name="insert_playlist_exception">Could not add the playlist. Please try again.</string>
+    <string name="save_channels_exception">Error saving channels. Please try again later.</string>
+    <string name="get_playlists_by_profile_exception">Unable to load playlists for the current profile.</string>
+    <string name="get_channels_by_playlist_and_category_exception">Error loading channels for this category. Please try again.</string>
+    <string name="get_channels_by_playlist_exception">Unable to retrieve channels for the selected playlist. Please try again.</string>
+    <string name="get_favorite_channels_by_profile_id_exception">Failed to load your favorite channels. Please check your connection and try again.</string>
+    <string name="add_to_favorites_exception">Could not add the channel to favorites. Please try again.</string>
+    <string name="remove_from_favorites_exception">Could not remove the channel from favorites. Please try again.</string>
+    <string name="verify_favorite_channel_exception">Error verifying favorite channels. Please try again.</string>
+    <string name="delete_playlists_exception">Unable to delete the playlist. Please try again later.</string>
+    <string name="delete_channel_by_id_exception">Failed to delete the channel. Please try again.</string>
+    <string name="get_epg_data_exception">Failed to retrieve EPG data. Please check your connection and try again.</string>
+    <string name="parse_epg_failed_exception">Could not parse the EPG data. Ensure the file format is correct.</string>
+    <string name="create_epg_data_exception">Unable to create EPG entry. Please verify your input and try again.</string>
+    <string name="delete_epg_exception">Failed to delete EPG source. Please try again later.</string>
+    <string name="get_epg_channels_data_exception">Error loading channels from EPG. Please refresh or try again later.</string>
+    <string name="get_user_preferences_exception">Unable to load user preferences. Please try again.</string>
+    <string name="create_reminder_exception">Could not set the reminder. Please try again.</string>
+    <string name="verify_reminder_by_id_exception">Error verifying reminder. Please try again.</string>
+    <string name="fetch_reminder_by_schedule_id_exception">Failed to retrieve the reminder. Please try again later.</string>
+    <string name="delete_reminder_by_id_exception">Unable to delete reminder. Please try again later.</string>
+    <string name="search_channels_exception">Error during channel search. Ensure your input is correct and try again.</string>
+    <string name="get_profile_by_id_exception">Could not retrieve profile information. Please try again.</string>
+    <string name="invalid_data_exception">The data provided is invalid. Please check your input.</string>
+    <string name="verify_pin_exception">Unable to verify the provided PIN. Please ensure it is correct.</string>
+    <string name="update_profile_exception">There was an issue updating your profile. Please try again later.</string>
+    <string name="delete_profile_exception">Unable to delete the profile. Please ensure it is selected correctly.</string>
+    <string name="fetch_profiles_exception">Unable to fetch profiles. Please try again later.</string>
 
     <!-- Validation Messages -->
     <string name="invalid_secure_pin_message">Invalid secure pin format.</string>
