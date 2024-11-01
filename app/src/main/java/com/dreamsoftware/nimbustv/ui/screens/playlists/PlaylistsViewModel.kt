@@ -55,7 +55,8 @@ class PlaylistsViewModel @Inject constructor(
                     alias = newPlayListAlias,
                     url = newPlayListUrl
                 ),
-                onSuccess = { onImportPlayListCompleted() }
+                onSuccess = { onImportPlayListCompleted() },
+                onMapExceptionToState = ::onMapExceptionToState
             )
         }
     }
@@ -93,7 +94,6 @@ data class PlaylistsUiState(
     override val errorMessage: String? = null,
     val playlists: List<PlayListBO> = emptyList(),
     val isImportPlaylistDialogVisible: Boolean = false,
-    val isImporting: Boolean = false,
     val newPlayListAlias: String = String.EMPTY,
     val newPlayListUrl: String = String.EMPTY,
 ): UiState<PlaylistsUiState>(isLoading, errorMessage) {

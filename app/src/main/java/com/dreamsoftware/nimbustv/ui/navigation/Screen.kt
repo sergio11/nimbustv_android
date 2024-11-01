@@ -5,8 +5,8 @@ import android.telecom.InCallService.VideoCall
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
-import com.dreamsoftware.nimbustv.ui.player.audio.AudioPlayerScreenArgs
-import com.dreamsoftware.nimbustv.ui.player.video.VideoPlayerScreenArgs
+import com.dreamsoftware.nimbustv.ui.screens.player.audio.AudioPlayerScreenArgs
+import com.dreamsoftware.nimbustv.ui.screens.player.video.VideoPlayerScreenArgs
 import com.dreamsoftware.nimbustv.ui.screens.playlistdetail.PlaylistDetailScreenArgs
 import com.dreamsoftware.nimbustv.ui.screens.profiles.changesecurepin.ChangeSecurePinScreenArgs
 import com.dreamsoftware.nimbustv.ui.screens.profiles.delete.DeleteProfileScreenArgs

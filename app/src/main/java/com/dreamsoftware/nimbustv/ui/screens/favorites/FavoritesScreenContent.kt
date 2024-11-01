@@ -44,7 +44,10 @@ internal fun FavoritesScreenContent(
                     onBackPressed = ::onCloseDetail
                 )
             }
-            FudgeTvScreenContent(onErrorAccepted = ::onErrorMessageCleared) {
+            FudgeTvScreenContent(
+                error = errorMessage,
+                onErrorAccepted = ::onErrorMessageCleared
+            ) {
                 if (isLoading) {
                     FudgeTvLoadingState(modifier = Modifier.fillMaxSize())
                 } else if (channels.isEmpty()) {

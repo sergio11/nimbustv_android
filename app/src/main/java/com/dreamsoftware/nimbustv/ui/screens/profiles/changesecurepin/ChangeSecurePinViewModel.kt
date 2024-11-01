@@ -1,20 +1,23 @@
 package com.dreamsoftware.nimbustv.ui.screens.profiles.changesecurepin
 
-import com.dreamsoftware.nimbustv.domain.model.ProfileBO
-import com.dreamsoftware.nimbustv.ui.utils.EMPTY
-import com.dreamsoftware.nimbustv.utils.combinedLet
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
+import com.dreamsoftware.fudge.core.IFudgeTvErrorMapper
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
+import com.dreamsoftware.nimbustv.di.ChangeSecurePinScreenErrorMapper
+import com.dreamsoftware.nimbustv.domain.model.ProfileBO
 import com.dreamsoftware.nimbustv.domain.usecase.ChangeSecurePinUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfileByIdUseCase
+import com.dreamsoftware.nimbustv.ui.utils.EMPTY
+import com.dreamsoftware.nimbustv.utils.combinedLet
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class ChangeSecurePinViewModel @Inject constructor(
     private val getProfileByIdUseCase: GetProfileByIdUseCase,
-    private val changeSecurePinUseCase: ChangeSecurePinUseCase
+    private val changeSecurePinUseCase: ChangeSecurePinUseCase,
+    @ChangeSecurePinScreenErrorMapper private val errorMapper: IFudgeTvErrorMapper
 ): FudgeTvViewModel<ChangeSecurePinUiState, ChangeSecurePinSideEffects>(), ChangeSecurePinActionListener {
 
     override fun onGetDefaultState(): ChangeSecurePinUiState = ChangeSecurePinUiState()
@@ -23,7 +26,8 @@ class ChangeSecurePinViewModel @Inject constructor(
         executeUseCaseWithParams(
             useCase = getProfileByIdUseCase,
             params = GetProfileByIdUseCase.Params(profileId),
-            onSuccess = ::onLoadProfileCompleted
+            onSuccess = ::onLoadProfileCompleted,
+            onMapExceptionToState = ::onMapExceptionToState
         )
     }
 
@@ -41,7 +45,8 @@ class ChangeSecurePinViewModel @Inject constructor(
                         currentSecurePin = currentSecurePin,
                         newSecurePin = newSecurePin
                     ),
-                    onSuccess = { onSecurePinChanged() }
+                    onSuccess = { onSecurePinChanged() },
+                    onMapExceptionToState = ::onMapExceptionToState
                 )
             }
         }
@@ -77,6 +82,12 @@ class ChangeSecurePinViewModel @Inject constructor(
             )
         }
     }
+
+    private fun onMapExceptionToState(ex: Exception, uiState: ChangeSecurePinUiState) =
+        uiState.copy(
+            isLoading = false,
+            errorMessage = errorMapper.mapToMessage(ex)
+        )
 }
 
 data class ChangeSecurePinUiState(

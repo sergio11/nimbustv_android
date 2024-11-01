@@ -1,18 +1,21 @@
 package com.dreamsoftware.nimbustv.ui.screens.profiles.management
 
-import com.dreamsoftware.nimbustv.domain.model.ProfileBO
-import com.dreamsoftware.nimbustv.ui.utils.toDrawableResource
 import com.dreamsoftware.fudge.component.profiles.ProfileSelectorVO
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
+import com.dreamsoftware.fudge.core.IFudgeTvErrorMapper
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
+import com.dreamsoftware.nimbustv.di.ProfileManagementScreenErrorMapper
+import com.dreamsoftware.nimbustv.domain.model.ProfileBO
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfilesUseCase
+import com.dreamsoftware.nimbustv.ui.utils.toDrawableResource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfilesManagementViewModel @Inject constructor(
     private val getProfilesUseCase: GetProfilesUseCase,
+    @ProfileManagementScreenErrorMapper private val errorMapper: IFudgeTvErrorMapper
 ): FudgeTvViewModel<ProfilesManagementUiState, ProfilesManagementSideEffects>() {
 
     override fun onGetDefaultState(): ProfilesManagementUiState = ProfilesManagementUiState()
@@ -20,7 +23,8 @@ class ProfilesManagementViewModel @Inject constructor(
     fun loadProfiles() {
         executeUseCase(
             useCase = getProfilesUseCase,
-            onSuccess = ::onLoadProfileSuccessfully
+            onSuccess = ::onLoadProfileSuccessfully,
+            onMapExceptionToState = ::onMapExceptionToState
         )
     }
 
@@ -37,6 +41,12 @@ class ProfilesManagementViewModel @Inject constructor(
             })
         }
     }
+
+    private fun onMapExceptionToState(ex: Exception, uiState: ProfilesManagementUiState) =
+        uiState.copy(
+            isLoading = false,
+            errorMessage = errorMapper.mapToMessage(ex)
+        )
 }
 
 data class ProfilesManagementUiState(

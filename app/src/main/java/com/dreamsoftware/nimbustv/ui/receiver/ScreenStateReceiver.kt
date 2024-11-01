@@ -4,9 +4,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.util.Log
-import com.dreamsoftware.nimbustv.AppEvent
 import com.dreamsoftware.fudge.utils.FudgeTvEventBus
+import com.dreamsoftware.nimbustv.AppEvent
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -19,11 +18,9 @@ class ScreenStateReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         when (intent?.action) {
             Intent.ACTION_SCREEN_ON -> {
-                Log.d("ScreenStateReceiver", "ACTION_SCREEN_ON")
                 appEventBus.send(AppEvent.ComeFromStandby)
             }
             Intent.ACTION_SCREEN_OFF -> {
-                Log.d("ScreenStateReceiver", "ACTION_SCREEN_OFF")
                 appEventBus.send(AppEvent.GoToStandby)
             }
         }
