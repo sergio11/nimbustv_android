@@ -52,6 +52,7 @@ internal fun HomeScreenContent(
         with(actionListener) {
             CommonPlaylistScreenContent(
                 isLoading = isLoading,
+                isImporting = isImporting,
                 isImportPlaylistDialogVisible = isImportPlaylistDialogVisible,
                 playlists = playlists,
                 playListUrl = newPlayListUrl,
