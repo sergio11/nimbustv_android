@@ -36,6 +36,7 @@ internal fun PlaylistsScreenContent(
         with(actionListener) {
             CommonPlaylistScreenContent(
                 isLoading = isLoading,
+                isImporting = isImporting,
                 isImportPlaylistDialogVisible = isImportPlaylistDialogVisible,
                 errorMessage = errorMessage,
                 playlists = playlists,

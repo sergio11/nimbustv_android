@@ -11,11 +11,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import com.dreamsoftware.fudge.component.FudgeTvButton
 import com.dreamsoftware.fudge.component.FudgeTvButtonTypeEnum
+import com.dreamsoftware.fudge.component.FudgeTvFocusRequester
 import com.dreamsoftware.fudge.component.FudgeTvText
 import com.dreamsoftware.fudge.component.FudgeTvTextTypeEnum
 import com.dreamsoftware.nimbustv.R
@@ -40,12 +42,16 @@ internal fun NoPlaylistFound(onImportClicked: () -> Unit) {
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(30.dp))
-        FudgeTvButton(
-            modifier = Modifier.playSoundEffectOnFocus(),
-            type = FudgeTvButtonTypeEnum.MEDIUM,
-            onClick = onImportClicked,
-            textRes = R.string.home_screen_import_new_iptv_playlist_button_text,
-        )
+        FudgeTvFocusRequester { focusRequester ->
+            FudgeTvButton(
+                modifier = Modifier
+                    .focusRequester(focusRequester)
+                    .playSoundEffectOnFocus(),
+                type = FudgeTvButtonTypeEnum.MEDIUM,
+                onClick = onImportClicked,
+                textRes = R.string.home_screen_import_new_iptv_playlist_button_text,
+            )
+        }
     }
 }
 
