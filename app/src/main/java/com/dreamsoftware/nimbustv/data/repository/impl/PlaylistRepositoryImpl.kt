@@ -31,6 +31,7 @@ internal class PlaylistRepositoryImpl(
                 .insert(createPlaylistMapper.mapInToOut(data))
                 .let(playlistMapper::mapInToOut)
         } catch (ex: DatabaseException) {
+            ex.printStackTrace()
             throw InsertPlaylistException(
                 "An error occurred when trying to insert the playlist",
                 ex
@@ -54,6 +55,7 @@ internal class PlaylistRepositoryImpl(
             }
 
         } catch (ex: DatabaseException) {
+            ex.printStackTrace()
             throw InsertPlaylistException(
                 "An error occurred when trying to update the playlist",
                 ex
@@ -68,6 +70,7 @@ internal class PlaylistRepositoryImpl(
                 .let(playlistMapper::mapInListToOutList)
                 .toList()
         } catch (ex: DatabaseException) {
+            ex.printStackTrace()
             throw GetPlaylistsByProfileException(
                 "An error occurred when trying to fetch playlists by profile id",
                 ex
@@ -80,6 +83,7 @@ internal class PlaylistRepositoryImpl(
         try {
             playListLocalDataSource.delete(id)
         } catch (ex: DatabaseException) {
+            ex.printStackTrace()
             throw DeletePlaylistsException(
                 "An error occurred when trying to delete playlist",
                 ex
