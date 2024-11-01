@@ -20,6 +20,8 @@ import androidx.room.PrimaryKey
 data class ChannelEpgEntity(
     @PrimaryKey
     override val id: String,
+    @ColumnInfo(name = "original_channel_id")
+    val originalChannelId: String,
     @ColumnInfo(name = "display_name")
     val displayName: String,
     @ColumnInfo(name = "epg_id")

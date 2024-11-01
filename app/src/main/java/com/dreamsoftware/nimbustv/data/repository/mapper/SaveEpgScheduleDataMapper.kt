@@ -4,7 +4,7 @@ import com.dreamsoftware.nimbustv.data.database.entity.ChannelScheduleEntity
 import com.dreamsoftware.nimbustv.domain.model.CreateEpgScheduleBO
 import com.dreamsoftware.nimbustv.utils.IOneSideMapper
 
-internal class SaveEpgProgrammeDataMapper: IOneSideMapper<CreateEpgScheduleBO, ChannelScheduleEntity> {
+internal class SaveEpgScheduleDataMapper: IOneSideMapper<CreateEpgScheduleBO, ChannelScheduleEntity> {
 
     override fun mapInToOut(input: CreateEpgScheduleBO): ChannelScheduleEntity = with(input) {
         ChannelScheduleEntity(
