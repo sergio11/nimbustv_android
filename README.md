@@ -369,11 +369,11 @@ The **Electronic Program Guide (EPG)** in **NimbusTV** lets each profile import,
 </p>
 
 <p align="center">
-  <img src="doc/screenshots/picture_60.png" />
+  <img src="doc/screenshots/picture_59.png" />
 </p>
 
 <p align="center">
-  <img src="doc/screenshots/picture_61.gif" />
+  <img src="doc/screenshots/picture_60.gif" />
 </p>
 
 - **Single-Column Mode** 📜:  
