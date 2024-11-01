@@ -360,6 +360,10 @@ The **Electronic Program Guide (EPG)** in **NimbusTV** lets each profile import,
   <img src="doc/screenshots/picture_52.png" />
 </p>
 
+<p align="center">
+  <img src="doc/screenshots/picture_7.png" />
+</p>
+
 - **Single-Column Mode** 📜:  
   This format organizes the EPG into a single column, with each channel appearing in an individual row alongside its full schedule for the day. Just like in **Now & Schedule Mode**, you can interact with events and set reminders for future shows.
 
@@ -373,6 +377,10 @@ The **Electronic Program Guide (EPG)** in **NimbusTV** lets each profile import,
 
 <p align="center">
   <img src="doc/screenshots/picture_56.gif" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_40.png" />
 </p>
 
 Both modes provide intuitive navigation through each channel’s programming, making it quick and easy to keep track of your favorite shows.
