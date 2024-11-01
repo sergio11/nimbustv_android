@@ -35,6 +35,7 @@ class PlaylistsViewModel @Inject constructor(
 
     private fun onMapExceptionToState(ex: Exception, uiState: PlaylistsUiState) =
         uiState.copy(
+            isImporting = false,
             isLoading = false,
             errorMessage = errorMapper.mapToMessage(ex)
         )
@@ -48,6 +49,7 @@ class PlaylistsViewModel @Inject constructor(
     }
 
     override fun onImportNewPlayListConfirmed() {
+        updateState { it.copy(isImporting = true) }
         doOnUiState {
             executeUseCaseWithParams(
                 useCase = createPlaylistUseCase,
@@ -81,6 +83,7 @@ class PlaylistsViewModel @Inject constructor(
     private fun resetImportPlaylistState() {
         updateState {
             it.copy(
+                isImporting = false,
                 isImportPlaylistDialogVisible = false,
                 newPlayListUrl = String.EMPTY,
                 newPlayListAlias = String.EMPTY
@@ -92,6 +95,7 @@ class PlaylistsViewModel @Inject constructor(
 data class PlaylistsUiState(
     override val isLoading: Boolean = false,
     override val errorMessage: String? = null,
+    val isImporting: Boolean = false,
     val playlists: List<PlayListBO> = emptyList(),
     val isImportPlaylistDialogVisible: Boolean = false,
     val newPlayListAlias: String = String.EMPTY,
