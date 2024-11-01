@@ -153,9 +153,17 @@ Begin your experience on **NimbusTV** by creating a profile. This first step is 
   <img src="doc/screenshots/picture_2.png" />
 </p>
 
+<p align="center">
+  <img src="doc/screenshots/picture_43.png" />
+</p>
+
 ### Managing Your Profiles 👤
 
 Step into the **Profiles** section, where you can customize **NimbusTV** to suit your viewing preferences. Here’s what makes the Profiles section so versatile:
+
+<p align="center">
+  <img src="doc/screenshots/picture_44.png" />
+</p>
 
 - **Profile Selection**: Choose between different profiles in the **Profile Selection** screen. Each profile allows for custom EPGs and playlists, ensuring a unique setup for each viewer.
 
@@ -213,6 +221,10 @@ Welcome to the **Home** screen of **NimbusTV**, your central hub for exploring a
 
 <p align="center">
   <img src="doc/screenshots/picture_6.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_38.png" />
 </p>
 
 - **Channel Preview** 🔍: Hover over any channel to get a quick preview of what's currently playing—ideal for browsing without fully tuning in.
