@@ -56,6 +56,7 @@ internal fun HomeScreenContent(
                 playlists = playlists,
                 playListUrl = newPlayListUrl,
                 playlistAlias = newPlayListAlias,
+                errorMessage = errorMessage,
                 onErrorMessageCleared = ::onErrorMessageCleared,
                 onImportNewPlaylistClicked = ::onImportNewPlaylistClicked,
                 onImportNewPlayListConfirmed = ::onImportNewPlayListConfirmed,

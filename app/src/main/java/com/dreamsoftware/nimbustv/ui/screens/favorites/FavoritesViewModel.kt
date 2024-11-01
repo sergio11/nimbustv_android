@@ -62,7 +62,8 @@ class FavoritesViewModel @Inject constructor(
             params = RemoveChannelFromFavoritesUseCase.Params(
                 channelId = channel.id
             ),
-            onSuccess = { onRemoveChannelFromFavoritesCompleted(channel) }
+            onSuccess = { onRemoveChannelFromFavoritesCompleted(channel) },
+            onMapExceptionToState = ::onMapExceptionToState,
         )
     }
 

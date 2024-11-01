@@ -2,8 +2,10 @@ package com.dreamsoftware.nimbustv.ui.screens.profiles.selector
 
 import com.dreamsoftware.fudge.component.profiles.ProfileSelectorVO
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
+import com.dreamsoftware.fudge.core.IFudgeTvErrorMapper
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
+import com.dreamsoftware.nimbustv.di.ProfileSelectorScreenErrorMapper
 import com.dreamsoftware.nimbustv.domain.model.ProfileBO
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfilesUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.HasProfilesCountUseCase
@@ -14,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileSelectorViewModel @Inject constructor(
     private val hasProfilesCountUseCase: HasProfilesCountUseCase,
-    private val getProfilesUseCase: GetProfilesUseCase
+    private val getProfilesUseCase: GetProfilesUseCase,
+    @ProfileSelectorScreenErrorMapper private val errorMapper: IFudgeTvErrorMapper
 ): FudgeTvViewModel<ProfileSelectorUiState, ProfileSelectorSideEffects>(), ProfileSelectorScreenActionListener {
 
     private var userProfiles: List<ProfileBO> = emptyList()
@@ -51,14 +54,16 @@ class ProfileSelectorViewModel @Inject constructor(
     private fun loadProfiles() {
         executeUseCase(
             useCase = getProfilesUseCase,
-            onSuccess = ::onLoadProfileSuccessfully
+            onSuccess = ::onLoadProfileSuccessfully,
+            onMapExceptionToState = ::onMapExceptionToState
         )
     }
 
     private fun checkProfiles() {
         executeUseCase(
             useCase = hasProfilesCountUseCase,
-            onSuccess = ::onVerifyProfilesSuccessfully
+            onSuccess = ::onVerifyProfilesSuccessfully,
+            onMapExceptionToState = ::onMapExceptionToState
         )
     }
 
@@ -88,6 +93,12 @@ class ProfileSelectorViewModel @Inject constructor(
     private fun onProfileLocked(profileId: String) {
         launchSideEffect(ProfileSelectorSideEffects.ProfileLocked(profileId))
     }
+
+    private fun onMapExceptionToState(ex: Exception, uiState: ProfileSelectorUiState) =
+        uiState.copy(
+            isLoading = false,
+            errorMessage = errorMapper.mapToMessage(ex)
+        )
 }
 
 data class ProfileSelectorUiState(

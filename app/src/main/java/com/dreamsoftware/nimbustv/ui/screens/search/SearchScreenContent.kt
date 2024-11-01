@@ -49,7 +49,10 @@ internal fun SearchScreenContent(
                     onBackPressed = ::onCloseDetail
                 )
             }
-            FudgeTvScreenContent(onErrorAccepted = ::onErrorMessageCleared) {
+            FudgeTvScreenContent(
+                error = errorMessage,
+                onErrorAccepted = ::onErrorMessageCleared
+            ) {
                 Row(
                     modifier = Modifier.fillMaxSize().padding(vertical = 12.dp)
                 ) {

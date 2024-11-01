@@ -24,10 +24,6 @@ annotation class ApplicationScope
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class SignUpScreenErrorMapper
-
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
 annotation class FavoritesScreenErrorMapper
 
 @Qualifier
@@ -52,8 +48,33 @@ annotation class EpgSourcesScreenErrorMapper
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class SignInScreenErrorMapper
+annotation class HomeScreenErrorMapper
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class SaveProfileScreenErrorMapper
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class SettingsScreenErrorMapper
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ChangeSecurePinScreenErrorMapper
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class DeleteProfileScreenErrorMapper
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ProfileManagementScreenErrorMapper
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class SecurePinScreenErrorMapper
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ProfileSelectorScreenErrorMapper
+

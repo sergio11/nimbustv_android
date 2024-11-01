@@ -6,8 +6,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.dreamsoftware.fudge.utils.openSystemSettings
 import com.dreamsoftware.nimbustv.domain.model.StreamTypeEnum
-import com.dreamsoftware.nimbustv.ui.player.audio.AudioPlayerScreen
-import com.dreamsoftware.nimbustv.ui.player.video.VideoPlayerScreen
+import com.dreamsoftware.nimbustv.ui.screens.player.audio.AudioPlayerScreen
+import com.dreamsoftware.nimbustv.ui.screens.player.video.VideoPlayerScreen
 import com.dreamsoftware.nimbustv.ui.screens.epg.EpgScreen
 import com.dreamsoftware.nimbustv.ui.screens.epgsources.EpgSourcesScreen
 import com.dreamsoftware.nimbustv.ui.screens.favorites.FavoritesScreen

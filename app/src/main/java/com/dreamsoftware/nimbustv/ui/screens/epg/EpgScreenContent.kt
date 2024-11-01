@@ -64,7 +64,10 @@ internal fun EpgScreenContent(
                 onAcceptClicked = ::onImportNewEpgDataConfirmed,
                 onCancelClicked = ::onImportNewEpgDataCancelled
             )
-            FudgeTvScreenContent(onErrorAccepted = ::onErrorMessageCleared) {
+            FudgeTvScreenContent(
+                error = errorMessage,
+                onErrorAccepted = ::onErrorMessageCleared
+            ) {
                 when {
                     isLoadingEpgList && epgDataIsEmpty -> {
                         FudgeTvLoadingState(modifier = Modifier.fillMaxSize())

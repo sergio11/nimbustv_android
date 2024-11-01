@@ -1,9 +1,11 @@
 package com.dreamsoftware.nimbustv.ui.screens.profiles.delete
 
-import com.dreamsoftware.nimbustv.domain.model.ProfileBO
 import com.dreamsoftware.fudge.core.FudgeTvViewModel
+import com.dreamsoftware.fudge.core.IFudgeTvErrorMapper
 import com.dreamsoftware.fudge.core.SideEffect
 import com.dreamsoftware.fudge.core.UiState
+import com.dreamsoftware.nimbustv.di.DeleteProfileScreenErrorMapper
+import com.dreamsoftware.nimbustv.domain.model.ProfileBO
 import com.dreamsoftware.nimbustv.domain.usecase.DeleteProfileUseCase
 import com.dreamsoftware.nimbustv.domain.usecase.GetProfileByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +14,8 @@ import javax.inject.Inject
 @HiltViewModel
 class DeleteProfileViewModel @Inject constructor(
     private val getProfileByIdUseCase: GetProfileByIdUseCase,
-    private val deleteProfileUseCase: DeleteProfileUseCase
+    private val deleteProfileUseCase: DeleteProfileUseCase,
+    @DeleteProfileScreenErrorMapper private val errorMapper: IFudgeTvErrorMapper
 ): FudgeTvViewModel<DeleteProfileUiState, DeleteProfileSideEffects>(), DeleteProfileScreenActionListener {
 
     override fun onGetDefaultState(): DeleteProfileUiState = DeleteProfileUiState()
@@ -21,7 +24,8 @@ class DeleteProfileViewModel @Inject constructor(
         executeUseCaseWithParams(
             useCase = getProfileByIdUseCase,
             params = GetProfileByIdUseCase.Params(profileId),
-            onSuccess = ::onLoadProfileCompleted
+            onSuccess = ::onLoadProfileCompleted,
+            onMapExceptionToState = ::onMapExceptionToState
         )
     }
 
@@ -43,7 +47,8 @@ class DeleteProfileViewModel @Inject constructor(
                     params = DeleteProfileUseCase.Params(profileId = profileId),
                     onSuccess = {
                         onProfileDeleted()
-                    }
+                    },
+                    onMapExceptionToState = ::onMapExceptionToState
                 )
             }
         }
@@ -57,6 +62,12 @@ class DeleteProfileViewModel @Inject constructor(
         updateState { it.copy(showProfileDeletedDialog = false) }
         launchSideEffect(DeleteProfileSideEffects.ProfileDeleteSuccessfully)
     }
+
+    private fun onMapExceptionToState(ex: Exception, uiState: DeleteProfileUiState) =
+        uiState.copy(
+            isLoading = false,
+            errorMessage = errorMapper.mapToMessage(ex)
+        )
 }
 
 data class DeleteProfileUiState(

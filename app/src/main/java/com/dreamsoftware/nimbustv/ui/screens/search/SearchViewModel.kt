@@ -64,6 +64,55 @@ class SearchViewModel @Inject constructor(
         launchSearch()
     }
 
+    override fun onOpenChannelDetail(channel: ChannelBO) {
+        updateState { it.copy(channelSelected = channel) }
+        executeUseCaseWithParams(
+            useCase = checkFavoriteChannelUseCase,
+            showLoadingState = false,
+            params = CheckFavoriteChannelUseCase.Params(
+                channelId = channel.id
+            ),
+            onSuccess = ::onVerifyFavoriteChannelCompleted,
+            onMapExceptionToState = ::onMapExceptionToState
+        )
+    }
+
+    override fun onCloseDetail() {
+        updateState { it.copy(channelSelected = null) }
+    }
+
+    override fun onPlayChannel(channel: ChannelBO) {
+        updateState { it.copy(channelSelected = null) }
+        launchSideEffect(SearchSideEffects.PlayChannelSideEffect(
+            channelId = channel.id,
+            streamType = channel.streamTypeEnum
+        ))
+    }
+
+    override fun onAddToFavorites(channel: ChannelBO) {
+        executeUseCaseWithParams(
+            useCase = addFavoriteChannelUseCase,
+            showLoadingState = false,
+            params = AddFavoriteChannelUseCase.Params(
+                channelId = channel.id
+            ),
+            onSuccess = { onAddChannelToFavoritesCompleted() },
+            onMapExceptionToState = ::onMapExceptionToState
+        )
+    }
+
+    override fun onRemoveFromFavorites(channel: ChannelBO) {
+        executeUseCaseWithParams(
+            useCase = removeChannelFromFavoritesUseCase,
+            showLoadingState = false,
+            params = RemoveChannelFromFavoritesUseCase.Params(
+                channelId = channel.id
+            ),
+            onSuccess = { onRemoveChannelFromFavoritesCompleted() },
+            onMapExceptionToState = ::onMapExceptionToState
+        )
+    }
+
     private fun launchSearchAfterDelay() {
         searchJob?.cancel()
         viewModelScope.launch {
@@ -106,52 +155,6 @@ class SearchViewModel @Inject constructor(
             isLoading = false,
             errorMessage = errorMapper.mapToMessage(ex)
         )
-
-    override fun onOpenChannelDetail(channel: ChannelBO) {
-        updateState { it.copy(channelSelected = channel) }
-        executeUseCaseWithParams(
-            useCase = checkFavoriteChannelUseCase,
-            showLoadingState = false,
-            params = CheckFavoriteChannelUseCase.Params(
-                channelId = channel.id
-            ),
-            onSuccess = ::onVerifyFavoriteChannelCompleted
-        )
-    }
-
-    override fun onCloseDetail() {
-        updateState { it.copy(channelSelected = null) }
-    }
-
-    override fun onPlayChannel(channel: ChannelBO) {
-        updateState { it.copy(channelSelected = null) }
-        launchSideEffect(SearchSideEffects.PlayChannelSideEffect(
-            channelId = channel.id,
-            streamType = channel.streamTypeEnum
-        ))
-    }
-
-    override fun onAddToFavorites(channel: ChannelBO) {
-        executeUseCaseWithParams(
-            useCase = addFavoriteChannelUseCase,
-            showLoadingState = false,
-            params = AddFavoriteChannelUseCase.Params(
-                channelId = channel.id
-            ),
-            onSuccess = { onAddChannelToFavoritesCompleted() }
-        )
-    }
-
-    override fun onRemoveFromFavorites(channel: ChannelBO) {
-        executeUseCaseWithParams(
-            useCase = removeChannelFromFavoritesUseCase,
-            showLoadingState = false,
-            params = RemoveChannelFromFavoritesUseCase.Params(
-                channelId = channel.id
-            ),
-            onSuccess = { onRemoveChannelFromFavoritesCompleted() }
-        )
-    }
 
     private fun onAddChannelToFavoritesCompleted() {
         updateState { it.copy(isFavoriteChannel = true) }
