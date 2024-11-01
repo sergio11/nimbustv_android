@@ -6,6 +6,7 @@ import com.dreamsoftware.nimbustv.data.database.datasource.impl.core.SupportLoca
 import com.dreamsoftware.nimbustv.data.database.entity.EpgEntity
 import com.dreamsoftware.nimbustv.data.database.exception.AccessDatabaseException
 import kotlinx.coroutines.CoroutineDispatcher
+import java.util.Date
 
 internal class EpgLocalDataSourceImpl(
     private val epgDao: EpgDao,
@@ -25,6 +26,6 @@ internal class EpgLocalDataSourceImpl(
 
     @Throws(AccessDatabaseException::class)
     override suspend fun updateLastUpdatedAt(epgId: String) = safeExecute {
-        epgDao.updateLastUpdatedAt(epgId)
+        epgDao.updateLastUpdatedAt(epgId, Date())
     }
 }
