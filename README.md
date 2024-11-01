@@ -128,6 +128,138 @@ MVI manages state and interactions, ensuring a predictable unidirectional data f
 
 This architecture ensures that NimbusTV is well-structured, easy to maintain, and scalable, adhering to best practices and design principles. 🌈✨
 
+## App Screenshots 📸
+
+Discover **NimbusTV** and its intuitive design with these screenshots, giving you a glimpse into the app’s key features!
+
+### Onboarding and Getting Started 🎬
+
+Begin your experience on **NimbusTV** by creating a profile. This first step is all about setting up a unique space for your favorite EPGs and playlists. No need for online accounts or login—everything is managed locally for a standalone experience. Start organizing your content right away!
+
+<p align="center">
+  <img src="doc/screenshots/picture_1.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_2.png" />
+</p>
+
+### Managing Your Profiles 👤
+
+Step into the **Profiles** section, where you can customize **NimbusTV** to suit your viewing preferences. Here’s what makes the Profiles section so versatile:
+
+- **Profile Selection**: Choose between different profiles in the **Profile Selection** screen. Each profile allows for custom EPGs and playlists, ensuring a unique setup for each viewer.
+
+- **Creating Profiles**: Add up to four profiles, perfect for household members who want their own playlists and EPGs. Customize each with a unique name and avatar, making NimbusTV adaptable and fun for everyone!
+
+- **Editing Profiles**: Update profile details, including name, avatar, and security PIN, all while keeping your data secure and your experience personalized.
+
+- **Deleting Profiles**: When a profile is no longer needed, delete it to keep **NimbusTV** clean and focused on what matters most.
+
+The **Profiles** section makes NimbusTV adaptable to every user’s viewing needs, ensuring a personalized experience on a single device.
+
+### Home Screen 🏠📺
+
+Welcome to the **Home** screen of **NimbusTV**, your central hub for exploring and enjoying your playlists and channels:
+
+<p align="center">
+  <img src="doc/screenshots/picture_9.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_6.png" />
+</p>
+
+- **Channel Preview** 🔍: Hover over any channel to get a quick preview of what's currently playing—ideal for browsing without fully tuning in.
+
+- **Favorites** ⭐: Mark your favorite channels to keep them easily accessible for quick viewing.
+
+- **Smooth Playlist Switching** 🔄: Effortlessly switch between playlists to explore channels organized by theme or preference, perfect if you like variety.
+
+<p align="center">
+  <img src="doc/screenshots/picture_5.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_4.png" />
+</p>
+
+- **Playlist Management** 🎛️: From the main screen, access the **Manage Playlist** button to open the playlist management view, where you can:
+  - **Add New Playlists** ➕: Add new M3U playlists to expand your channel lineup.
+  - **Delete Playlists** 🗑️: Remove playlists that are no longer needed.
+  - **Update Playlists** 🔄: Refresh playlists to keep content up-to-date.
+  - **Explore Channels and Favorites** 📋: View each playlist's channels, mark favorites, or play them instantly.
+ 
+<p align="center">
+  <img src="doc/screenshots/picture_8.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_10.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_11.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_12.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_13.png" />
+</p>
+
+With NimbusTV’s **Home** screen, you’re in control of all your playlists and favorite channels, providing a fully personalized TV experience. 🎉
+
+### Channel Search Screen 🔎📺
+
+The **Channel Search** feature in **NimbusTV** is your go-to tool for quickly finding channels across all imported playlists! Accessible from the **Side Menu** (if enabled in **Preferences**), this screen allows you to:
+
+- **Quickly Search Channels** 🔍: Type a keyword to search through all registered channels, making it easy to find exactly what you’re looking for in seconds.
+
+- **Intuitive On-Screen Keyboard** ⌨️: Use the keyboard on the left side of the screen to input search terms, with the results instantly updating as you type.
+
+- **Results Display** 📜: Found channels are shown in a convenient list on the right side of the screen. Browse through and explore results based on your search term.
+
+- **Channel Actions** 💬: Selecting a channel in the search results opens a dialog with two options:
+  - **Play Now** ▶️: Instantly tune in to the channel.
+  - **Add to Favorites** ⭐: Save the channel for quick access from your favorites list.
+
+<p align="center">
+  <img src="doc/screenshots/picture_15.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_16.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_14.png" />
+</p>
+
+The **Channel Search** screen streamlines navigation and lets you customize your experience by finding and favoriting channels across your playlists.
+
+### Favorites Section ⭐
+
+The **Favorites** section in **NimbusTV** is designed for quick access to the channels you love most. Here’s what makes it a perfect tool for streamlining your viewing experience:
+
+- **Easy Access to Favorites** 📜: Your favorite channels are all listed in one place, making it effortless to start watching right away.
+
+- **Instant Playback** ▶️: Simply select a channel from the list to begin playback, no need to navigate through different playlists.
+
+- **Manage Favorites** 🗑️: Want to declutter? Easily remove channels from your favorites list with a single action, keeping only the content you truly enjoy.
+
+The **Favorites** section keeps your top channels just a click away, making it your personalized hub for entertainment on NimbusTV!
+
+<p align="center">
+  <img src="doc/screenshots/picture_19.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_20.png" />
+</p>
+
 ## Contribution
 Contributions to NimbusTV Android are highly encouraged! If you're interested in adding new features, resolving bugs, or enhancing the project's functionality, please feel free to submit pull requests.
 
