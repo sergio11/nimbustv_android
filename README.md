@@ -53,6 +53,11 @@ NimbusTV is designed to transform the way users experience content on their Andr
 
 NimbusTV is committed to providing an enriching, user-friendly experience that meets the diverse needs of its users while transforming their living room into an entertainment hub. With its extensive features and intuitive interface, NimbusTV is your go-to platform for all things streaming! 🌟
 
+<p align="center">
+  <img src="doc/screenshots/picture_30.png" />
+</p>
+
+
 ## Technologies Used 🛠️
 
 NimbusTV harnesses a variety of technologies to deliver a seamless streaming experience on Android TV. 🌟
@@ -295,6 +300,60 @@ The **Favorites** section keeps your top channels just a click away, making it y
 <p align="center">
   <img src="doc/screenshots/picture_20.png" />
 </p>
+
+## Settings Screen ⚙️
+
+The **Settings** screen in **NimbusTV** offers you a range of customizable options to tailor your viewing experience. Here’s how you can enhance your interaction with the app:
+
+<p align="center">
+  <img src="doc/screenshots/picture_31.png" />
+</p>
+
+### Channel Search Settings 🔍
+
+The **Channel Search** option allows you to enable or disable the feature to search for channels across your playlists, providing you with flexibility in navigation.
+
+- **Toggle Search Visibility** ⚙️: Enable or disable the channel search feature easily. When activated, the search icon will appear in the side menu, making it simple to find your favorite channels at any time.
+
+<p align="center">
+  <img src="doc/screenshots/picture_32.png" />
+</p>
+
+- **EPG View Mode Selection** 📅: Choose how you want to view the Electronic Program Guide (EPG). You can opt for a **"Now & Schedule"** format with two columns for an overview of what's currently airing and what's coming up, or a **unified format** with a single column displaying all programming for the current day in one row per channel.
+
+<p align="center">
+  <img src="doc/screenshots/picture_33.png" />
+</p>
+
+### Additional Settings 🛠️
+
+- **Access AndroidTV Settings** 📱: Quickly navigate to the AndroidTV system settings for further customization and adjustments.
+
+- **Legal Information** 📜: View essential documents like **Terms and Conditions**, ensuring you understand the usage of the app.
+
+<p align="center">
+  <img src="doc/screenshots/picture_35.png" />
+</p>
+
+- **Help Section** ❓: Need assistance? Access the help section for FAQs and troubleshooting tips to enhance your experience.
+
+<p align="center">
+  <img src="doc/screenshots/picture_36.png" />
+</p>
+
+- **About Us** ℹ️: Learn more about **NimbusTV** and our mission in the "About NimbusTV" section.
+
+<p align="center">
+  <img src="doc/screenshots/picture_34.png" />
+</p>
+
+- **Log Out** 🚪: Easily log out of your account when you’re done, ensuring your privacy and security.
+
+<p align="center">
+  <img src="doc/screenshots/picture_37.png" />
+</p>
+
+With these settings, **NimbusTV** empowers you to create a viewing environment that fits your preferences, making your entertainment experience as enjoyable as possible!
 
 ## Contribution
 Contributions to NimbusTV Android are highly encouraged! If you're interested in adding new features, resolving bugs, or enhancing the project's functionality, please feel free to submit pull requests.
