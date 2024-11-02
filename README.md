@@ -251,6 +251,14 @@ Welcome to the **Home** screen of **NimbusTV**, your central hub for exploring a
 
 - **Channel Preview** 🔍: Hover over any channel to get a quick preview of what's currently playing—ideal for browsing without fully tuning in.
 
+<p align="center">
+  <img src="doc/screenshots/picture_62.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_63.png" />
+</p>
+
 - **Favorites** ⭐: Mark your favorite channels to keep them easily accessible for quick viewing.
 
 - **Smooth Playlist Switching** 🔄: Effortlessly switch between playlists to explore channels organized by theme or preference, perfect if you like variety.
@@ -461,6 +469,14 @@ The **Full-Screen Player** in **NimbusTV** provides an immersive viewing experie
   <img src="doc/screenshots/picture_18.png" />
 </p>
 
+<p align="center">
+  <img src="doc/screenshots/picture_64.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_65.png" />
+</p>
+
 #### Audio-Only Player for Music & Radio 📻
 
 For music or radio channels, **NimbusTV** launches a special **Audio-Only Player**:
@@ -468,6 +484,10 @@ For music or radio channels, **NimbusTV** launches a special **Audio-Only Player
 - **Music & Radio Display** 🎶: When tuning into a radio or music channel, the audio-only player displays station or channel information, delivering a streamlined audio experience without video, ideal for listening enjoyment.
 
 With both full-screen video playback and an optimized audio-only mode, **NimbusTV**’s player is designed to adapt to your viewing and listening needs, making every channel as engaging as possible.
+
+<p align="center">
+  <img src="doc/screenshots/picture_66.png" />
+</p>
 
 
 ### Settings Screen ⚙️
