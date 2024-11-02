@@ -565,6 +565,8 @@ To handle M3U playlist parsing, we’ve integrated and customized the [M3u parse
 
 ## Visitors Count
 
+<img width="auto" src="https://profile-counter.glitch.me/nimbustv_android/count.svg" />
+
  
  ## Please Share & Star the repository to keep me motivated.
   <a href = "https://github.com/sergio11/nimbustv_android/stargazers">
