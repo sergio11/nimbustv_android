@@ -1,6 +1,5 @@
 package com.dreamsoftware.nimbustv.ui.screens.player.audio
 
-import android.util.Log
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -35,7 +34,6 @@ import com.dreamsoftware.nimbustv.ui.core.components.ChannelLogo
 import com.dreamsoftware.nimbustv.ui.core.components.CommonPlayerBackground
 import com.dreamsoftware.nimbustv.ui.core.player.SupportPlayer
 import com.dreamsoftware.nimbustv.ui.core.player.state.PlayerState
-import com.dreamsoftware.nimbustv.ui.core.player.state.PlayerStateListener
 import com.dreamsoftware.nimbustv.ui.utils.EMPTY
 
 @androidx.annotation.OptIn(UnstableApi::class)
@@ -54,14 +52,6 @@ internal fun AudioPlayerScreenContent(
         ),
         label = String.EMPTY
     )
-    val stateListener = remember {
-        object : PlayerStateListener {
-            override fun on(state: PlayerState) {
-                Log.d("AudioScreenContent", "State $state")
-                playerState = state
-            }
-        }
-    }
     with(state) {
         Column(
             modifier = Modifier
@@ -88,7 +78,7 @@ internal fun AudioPlayerScreenContent(
                 modifier = Modifier.padding(top = 50.dp),
                 videResource = state.audioUrl,
                 videoResourceLicenseKey = state.licenseKey,
-                playerStateListener = stateListener,
+                onStateChanged = { playerState = it },
                 isOnlyAudio = true
             ) { supportPlayer ->
                 AudioPlayerControls(

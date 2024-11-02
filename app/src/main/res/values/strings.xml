@@ -55,7 +55,7 @@
     <string name="update_profile_exception">There was an issue updating your profile. Please try again later.</string>
     <string name="delete_profile_exception">Unable to delete the profile. Please ensure it is selected correctly.</string>
     <string name="fetch_profiles_exception">Unable to fetch profiles. Please try again later.</string>
-
+    <string name="channel_playback_error_occurred">Oops! There was an error playing this channel. Please try again in a moment.</string>
     <!-- Validation Messages -->
     <string name="invalid_secure_pin_message">Invalid secure pin format.</string>
     <string name="invalid_alias_message">You must provide an alias.</string>
