@@ -1,7 +1,6 @@
 package com.dreamsoftware.nimbustv.ui.screens.player.video
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
@@ -37,7 +36,6 @@ import com.dreamsoftware.nimbustv.ui.core.components.FavouriteButton
 import com.dreamsoftware.nimbustv.ui.core.player.PlayerControlsState
 import com.dreamsoftware.nimbustv.ui.core.player.rememberVideoPlayerState
 import com.dreamsoftware.nimbustv.ui.core.player.state.PlayerState
-import com.dreamsoftware.nimbustv.ui.core.player.state.PlayerStateListener
 import com.dreamsoftware.nimbustv.ui.screens.player.video.components.VideoPlayerControlsIcon
 import kotlinx.coroutines.launch
 
@@ -51,19 +49,11 @@ internal fun VideoPlayerScreenContent(
         val coroutineScope = rememberCoroutineScope()
         var playerState: PlayerState by remember { mutableStateOf(PlayerState.Idle) }
         val videoPlayerState = rememberVideoPlayerState(hideSeconds = 4, coroutineScope)
-        val stateListener = remember {
-            object : PlayerStateListener {
-                override fun on(state: PlayerState) {
-                    Log.d("PlayerScreenContent", "State $state")
-                    playerState = state
-                }
-            }
-        }
         FudgeTvScreenContent(onErrorAccepted = ::onErrorMessageCleared) {
             CommonPlayerBackground(
                 videResource = state.videoUrl,
                 videoResourceLicenseKey = state.licenseKey,
-                playerStateListener = stateListener,
+                onStateChanged = { playerState = it },
                 onEnter = {
                     if (!videoPlayerState.isDisplayed) {
                         coroutineScope.launch {

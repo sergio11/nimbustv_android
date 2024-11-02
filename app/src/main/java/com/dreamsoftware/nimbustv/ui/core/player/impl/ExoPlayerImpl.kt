@@ -16,7 +16,6 @@ import androidx.media3.exoplayer.hls.HlsMediaSource
 import com.dreamsoftware.nimbustv.ui.core.player.SupportPlayer
 import com.dreamsoftware.nimbustv.ui.core.player.state.PlayerStateListener
 
-
 @UnstableApi
 internal class ExoPlayerImpl(
     private val player: ExoPlayer,
