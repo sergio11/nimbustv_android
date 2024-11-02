@@ -453,6 +453,14 @@ The **Full-Screen Player** in **NimbusTV** provides an immersive viewing experie
 
 - **Access System Settings** ⚙️: Open the system settings panel without leaving the player, allowing for quick adjustments to enhance your viewing experience.
 
+<p align="center">
+  <img src="doc/screenshots/picture_17.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_18.png" />
+</p>
+
 #### Audio-Only Player for Music & Radio 📻
 
 For music or radio channels, **NimbusTV** launches a special **Audio-Only Player**:
