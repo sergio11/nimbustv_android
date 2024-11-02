@@ -230,7 +230,7 @@ private fun EpgListColumn(
                 FudgeTvLoadingState(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color.White)
+                        .background(MaterialTheme.colorScheme.primary)
                 )
             } else {
                 LazyColumn(
