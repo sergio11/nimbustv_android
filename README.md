@@ -14,6 +14,14 @@ A big thank you to the [JetFit](https://github.com/TheChance101/tv-samples/tree/
 
 Explore NimbusTV today, and bring a world of channels right to your living room—effortless, organized, and always ready when you are. 🌐✨📺
 
+### About Playlist and EPG Sources
+
+For demonstration and testing purposes, **NimbusTV** utilizes publicly available IPTV playlists from the [IPTV-Org](https://iptv-org.github.io/) project. These playlists offer a diverse collection of international channels in M3U format, enabling users to explore and experience a wide range of content directly from the app.
+
+To handle M3U playlist parsing, we’ve integrated and customized the [M3u parser](https://github.com/BjoernPetersen/m3u-parser) library. Modifications were made to extend the functionality, allowing NimbusTV to support even more complex M3U structures, while accommodating the varied and sometimes inconsistent formats found in IPTV playlists.
+
+Explore NimbusTV today, and bring a world of channels right to your living room—effortless, organized, and always ready when you are. 🌐✨📺
+
 <p align="center">
   <img src="https://img.shields.io/badge/Android%20Studio-3DDC84.svg?style=for-the-badge&logo=android-studio&logoColor=white" />
   <img src="https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white" />
