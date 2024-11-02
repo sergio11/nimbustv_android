@@ -34,7 +34,12 @@ class DashboardViewModel @Inject constructor(
         viewModelScope.launch {
             val profile = fetchCurrentSelectedProfile()
             val userPreferences = fetchUserPreferences()
-            updateState { it.copy(items = onBuildNavigationDrawerMenuItems(profile, userPreferences)) }
+            updateState {
+                it.copy(
+                    searchEnabled = userPreferences?.enableSearch ?: false,
+                    items = onBuildNavigationDrawerMenuItems(profile, userPreferences)
+                )
+            }
         }
     }
 
@@ -124,6 +129,7 @@ class DashboardViewModel @Inject constructor(
 data class DashboardUiState(
     override val isLoading: Boolean = false,
     override val errorMessage: String? = null,
+    val searchEnabled: Boolean = false,
     val items: List<FudgeTvNavigationDrawerItemModel> = emptyList(),
 ) : UiState<DashboardUiState>(isLoading, errorMessage) {
     override fun copyState(isLoading: Boolean, errorMessage: String?): DashboardUiState =
