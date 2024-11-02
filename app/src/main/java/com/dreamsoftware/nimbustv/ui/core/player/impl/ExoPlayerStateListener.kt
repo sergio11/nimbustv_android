@@ -15,23 +15,30 @@ internal class ExoPlayerStateListener(
     val player: ExoPlayer
 ) : Player.Listener {
 
+    private companion object {
+        const val TAG = "EXOPLAYER_LISTENER"
+    }
+
     override fun onIsPlayingChanged(isPlaying: Boolean) {
         super.onIsPlayingChanged(isPlaying)
-        stateListener.on(getStateWhen(isPlaying))
+        Log.d(TAG, "onIsPlayingChanged $isPlaying")
+        stateListener.onStateChanged(getStateWhen(isPlaying))
     }
 
     override fun onPlayerError(error: PlaybackException) {
         super.onPlayerError(error)
-        Log.d("Exoplayer", "onPlayerError $error")
+        Log.d(TAG, "onPlayerError $error")
+        stateListener.onErrorOccurred(error)
     }
 
     override fun onPlayerErrorChanged(error: PlaybackException?) {
         super.onPlayerErrorChanged(error)
-        Log.d("Exoplayer", "onPlayerErrorChanged $error")
+        Log.d(TAG, "onPlayerErrorChanged $error")
     }
 
     override fun onPlaybackStateChanged(playbackState: Int) {
         super.onPlaybackStateChanged(playbackState)
+        Log.d(TAG, "onPlaybackStateChanged $playbackState")
         val state = when (playbackState) {
             STATE_BUFFERING -> PlayerState.Buffering
             STATE_READY -> {
@@ -42,9 +49,7 @@ internal class ExoPlayerStateListener(
             STATE_ENDED -> PlayerState.Complete
             else -> PlayerState.Idle
         }
-
-        Log.d("Exoplayer", "PlaybackState $state")
-        stateListener.on(state)
+        stateListener.onStateChanged(state)
     }
 
     private fun getStateWhen(playing: Boolean) = if (playing)
