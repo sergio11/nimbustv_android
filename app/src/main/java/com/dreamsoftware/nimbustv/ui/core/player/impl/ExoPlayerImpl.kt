@@ -11,6 +11,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.dash.DashMediaSource
 import androidx.media3.exoplayer.drm.DefaultDrmSessionManager
 import androidx.media3.exoplayer.drm.FrameworkMediaDrm
+import androidx.media3.exoplayer.drm.HttpMediaDrmCallback
 import androidx.media3.exoplayer.drm.LocalMediaDrmCallback
 import androidx.media3.exoplayer.hls.HlsMediaSource
 import com.dreamsoftware.nimbustv.ui.core.player.SupportPlayer
@@ -65,18 +66,23 @@ internal class ExoPlayerImpl(
 
     override fun prepareDash(videoResource: String, licenseKey: String) {
         player.apply {
-            // Split the licenseKey into kid and k
-            val licenseParts = licenseKey.split(":") // Use the parameter instead of hardcoded value
-            if (licenseParts.size == 2) {
-                val kid = licenseParts[0] // First part is kid
-                val k = licenseParts[1] // Second part is k
+            // Check if `licenseKey` is a URL (starts with "http://" or "https://") or in the "kid:k" format.
+            val drmCallback = if (licenseKey.startsWith("http://") || licenseKey.startsWith("https://")) {
+                // Case 1: `licenseKey` is a full URL, use it directly as the DRM license server URL
+                HttpMediaDrmCallback(licenseKey, DefaultHttpDataSource.Factory())
+            } else {
+                // Case 2: `licenseKey` is in "kid:k" format, generate DRM JSON manually
+                val licenseParts = licenseKey.split(":")
+                if (licenseParts.size == 2) {
+                    val kid = licenseParts[0]  // First part as key ID (kid)
+                    val k = licenseParts[1]    // Second part as the actual key (k)
 
-                // Log the extracted keys (for debugging purposes)
-                Log.d(TAG, "Extracted key ID (kid): $kid")
-                Log.d(TAG, "Extracted key (k): $k")
+                    // Log extracted keys for debugging
+                    Log.d(TAG, "Extracted key ID (kid): $kid")
+                    Log.d(TAG, "Extracted key (k): $k")
 
-                // Create the keyString for DRM callback
-                val keyString = """
+                    // Generate DRM JSON string using extracted `kid` and `k`
+                    val keyString = """
                 {
                     "keys": [
                         {
@@ -87,33 +93,40 @@ internal class ExoPlayerImpl(
                     ],
                     "type": "temporary"
                 }
-            """.trimIndent()
+                """.trimIndent()
 
-                try {
-                    // Set the DRM callback with the generated keyString
-                    val drmCallback = LocalMediaDrmCallback(keyString.encodeToByteArray())
-                    setMediaSource(
-                        DashMediaSource.Factory(DefaultHttpDataSource.Factory())
-                            .setDrmSessionManagerProvider {
-                                DefaultDrmSessionManager.Builder()
-                                    .setPlayClearSamplesWithoutKeys(true)
-                                    .setMultiSession(false)
-                                    .setKeyRequestParameters(emptyMap())
-                                    .setUuidAndExoMediaDrmProvider(
-                                        C.CLEARKEY_UUID,
-                                        FrameworkMediaDrm.DEFAULT_PROVIDER
-                                    )
-                                    .build(drmCallback)
-                            }
-                            .createMediaSource(MediaItem.fromUri(licenseKey))
-                    )
-                    prepare()
-                    Log.d(TAG, "Preparation complete for video resource: $videoResource")
-                } catch (e: Exception) {
-                    Log.d(TAG, "Error during DRM setup: ${e.message}", e)
+                    // Create the DRM callback with the generated JSON
+                    LocalMediaDrmCallback(keyString.encodeToByteArray())
+                } else {
+                    // Handle error if `licenseKey` format is not valid
+                    Log.d(TAG, "Invalid licenseKey format: $licenseKey")
+                    return  // Exit if format is incorrect to avoid crashing
                 }
-            } else {
-                Log.d(TAG, "Invalid licenseKey format: $licenseKey")
+            }
+
+            try {
+                // Use `videoResource` as the video resource URL
+                setMediaSource(
+                    DashMediaSource.Factory(DefaultHttpDataSource.Factory())
+                        .setDrmSessionManagerProvider {
+                            DefaultDrmSessionManager.Builder()
+                                .setPlayClearSamplesWithoutKeys(true)
+                                .setMultiSession(false)
+                                .setKeyRequestParameters(emptyMap())
+                                .setUuidAndExoMediaDrmProvider(
+                                    C.CLEARKEY_UUID,
+                                    FrameworkMediaDrm.DEFAULT_PROVIDER
+                                )
+                                .build(drmCallback)
+                        }
+                        .createMediaSource(MediaItem.fromUri(videoResource))  // Use videoResource as video URL
+                )
+
+                // Prepare the player
+                prepare()
+                Log.d(TAG, "Preparation complete for video resource: $videoResource")
+            } catch (e: Exception) {
+                Log.d(TAG, "Error during DRM setup: ${e.message}", e)
             }
         }
     }
