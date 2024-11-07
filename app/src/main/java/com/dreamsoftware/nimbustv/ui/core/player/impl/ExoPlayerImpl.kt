@@ -16,6 +16,8 @@ import androidx.media3.exoplayer.drm.LocalMediaDrmCallback
 import androidx.media3.exoplayer.hls.HlsMediaSource
 import com.dreamsoftware.nimbustv.ui.core.player.SupportPlayer
 import com.dreamsoftware.nimbustv.ui.core.player.state.PlayerStateListener
+import java.nio.ByteBuffer
+import android.util.Base64
 
 @UnstableApi
 internal class ExoPlayerImpl(
@@ -66,41 +68,29 @@ internal class ExoPlayerImpl(
 
     override fun prepareDash(videoResource: String, licenseKey: String) {
         player.apply {
-            // Check if `licenseKey` is a URL (starts with "http://" or "https://") or in the "kid:k" format.
+            // Determine if `licenseKey` is a URL or in the "kid:k" format
             val drmCallback = if (licenseKey.startsWith("http://") || licenseKey.startsWith("https://")) {
-                // Case 1: `licenseKey` is a full URL, use it directly as the DRM license server URL
+                // Case 1: `licenseKey` is a URL, use it directly as DRM license server URL
                 HttpMediaDrmCallback(licenseKey, DefaultHttpDataSource.Factory())
             } else {
-                // Case 2: `licenseKey` is in "kid:k" format, generate DRM JSON manually
+                // Case 2: `licenseKey` is in "kid:k" format, parse and base64 URL-encode it correctly
                 val licenseParts = licenseKey.split(":")
                 if (licenseParts.size == 2) {
-                    val kid = licenseParts[0]  // First part as key ID (kid)
-                    val k = licenseParts[1]    // Second part as the actual key (k)
+                    // Parse `kid` and `k` as hex and convert them to base64 URL without padding
+                    val kidBytes = hexStringToByteArray(licenseParts[0])
+                    val keyBytes = hexStringToByteArray(licenseParts[1])
 
-                    // Log extracted keys for debugging
-                    Log.d(TAG, "Extracted key ID (kid): $kid")
-                    Log.d(TAG, "Extracted key (k): $k")
+                    val kidBase64 = toBase64UrlWithoutPadding(kidBytes)
+                    val keyBase64 = toBase64UrlWithoutPadding(keyBytes)
 
-                    // Generate DRM JSON string using extracted `kid` and `k`
-                    val keyString = """
-                {
-                    "keys": [
-                        {
-                            "kty": "oct",
-                            "k": "$k",
-                            "kid": "$kid"
-                        }
-                    ],
-                    "type": "temporary"
-                }
-                """.trimIndent()
+                    // Create JSON for ClearKey DRM with base64 URL encoded values
+                    val keyString = """{"keys":[{"kty":"oct","k":"$keyBase64","kid":"$kidBase64"}],"type":"temporary"}"""
 
-                    // Create the DRM callback with the generated JSON
+                    // Create DRM callback with generated JSON
                     LocalMediaDrmCallback(keyString.encodeToByteArray())
                 } else {
-                    // Handle error if `licenseKey` format is not valid
                     Log.d(TAG, "Invalid licenseKey format: $licenseKey")
-                    return  // Exit if format is incorrect to avoid crashing
+                    return
                 }
             }
 
@@ -110,8 +100,8 @@ internal class ExoPlayerImpl(
                     DashMediaSource.Factory(DefaultHttpDataSource.Factory())
                         .setDrmSessionManagerProvider {
                             DefaultDrmSessionManager.Builder()
-                                .setPlayClearSamplesWithoutKeys(true)
-                                .setMultiSession(false)
+                                .setPlayClearSamplesWithoutKeys(true)  // Allow handling of unencrypted samples
+                                .setMultiSession(true)
                                 .setKeyRequestParameters(emptyMap())
                                 .setUuidAndExoMediaDrmProvider(
                                     C.CLEARKEY_UUID,
@@ -119,7 +109,7 @@ internal class ExoPlayerImpl(
                                 )
                                 .build(drmCallback)
                         }
-                        .createMediaSource(MediaItem.fromUri(videoResource))  // Use videoResource as video URL
+                        .createMediaSource(MediaItem.fromUri(videoResource))
                 )
 
                 // Prepare the player
@@ -166,4 +156,17 @@ internal class ExoPlayerImpl(
         listener = null
     }
 
+    // Function to convert hex string to byte array
+    private fun hexStringToByteArray(hex: String): ByteArray {
+        val len = hex.length
+        val data = ByteArray(len / 2)
+        for (i in 0 until len step 2) {
+            data[i / 2] = ((Character.digit(hex[i], 16) shl 4) + Character.digit(hex[i + 1], 16)).toByte()
+        }
+        return data
+    }
+
+    // Function to convert byte array to base64 URL without padding
+    private fun toBase64UrlWithoutPadding(bytes: ByteArray): String =
+        Base64.encodeToString(bytes, Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP)
 }
