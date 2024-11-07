@@ -31,6 +31,14 @@ Explore NimbusTV today, and bring a world of channels right to your living room�
 
 Slides are built using the  template from [Previewed](https://previewed.app/template/AFC0B4CB). I extend my gratitude to them for their remarkable work and contribution.
 
+### About Playlist and EPG Sources
+
+For demonstration and testing purposes, **NimbusTV** utilizes publicly available IPTV playlists from the [IPTV-Org](https://iptv-org.github.io/) project. These playlists offer a diverse collection of international channels in M3U format, enabling users to explore and experience a wide range of content directly from the app.
+
+To handle M3U playlist parsing, we’ve integrated and customized the [M3u parser](https://github.com/BjoernPetersen/m3u-parser) library. Modifications were made to extend the functionality, allowing NimbusTV to support even more complex M3U structures, while accommodating the varied and sometimes inconsistent formats found in IPTV playlists.
+
+Explore NimbusTV today, and bring a world of channels right to your living room—effortless, organized, and always ready when you are. 🌐✨📺
+
 ## Overview 🌐
 
 NimbusTV is designed to transform the way users experience content on their Android TVs, offering an all-encompassing, intuitive platform that boasts a wide range of features tailored to enhance user satisfaction and engagement.
@@ -243,6 +251,14 @@ Welcome to the **Home** screen of **NimbusTV**, your central hub for exploring a
 
 - **Channel Preview** 🔍: Hover over any channel to get a quick preview of what's currently playing—ideal for browsing without fully tuning in.
 
+<p align="center">
+  <img src="doc/screenshots/picture_62.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_63.png" />
+</p>
+
 - **Favorites** ⭐: Mark your favorite channels to keep them easily accessible for quick viewing.
 
 - **Smooth Playlist Switching** 🔄: Effortlessly switch between playlists to explore channels organized by theme or preference, perfect if you like variety.
@@ -445,6 +461,22 @@ The **Full-Screen Player** in **NimbusTV** provides an immersive viewing experie
 
 - **Access System Settings** ⚙️: Open the system settings panel without leaving the player, allowing for quick adjustments to enhance your viewing experience.
 
+<p align="center">
+  <img src="doc/screenshots/picture_17.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_18.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_64.png" />
+</p>
+
+<p align="center">
+  <img src="doc/screenshots/picture_65.png" />
+</p>
+
 #### Audio-Only Player for Music & Radio 📻
 
 For music or radio channels, **NimbusTV** launches a special **Audio-Only Player**:
@@ -452,6 +484,10 @@ For music or radio channels, **NimbusTV** launches a special **Audio-Only Player
 - **Music & Radio Display** 🎶: When tuning into a radio or music channel, the audio-only player displays station or channel information, delivering a streamlined audio experience without video, ideal for listening enjoyment.
 
 With both full-screen video playback and an optimized audio-only mode, **NimbusTV**’s player is designed to adapt to your viewing and listening needs, making every channel as engaging as possible.
+
+<p align="center">
+  <img src="doc/screenshots/picture_66.png" />
+</p>
 
 
 ### Settings Screen ⚙️
@@ -523,7 +559,18 @@ A heartfelt thank you to the creators of the [JetFit repository](https://github.
 
 The resources, examples, and insights provided in the JetFit repository served as a foundational reference, enabling us to build and expand upon your excellent groundwork. Your contributions have significantly accelerated our journey and enriched our understanding of creating seamless TV applications using Jetpack Compose. 📺✨
 
+For demonstration and testing purposes, **NimbusTV** utilizes publicly available IPTV playlists from the [IPTV-Org](https://iptv-org.github.io/) project. These playlists offer a diverse collection of international channels in M3U format, enabling users to explore and experience a wide range of content directly from the app.
+
+To handle M3U playlist parsing, we’ve integrated and customized the [M3u parser](https://github.com/BjoernPetersen/m3u-parser) library. Modifications were made to extend the functionality, allowing NimbusTV to support even more complex M3U structures, while accommodating the varied and sometimes inconsistent formats found in IPTV playlists.
+
+🙏🙏 I want to extend my sincere gratitude to [Umair Khalid](https://github.com/UmairKhalid786) for his outstanding work on the [ComposeTv](https://github.com/UmairKhalid786/ComposeTv) repository. This repository has been an invaluable resource and a crucial starting point for my project.
+
+Through ComposeTv, I've had the opportunity to learn and explore new techniques and concepts in development. Umair Khalid's clear documentation and high-quality code have been instrumental in my understanding and professional growth.
+
+
 ## Visitors Count
+
+<img width="auto" src="https://profile-counter.glitch.me/nimbustv_android/count.svg" />
 
  
  ## Please Share & Star the repository to keep me motivated.
