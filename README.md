@@ -573,7 +573,7 @@ To handle M3U playlist parsing, we’ve integrated and customized the [M3u parse
 
 Through ComposeTv, I've had the opportunity to learn and explore new techniques and concepts in development. Umair Khalid's clear documentation and high-quality code have been instrumental in my understanding and professional growth.
 
-Disclaimer
+## Disclaimer
 
 NimbusTV is provided for educational and learning purposes only 🎓. The project has been developed to facilitate access and viewing of content through M3U playlists 📂, organized in an efficient and accessible manner on Android TV devices 📺. NimbusTV is not responsible for the use made of the app or the content viewed through it 🚫.
 
