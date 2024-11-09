@@ -12,7 +12,13 @@ Crafted with **Jetpack Compose for TV** 🖥️, NimbusTV shines on the big scre
 
 A big thank you to the [JetFit](https://github.com/TheChance101/tv-samples/tree/JetFit/JetFit) repository for inspiring NimbusTV with a solid base for Jetpack Compose for TV 🛠️.
 
+**NimbusTV is for educational purposes only 🎓**, and I am not responsible for the use or content viewed 🚫. Accessing public channels is at your own risk. 
+
+Please review the full **Disclaimer** section below for more information 📜.
+
 Explore NimbusTV today, and bring a world of channels right to your living room—effortless, organized, and always ready when you are. 🌐✨📺
+
+
 
 <p align="center">
   <img src="https://img.shields.io/badge/Android%20Studio-3DDC84.svg?style=for-the-badge&logo=android-studio&logoColor=white" />
@@ -566,6 +572,14 @@ To handle M3U playlist parsing, we’ve integrated and customized the [M3u parse
 🙏🙏 I want to extend my sincere gratitude to [Umair Khalid](https://github.com/UmairKhalid786) for his outstanding work on the [ComposeTv](https://github.com/UmairKhalid786/ComposeTv) repository. This repository has been an invaluable resource and a crucial starting point for my project.
 
 Through ComposeTv, I've had the opportunity to learn and explore new techniques and concepts in development. Umair Khalid's clear documentation and high-quality code have been instrumental in my understanding and professional growth.
+
+Disclaimer
+
+NimbusTV is provided for educational and learning purposes only 🎓. The project has been developed to facilitate access and viewing of content through M3U playlists 📂, organized in an efficient and accessible manner on Android TV devices 📺. NimbusTV is not responsible for the use made of the app or the content viewed through it 🚫.
+
+Users are responsible for ensuring that the content they access through the app does not violate any copyright laws or other applicable regulations in their jurisdiction ⚖️. NimbusTV uses public IPTV sources such as IPTV org 🌐, which provide freely accessible and public domain channels 📡. NimbusTV does not control or guarantee the availability or legality of the TV channels available through these sources 🔍.
+
+By using NimbusTV, you acknowledge that the use of the app is at your own risk ⚠️, and the development team assumes no responsibility for any copyright violations, legal issues, or damages resulting from accessing content through the app 💼.
 
 
 ## Visitors Count
