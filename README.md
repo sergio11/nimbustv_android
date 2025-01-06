@@ -46,11 +46,11 @@ To handle M3U playlist parsing, we’ve integrated and customized the [M3u parse
 Explore NimbusTV today, and bring a world of channels right to your living room—effortless, organized, and always ready when you are. 🌐✨📺
 
 
-# 🌟 Explore These Incredible Android TV Projects! 📺🚀  
+## 🌟 Explore These Incredible Android TV Projects! 📺🚀  
 
 Delve into the world of **Android TV development** with these cutting-edge projects. Each one demonstrates the power of **Jetpack Compose**, **Clean Architecture**, and innovative design principles, offering unique, practical solutions.  
 
-## Featured Projects 🌟  
+### Featured Projects 🌟  
 
 ### 1. **TvNexa - Your Global IPTV Destination** 🌐📺  
 Experience global entertainment with **TvNexa**, a platform offering:  
