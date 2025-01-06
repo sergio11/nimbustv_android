@@ -52,25 +52,25 @@ Delve into the world of **Android TV development** with these cutting-edge proje
 
 ### Featured Projects 🌟  
 
-### 1. **TvNexa - Your Global IPTV Destination** 🌐📺  
+### **TvNexa - Your Global IPTV Destination** 🌐📺  
 Experience global entertainment with **TvNexa**, a platform offering:  
 - **Access to diverse international channels**  
 - **Seamless multi-device compatibility**  
 - A modern, intuitive interface  
 
-### 2. **FitFlexTV - Your Fitness Companion** 🏋️‍♂️💪  
+### **FitFlexTV - Your Fitness Companion** 🏋️‍♂️💪  
 Stay active and fit with **FitFlexTV**, featuring:  
 - **A variety of workouts** including yoga and HIIT  
 - **Personalized fitness plans**  
 - **Smooth navigation** optimized for Smart TVs  
 
-### 3. **SaboryTV - Your Culinary Guide** 🍳📺  
+### **SaboryTV - Your Culinary Guide** 🍳📺  
 Refine your cooking skills with **SaboryTV**, providing:  
 - **Step-by-step video recipes** tailored to your taste  
 - **Hands-free navigation** for seamless cooking  
 - **Expert guidance** from professional chefs  
 
-### 4. **MelodiqTV - Your Music Haven** 🎶✨  
+### **MelodiqTV - Your Music Haven** 🎶✨  
 Turn your TV into a music hub with **MelodiqTV**, offering:  
 - **A vast library of music videos** sorted by genre  
 - **Customizable user profiles**  
