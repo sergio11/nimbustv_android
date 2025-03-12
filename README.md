@@ -10,7 +10,7 @@ NimbusTV doesn’t stop at playlists. Bringing in EPGs 📅 for each of your cha
 
 Crafted with **Jetpack Compose for TV** 🖥️, NimbusTV shines on the big screen, delivering a smooth, elegant experience for Android TV. Built on the reliable **Clean Architecture** 🧩 and **MVI** pattern foundations, it’s designed to be fast, scalable, and visually immersive. Thanks to the [**🍮 Fudge**](https://github.com/sergio11/fudge_tv_compose_library) UI Kit, NimbusTV combines a sleek design with easy navigation, putting total control in your hands 🎛️.
 
-A big thank you to the [JetFit](https://github.com/TheChance101/tv-samples/tree/JetFit/JetFit) repository for inspiring NimbusTV with a solid base for Jetpack Compose for TV 🛠️.
+A huge thank you to the creators of **[JetFit](https://github.com/TheChance101/tv-samples/tree/JetFit/JetFit)** for providing an invaluable foundation for **MelodiqTV**. Licensed under **Apache 2.0** (implementation) and **CC BY 4.0** (design), JetFit served as a key reference for building a seamless **Jetpack Compose for TV** experience. For more details and attributions, please check the **"Credits"** section below. 🚀  
 
 **NimbusTV is for educational purposes only 🎓**, and I am not responsible for the use or content viewed 🚫. Accessing public channels is at your own risk. 
 
@@ -589,21 +589,33 @@ With these settings, **NimbusTV** empowers you to create a viewing environment t
 ## Contribution
 Contributions to NimbusTV Android are highly encouraged! If you're interested in adding new features, resolving bugs, or enhancing the project's functionality, please feel free to submit pull requests.
 
-## Credits
+## 🎖️ Recognition & Credits  
+
 NimbusTV is developed and maintained by Sergio Sánchez Sánchez (Dream Software). Special thanks to the open-source community and the contributors who have made this project possible. If you have any questions, feedback, or suggestions, feel free to reach out at dreamsoftware92@gmail.com.
 
-## Acknowledgements 🙏
+A heartfelt thank you to the creators of the **[JetFit repository](https://github.com/TheChance101/tv-samples/tree/JetFit/JetFit)** for providing such an invaluable starting point for **Jetpack Compose for TV**. Your work has been incredibly inspiring and instrumental in shaping the development of **MelodiqTV**.  
+
+The **JetFit** project, licensed under **Apache 2.0**, has served as a foundational reference for implementing the **Jetpack Compose for TV UI framework**, while its design, licensed under **CC BY 4.0**, provided an excellent structure to build upon.  
+
+### 📌 Resources:  
+- **JetFit GitHub Repository**: [JetFit on GitHub](https://github.com/TheChance101/tv-samples/tree/JetFit/JetFit)  
+- **JetFit Figma Design**: [JetFit Fitness App on Figma](https://www.figma.com/community/file/1237433831695839696/jetfit-fitness-app)  
+- **JetFit Case Study & Guidelines**: [Google TV JetFit Case Study](https://developer.android.com/design/ui/tv/samples/jet-fit?hl=es-419)  
+- **Google TV Design Kit**: [TV Design Kit (Figma)](https://developer.android.com/design/ui/tv/guidelines)  
+
+The resources, examples, and insights provided in the **JetFit repository** significantly accelerated our development process and enriched our understanding of **building seamless TV applications using Jetpack Compose**. We deeply appreciate the contributions of the JetFit team and their dedication to open-source development.  
+
+This project acknowledges and respects the **original JetFit implementation**, ensuring proper attribution under **Apache 2.0** and **CC BY 4.0** licenses. 🚀  
+
+This project acknowledges and respects the work of the original **JetFit** creators and follows the **CC BY 4.0** license terms. If you are interested in designing a TV-based fitness app, we highly recommend exploring the **JetFit project and Google's TV design resources**.  
 
 We express our deep appreciation to [Freepik](https://www.freepik.es/) for generously providing the resources used in this project.
 <div> Icons and images takes from <a href="https://www.freepik.com" title="Freepik"> Freepik </a> from <a href="https://www.flaticon.es/" title="Flaticon">www.flaticon.es'</a></div>
 
-A heartfelt thank you to the creators of the [JetFit repository](https://github.com/TheChance101/tv-samples/tree/JetFit/JetFit) for providing such an invaluable starting point for Jetpack Compose for TV. Your work has been incredibly inspiring and instrumental in shaping the development of this project.
-
-The resources, examples, and insights provided in the JetFit repository served as a foundational reference, enabling us to build and expand upon your excellent groundwork. Your contributions have significantly accelerated our journey and enriched our understanding of creating seamless TV applications using Jetpack Compose. 📺✨
 
 For demonstration and testing purposes, **NimbusTV** utilizes publicly available IPTV playlists from the [IPTV-Org](https://iptv-org.github.io/) project. These playlists offer a diverse collection of international channels in M3U format, enabling users to explore and experience a wide range of content directly from the app.
 
-To handle M3U playlist parsing, we’ve integrated and customized the [M3u parser](https://github.com/BjoernPetersen/m3u-parser) library. Modifications were made to extend the functionality, allowing NimbusTV to support even more complex M3U structures, while accommodating the varied and sometimes inconsistent formats found in IPTV playlists.
+To handle M3U playlist parsing, I’ve integrated and customized the [M3u parser](https://github.com/BjoernPetersen/m3u-parser) library. Modifications were made to extend the functionality, allowing NimbusTV to support even more complex M3U structures, while accommodating the varied and sometimes inconsistent formats found in IPTV playlists.
 
 🙏🙏 I want to extend my sincere gratitude to [Umair Khalid](https://github.com/UmairKhalid786) for his outstanding work on the [ComposeTv](https://github.com/UmairKhalid786/ComposeTv) repository. This repository has been an invaluable resource and a crucial starting point for my project.
 
@@ -630,37 +642,25 @@ By using NimbusTV, you acknowledge that the use of the app is at your own risk �
 
 ## License ⚖️
 
-This project is licensed under the MIT License, an open-source software license that allows developers to freely use, copy, modify, and distribute the software. 🛠️ This includes use in both personal and commercial projects, with the only requirement being that the original copyright notice is retained. 📄
+This project is licensed under the **Apache License 2.0**, a permissive open-source software license that allows developers to freely use, modify, and distribute the software. 🚀 This includes both personal and commercial use, with some conditions for distribution and modification. 📜
 
-Please note the following limitations:
+Key terms of the Apache License 2.0:
 
-- The software is provided "as is", without any warranties, express or implied. 🚫🛡️
-- If you distribute the software, whether in original or modified form, you must include the original copyright notice and license. 📑
-- The license allows for commercial use, but you cannot claim ownership over the software itself. 🏷️
+- You are allowed to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the software. 💻
+- If you modify and distribute the software, you must include the original copyright notice, provide a copy of the Apache 2.0 license, and indicate any modifications made. 📝
+- You are not allowed to use the name of the project or its contributors to promote derived works without permission. ✋
+- The software is provided "as is," without any warranties, express or implied. 🚫🛡️
 
-The goal of this license is to maximize freedom for developers while maintaining recognition for the original creators.
+Please see the full license text below for more detailed terms.
 
 ```
-MIT License
+Apache License Version 2.0, January 2004 http://www.apache.org/licenses/
 
-Copyright (c) 2024 Dream software - Sergio Sánchez 
+Copyright (c) 2024 Dream software - Sergio Sánchez
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+http://www.apache.org/licenses/LICENSE-2.0
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 ```
-
