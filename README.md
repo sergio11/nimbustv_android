@@ -1,6 +1,6 @@
 # NimbusTV 🌐📺: Your Gateway to Effortless M3U Streaming on Android TV
 
-<img width="auto" height="200px" align="left" src="doc/main_logo.png" />
+<img width="auto" height="300px" align="left" src="doc/nimbustv_logo.webp" />
 
 Welcome to **NimbusTV** 🎉, your all-in-one solution for experiencing M3U playlist content on Android TV without the usual hassle. Designed with simplicity and power in mind, NimbusTV lets you forget about complicated setups and file management, making it easy to dive straight into your favorite channels 📺✨.
 
@@ -43,10 +43,11 @@ For demonstration and testing purposes, **NimbusTV** utilizes publicly available
 
 To handle M3U playlist parsing, we’ve integrated and customized the [M3u parser](https://github.com/BjoernPetersen/m3u-parser) library. Modifications were made to extend the functionality, allowing **NimbusTV** to support even more complex M3U structures while accommodating the varied and sometimes inconsistent formats found in IPTV playlists.  
 
+The name **NimbusTV** was generated during a brainstorming session with AI. Any resemblance to existing brands, products, or services is purely coincidental.  
+
 The **NimbusTV** logo included in this repository is an original creation and is free to use for personal and open-source projects.
 
 Explore NimbusTV today, and bring a world of channels right to your living room—effortless, organized, and always ready when you are. 🌐✨📺
-
 
 ## 🌟 Explore These Incredible Android TV Projects! 📺🚀  
 
@@ -631,6 +632,11 @@ Users are responsible for ensuring that the content they access through the app 
 
 By using NimbusTV, you acknowledge that the use of the app is at your own risk ⚠️, and the development team assumes no responsibility for any copyright violations, legal issues, or damages resulting from accessing content through the app 💼.
 
+To handle M3U playlist parsing, we’ve integrated and customized the [M3u parser](https://github.com/BjoernPetersen/m3u-parser) library. Modifications were made to extend the functionality, allowing **NimbusTV** to support even more complex M3U structures while accommodating the varied and sometimes inconsistent formats found in IPTV playlists.  
+
+The name **NimbusTV** was generated during a brainstorming session with AI. Any resemblance to existing brands, products, or services is purely coincidental.  
+
+The **NimbusTV** logo included in this repository is an original creation and is free to use for personal and open-source projects.
 
 ## Visitors Count
 
