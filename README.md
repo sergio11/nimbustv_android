@@ -1,12 +1,16 @@
-# NimbusTV 🌐📺: Your Gateway to Effortless M3U Streaming on Android TV
+### NimbusTV 🌐📺: My Personal Learning Project for Effortless M3U Streaming on Android TV
 
 <img width="auto" height="300px" align="left" src="doc/nimbustv_logo.webp" />
 
-Welcome to **NimbusTV** 🎉, your all-in-one solution for experiencing M3U playlist content on Android TV without the usual hassle. Designed with simplicity and power in mind, NimbusTV lets you forget about complicated setups and file management, making it easy to dive straight into your favorite channels 📺✨.
+**NimbusTV** is a personal project I developed to apply and enhance my skills in **Android TV development** 📺, **Jetpack Compose for TV** 🖥️, **Clean Architecture** 🏛️, and **MVI** 🔄. The goal was to build an efficient, user-friendly streaming app that simplifies M3U playlist management, and gives users easy access to their favorite TV channels.
 
-With NimbusTV, you can effortlessly manage multiple M3U playlists 📂, giving you the freedom to organize your channels by theme—sports 🏆, movies 🎬, news 📰, music 🎶, and more. Switch seamlessly between playlists and enjoy diverse formats with support for HLS 📡, DASH 🎥, Clear Key-encrypted channels 🔐, and even radio streams 📻.
+This project helped me dive deep into Android TV design patterns, exploring how to create smooth, intuitive user interfaces and ensure scalability for larger applications. The app supports multiple M3U playlists 📂, seamlessly allowing users to organize and switch between channels by category—such as sports 🏆, movies 🎬, news 📰, and music 🎶—while handling formats like HLS 📡, DASH 🎥, and encrypted channels 🔐.
 
-NimbusTV doesn’t stop at playlists. Bringing in EPGs 📅 for each of your channels, it keeps you informed with real-time programming schedules. Imagine instantly knowing what’s on, what’s up next, and never having to wonder if you've missed a must-watch show 🕒. Set custom reminders 🔔 for your favorite programs, so you’ll always be in the know when the action begins!
+I also incorporated **EPG (Electronic Program Guides)** 📅 to provide real-time schedules, allowing users to plan their viewing experience and set **custom reminders** 🔔 for their favorite shows.
+
+Through this project, I further honed my knowledge of **Jetpack Compose** and how to create a responsive, visually appealing interface for Android TV. **NimbusTV** leverages my understanding of **Clean Architecture** and **MVI** to ensure that the app is not only functional but also well-structured, making future improvements and scaling easier.
+
+Working on **NimbusTV** has been a great way for me to deepen my understanding of Android TV development and design best practices, and I'm proud to showcase this project as a way of documenting my learning journey.
 
 Crafted with **Jetpack Compose for TV** 🖥️, NimbusTV shines on the big screen, delivering a smooth, elegant experience for Android TV. Built on the reliable **Clean Architecture** 🧩 and **MVI** pattern foundations, it’s designed to be fast, scalable, and visually immersive. Thanks to the [**🍮 Fudge**](https://github.com/sergio11/fudge_tv_compose_library) UI Kit, NimbusTV combines a sleek design with easy navigation, putting total control in your hands 🎛️.
 
