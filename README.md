@@ -90,7 +90,7 @@ Turn your TV into a music hub with **MelodiqTV**, offering:
 
 ## Overview 🌐
 
-NimbusTV is designed to transform the way users experience content on their Android TVs, offering an all-encompassing, intuitive platform that boasts a wide range of features tailored to enhance user satisfaction and engagement.
+NimbusTV is a personal project I created to improve my skills in Android TV development. It aims to offer an intuitive and seamless way for users to enjoy content on their Android TVs, with a focus on simplicity and ease of use. Through this project, I explored features like M3U playlist management, customizable reminders, and EPG integration, all while learning to implement best practices in UI design and app architecture.
 
 <p align="center">
   <img src="doc/screenshots/picture_57.gif" />
@@ -206,11 +206,11 @@ This architecture ensures that NimbusTV is well-structured, easy to maintain, an
 
 ## App Screenshots 📸
 
-Discover **NimbusTV** and its intuitive design with these screenshots, giving you a glimpse into the app’s key features!
+Explore **NimbusTV** and its user-friendly design through these screenshots, offering a sneak peek into the app's key features!
 
 ### Onboarding and Getting Started 🎬
 
-Begin your experience on **NimbusTV** by creating a profile. This first step is all about setting up a unique space for your favorite EPGs and playlists. No need for online accounts or login—everything is managed locally for a standalone experience. Start organizing your content right away!
+The journey with **NimbusTV** begins by creating a profile. This simple step allows you to personalize your experience by organizing your favorite EPGs and playlists. There's no need for online accounts or logins—everything is handled locally, ensuring a smooth and self-contained experience. I built this feature to learn how to structure and manage app data efficiently while focusing on a seamless user experience.
 
 <p align="center">
   <img src="doc/screenshots/picture_1.png" />
