@@ -51,43 +51,6 @@ The name **NimbusTV** was generated using **ChatGPT** as part of a creative brai
 
 The **NimbusTV** logo was also generated with **ChatGPT** and is entirely free of copyright restrictions. It may be used freely for personal and open-source projects without any attribution requirements.  
 
-Explore **NimbusTV** today and bring a world of channels right to your living room—effortless, organized, and always ready when you are. 🌐✨📺  
-
-## 🌟 Explore These Incredible Android TV Projects! 📺🚀  
-
-Delve into the world of **Android TV development** with these cutting-edge projects. Each one demonstrates the power of **Jetpack Compose**, **Clean Architecture**, and innovative design principles, offering unique, practical solutions.  
-
-## Featured Projects 🌟  
-
-#### [**TvNexa - Your Global IPTV Destination** 🌐📺 ](https://github.com/sergio11/tvnexa_androidtv)
-Experience global entertainment with **TvNexa**, a platform offering:  
-- **Access to diverse international channels**  
-- **Seamless multi-device compatibility**  
-- A modern, intuitive interface  
-
-#### [**FitFlexTV - Your Fitness Companion** 🏋️‍♂️💪](https://github.com/sergio11/fitflextv_android)
-Stay active and fit with **FitFlexTV**, featuring:  
-- **A variety of workouts** including yoga and HIIT  
-- **Personalized fitness plans**  
-- **Smooth navigation** optimized for Smart TVs  
-
-#### [**SaboryTV - Your Culinary Guide** 🍳📺 ](https://github.com/sergio11/saborytv_android)
-Refine your cooking skills with **SaboryTV**, providing:  
-- **Step-by-step video recipes** tailored to your taste  
-- **Hands-free navigation** for seamless cooking  
-- **Expert guidance** from professional chefs  
-  
-#### [**MelodiqTV - Your Music Haven** 🎶✨](https://github.com/sergio11/melodiqtv_android) 
-Turn your TV into a music hub with **MelodiqTV**, offering:  
-- **A vast library of music videos** sorted by genre  
-- **Customizable user profiles**  
-- **Real-time sync** with Firebase  
-
-## Why Check Out These Projects? 💡  
-- **Learn Modern TV Development**: Explore practical implementations of Jetpack Compose and advanced architecture.  
-- **Hone Your Skills**: Tackle real-world challenges like streaming, multi-user setups, and immersive UIs.  
-- **Get Inspired**: Use these projects as templates for your own creations.  
-
 ## Overview 🌐
 
 NimbusTV is a personal project I created to improve my skills in Android TV development. It aims to offer an intuitive and seamless way for users to enjoy content on their Android TVs, with a focus on simplicity and ease of use. Through this project, I explored features like M3U playlist management, customizable reminders, and EPG integration, all while learning to implement best practices in UI design and app architecture.
