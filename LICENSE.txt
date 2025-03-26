@@ -220,3 +220,17 @@ This project is based on techniques and components from the **ComposeTv** reposi
 
 A copy of the original Apache License 2.0 is included in the [`LICENSE-COMPOSETV`](LICENSE-COMPOSETV) file.
 
+#### 3. **JetFit** by TheChance101
+- **Repository:** [https://github.com/TheChance101/tv-samples/tree/JetFit/JetFit](https://github.com/TheChance101/tv-samples/tree/JetFit/JetFit)
+- **License:** Apache License 2.0 (Implementation), Creative Commons Attribution 4.0 International (CC BY 4.0) (Design)
+
+A huge thank you to the creators of **JetFit** and the contributors to **PR #183** for providing an invaluable foundation for **NimbusTV**. The **JetFit** repository served as a key reference for building a seamless **Jetpack Compose for TV** experience. 
+
+The code and design principles from **JetFit** were adapted to develop the TV app functionality in **NimbusTV**. The implementation code from **JetFit** has been used under the Apache 2.0 license, while the design elements have been inspired by the CC BY 4.0 license. 
+
+We highly encourage you to visit the original PR, review the effort, and give the deserved recognition to the creators and contributors.
+
+A copy of the original Apache 2.0 and CC BY 4.0 licenses are included in the respective files, [`LICENSE-JETFIT`](LICENSE-JETFIT) and [`LICENSE-DESIGN`](LICENSE-DESIGN), in this repository.
+
+I would like to express our sincere gratitude to the authors and contributors of **JetFit** and **ComposeTv** for their amazing work, which has had a significant impact on the development of **NimbusTV**.
+
