@@ -200,12 +200,23 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 
-
 ### Third-Party Code Attribution
 
-This project includes code derived from the **m3u-parser** project:
-- Repository: [https://github.com/bjoernpetersen/m3u-parser](https://github.com/bjoernpetersen/m3u-parser)
-- License: MIT License
+This project includes code and concepts derived from the following third-party repositories:
 
-Modifications have been made to adapt it for additional use cases.  
+#### 1. **m3u-parser** by Bjoern Petersen
+- **Repository:** [https://github.com/bjoernpetersen/m3u-parser](https://github.com/bjoernpetersen/m3u-parser)
+- **License:** MIT License
+
+This project utilizes concepts and components from the **m3u-parser** repository. The code has been modified to adapt it for additional use cases, such as supporting extended M3U formats, handling missing headers, and improving error handling. These modifications ensure compatibility with a wider range of M3U playlist files.
+
 A copy of the original MIT license is included in the [`LICENSE-M3UPARSER`](LICENSE-M3UPARSER) file.
+
+#### 2. **ComposeTv** by Umair Khalid
+- **Repository:** [https://github.com/UmairKhalid786/ComposeTv](https://github.com/UmairKhalid786/ComposeTv)
+- **License:** Apache License 2.0
+
+This project is based on techniques and components from the **ComposeTv** repository, which was originally developed for building Android TV apps using Jetpack Compose. Although the code from **ComposeTv** was not directly copied, several techniques, components, and concepts have been adapted to meet the needs of this project, such as custom UI elements and Android TV-specific optimizations.
+
+A copy of the original Apache License 2.0 is included in the [`LICENSE-COMPOSETV`](LICENSE-COMPOSETV) file.
+
