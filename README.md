@@ -16,11 +16,11 @@ Crafted with **Jetpack Compose for TV** 🖥️, NimbusTV shines on the big scre
 
 A huge thank you to the creators of **[JetFit](https://github.com/TheChance101/tv-samples/tree/JetFit/JetFit)** and the contributors to **[PR #183](https://github.com/android/tv-samples/pull/183)** for providing an invaluable foundation for **NimbusTV**. This is an attempt to provide an open-source implementation of JetFit. Licensed under **Apache 2.0** (implementation) and **CC BY 4.0** (design), JetFit served as a key reference for building a seamless **Jetpack Compose for TV** experience. We encourage you to visit the PR, review the effort, and give the deserved recognition. For more details and attributions, please check the **"Credits"** section below. 🚀
 
+To handle M3U playlist parsing, I’ve integrated and customized the [M3u parser](https://github.com/BjoernPetersen/m3u-parser) library. Modifications were made to extend the functionality, allowing NimbusTV to support even more complex M3U structures, while accommodating the varied and sometimes inconsistent formats found in IPTV playlists. A copy of the original license can be found in the [`LICENSE-M3UPARSER`](LICENSE-M3UPARSER) file.
+
 **NimbusTV is for educational purposes only 🎓**, and I am not responsible for the use or content viewed 🚫. Accessing public channels is at your own risk. 
 
 Please review the full **Disclaimer** section below for more information 📜.
-
-Explore NimbusTV today, and bring a world of channels right to your living room—effortless, organized, and always ready when you are. 🌐✨📺
 
 This app, **Nimbustv**, includes images and resources designed by [Freepik](https://www.freepik.com). We would like to acknowledge and thank Freepik for their incredible design assets. The images used in the app are provided with attribution, as required by Freepik's licensing terms. For more information on Freepik's resources, please visit [www.freepik.com](https://www.freepik.com).
 
@@ -585,7 +585,7 @@ We express our deep appreciation to [Freepik](https://www.freepik.es/) for gener
 
 For demonstration and testing purposes, **NimbusTV** utilizes publicly available IPTV playlists from the [IPTV-Org](https://iptv-org.github.io/) project. These playlists offer a diverse collection of international channels in M3U format, enabling users to explore and experience a wide range of content directly from the app.
 
-To handle M3U playlist parsing, I’ve integrated and customized the [M3u parser](https://github.com/BjoernPetersen/m3u-parser) library. Modifications were made to extend the functionality, allowing NimbusTV to support even more complex M3U structures, while accommodating the varied and sometimes inconsistent formats found in IPTV playlists.
+To handle M3U playlist parsing, I’ve integrated and customized the [M3u parser](https://github.com/BjoernPetersen/m3u-parser) library. Modifications were made to extend the functionality, allowing NimbusTV to support even more complex M3U structures, while accommodating the varied and sometimes inconsistent formats found in IPTV playlists. A copy of the original license can be found in the [`LICENSE-M3UPARSER`](LICENSE-M3UPARSER) file.
 
 🙏🙏 I want to extend my sincere gratitude to [Umair Khalid](https://github.com/UmairKhalid786) for his outstanding work on the [ComposeTv](https://github.com/UmairKhalid786/ComposeTv) repository. This repository has been an invaluable resource and a crucial starting point for my project.
 
