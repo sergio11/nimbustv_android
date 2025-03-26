@@ -1,3 +1,9 @@
+/*
+ * This file is taken directly from the m3u-parser project.
+ * 
+ * Original work: https://github.com/bjoernpetersen/m3u-parser
+ * Licensed under the MIT License (see LICENSE-M3UPARSER for details).
+ */
 package com.dreamsoftware.nimbustv.framework.m3u.model
 
 import java.net.MalformedURLException
