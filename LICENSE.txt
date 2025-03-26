@@ -199,3 +199,13 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
+
+### Third-Party Code Attribution
+
+This project includes code derived from the **m3u-parser** project:
+- Repository: [https://github.com/bjoernpetersen/m3u-parser](https://github.com/bjoernpetersen/m3u-parser)
+- License: MIT License
+
+Modifications have been made to adapt it for additional use cases.  
+A copy of the original MIT license is included in the [`LICENSE-M3UPARSER`](LICENSE-M3UPARSER) file.
