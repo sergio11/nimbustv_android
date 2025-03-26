@@ -1,3 +1,13 @@
+/*
+ * This file is based on M3uParse from the m3u-parser project.
+ * Original work: https://github.com/bjoernpetersen/m3u-parser
+ * 
+ * Modifications have been made to support additional cases.
+ * 
+ * Original License: MIT License
+ * See LICENSE-M3UPARSER for details.
+ */
+
 package com.dreamsoftware.nimbustv.framework.m3u
 
 import android.util.Log
