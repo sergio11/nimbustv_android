@@ -1,3 +1,11 @@
+/*
+ * This file is based on M3uEntry from the m3u-parser project.
+ * 
+ * Original work: https://github.com/bjoernpetersen/m3u-parser
+ * Licensed under the MIT License (see LICENSE-M3UPARSER for details).
+ * 
+ * Modifications have been made to extend functionality and support additional use cases.
+ */
 package com.dreamsoftware.nimbustv.framework.m3u.model
 
 import java.time.Duration
