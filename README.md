@@ -561,35 +561,54 @@ Contributions to NimbusTV Android are highly encouraged! If you're interested in
 
 ## 🎖️ Recognition & Credits  
 
-NimbusTV is developed and maintained by Sergio Sánchez Sánchez (Dream Software). Special thanks to the open-source community and the contributors who have made this project possible. If you have any questions, feedback, or suggestions, feel free to reach out at dreamsoftware92@gmail.com.
+NimbusTV is developed and maintained by **Sergio Sánchez Sánchez (Dream Software)**. Special thanks to the open-source community and the contributors who have made this project possible. If you have any questions, feedback, or suggestions, feel free to reach out at [dreamsoftware92@gmail.com](mailto:dreamsoftware92@gmail.com).
 
-A huge thank you to the creators of **[JetFit](https://github.com/TheChance101/tv-samples/tree/JetFit/JetFit)** and the contributors to **[PR #183](https://github.com/android/tv-samples/pull/183)** for providing an invaluable foundation for **NimbusTV**. This is an attempt to provide an open-source implementation of JetFit. Licensed under **Apache 2.0** (implementation) and **CC BY 4.0** (design), JetFit served as a key reference for building a seamless **Jetpack Compose for TV** experience. We encourage you to visit the PR, review the effort, and give the deserved recognition.
+---
 
-The **JetFit** project, licensed under **Apache 2.0**, has served as a foundational reference for implementing the **Jetpack Compose for TV UI framework**, while its design, licensed under **CC BY 4.0**, provided an excellent structure to build upon.  
+### Acknowledgments
 
-### 📌 Resources:  
-- **JetFit GitHub Repository**: [JetFit on GitHub](https://github.com/TheChance101/tv-samples/tree/JetFit/JetFit)  
-- **JetFit Figma Design**: [JetFit Fitness App on Figma](https://www.figma.com/community/file/1237433831695839696/jetfit-fitness-app)  
-- **JetFit Case Study & Guidelines**: [Google TV JetFit Case Study](https://developer.android.com/design/ui/tv/samples/jet-fit?hl=es-419)  
-- **Google TV Design Kit**: [TV Design Kit (Figma)](https://developer.android.com/design/ui/tv/guidelines)  
+#### 1. **JetFit Project**
+A huge thank you to the creators of **[JetFit](https://github.com/TheChance101/tv-samples/tree/JetFit/JetFit)** and the contributors to **[PR #183](https://github.com/android/tv-samples/pull/183)** for providing an invaluable foundation for **NimbusTV**. **JetFit** has served as a reference for both the **Jetpack Compose for TV UI framework** and the app’s design structure.
 
-The resources, examples, and insights provided in the **JetFit repository** significantly accelerated our development process and enriched our understanding of **building seamless TV applications using Jetpack Compose**. We deeply appreciate the contributions of the JetFit team and their dedication to open-source development.  
+- **License**:
+  - **Apache 2.0** (Implementation)
+  - **CC BY 4.0** (Design)
 
-This project acknowledges and respects the **original JetFit implementation**, ensuring proper attribution under **Apache 2.0** and **CC BY 4.0** licenses. 🚀  
+The **JetFit** project significantly influenced the development of NimbusTV. Its **Apache 2.0**-licensed implementation was used to build out the **Jetpack Compose for TV** framework, while its **CC BY 4.0**-licensed design inspired the visual aspects of NimbusTV.
 
-This project acknowledges and respects the work of the original **JetFit** creators and follows the **CC BY 4.0** license terms. If you are interested in designing a TV-based fitness app, we highly recommend exploring the **JetFit project and Google's TV design resources**.  
+---
 
-We express our deep appreciation to [Freepik](https://www.freepik.es/) for generously providing the resources used in this project.
-<div> Icons and images takes from <a href="https://www.freepik.com" title="Freepik"> Freepik </a> from <a href="https://www.flaticon.es/" title="Flaticon">www.flaticon.es'</a></div>
+### 📌 Key Resources:
+- **[JetFit GitHub Repository](https://github.com/TheChance101/tv-samples/tree/JetFit/JetFit)**
+- **[JetFit Figma Design](https://www.figma.com/community/file/1237433831695839696/jetfit-fitness-app)**
+- **[JetFit Case Study & Guidelines](https://developer.android.com/design/ui/tv/samples/jet-fit?hl=es-419)**
+- **[Google TV Design Kit (Figma)](https://developer.android.com/design/ui/tv/guidelines)**
 
+These resources, examples, and insights provided in the **JetFit repository** have played a crucial role in accelerating our development process and deepening our understanding of building seamless TV applications with **Jetpack Compose**. We deeply appreciate the contributions of the JetFit team and their commitment to open-source development.
 
-For demonstration and testing purposes, **NimbusTV** utilizes publicly available IPTV playlists from the [IPTV-Org](https://iptv-org.github.io/) project. These playlists offer a diverse collection of international channels in M3U format, enabling users to explore and experience a wide range of content directly from the app.
+---
 
-To handle M3U playlist parsing, I’ve integrated and customized the [M3u parser](https://github.com/BjoernPetersen/m3u-parser) library. Modifications were made to extend the functionality, allowing NimbusTV to support even more complex M3U structures, while accommodating the varied and sometimes inconsistent formats found in IPTV playlists. A copy of the original license can be found in the [`LICENSE-M3UPARSER`](LICENSE-M3UPARSER) file.
+#### 2. **IPTV-Org Project**
+For demonstration and testing purposes, **NimbusTV** utilizes publicly available IPTV playlists from the **[IPTV-Org](https://iptv-org.github.io/)** project. These playlists provide a wide collection of international channels in M3U format, offering users the ability to explore diverse content directly from the app.
 
-🙏🙏 I want to extend my sincere gratitude to [Umair Khalid](https://github.com/UmairKhalid786) for his outstanding work on the [ComposeTv](https://github.com/UmairKhalid786/ComposeTv) repository. This repository has been an invaluable resource and a crucial starting point for my project.
+---
 
-Through ComposeTv, I've had the opportunity to learn and explore new techniques and concepts in development. Umair Khalid's clear documentation and high-quality code have been instrumental in my understanding and professional growth.
+#### 3. **M3u Parser Library**
+NimbusTV uses and customizes the **[M3u Parser](https://github.com/BjoernPetersen/m3u-parser)** library to handle M3U playlist parsing. Modifications were made to extend its functionality and accommodate more complex M3U structures, allowing the app to handle the varied formats found in IPTV playlists.
+
+- A copy of the original MIT license is included in the [`LICENSE-M3UPARSER`](LICENSE-M3UPARSER) file.
+
+---
+
+#### 4. **ComposeTv Repository**
+🙏 Special thanks to **[Umair Khalid](https://github.com/UmairKhalid786)** for his excellent work on the **[ComposeTv](https://github.com/UmairKhalid786/ComposeTv)** repository. This repository served as a vital resource and starting point for the NimbusTV project. The clean documentation and high-quality code of **ComposeTv** were invaluable in the learning and development process.
+
+---
+
+#### 5. **Design Resources**
+We would like to express our deep appreciation to **[Freepik](https://www.freepik.es/)** for providing the icons and images used in this project.
+
+- **Icons and images taken from** [Freepik](https://www.freepik.com) and [Flaticon](https://www.flaticon.es).
 
 ## Disclaimer
 
