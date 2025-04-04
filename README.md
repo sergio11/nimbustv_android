@@ -18,7 +18,7 @@ A huge thank you to the creators of **[JetFit](https://github.com/TheChance101/t
 
 To handle M3U playlist parsing, I’ve integrated and customized the [M3u parser](https://github.com/BjoernPetersen/m3u-parser) library. Modifications were made to extend the functionality, allowing NimbusTV to support even more complex M3U structures, while accommodating the varied and sometimes inconsistent formats found in IPTV playlists. A copy of the original license can be found in the [`LICENSE-M3UPARSER`](LICENSE-M3UPARSER) file.
 
-**NimbusTV is for educational purposes only 🎓**, and I am not responsible for the use or content viewed 🚫. Accessing public channels is at your own risk. 
+**NimbusTV is for educational purposes only 🎓**, and I am not responsible for the use or content viewed 🚫.  Usage of any media content must comply with local laws and regulations. This project does not endorse the use of unauthorized streams.
 
 Please review the full **Disclaimer** section below for more information 📜.
 
@@ -50,6 +50,9 @@ To handle M3U playlist parsing, we’ve integrated and customized the [M3u parse
 The name **NimbusTV** was generated using **ChatGPT** as part of a creative brainstorming process. Any resemblance to existing brands, products, or services is purely coincidental.  
 
 The **NimbusTV** logo was also generated with **ChatGPT** and is entirely free of copyright restrictions. It may be used freely for personal and open-source projects without any attribution requirements.  
+
+
+**NimbusTV** does not host, distribute, or promote any copyrighted or illegal content. The user is solely responsible for the playlists they load and how the app is used. This project is for educational purposes only.
 
 ## Overview 🌐
 
@@ -623,6 +626,9 @@ To handle M3U playlist parsing, we’ve integrated and customized the [M3u parse
 The name **NimbusTV** was generated during a brainstorming session with AI. Any resemblance to existing brands, products, or services is purely coincidental.  
 
 The **NimbusTV** logo included in this repository is an original creation and is free to use for personal and open-source projects.
+
+**NimbusTV** does not host, distribute, or promote any copyrighted or illegal content. The user is solely responsible for the playlists they load and how the app is used. This project is for educational purposes only.
+
 
 ## Visitors Count
 
