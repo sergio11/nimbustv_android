@@ -1,4 +1,4 @@
-# NimbusTV 🌐📺: My Personal Learning Project for Effortless M3U Streaming on Android TV
+# NimbusTV 📺🌐 – A Personal Learning Project for Smooth M3U Streaming on Android TV
 
 <img width="auto" height="300px" align="left" src="doc/nimbustv_logo.webp" />
 
