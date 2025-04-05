@@ -88,8 +88,6 @@ NimbusTV is a personal project I created to improve my skills in Android TV deve
 - **Enhanced Search Functionality** 🔍:
   - NimbusTV includes a powerful search feature that enables users to quickly find channels, shows, or genres. This enhanced search capability streamlines navigation within the app, making it easier for users to discover new content or revisit their favorites without unnecessary delays.
 
-NimbusTV is committed to providing an enriching, user-friendly experience that meets the diverse needs of its users while transforming their living room into an entertainment hub. With its extensive features and intuitive interface, NimbusTV is your go-to platform for all things streaming! 🌟
-
 <p align="center">
   <img src="doc/screenshots/picture_30.png" />
 </p>
