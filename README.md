@@ -62,37 +62,6 @@ NimbusTV is a personal project I created to improve my skills in Android TV deve
   <img src="doc/screenshots/picture_57.gif" />
 </p>
 
-### Features ✨
-
-- **Multi-Playlist Management** 📃: 
-  - Users can easily manage multiple M3U playlists, allowing them to create, edit, and organize channels by themes, genres, or personal preferences. This feature ensures quick access to favorite content without the hassle of searching through extensive lists, making content discovery smooth and enjoyable.
-
-- **Diverse Playback Options** 📺:
-  - NimbusTV supports a variety of streaming formats, including HLS (HTTP Live Streaming), DASH (Dynamic Adaptive Streaming over HTTP) with clear keys, and internet radio. This flexibility ensures users can enjoy a wide range of content, from live TV broadcasts to on-demand streaming and radio stations, all with high-quality playback tailored to their internet connection.
-
-- **EPG Importation** 📅:
-  - Users can import Electronic Program Guides (EPGs) seamlessly into NimbusTV. This feature provides access to detailed programming information for all favorite channels, allowing users to see what’s currently airing, upcoming shows, and special events. The EPG importation enhances the viewing experience by helping users plan their watching schedules effectively.
-
-- **Reminders** ⏰:
-  - With customizable reminders, users can set alerts for upcoming shows or events. This feature ensures that users never miss their favorite programs, as they will receive timely notifications based on their personalized schedules. It adds convenience, allowing users to enjoy their content without the worry of forgetting about upcoming broadcasts.
-
-- **User Profiles** 👤:
-  - NimbusTV allows for the creation of personalized user profiles, enabling each family member or user to have their own distinct viewing experience. Each profile maintains unique playlists, EPGs, and preferences, fostering an independent content management system that caters to the diverse tastes and viewing habits of different users.
-
-- **Secure Access** 🔒:
-  - User privacy is a top priority in NimbusTV. Profiles are stored securely, with an optional PIN for access, ensuring that personal data and preferences remain protected. This feature enhances user trust, allowing them to enjoy their content with peace of mind regarding their security.
-
-- **Dynamic Viewing Modes** 📺:
-  - Users can switch between various EPG viewing modes, such as "Channel Overview," which provides a broad view of available channels, or "Now and Schedule," which displays currently airing programs and upcoming shows. This dynamic feature allows users to customize their viewing experience based on their preferences and the type of content they wish to explore.
-
-- **Enhanced Search Functionality** 🔍:
-  - NimbusTV includes a powerful search feature that enables users to quickly find channels, shows, or genres. This enhanced search capability streamlines navigation within the app, making it easier for users to discover new content or revisit their favorites without unnecessary delays.
-
-<p align="center">
-  <img src="doc/screenshots/picture_30.png" />
-</p>
-
-
 ## Technologies Used 🛠️
 
 NimbusTV harnesses a variety of technologies to deliver a seamless streaming experience on Android TV. 🌟
@@ -130,6 +99,10 @@ NimbusTV harnesses a variety of technologies to deliver a seamless streaming exp
 - **Dagger Hilt** 🧩: A dependency injection library simplifying the management of dependencies and enhancing modularity in your app. 🔧💡
 
 - **Mapper Pattern** 🔄: Facilitates conversion between different data models, ensuring data consistency across application components. 📐
+
+<p align="center">
+  <img src="doc/screenshots/picture_30.png" />
+</p>
 
 ## Architecture Overview 🏛️
 
@@ -258,9 +231,6 @@ Welcome to the **Home** screen of **NimbusTV**, your central hub for exploring a
   <img src="doc/screenshots/picture_6.png" />
 </p>
 
-<p align="center">
-  <img src="doc/screenshots/picture_38.png" />
-</p>
 
 - **Channel Preview** 🔍: Hover over any channel to get a quick preview of what's currently playing—ideal for browsing without fully tuning in.
 
@@ -289,14 +259,6 @@ Welcome to the **Home** screen of **NimbusTV**, your central hub for exploring a
   - **Delete Playlists** 🗑️: Remove playlists that are no longer needed.
   - **Update Playlists** 🔄: Refresh playlists to keep content up-to-date.
   - **Explore Channels and Favorites** 📋: View each playlist's channels, mark favorites, or play them instantly.
- 
-<p align="center">
-  <img src="doc/screenshots/picture_8.png" />
-</p>
-
-<p align="center">
-  <img src="doc/screenshots/picture_39.png" />
-</p>
 
 <p align="center">
   <img src="doc/screenshots/picture_10.png" />
@@ -392,18 +354,6 @@ The **Electronic Program Guide (EPG)** in **NimbusTV** lets each profile import,
 </p>
 
 <p align="center">
-  <img src="doc/screenshots/picture_50.png" />
-</p>
-
-<p align="center">
-  <img src="doc/screenshots/picture_51.png" />
-</p>
-
-<p align="center">
-  <img src="doc/screenshots/picture_52.png" />
-</p>
-
-<p align="center">
   <img src="doc/screenshots/picture_7.png" />
 </p>
 
@@ -418,13 +368,6 @@ The **Electronic Program Guide (EPG)** in **NimbusTV** lets each profile import,
 - **Single-Column Mode** 📜:  
   This format organizes the EPG into a single column, with each channel appearing in an individual row alongside its full schedule for the day. Just like in **Now & Schedule Mode**, you can interact with events and set reminders for future shows.
 
-<p align="center">
-  <img src="doc/screenshots/picture_53.png" />
-</p>
-
-<p align="center">
-  <img src="doc/screenshots/picture_54.png" />
-</p>
 
 <p align="center">
   <img src="doc/screenshots/picture_56.gif" />
@@ -544,10 +487,6 @@ The **Channel Search** option allows you to enable or disable the feature to sea
 </p>
 
 - **About Us** ℹ️: Learn more about **NimbusTV** and our mission in the "About NimbusTV" section.
-
-<p align="center">
-  <img src="doc/screenshots/picture_34.png" />
-</p>
 
 - **Log Out** 🚪: Easily log out of your account when you’re done, ensuring your privacy and security.
 
