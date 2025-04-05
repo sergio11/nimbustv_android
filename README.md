@@ -1,10 +1,10 @@
-# NimbusTV 📺🌐 – A Personal Learning Project for Smooth M3U Streaming on Android TV
+ # NimbusTV 📺🌐 – A Personal Learning Project for Android TV Development
 
 <img width="auto" height="300px" align="left" src="doc/nimbustv_logo.webp" />
 
-**NimbusTV** is a personal project I developed to apply and enhance my skills in **Android TV development** 📺, **Jetpack Compose for TV** 🖥️, **Clean Architecture** 🏛️, and **MVI** 🔄. The goal was to build an efficient, user-friendly streaming app that simplifies M3U playlist management, and gives users easy access to their favorite TV channels.
+**NimbusTV** is a personal project I developed to apply and enhance my skills in **Android TV development** 📺, **Jetpack Compose for TV** 🖥️, **Clean Architecture** 🏛️, and **MVI** 🔄. The goal was to build an efficient, user-friendly streaming app that simplifies channel management and gives users easy access to their favorite TV content.
 
-This project helped me dive deep into Android TV design patterns, exploring how to create smooth, intuitive user interfaces and ensure scalability for larger applications. The app supports multiple M3U playlists 📂, seamlessly allowing users to organize and switch between channels by category—such as sports 🏆, movies 🎬, news 📰, and music 🎶—while handling formats like HLS 📡, DASH 🎥, and encrypted channels 🔐.
+This project allowed me to dive deep into Android TV design patterns, exploring how to create smooth, intuitive user interfaces and ensuring scalability for larger applications. The app supports a variety of content types 📂, seamlessly allowing users to organize and switch between categories—such as sports 🏆, movies 🎬, news 📰, and music 🎶—while handling modern streaming formats like HLS 📡, DASH 🎥, and encrypted channels 🔐.
 
 I also incorporated **EPG (Electronic Program Guides)** 📅 to provide real-time schedules, allowing users to plan their viewing experience and set **custom reminders** 🔔 for their favorite shows.
 
