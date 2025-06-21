@@ -496,13 +496,6 @@ The **Channel Search** option allows you to enable or disable the feature to sea
 
 With these settings, **NimbusTV** empowers you to create a viewing environment that fits your preferences, making your entertainment experience as enjoyable as possible!
 
-## Contribution
-Contributions to NimbusTV Android are highly encouraged! If you're interested in adding new features, resolving bugs, or enhancing the project's functionality, please feel free to submit pull requests.
-
-## 🎖️ Recognition & Credits  
-
-NimbusTV is developed and maintained by **Sergio Sánchez Sánchez (Dream Software)**. Special thanks to the open-source community and the contributors who have made this project possible. If you have any questions, feedback, or suggestions, feel free to reach out at [dreamsoftware92@gmail.com](mailto:dreamsoftware92@gmail.com).
-
 ---
 
 ### Acknowledgments
@@ -570,12 +563,6 @@ The **NimbusTV** logo included in this repository is an original creation and is
 ## Visitors Count
 
 <img width="auto" src="https://profile-counter.glitch.me/nimbustv_android/count.svg" />
-
- 
- ## Please Share & Star the repository to keep me motivated.
-  <a href = "https://github.com/sergio11/nimbustv_android/stargazers">
-     <img src = "https://img.shields.io/github/stars/sergio11/nimbustv_android" />
-  </a>
 
 ## License ⚖️
 
